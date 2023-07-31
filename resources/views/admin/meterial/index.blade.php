@@ -21,7 +21,7 @@
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('admin.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Meterials</span>
+                                        <li><span class="bread-blod">Materials</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -39,7 +39,7 @@
                         <div class="sparkline13-list">
                             <div class="sparkline13-hd">
                                 <div class="main-sparkline13-hd">
-                                    <h1>Meterials <span class="table-project-n">Details</span> Table</h1>
+                                    <h1>Materials <span class="table-project-n">Details</span> Table</h1>
 
 
                                 </div>
@@ -62,7 +62,7 @@
                                                 <th data-field="state" data-checkbox="true"></th>
                                                 <th data-field="id">ID</th>
                                                 
-                                                <th data-field="name" data-editable="false">Meterial Name</th>
+                                                <th data-field="name" data-editable="false">Material Name</th>
                                                 <th data-field="unit" data-editable="false">Unit</th>
                                                 
                                                 <th data-field="action">Action</th>

@@ -43,7 +43,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-lg-offset-3 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label>Meterial Name</label>
+                                <label>Material Name</label>
                                 <input name="meterial_name" type="text" class="form-control" placeholder="Material Name" value="{{ $meterial->meterial_name }}">
                                 @error('meterial_name')
                                     <div class="text-danger">{{ $message }}</div>

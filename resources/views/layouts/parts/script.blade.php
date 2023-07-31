@@ -100,7 +100,25 @@
     @if(Session::has('error'))
     toastr.error("{{ Session::get('error') }}", 'Error!')
     @endif
+@if(request()->routeIs('siteengineer.material_order.create'))
 
+    $(document).ready(function(){
+        $('.add_item').on('click',function(e){
+            e.preventDefault();
+
+            var rowd='<tr><td><select name="meterial_id[]" class="form-control"><option value="">Select Material</option>@foreach($materials as $material)<option value="{{$material->id}}">{{$material->meterial_name}}</option>@endforeach</select></td><td><input class="form-control" name="quantity[]" type="number" min="0"></td><td><button class="btn btn-danger remove_item">Remove</button></td></tr>';
+                
+            $(".show_item").append(rowd);
+        });
+        $("body").on("click",".remove_item",function(){
+          
+            $(this).closest("tr").remove();
+            
+          
+        });
+
+    });
+    @endif
     // toast config
     toastr.options = {
         "closeButton": false,
@@ -118,5 +136,7 @@
         "hideEasing": "linear",
         "hideMethod": "fadeOut"
     }
+
+    
 
 </script>

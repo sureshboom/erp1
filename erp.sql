@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 30, 2023 at 05:54 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Jul 31, 2023 at 02:33 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -156,6 +156,83 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `materialins`
+--
+
+CREATE TABLE `materialins` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `site_id` bigint(20) UNSIGNED NOT NULL,
+  `supplier_id` bigint(20) UNSIGNED NOT NULL,
+  `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
+  `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
+  `amount` double(8,2) NOT NULL,
+  `status` enum('order','approved','paid','verified','received') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `materialins`
+--
+
+INSERT INTO `materialins` (`id`, `site_id`, `supplier_id`, `siteengineer_id`, `chiefengineer_id`, `amount`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 1, 12000.00, 'order', '2023-07-31 06:47:27', '2023-07-31 06:47:27'),
+(2, 1, 1, 1, 1, 10000.00, 'order', '2023-07-31 06:49:20', '2023-07-31 06:49:20');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `materialpurchasehistories`
+--
+
+CREATE TABLE `materialpurchasehistories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `site_id` bigint(20) UNSIGNED NOT NULL,
+  `materialin_id` bigint(20) UNSIGNED NOT NULL,
+  `meterial_id` bigint(20) UNSIGNED NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `materialpurchasehistories`
+--
+
+INSERT INTO `materialpurchasehistories` (`id`, `site_id`, `materialin_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 20, '2023-07-31 06:47:27', '2023-07-31 06:47:27'),
+(2, 1, 1, 3, 2, '2023-07-31 06:47:27', '2023-07-31 06:47:27'),
+(3, 1, 2, 1, 15, '2023-07-31 06:49:20', '2023-07-31 06:49:20'),
+(4, 1, 2, 3, 1, '2023-07-31 06:49:20', '2023-07-31 06:49:20'),
+(5, 1, 2, 1, 3, '2023-07-31 06:49:20', '2023-07-31 06:49:20');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `materialpurchases`
+--
+
+CREATE TABLE `materialpurchases` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `site_id` bigint(20) UNSIGNED NOT NULL,
+  `materialin_id` bigint(20) UNSIGNED NOT NULL,
+  `meterial_id` bigint(20) UNSIGNED NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `materialpurchases`
+--
+
+INSERT INTO `materialpurchases` (`id`, `site_id`, `materialin_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 38, '2023-07-31 06:47:27', '2023-07-31 06:49:20'),
+(2, 1, 1, 3, 3, '2023-07-31 06:47:27', '2023-07-31 06:49:20');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `meterials`
 --
 
@@ -172,7 +249,8 @@ CREATE TABLE `meterials` (
 --
 
 INSERT INTO `meterials` (`id`, `meterial_name`, `unit`, `created_at`, `updated_at`) VALUES
-(1, 'Ultra Cements', 'Muttai', '2023-07-29 03:12:50', '2023-07-29 03:15:36');
+(1, 'Ultra Cements 5kg', 'Muttai', '2023-07-29 03:12:50', '2023-07-31 04:12:22'),
+(3, 'P Sand', 'Ton', '2023-07-31 01:41:03', '2023-07-31 01:41:03');
 
 -- --------------------------------------------------------
 
@@ -210,7 +288,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (21, '2023_07_27_055452_create_sitevisitarranges_table', 4),
 (22, '2023_07_27_073138_add_created_by_to_customers', 5),
 (24, '2023_07_29_075935_create_meterials_table', 6),
-(25, '2023_07_29_102229_create_suppliers_table', 7);
+(25, '2023_07_29_102229_create_suppliers_table', 7),
+(26, '2023_07_31_083027_create_materialins_table', 8),
+(27, '2023_07_31_085152_create_materialpurchases_table', 8),
+(28, '2023_07_31_120827_create_materialpurchasehistories_table', 9);
 
 -- --------------------------------------------------------
 
@@ -449,7 +530,7 @@ CREATE TABLE `suppliers` (
 --
 
 INSERT INTO `suppliers` (`id`, `supplier_name`, `supplier_phone`, `supplier_gstno`, `supplier_location`, `supplier_gpay`, `supplier_account`, `created_at`, `updated_at`) VALUES
-(1, 'Ramu', '9876543554', '9922884466113', 'Saravanampatti, Coimbatore.', '1234567788', 'Account No: 238461298367,\r\nBank :state bank of india,\r\nIFSC Code:SBIN0007039', '2023-07-29 06:03:38', '2023-07-29 06:28:42');
+(1, 'Ramu', '9876543554', '9922884466113', 'Saravanampatti, Coimbatore.', '1234567788', 'Account No: 238461298367,\r\nBank :state bank of india,\r\nIFSC Code:SBIN0007039', '2023-07-29 06:03:38', '2023-07-31 04:05:34');
 
 -- --------------------------------------------------------
 
@@ -573,6 +654,34 @@ ALTER TABLE `customers`
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `materialins`
+--
+ALTER TABLE `materialins`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `materialins_site_id_foreign` (`site_id`),
+  ADD KEY `materialins_supplier_id_foreign` (`supplier_id`),
+  ADD KEY `materialins_siteengineer_id_foreign` (`siteengineer_id`),
+  ADD KEY `materialins_chiefengineer_id_foreign` (`chiefengineer_id`);
+
+--
+-- Indexes for table `materialpurchasehistories`
+--
+ALTER TABLE `materialpurchasehistories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `materialpurchasehistories_site_id_foreign` (`site_id`),
+  ADD KEY `materialpurchasehistories_materialin_id_foreign` (`materialin_id`),
+  ADD KEY `materialpurchasehistories_meterial_id_foreign` (`meterial_id`);
+
+--
+-- Indexes for table `materialpurchases`
+--
+ALTER TABLE `materialpurchases`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `materialpurchases_site_id_foreign` (`site_id`),
+  ADD KEY `materialpurchases_materialin_id_foreign` (`materialin_id`),
+  ADD KEY `materialpurchases_meterial_id_foreign` (`meterial_id`);
 
 --
 -- Indexes for table `meterials`
@@ -711,16 +820,34 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `materialins`
+--
+ALTER TABLE `materialins`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `materialpurchasehistories`
+--
+ALTER TABLE `materialpurchasehistories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `materialpurchases`
+--
+ALTER TABLE `materialpurchases`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `meterials`
 --
 ALTER TABLE `meterials`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `owners`
@@ -803,6 +930,31 @@ ALTER TABLE `accounts`
 --
 ALTER TABLE `chiefengineers`
   ADD CONSTRAINT `chiefengineers_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `materialins`
+--
+ALTER TABLE `materialins`
+  ADD CONSTRAINT `materialins_chiefengineer_id_foreign` FOREIGN KEY (`chiefengineer_id`) REFERENCES `chiefengineers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `materialins_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `materialins_siteengineer_id_foreign` FOREIGN KEY (`siteengineer_id`) REFERENCES `siteengineers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `materialins_supplier_id_foreign` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `materialpurchasehistories`
+--
+ALTER TABLE `materialpurchasehistories`
+  ADD CONSTRAINT `materialpurchasehistories_materialin_id_foreign` FOREIGN KEY (`materialin_id`) REFERENCES `materialins` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `materialpurchasehistories_meterial_id_foreign` FOREIGN KEY (`meterial_id`) REFERENCES `meterials` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `materialpurchasehistories_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `materialpurchases`
+--
+ALTER TABLE `materialpurchases`
+  ADD CONSTRAINT `materialpurchases_materialin_id_foreign` FOREIGN KEY (`materialin_id`) REFERENCES `materialins` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `materialpurchases_meterial_id_foreign` FOREIGN KEY (`meterial_id`) REFERENCES `meterials` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `materialpurchases_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `salesmanagers`

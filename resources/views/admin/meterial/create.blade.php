@@ -21,7 +21,7 @@
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('admin.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Create Meterial</span>
+                                        <li><span class="bread-blod">Create Material</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -36,14 +36,14 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h3 class="text-center">Meterial Details</h3>
+                    <h3 class="text-center">Material Details</h3>
                     <form action="{{ route('meterial.store') }}" class="acount-infor" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
                     <div class="row">
                         <div class="col-lg-6 col-lg-offset-3 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label>Meterial Name</label>
+                                <label>Material Name</label>
                                 <input name="meterial_name" type="text" class="form-control" placeholder="Material Name" value="{{ old('meterial_name') }}">
                                 @error('meterial_name')
                                     <div class="text-danger">{{ $message }}</div>

@@ -15,6 +15,7 @@ use App\Http\Controllers\User\telecaller\WorkController;
 use App\Http\Controllers\User\telecaller\SitevisitController;
 use App\Http\Controllers\User\salesperson\ScustomerController;
 use App\Http\Controllers\User\siteengineer\SupplierController;
+use App\Http\Controllers\User\siteengineer\MaterialrequestController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -59,6 +60,7 @@ Route::controller(SiteengineerController::class)->prefix('site_engineer')->middl
     Route::get('dashboard', 'dashboard')->name('dashboard');
     Route::get('siteengineer_site', 'assignedsite')->name('assignedsite');
     Route::resource('/supplier', SupplierController::class);
+    Route::resource('/material_order', MaterialrequestController::class);
 
 });
 

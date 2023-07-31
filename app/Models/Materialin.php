@@ -5,16 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Supplier extends Model
+class Materialin extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    public function materialin()
+    public function supplier()
     {
-        return $this->hasMany(Materialin::class);
+        return $this->belongsTo(Supplier::class,'supplier_id','id');
+    }
+
+    public function site()
+    {
+        return $this->belongsTo(Site::class,'site_id','id');
     }
 }

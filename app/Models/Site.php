@@ -30,4 +30,9 @@ class Site extends Model
         return $this->belongsTo(Owner::class, 'owner_id', 'id');
     }
 
+    public function materialin()
+    {
+        return $this->hasMany(Materialin::class);
+    }
+
 }
