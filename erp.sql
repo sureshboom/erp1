@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 31, 2023 at 02:33 PM
+-- Generation Time: Aug 01, 2023 at 02:08 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -166,7 +166,7 @@ CREATE TABLE `materialins` (
   `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
   `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
   `amount` double(8,2) NOT NULL,
-  `status` enum('order','approved','paid','verified','received') NOT NULL,
+  `status` enum('order','approved','paid','verified','received','cancel') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -176,8 +176,7 @@ CREATE TABLE `materialins` (
 --
 
 INSERT INTO `materialins` (`id`, `site_id`, `supplier_id`, `siteengineer_id`, `chiefengineer_id`, `amount`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1, 12000.00, 'order', '2023-07-31 06:47:27', '2023-07-31 06:47:27'),
-(2, 1, 1, 1, 1, 10000.00, 'order', '2023-07-31 06:49:20', '2023-07-31 06:49:20');
+(1, 1, 1, 1, 1, 20000.00, 'order', '2023-08-01 05:16:52', '2023-08-01 06:32:03');
 
 -- --------------------------------------------------------
 
@@ -200,11 +199,9 @@ CREATE TABLE `materialpurchasehistories` (
 --
 
 INSERT INTO `materialpurchasehistories` (`id`, `site_id`, `materialin_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 20, '2023-07-31 06:47:27', '2023-07-31 06:47:27'),
-(2, 1, 1, 3, 2, '2023-07-31 06:47:27', '2023-07-31 06:47:27'),
-(3, 1, 2, 1, 15, '2023-07-31 06:49:20', '2023-07-31 06:49:20'),
-(4, 1, 2, 3, 1, '2023-07-31 06:49:20', '2023-07-31 06:49:20'),
-(5, 1, 2, 1, 3, '2023-07-31 06:49:20', '2023-07-31 06:49:20');
+(1, 1, 1, 1, 30, '2023-08-01 05:16:52', '2023-08-01 05:16:52'),
+(2, 1, 1, 4, 20, '2023-08-01 05:16:52', '2023-08-01 05:16:52'),
+(3, 1, 1, 3, 10, '2023-08-01 05:16:52', '2023-08-01 05:16:52');
 
 -- --------------------------------------------------------
 
@@ -215,7 +212,6 @@ INSERT INTO `materialpurchasehistories` (`id`, `site_id`, `materialin_id`, `mete
 CREATE TABLE `materialpurchases` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `site_id` bigint(20) UNSIGNED NOT NULL,
-  `materialin_id` bigint(20) UNSIGNED NOT NULL,
   `meterial_id` bigint(20) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -226,9 +222,10 @@ CREATE TABLE `materialpurchases` (
 -- Dumping data for table `materialpurchases`
 --
 
-INSERT INTO `materialpurchases` (`id`, `site_id`, `materialin_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 38, '2023-07-31 06:47:27', '2023-07-31 06:49:20'),
-(2, 1, 1, 3, 3, '2023-07-31 06:47:27', '2023-07-31 06:49:20');
+INSERT INTO `materialpurchases` (`id`, `site_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 30, '2023-08-01 05:16:52', '2023-08-01 05:16:52'),
+(2, 1, 4, 20, '2023-08-01 05:16:52', '2023-08-01 05:16:52'),
+(3, 1, 3, 10, '2023-08-01 05:16:52', '2023-08-01 05:16:52');
 
 -- --------------------------------------------------------
 
@@ -250,7 +247,8 @@ CREATE TABLE `meterials` (
 
 INSERT INTO `meterials` (`id`, `meterial_name`, `unit`, `created_at`, `updated_at`) VALUES
 (1, 'Ultra Cements 5kg', 'Muttai', '2023-07-29 03:12:50', '2023-07-31 04:12:22'),
-(3, 'P Sand', 'Ton', '2023-07-31 01:41:03', '2023-07-31 01:41:03');
+(3, 'P Sand', 'Ton', '2023-07-31 01:41:03', '2023-07-31 01:41:03'),
+(4, 'Ultra Cements 10kg', 'Muttai', '2023-08-01 04:16:58', '2023-08-01 04:16:58');
 
 -- --------------------------------------------------------
 
@@ -671,8 +669,8 @@ ALTER TABLE `materialins`
 ALTER TABLE `materialpurchasehistories`
   ADD PRIMARY KEY (`id`),
   ADD KEY `materialpurchasehistories_site_id_foreign` (`site_id`),
-  ADD KEY `materialpurchasehistories_materialin_id_foreign` (`materialin_id`),
-  ADD KEY `materialpurchasehistories_meterial_id_foreign` (`meterial_id`);
+  ADD KEY `materialpurchasehistories_meterial_id_foreign` (`meterial_id`),
+  ADD KEY `materialpurchasehistories_materialin_id_foreign` (`materialin_id`);
 
 --
 -- Indexes for table `materialpurchases`
@@ -680,7 +678,6 @@ ALTER TABLE `materialpurchasehistories`
 ALTER TABLE `materialpurchases`
   ADD PRIMARY KEY (`id`),
   ADD KEY `materialpurchases_site_id_foreign` (`site_id`),
-  ADD KEY `materialpurchases_materialin_id_foreign` (`materialin_id`),
   ADD KEY `materialpurchases_meterial_id_foreign` (`meterial_id`);
 
 --
@@ -823,25 +820,25 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `materialins`
 --
 ALTER TABLE `materialins`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `materialpurchasehistories`
 --
 ALTER TABLE `materialpurchasehistories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `materialpurchases`
 --
 ALTER TABLE `materialpurchases`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `meterials`
 --
 ALTER TABLE `meterials`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -944,7 +941,6 @@ ALTER TABLE `materialins`
 -- Constraints for table `materialpurchasehistories`
 --
 ALTER TABLE `materialpurchasehistories`
-  ADD CONSTRAINT `materialpurchasehistories_materialin_id_foreign` FOREIGN KEY (`materialin_id`) REFERENCES `materialins` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `materialpurchasehistories_meterial_id_foreign` FOREIGN KEY (`meterial_id`) REFERENCES `meterials` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `materialpurchasehistories_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
 
@@ -952,7 +948,6 @@ ALTER TABLE `materialpurchasehistories`
 -- Constraints for table `materialpurchases`
 --
 ALTER TABLE `materialpurchases`
-  ADD CONSTRAINT `materialpurchases_materialin_id_foreign` FOREIGN KEY (`materialin_id`) REFERENCES `materialins` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `materialpurchases_meterial_id_foreign` FOREIGN KEY (`meterial_id`) REFERENCES `meterials` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `materialpurchases_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
 

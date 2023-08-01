@@ -52,6 +52,7 @@ Route::controller(TelecallerController::class)->prefix('telecaller')->middleware
     Route::resource('/sitevisit', SitevisitController::class);
 
 
+
 });
 // Routes for Telecallers
 
@@ -61,13 +62,22 @@ Route::controller(SiteengineerController::class)->prefix('site_engineer')->middl
     Route::get('siteengineer_site', 'assignedsite')->name('assignedsite');
     Route::resource('/supplier', SupplierController::class);
     Route::resource('/material_order', MaterialrequestController::class);
+    Route::patch('/purchasehistory',[MaterialrequestController::class,'purchaseupdate'])->name('purchaseupdate');
+    Route::delete('/purchasedelete/{id}',[MaterialrequestController::class,'purchasedelete'])->name('purchasedelete');
+
 
 });
 
 
 Route::controller(ChiefengineerController::class)->prefix('chief_engineer')->middleware('chiefengineer')->name('chiefengineer.')->group(function () {
 
+    Route::get('chiefengineer_site', 'assignedsite')->name('assignedsite');
     Route::get('dashboard', 'dashboard')->name('dashboard');
+    Route::get('suppliers', 'suppliers')->name('suppliers');
+    Route::get('material_status', 'order')->name('orderstatus');
+    Route::get('/materials_show/{id}', 'show')->name('materialview');
+    Route::get('/materialapprove/{id}', 'materialapprove')->name('materialapprove');
+    Route::get('/materialcancel/{id}', 'materialcancel')->name('materialcancel');
 
 });
 

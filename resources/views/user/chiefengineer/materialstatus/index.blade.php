@@ -43,7 +43,7 @@
 
 
                             </div>
-                            <a href="{{ route('siteengineer.material_order.create')}}" class="btn btn-primary">+ Add Order</a>
+                            <!-- <a href="{{ route('siteengineer.material_order.create')}}" class="btn btn-primary">+ Add Order</a> -->
                             <!-- {{ $materials }} -->
                         </div>
                         <div class="sparkline13-graph">
@@ -85,18 +85,27 @@
                                                 {{ $material->status ? ucfirst($material->status) : '' }}
                                             </td>
                                             
-                                            <td class="datatable-ct"><i class="fa fa-check"></i>
+                                            <td class="datatable-ct">
 
-                                                <a href="{{ route('siteengineer.material_order.show', $material->id) }}"
+                                                <a href="{{ route('chiefengineer.materialview', $material->id) }}"
                                                     class="btn badge-primary">
-                                                    Materials
+                                                    <i class="fa fa-eye"></i>
                                                 </a>
-                                                @if(($material->status == 'order')||($material->status == 'cancel'))
-                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $material->id }}').submit();"><i class="fa fa-trash"></i></a>
-                                                <form method="post" action="{{ route('siteengineer.material_order.destroy', $material->id) }}" id="delete-post-{{ $material->id }}" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
+                                                
+                                                @if($material->status == 'order')
+                                                <a href="{{ route('chiefengineer.materialapprove', $material->id) }}"
+                                                    class="btn badge-success">
+                                                    Approve
+                                                </a>
+                                                <a href="{{ route('chiefengineer.materialcancel', $material->id) }}"
+                                                    class="btn badge-danger">
+                                                    Cancel
+                                                </a>
+                                                @elseif($material->status == 'cancel')
+                                                    <p class="text-danger">Order Cancelled</p>
+                                                @else
+                                                
+                                                    <p class="text-success">Waiting For Payment</p>
                                                 @endif
                                             </td>
                                         </tr>

@@ -9,5 +9,8 @@ class Materialpurchase extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    
+
+    protected $fillable = ['site_id', 'meterial_id', 'quantity'];
+
 }

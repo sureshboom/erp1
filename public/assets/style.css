@@ -4742,11 +4742,11 @@ div#sparklinehome canvas {
 
 .badge-success{
 	background: green;
-	color:#fff;
+	color:#fff!important;
 }
 .badge-danger{
-	background: red;
-	color:#fff;
+	background: #cc0a0a;
+	color:#fff!important;
 }
 
 .badge-warning{

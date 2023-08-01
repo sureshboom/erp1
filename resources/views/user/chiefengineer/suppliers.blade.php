@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Material Orders') }}
+	    {{ __('Suppliers') }}
 	@endsection
 
 	@section('main')
@@ -21,7 +21,7 @@
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Material Order</span>
+                                        <li><span class="bread-blod">Suppliers</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -39,12 +39,12 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Materials <span class="table-project-n">Detail</span> Table</h1>
+                                <h1>Suppliers <span class="table-project-n">Details</span> Table</h1>
 
 
                             </div>
-                            <a href="{{ route('siteengineer.material_order.create')}}" class="btn btn-primary">+ Add Order</a>
-                            <!-- {{ $materials }} -->
+                            <!-- <a href="{{ route('siteengineer.supplier.create')}}" class="btn btn-primary">+ Add New</a> -->
+                            <!-- {{ $suppliers }} -->
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -62,48 +62,37 @@
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
                                             <th data-field="day">Date</th>
-                                            <th data-field="name">Site Name</th>
-                                            <th data-field="sname" data-editable="false">Supplier Name</th>
-                                            <th data-field="amount" data-editable="false">Amount</th>
-                                            <th data-field="status" data-editable="false">Status</th>
-                                            <th data-field="action">Action</th>
+                                            <th data-field="name">Supplier Name</th>
+                                            <th data-field="phone" data-editable="false">Phone</th>
+                                            <th data-field="location" data-editable="false">Location</th>
+                                            <th data-field="gst" data-editable="false">GST No</th>
+                                            <th data-field="gpay">Gpay/Phonepay</th>
+                                            <th data-field="date" data-editable="false">Account Details</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
-                                        @forelse($materials as $material)
+                                        @forelse($suppliers as $supplier)
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{ $material->created_at ? formatDate($material->created_at) : '' }}</td>
-                                            <td>{{ $material->site ? $material->site->sitename : '' }}</td>
-                                            
-                                            
-                                            <td>{{ $material->supplier ? $material->supplier->supplier_name : '' }}</td>
-                                            <td>{{ $material->amount ? number_format($material->amount) : '' }}</td>
+                                            <td>{{ $supplier->created_at ? formatDate($supplier->created_at) : '' }}</td>
+                                            <td>{{ $supplier->supplier_name ? $supplier->supplier_name : '' }}</td>
+                                            <td>{{ $supplier->supplier_phone ? $supplier->supplier_phone : '' }}</td>
+                                            <td>{{ $supplier->supplier_location ? $supplier->supplier_location : '' }}</td>
+                                            <td>{{ $supplier->supplier_gstno ? $supplier->supplier_gstno : '' }}</td>
+                                            <td>{{ $supplier->supplier_gpay ? $supplier->supplier_gpay : '' }}</td>
                                             <td>
-                                                {{ $material->status ? ucfirst($material->status) : '' }}
+                                                {{ $supplier->supplier_account ? $supplier->supplier_account : '' }}
                                             </td>
                                             
-                                            <td class="datatable-ct"><i class="fa fa-check"></i>
-
-                                                <a href="{{ route('siteengineer.material_order.show', $material->id) }}"
-                                                    class="btn badge-primary">
-                                                    Materials
-                                                </a>
-                                                @if(($material->status == 'order')||($material->status == 'cancel'))
-                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $material->id }}').submit();"><i class="fa fa-trash"></i></a>
-                                                <form method="post" action="{{ route('siteengineer.material_order.destroy', $material->id) }}" id="delete-post-{{ $material->id }}" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                                @endif
-                                            </td>
+                                            
                                         </tr>
                                         @empty
                                         <tr>
                                             <td></td>
-                                            <td colspan="7" class="text-center">No data</td>
+                                            <td colspan="8" class="text-center">No data</td>
                                         </tr>
                                         @endforelse
                                     </tbody>

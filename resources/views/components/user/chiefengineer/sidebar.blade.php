@@ -1,5 +1,5 @@
 <li>
-    <a  href="#">
+    <a  href="{{ route('chiefengineer.assignedsite')}}">
        <span class="educate-icon educate-data-table icon-wrap"></span>
        <span class="mini-click-non">Site Details</span>
     </a>
@@ -12,22 +12,26 @@
 </li>
 
 <li>
-    <a  href="#">
-       <span class="educate-icon educate-interface icon-wrap"></span>
+    <a class="has-arrow" href="#">
+       <span class="educate-icon educate-form icon-wrap"></span>
        <span class="mini-click-non">Material Details</span>
     </a>
+    <ul class="submenu-angle" aria-expanded="true">
+        <li><a title="owner" href="{{ route('chiefengineer.suppliers')}}"><span class="mini-sub-pro">Suppliers</span></a></li>
+        <li><a title="sites" href="{{ route('chiefengineer.orderstatus')}}"><span class="mini-sub-pro">Material Order</span></a></li>
+        <li><a title="sites" href="#"><span class="mini-sub-pro">Material Received</span></a></li>
+        <li><a title="sites" href="#"><span class="mini-sub-pro">Material Transfer</span></a></li>
+    </ul>
 </li>
 <li>
-    <a  href="#">
+    <a class="has-arrow" href="#">
        <span class="educate-icon educate-event icon-wrap"></span>
-       <span class="mini-click-non">Workers Salary</span>
+       <span class="mini-click-non">Works Details</span>
     </a>
-</li>
-<li>
-    <a  href="#">
-       <span class="educate-icon educate-event icon-wrap"></span>
-       <span class="mini-click-non">Work Details</span>
-    </a>
+    <ul class="submenu-angle" aria-expanded="true">
+        <li><a title="owner" href="#"><span class="mini-sub-pro">Workers Entry</span></a></li>
+        <li><a title="sites" href="#"><span class="mini-sub-pro">Work Entry</span></a></li>
+    </ul>
 </li>
 <li>
     <a class="has-arrow" href="#">

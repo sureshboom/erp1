@@ -20,8 +20,8 @@ class MaterialrequestController extends Controller
      */
     public function index()
     {
-        
-        $materials = Materialin::all();
+        $siteengineer = Siteengineer::select('id','user_id')->where('user_id',auth()->user()->id)->first();
+        $materials = Materialin::where('siteengineer_id',$siteengineer->id)->get();
         return view('user.siteengineer.materialorder.index',compact('materials'));
     }
 
@@ -66,7 +66,7 @@ class MaterialrequestController extends Controller
             {
                 $data = [
                     'site_id' => $site->id,
-                    'materialin_id' =>$materialin->id,
+                    'materialin_id' => $materialin->id,
                     'meterial_id' => $request->meterial_id[$i],
                     'quantity' => $request->quantity[$i],
                 ];
@@ -99,7 +99,9 @@ class MaterialrequestController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $materials = Materialpurchasehistory::where('materialin_id',$id)->get();
+        $materialinid = $id;
+        return view('user.siteengineer.materialorder.sitematerial',compact('materials','materialinid'));
     }
 
     /**
@@ -107,7 +109,11 @@ class MaterialrequestController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $materialspurs = Materialpurchasehistory::where('materialin_id',$id)->get();
+        $siteid = Materialpurchasehistory::select('site_id','materialin_id')->where('materialin_id',$id)->first();
+        $materials = Meterial::select('id','meterial_name')->get();
+        return view('user.siteengineer.materialorder.edit',compact('materials','siteid','materialspurs'));
+
     }
 
     /**
@@ -124,5 +130,54 @@ class MaterialrequestController extends Controller
     public function destroy(string $id)
     {
         //
+        Materialin::find($id)->delete();
+        flashSuccess('Order removed Successfully');
+        return back();
+    }
+
+    public function purchasedelete($id)
+    {
+        Materialpurchasehistory::find($id)->delete();
+        flashSuccess('Meterial removed Successfully');
+        return back();
+    }
+
+    public function purchaseupdate(Request $request)
+    {
+        $delete = Materialpurchasehistory::where('materialin_id',$request->materialin_id)->get();
+        foreach ($delete as $history) {
+            
+            $history->delete();
+        }
+        if($delete)
+        {
+            for ($i = 0; $i < count($request->meterial_id); $i++) 
+            {
+                $data = [
+                    'site_id' => $request->site_id,
+                    'materialin_id' => $request->materialin_id,
+                    'meterial_id' => $request->meterial_id[$i],
+                    'quantity' => $request->quantity[$i],
+                ];
+
+                $materialQuantity = Materialpurchase::where('site_id', $data['site_id'])
+                                        ->where('meterial_id', $data['meterial_id'])
+                                        ->first();
+                if ($materialQuantity) {
+                    $materialQuantity->quantity += $data['quantity'];
+                    $materialQuantity->save();
+                } else {
+                    Materialpurchase::create($data);
+                }
+                Materialpurchasehistory::create($data);
+            }
+            flashSuccess('Order Updated Successfully');
+            return redirect()->route('siteengineer.material_order.index');
+        }
+        else
+        {
+            flashSuccess('Something Wrong plz try again');
+            return back();
+        }
     }
 }

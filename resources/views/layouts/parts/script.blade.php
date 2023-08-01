@@ -100,7 +100,7 @@
     @if(Session::has('error'))
     toastr.error("{{ Session::get('error') }}", 'Error!')
     @endif
-@if(request()->routeIs('siteengineer.material_order.create'))
+@if((request()->routeIs('siteengineer.material_order.create')) or (request()->routeIs('siteengineer.material_order.edit')))
 
     $(document).ready(function(){
         $('.add_item').on('click',function(e){
