@@ -35,4 +35,8 @@ class Site extends Model
         return $this->hasMany(Materialin::class);
     }
 
+    public function paymentHistories()
+    {
+        return $this->hasMany(SitePaymentHistory::class, 'site_id');
+    }
 }

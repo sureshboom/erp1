@@ -51,6 +51,7 @@ class SiteController extends Controller
             'siteengineer_id' => 'required',
             'chiefengineer_id' => 'required',
             'location' => 'required',
+            'amount' => 'required',
             'site_date' => 'nullable',
         ]);
         if($request->site_date)
@@ -73,6 +74,7 @@ class SiteController extends Controller
             'chiefengineer_id' => $request->chiefengineer_id,
             'location' => $request->location,
             'site_date' => $date,
+            'amount' => $request->amount
         ]);
         if($site)
         {
@@ -128,6 +130,7 @@ class SiteController extends Controller
             'chiefengineer_id' => 'required',
             'location' => 'required',
             'site_date' => 'nullable',
+            'amount' => 'required',
         ]);
         if($request->site_date)
         {
@@ -148,6 +151,7 @@ class SiteController extends Controller
             'chiefengineer_id' => $request->chiefengineer_id,
             'location' => $request->location,
             'site_date' => $date,
+            'amount' => $request->amount,
         ]);
         if($site)
         {

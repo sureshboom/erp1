@@ -119,6 +119,58 @@
 
     });
     @endif
+@if(request()->routeIs('account.site_payment.create'))
+    // Assuming you're using jQuery for simplicity
+    $(document).ready(function () {
+        $('#site_id').on('change', function () {
+            var siteId = $(this).val();
+            if (siteId) {
+                // Make an AJAX request to fetch the payment data
+                $.ajax({
+                    url: '/account/payments/' + siteId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data) {
+                            if (data && Object.keys(data).length > 0)
+                            {
+                                $('#total').val(data.amount);
+                                $('#paid').val(data.paid);
+                                $('#oldpaid').val(data.paid);
+                                $('#pending').val(data.pending);
+                                
+                            }
+                            else
+                            {
+                                $('#total').val(0);
+                                $('#paid').val(0);
+                                $('#oldpaid').val(0);
+                                $('#pending').val(0);
+                            }
+                            // If payment data exists, fill the input fields
+                            
+                        }
+                    },
+                    error: function () {
+                        // Handle error if the AJAX request fails
+                    }
+                });
+            }
+        });
+        $('#amount').on('input', function () {
+            var amount = Number($(this).val());
+            var total = Number($('#total').val());
+            var paid = Number($('#paid').val());
+            var oldpaid = Number($('#oldpaid').val());
+            var currentpay = (oldpaid + amount);
+            var pay = (total - currentpay);
+            $('#paid').val(currentpay);
+            $('#pending').val(pay);
+        });
+    });
+
+@endif
+
     // toast config
     toastr.options = {
         "closeButton": false,

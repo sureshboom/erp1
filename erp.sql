@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 01, 2023 at 02:08 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Aug 06, 2023 at 05:04 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -166,6 +166,8 @@ CREATE TABLE `materialins` (
   `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
   `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
   `amount` double(8,2) NOT NULL,
+  `paid` double(8,2) NOT NULL DEFAULT 0.00,
+  `pending` double(8,2) NOT NULL DEFAULT 0.00,
   `status` enum('order','approved','paid','verified','received','cancel') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -175,8 +177,8 @@ CREATE TABLE `materialins` (
 -- Dumping data for table `materialins`
 --
 
-INSERT INTO `materialins` (`id`, `site_id`, `supplier_id`, `siteengineer_id`, `chiefengineer_id`, `amount`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1, 20000.00, 'order', '2023-08-01 05:16:52', '2023-08-01 06:32:03');
+INSERT INTO `materialins` (`id`, `site_id`, `supplier_id`, `siteengineer_id`, `chiefengineer_id`, `amount`, `paid`, `pending`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 1, 20000.00, 0.00, 0.00, 'order', '2023-08-01 05:16:52', '2023-08-01 06:32:03');
 
 -- --------------------------------------------------------
 
@@ -289,7 +291,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (25, '2023_07_29_102229_create_suppliers_table', 7),
 (26, '2023_07_31_083027_create_materialins_table', 8),
 (27, '2023_07_31_085152_create_materialpurchases_table', 8),
-(28, '2023_07_31_120827_create_materialpurchasehistories_table', 9);
+(28, '2023_07_31_120827_create_materialpurchasehistories_table', 9),
+(30, '2023_08_05_071532_create_site_payment_histories_table', 10);
 
 -- --------------------------------------------------------
 
@@ -462,9 +465,9 @@ CREATE TABLE `sites` (
   `owner_id` bigint(20) UNSIGNED NOT NULL,
   `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
   `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
-  `amount` double(8,2) NOT NULL DEFAULT 0.00,
-  `paid` double(8,2) NOT NULL DEFAULT 0.00,
-  `pending` double(8,2) NOT NULL DEFAULT 0.00,
+  `amount` double(10,2) NOT NULL DEFAULT 0.00,
+  `paid` double(10,2) NOT NULL DEFAULT 0.00,
+  `pending` double(10,2) NOT NULL DEFAULT 0.00,
   `location` varchar(255) NOT NULL,
   `site_date` date DEFAULT NULL,
   `status` enum('ready_to_start','processing','completed') NOT NULL DEFAULT 'ready_to_start',
@@ -477,7 +480,7 @@ CREATE TABLE `sites` (
 --
 
 INSERT INTO `sites` (`id`, `sitename`, `siteid`, `sitetype`, `owner_id`, `chiefengineer_id`, `siteengineer_id`, `amount`, `paid`, `pending`, `location`, `site_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Site A', 'SKSPR01', 'Land & Construction', 1, 1, 1, 0.00, 0.00, 0.00, 'Saravanampatti,Coimbatore.', '2023-07-01', 'ready_to_start', '2023-07-26 06:30:12', '2023-07-26 06:42:16');
+(1, 'Site A', 'SKSPR01', 'Land & Construction', 1, 1, 1, 2000000.00, 300000.00, 1700000.00, 'Saravanampatti,Coimbatore.', '2023-07-01', 'ready_to_start', '2023-07-26 06:30:12', '2023-08-06 09:30:16');
 
 -- --------------------------------------------------------
 
@@ -504,6 +507,30 @@ INSERT INTO `sitevisitarranges` (`id`, `customer_id`, `site_name`, `date`, `rece
 (2, 4, 'Site A', '2023-07-31', '1', 'closed', '2023-07-27 06:45:30', '2023-07-28 04:28:13'),
 (3, 6, 'Site B', '2023-07-28', '1', 'visited', '2023-07-28 01:42:09', '2023-07-28 01:42:09'),
 (5, 8, 'Site C', '2023-08-01', NULL, 'open', '2023-07-28 06:29:49', '2023-07-28 06:29:49');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `site_payment_histories`
+--
+
+CREATE TABLE `site_payment_histories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `site_id` bigint(20) UNSIGNED NOT NULL,
+  `paytype` varchar(255) NOT NULL,
+  `amount` double(10,2) NOT NULL,
+  `payway` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `site_payment_histories`
+--
+
+INSERT INTO `site_payment_histories` (`id`, `site_id`, `paytype`, `amount`, `payway`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Voucher', 200000.00, 'Voucher', '2023-08-05 06:59:15', '2023-08-05 06:59:15'),
+(6, 1, 'Gpay/Phonepay', 100000.00, '9876543210', '2023-08-06 08:52:47', '2023-08-06 09:30:16');
 
 -- --------------------------------------------------------
 
@@ -756,6 +783,13 @@ ALTER TABLE `sitevisitarranges`
   ADD KEY `sitevisitarranges_customer_id_foreign` (`customer_id`);
 
 --
+-- Indexes for table `site_payment_histories`
+--
+ALTER TABLE `site_payment_histories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `site_payment_histories_site_id_foreign` (`site_id`);
+
+--
 -- Indexes for table `suppliers`
 --
 ALTER TABLE `suppliers`
@@ -844,7 +878,7 @@ ALTER TABLE `meterials`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `owners`
@@ -887,6 +921,12 @@ ALTER TABLE `sites`
 --
 ALTER TABLE `sitevisitarranges`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `site_payment_histories`
+--
+ALTER TABLE `site_payment_histories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `suppliers`
@@ -982,6 +1022,12 @@ ALTER TABLE `sites`
 --
 ALTER TABLE `sitevisitarranges`
   ADD CONSTRAINT `sitevisitarranges_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `site_payment_histories`
+--
+ALTER TABLE `site_payment_histories`
+  ADD CONSTRAINT `site_payment_histories_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `telecallers`

@@ -10,6 +10,9 @@ use App\Models\MaterialPurchaseHistory;
 use App\Models\Materialin;
 use App\Observers\MaterialPurchaseHistoryObserver;
 use App\Observers\MaterialInsObserver;
+use App\Observers\SitePaymentHistoryObserver;
+use App\Models\Site;
+use App\Models\SitePaymentHistory;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -32,6 +35,7 @@ class EventServiceProvider extends ServiceProvider
         //
         MaterialPurchaseHistory::observe(MaterialPurchaseHistoryObserver::class);
         Materialin::observe(MaterialInsObserver::class);
+        SitePaymentHistory::observe(SitePaymentHistoryObserver::class);
     }
 
     /**

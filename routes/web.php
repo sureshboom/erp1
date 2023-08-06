@@ -16,6 +16,7 @@ use App\Http\Controllers\User\telecaller\SitevisitController;
 use App\Http\Controllers\User\salesperson\ScustomerController;
 use App\Http\Controllers\User\siteengineer\SupplierController;
 use App\Http\Controllers\User\siteengineer\MaterialrequestController;
+use App\Http\Controllers\User\account\SitepaymentController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -41,7 +42,8 @@ include(base_path('routes/admin.php'));
 Route::controller(AccountController::class)->prefix('account')->middleware('account')->name('account.')->group(function () {
 
     Route::get('dashboard', 'dashboard')->name('dashboard');
-
+    Route::resource('/site_payment', SitepaymentController::class);
+    Route::get('/payments/{siteid}',[SitepaymentController::class,'getsite']);
 });
 
 Route::controller(TelecallerController::class)->prefix('telecaller')->middleware('telecaller')->name('telecaller.')->group(function () {
