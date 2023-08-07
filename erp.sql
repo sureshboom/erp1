@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2023 at 05:04 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Aug 07, 2023 at 02:39 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -140,6 +140,24 @@ INSERT INTO `customers` (`id`, `customer_name`, `phone`, `location`, `interested
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `expenses`
+--
+
+CREATE TABLE `expenses` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `type` enum('office','site') NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `edate` date NOT NULL,
+  `amount` double(10,2) NOT NULL,
+  `approved_by` varchar(255) NOT NULL,
+  `received_by` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `failed_jobs`
 --
 
@@ -156,6 +174,58 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `land_customers`
+--
+
+CREATE TABLE `land_customers` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `customer_name` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `sitename` varchar(255) NOT NULL,
+  `plotno` varchar(255) NOT NULL,
+  `amount` double(10,2) NOT NULL,
+  `paid` double(10,2) NOT NULL DEFAULT 0.00,
+  `pending` double(10,2) NOT NULL DEFAULT 0.00,
+  `bookingby` varchar(255) NOT NULL,
+  `status` enum('pending','completed') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `land_customers`
+--
+
+INSERT INTO `land_customers` (`id`, `customer_name`, `phone`, `location`, `sitename`, `plotno`, `amount`, `paid`, `pending`, `bookingby`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Siva raj', '9092250561', 'Mettu street\r\nworaiyur', 'Site ABs', '121A', 500000.00, 100000.00, 400000.00, 'Ram', 'pending', '2023-08-07 05:24:01', '2023-08-07 06:30:47');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `land_payment_histories`
+--
+
+CREATE TABLE `land_payment_histories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `landcustomers_id` bigint(20) UNSIGNED NOT NULL,
+  `paytype` varchar(255) NOT NULL,
+  `amount` double(10,2) NOT NULL,
+  `payway` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `land_payment_histories`
+--
+
+INSERT INTO `land_payment_histories` (`id`, `landcustomers_id`, `paytype`, `amount`, `payway`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Voucher', 100000.00, 'Voucher', '2023-08-07 06:12:51', '2023-08-07 06:30:47');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `materialins`
 --
 
@@ -165,9 +235,9 @@ CREATE TABLE `materialins` (
   `supplier_id` bigint(20) UNSIGNED NOT NULL,
   `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
   `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
-  `amount` double(8,2) NOT NULL,
-  `paid` double(8,2) NOT NULL DEFAULT 0.00,
-  `pending` double(8,2) NOT NULL DEFAULT 0.00,
+  `amount` double(10,2) NOT NULL,
+  `paid` double(10,2) NOT NULL DEFAULT 0.00,
+  `pending` double(10,2) NOT NULL DEFAULT 0.00,
   `status` enum('order','approved','paid','verified','received','cancel') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -178,7 +248,9 @@ CREATE TABLE `materialins` (
 --
 
 INSERT INTO `materialins` (`id`, `site_id`, `supplier_id`, `siteengineer_id`, `chiefengineer_id`, `amount`, `paid`, `pending`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1, 20000.00, 0.00, 0.00, 'order', '2023-08-01 05:16:52', '2023-08-01 06:32:03');
+(1, 1, 1, 1, 1, 20000.00, 15000.00, 5000.00, 'approved', '2023-08-01 05:16:52', '2023-08-07 01:16:42'),
+(2, 1, 1, 1, 1, 15000.00, 0.00, 15000.00, 'approved', '2023-08-06 23:49:27', '2023-08-06 23:50:45'),
+(3, 1, 1, 1, 1, 20000.00, 0.00, 20000.00, 'order', '2023-08-07 00:33:35', '2023-08-07 00:33:35');
 
 -- --------------------------------------------------------
 
@@ -203,7 +275,11 @@ CREATE TABLE `materialpurchasehistories` (
 INSERT INTO `materialpurchasehistories` (`id`, `site_id`, `materialin_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 1, 30, '2023-08-01 05:16:52', '2023-08-01 05:16:52'),
 (2, 1, 1, 4, 20, '2023-08-01 05:16:52', '2023-08-01 05:16:52'),
-(3, 1, 1, 3, 10, '2023-08-01 05:16:52', '2023-08-01 05:16:52');
+(3, 1, 1, 3, 10, '2023-08-01 05:16:52', '2023-08-01 05:16:52'),
+(4, 1, 2, 1, 10, '2023-08-06 23:49:27', '2023-08-06 23:49:27'),
+(5, 1, 2, 3, 5, '2023-08-06 23:49:27', '2023-08-06 23:49:27'),
+(8, 1, 3, 4, 20, '2023-08-07 00:35:58', '2023-08-07 00:35:58'),
+(9, 1, 3, 3, 5, '2023-08-07 00:35:58', '2023-08-07 00:35:58');
 
 -- --------------------------------------------------------
 
@@ -225,9 +301,32 @@ CREATE TABLE `materialpurchases` (
 --
 
 INSERT INTO `materialpurchases` (`id`, `site_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 30, '2023-08-01 05:16:52', '2023-08-01 05:16:52'),
-(2, 1, 4, 20, '2023-08-01 05:16:52', '2023-08-01 05:16:52'),
-(3, 1, 3, 10, '2023-08-01 05:16:52', '2023-08-01 05:16:52');
+(1, 1, 1, 40, '2023-08-01 05:16:52', '2023-08-07 00:35:58'),
+(2, 1, 4, 40, '2023-08-01 05:16:52', '2023-08-07 00:35:58'),
+(3, 1, 3, 20, '2023-08-01 05:16:52', '2023-08-07 00:35:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `material_payment_histories`
+--
+
+CREATE TABLE `material_payment_histories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `materialins_id` bigint(20) UNSIGNED NOT NULL,
+  `paytype` varchar(255) NOT NULL,
+  `amount` double(10,2) NOT NULL,
+  `payway` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `material_payment_histories`
+--
+
+INSERT INTO `material_payment_histories` (`id`, `materialins_id`, `paytype`, `amount`, `payway`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Voucher', 15000.00, 'Voucher', '2023-08-07 00:43:44', '2023-08-07 01:16:42');
 
 -- --------------------------------------------------------
 
@@ -292,7 +391,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (26, '2023_07_31_083027_create_materialins_table', 8),
 (27, '2023_07_31_085152_create_materialpurchases_table', 8),
 (28, '2023_07_31_120827_create_materialpurchasehistories_table', 9),
-(30, '2023_08_05_071532_create_site_payment_histories_table', 10);
+(30, '2023_08_05_071532_create_site_payment_histories_table', 10),
+(31, '2023_08_07_052254_create_material_payment_histories_table', 11),
+(32, '2023_08_07_072712_create_land_customers_table', 12),
+(33, '2023_08_07_090023_create_land_payment_histories_table', 13),
+(34, '2023_08_07_121700_create_expenses_table', 14);
 
 -- --------------------------------------------------------
 
@@ -674,11 +777,30 @@ ALTER TABLE `customers`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `expenses`
+--
+ALTER TABLE `expenses`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `land_customers`
+--
+ALTER TABLE `land_customers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `land_payment_histories`
+--
+ALTER TABLE `land_payment_histories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `land_payment_histories_landcustomers_id_foreign` (`landcustomers_id`);
 
 --
 -- Indexes for table `materialins`
@@ -706,6 +828,13 @@ ALTER TABLE `materialpurchases`
   ADD PRIMARY KEY (`id`),
   ADD KEY `materialpurchases_site_id_foreign` (`site_id`),
   ADD KEY `materialpurchases_meterial_id_foreign` (`meterial_id`);
+
+--
+-- Indexes for table `material_payment_histories`
+--
+ALTER TABLE `material_payment_histories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `material_payment_histories_materialins_id_foreign` (`materialins_id`);
 
 --
 -- Indexes for table `meterials`
@@ -845,27 +974,51 @@ ALTER TABLE `customers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `expenses`
+--
+ALTER TABLE `expenses`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `land_customers`
+--
+ALTER TABLE `land_customers`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `land_payment_histories`
+--
+ALTER TABLE `land_payment_histories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `materialins`
 --
 ALTER TABLE `materialins`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `materialpurchasehistories`
 --
 ALTER TABLE `materialpurchasehistories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `materialpurchases`
 --
 ALTER TABLE `materialpurchases`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `material_payment_histories`
+--
+ALTER TABLE `material_payment_histories`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
@@ -878,7 +1031,7 @@ ALTER TABLE `meterials`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `owners`
@@ -969,6 +1122,12 @@ ALTER TABLE `chiefengineers`
   ADD CONSTRAINT `chiefengineers_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `land_payment_histories`
+--
+ALTER TABLE `land_payment_histories`
+  ADD CONSTRAINT `land_payment_histories_landcustomers_id_foreign` FOREIGN KEY (`landcustomers_id`) REFERENCES `land_customers` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `materialins`
 --
 ALTER TABLE `materialins`
@@ -990,6 +1149,12 @@ ALTER TABLE `materialpurchasehistories`
 ALTER TABLE `materialpurchases`
   ADD CONSTRAINT `materialpurchases_meterial_id_foreign` FOREIGN KEY (`meterial_id`) REFERENCES `meterials` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `materialpurchases_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `material_payment_histories`
+--
+ALTER TABLE `material_payment_histories`
+  ADD CONSTRAINT `material_payment_histories_materialins_id_foreign` FOREIGN KEY (`materialins_id`) REFERENCES `materialins` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `salesmanagers`
