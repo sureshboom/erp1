@@ -4,10 +4,10 @@ namespace App\Http\Controllers\User\account;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Site;
-use App\Models\SitePaymentHistory;
+use App\Models\LandCustomer;
+use App\Models\LandPaymentHistory;
 
-class SitepaymentController extends Controller
+class LandPaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,9 @@ class SitepaymentController extends Controller
     public function index()
     {
         //
-        $sitepayments = Site::orderBy('id', 'DESC')->get();
-        return view('user.account.sitepayment.index',compact('sitepayments'));
+        $lands = LandCustomer::orderBy('id','desc')->get();
+
+        return view('user.account.landpayment.index',compact('lands'));
     }
 
     /**
@@ -24,9 +25,9 @@ class SitepaymentController extends Controller
      */
     public function create()
     {
-        //
-        $sites = Site::select('id','sitename')->get();
-        return view('user.account.sitepayment.create',compact('sites'));   
+        $customers = LandCustomer::select('id')->get();
+
+        return view('user.account.landpayment.create',compact('customers'));
     }
 
     /**
@@ -34,29 +35,30 @@ class SitepaymentController extends Controller
      */
     public function store(Request $request)
     {
+        //
         $input = $request->validate([
-            'site_id' => 'required',
+            'landcustomers_id' => 'required',
             'total' => 'required|numeric',
             'amount' => 'required|numeric',
             'paytype' => 'required',
         ]);
 
-        $payment = SitePaymentHistory::create([
-            'site_id' => $request->site_id,
+        $payment = LandPaymentHistory::create([
+            'landcustomers_id' => $request->landcustomers_id,
             'paytype' => $request->paytype,
             'amount' => $request->amount,
             'payway' => $request->payway
         ]);
         if($payment)
         {
-            $site = Site::where('id',$request->site_id)->update([
+            $land = LandCustomer::where('id',$request->landcustomers_id)->update([
                 'paid' => $request->paid,
                 'pending' => $request->pending,
             ]);
-            if($site)
+            if($land)
             {
-                flashSuccess('Site Payment Created Successfully');
-                return redirect()->route('account.site_payment.index');
+                flashSuccess('Land Payment Created Successfully');
+                return redirect()->route('account.land_payment.index');
             }
             else
             {
@@ -69,7 +71,6 @@ class SitepaymentController extends Controller
                 flashError('Something Wrong');
                 return back();
             }
-
     }
 
     /**
@@ -77,9 +78,10 @@ class SitepaymentController extends Controller
      */
     public function show(string $id)
     {
-        $historys = SitePaymentHistory::where('site_id',$id)->get();
-        return view('user.account.sitepayment.show',compact('historys'));   
+        //
+        $historys = LandPaymentHistory::where('landcustomers_id',$id)->get();
 
+        return view('user.account.landpayment.show',compact('historys'));
     }
 
     /**
@@ -87,9 +89,9 @@ class SitepaymentController extends Controller
      */
     public function edit(string $id)
     {
-        $history = SitePaymentHistory::find($id);
-        return view('user.account.sitepayment.edit',compact('history'));
-        // return $history;
+        $history = LandPaymentHistory::find($id);
+
+        return view('user.account.landpayment.edit',compact('history'));
     }
 
     /**
@@ -103,11 +105,11 @@ class SitepaymentController extends Controller
             'payway' => 'nullable'
         ]);
 
-        $up = SitePaymentHistory::find($id)->update($input);
+        $up = LandPaymentHistory::find($id)->update($input);
         if($up)
         {
-            flashSuccess('Payment Updated Successfully');
-            return redirect()->route('account.site_payment.index');
+            flashSuccess('Land Payment Updated Successfully');
+            return redirect()->route('account.land_payment.index');
         }
         else
         {
@@ -122,14 +124,14 @@ class SitepaymentController extends Controller
     public function destroy(string $id)
     {
         //
-        SitePaymentHistory::find($id)->delete();
-        flashSuccess('Site Payment Removed Successfully');
+        LandPaymentHistory::find($id)->delete();
+        flashSuccess('Land Payment Removed Successfully');
         return back();
     }
 
-    public function getsite($siteid)
+    public function getland($orderid)
     {
-        $payment = Site::where('id', $siteid)->first();
+        $payment = LandCustomer::where('id', $orderid)->first();
         return response()->json($payment);
 
     }

@@ -21,7 +21,7 @@
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Site Payment</span>
+                                        <li><span class="bread-blod">Material Payments</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -39,12 +39,11 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Site Payment <span class="table-project-n">Details</span> Table</h1>
+                                <h1>Material Payment <span class="table-project-n">Details</span> Table</h1>
 
 
                             </div>
-                            <a href="{{ route('account.site_payment.create')}}" class="btn btn-primary">+ Pay Now</a>
-                            
+                            <a href="{{ route('account.material_payment.index')}}" class="btn btn-danger">Back</a>
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -61,48 +60,39 @@
                                         <tr>
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
-                                            <th data-field="site">SiteName</th>
-                                            <th data-field="owner">Owner Name</th>
-                                            <th data-field="phone">Phone No</th>
-                                            <th data-field="total">Total</th>
-                                            <th data-field="paid">Paid</th>
-                                            <th data-field="pending">Pending</th>
-                                            <th data-field="status" data-editable="false">Status</th>
+                                            <th data-field="order">Order Id</th>
+                                            <th data-field="amount">Amount</th>
+                                            <th data-field="type">Payment Type</th>
+                                            <th data-field="payment">Payment By</th>
                                             <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse($sitepayments as $sitepayment)
+                                        @forelse($materialpayment as $history)
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{ $sitepayment->sitename ? $sitepayment->sitename : '' }}</td>
-                                            <td>{{ $sitepayment->owner->owner_name ? $sitepayment->owner->owner_name : '' }}</td>
-                                            <td>{{ $sitepayment->owner->phone ? $sitepayment->owner->phone : '' }}</td>
-                                            <td>{{  number_format($sitepayment->amount) }}</td>
-                                            <td>{{  number_format($sitepayment->paid)  }}</td>
-                                            <td>{{  number_format($sitepayment->pending)  }}</td>
-                                            <td>
-                                                @if($sitepayment->amount !== $sitepayment->paid)
-                                                <h2 class="badge badge-danger ">Pending Payment</h2>
-                                                @else
-                                                <h2 class="badge badge-success ">Payment Completed</h2>
-                                                @endif
-                                            </td>
+                                            <td>{{ $history->materialins_id ? 'SKSOR '. $history->materialins_id : '' }}</td>
+                                            <td>{{  number_format($history->amount) }}</td>
+                                            <td>{{  $history->paytype ? $history->paytype : '' }}</td>
+                                            <td>{{  $history->payway ? $history->payway : '' }}</td>
                                             
                                             <td class="datatable-ct">
-                                                
-                                                <a href="{{ route('account.site_payment.show', $sitepayment->id) }}"
-                                                    class="btn badge-primary">
-                                                    <i class="fa fa-eye"></i> History
+                                                <a href="{{ route('account.material_payment.edit', $history->id) }}"
+                                                    class="btn btn-link">
+                                                    <i class="fa fa-edit"></i>
                                                 </a>
-                                                
+                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $history->id }}').submit();"><i class="fa fa-trash"></i></a>
+                                                <form method="post" action="{{ route('account.material_payment.destroy', $history->id) }}" id="delete-post-{{ $history->id }}" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
                                             </td>
                                         </tr>
                                         @empty
                                         <tr>
                                             <td></td>
-                                            <td colspan="7" class="text-center">No data</td>
+                                            <td colspan="6" class="text-center">No data</td>
                                             
                                         </tr>
                                         @endforelse

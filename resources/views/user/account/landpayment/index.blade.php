@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Site Payment') }}
+	    {{ __('Land Payment') }}
 	@endsection
 
 	@section('main')
@@ -21,7 +21,7 @@
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Site Payment</span>
+                                        <li><span class="bread-blod">Land Payment</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -39,11 +39,11 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Site Payment <span class="table-project-n">Details</span> Table</h1>
+                                <h1>Land Payment <span class="table-project-n">Details</span> Table</h1>
 
 
                             </div>
-                            <a href="{{ route('account.site_payment.create')}}" class="btn btn-primary">+ Pay Now</a>
+                            <a href="{{ route('account.land_payment.create')}}" class="btn btn-primary">+ Pay Now</a>
                             
                         </div>
                         <div class="sparkline13-graph">
@@ -61,9 +61,10 @@
                                         <tr>
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
-                                            <th data-field="site">SiteName</th>
-                                            <th data-field="owner">Owner Name</th>
-                                            <th data-field="phone">Phone No</th>
+                                            <th data-field="customer">Customer Name</th>
+                                            <th data-field="site">Site Name</th>
+                                            <th data-field="plot">Plot No</th>
+                                            <th data-field="land">Land ID</th>
                                             <th data-field="total">Total</th>
                                             <th data-field="paid">Paid</th>
                                             <th data-field="pending">Pending</th>
@@ -72,18 +73,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse($sitepayments as $sitepayment)
+                                        @forelse($lands as $land)
+                                        
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{ $sitepayment->sitename ? $sitepayment->sitename : '' }}</td>
-                                            <td>{{ $sitepayment->owner->owner_name ? $sitepayment->owner->owner_name : '' }}</td>
-                                            <td>{{ $sitepayment->owner->phone ? $sitepayment->owner->phone : '' }}</td>
-                                            <td>{{  number_format($sitepayment->amount) }}</td>
-                                            <td>{{  number_format($sitepayment->paid)  }}</td>
-                                            <td>{{  number_format($sitepayment->pending)  }}</td>
+                                            <td>{{ $land->sitename ? $land->sitename : '' }}</td>
+                                            <td>{{ $land->sitename ? $land->sitename : '' }}</td>
+                                            <td>{{ $land->plotno ? $land->plotno : '' }}</td>
+                                            <td>{{ $land->id ? 'SKSOR'.$land->id : '' }}</td>
+                                            <td>{{  number_format($land->amount) }}</td>
+                                            
+                                            <td>{{  number_format($land->paid)  }}</td>
+                                            <td>{{  number_format($land->pending)  }}</td>
                                             <td>
-                                                @if($sitepayment->amount !== $sitepayment->paid)
+                                                @if($land->amount !== $land->paid)
                                                 <h2 class="badge badge-danger ">Pending Payment</h2>
                                                 @else
                                                 <h2 class="badge badge-success ">Payment Completed</h2>
@@ -92,7 +96,7 @@
                                             
                                             <td class="datatable-ct">
                                                 
-                                                <a href="{{ route('account.site_payment.show', $sitepayment->id) }}"
+                                                <a href="{{ route('account.land_payment.show', $land->id) }}"
                                                     class="btn badge-primary">
                                                     <i class="fa fa-eye"></i> History
                                                 </a>

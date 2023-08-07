@@ -17,6 +17,10 @@ use App\Http\Controllers\User\salesperson\ScustomerController;
 use App\Http\Controllers\User\siteengineer\SupplierController;
 use App\Http\Controllers\User\siteengineer\MaterialrequestController;
 use App\Http\Controllers\User\account\SitepaymentController;
+use App\Http\Controllers\User\account\MaterialPaymentController;
+use App\Http\Controllers\User\account\LandCustomerController;
+use App\Http\Controllers\User\account\LandPaymentController;
+use App\Http\Controllers\User\account\ExpenseController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -43,7 +47,13 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
 
     Route::get('dashboard', 'dashboard')->name('dashboard');
     Route::resource('/site_payment', SitepaymentController::class);
+    Route::resource('/material_payment', MaterialPaymentController::class);
+    Route::resource('/landcustomer', LandCustomerController::class);
+    Route::resource('/land_payment', LandPaymentController::class);
+    Route::resource('/expense', ExpenseController::class);
     Route::get('/payments/{siteid}',[SitepaymentController::class,'getsite']);
+    Route::get('/pay/{orderid}',[MaterialPaymentController::class,'getorder']);
+    Route::get('/landpay/{orderid}',[LandPaymentController::class,'getland']);
 });
 
 Route::controller(TelecallerController::class)->prefix('telecaller')->middleware('telecaller')->name('telecaller.')->group(function () {

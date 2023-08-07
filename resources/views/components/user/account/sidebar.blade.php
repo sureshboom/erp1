@@ -1,6 +1,6 @@
 
  <li>
-    <a  href="#">
+    <a  href="{{ route('account.landcustomer.index')}}">
        <span class="educate-icon educate-professor icon-wrap"></span>
        <span class="mini-click-non">Land Customers</span>
     </a>
@@ -18,7 +18,8 @@
     </a>
     <ul class="submenu-angle" aria-expanded="true">
         <li><a title="owner" href="{{ route('account.site_payment.index')}}"><span class="mini-sub-pro">Site Payments</span></a></li>
-        <li><a title="sites" href="{{ route('site.index')}}"><span class="mini-sub-pro">Material Payments</span></a></li>
+        <li><a title="sites" href="{{ route('account.material_payment.index')}}"><span class="mini-sub-pro">Material Payments</span></a></li>
+        <li><a title="sites" href="{{ route('account.land_payment.index')}}"><span class="mini-sub-pro">Land Payments</span></a></li>
     </ul>
 </li>
 <li>

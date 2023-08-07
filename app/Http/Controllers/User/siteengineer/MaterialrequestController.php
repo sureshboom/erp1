@@ -58,6 +58,7 @@ class MaterialrequestController extends Controller
             'siteengineer_id' => $site->siteengineer_id,
             'chiefengineer_id' => $site->chiefengineer_id,
             'amount' => $request->amount,
+            'pending' => $request->amount,
             'status' => 'order',
         ]);
         if($materialin)
