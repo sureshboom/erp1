@@ -31,6 +31,7 @@ class ExpenseController extends Controller
     public function store(Request $request)
     {
         
+
         $input = $request->validate([
             'type' => 'required',
             'name' => 'required',
@@ -38,6 +39,7 @@ class ExpenseController extends Controller
             'amount' => 'required|numeric',
             'approved_by' => 'required',
             'received_by' => 'required',
+            
         ]);
 
         $exp = Expense::create($input);
@@ -67,7 +69,7 @@ class ExpenseController extends Controller
     public function edit(string $id)
     {
         $expense = Expense::find($id);
-        return view('user.account.expense.index',compact('expense'));
+        return view('user.account.expense.edit',compact('expense'));
     }
 
     /**

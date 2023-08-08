@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\SiteController;
 use App\Http\Controllers\Admin\OwnerController;
 use App\Http\Controllers\Admin\MeterialController;
+use App\Http\Controllers\Admin\WorkerController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 
 
@@ -26,6 +27,7 @@ Route::prefix('admin')->group(function () {
 			Route::resource('/site', SiteController::class);
 			Route::resource('/owner', OwnerController::class);
 			Route::resource('/meterial', MeterialController::class);
+			Route::resource('/worker', WorkerController::class);
 		});
 	
 	

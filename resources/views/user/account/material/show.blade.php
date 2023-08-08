@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Expense Payment') }}
+	    {{ __('Materials ') }}
 	@endsection
 
 	@section('main')
@@ -14,14 +14,14 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <div class="breadcome-heading">
-                                        
+                                        <a href="{{ url()->previous() }}" class="btn btn-danger">Back</a>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Expense</span>
+                                        <li><span class="bread-blod">Material Details</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -39,12 +39,14 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Expense <span class="table-project-n">Details</span> Table</h1>
+                                <h1>Materials <span class="table-project-n">Detail</span> Table</h1>
 
 
                             </div>
-                            <a href="{{ route('account.expense.create')}}" class="btn btn-primary">+ Create</a>
-                            
+                            <!-- <a href="{{ route('siteengineer.material_order.edit', $materialinid) }}" class="btn btn-primary">
+                                                    Edit
+                                                </a> -->
+                            <!-- {{ $materials }} -->
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -61,46 +63,26 @@
                                         <tr>
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
-                                            <th data-field="cid">Exp ID</th>
-                                            <th data-field="type">Type</th>
-                                            <th data-field="exp">Expense Name</th>
-                                            <th data-field="date">Date</th>
-                                            <th data-field="location">Amount</th>
-                                            <th data-field="site">Approved By</th>
-                                            <th data-field="plot">Received By</th>
-                                            <th data-field="action">Action</th>
+                                            <th data-field="name">Material Name</th>
+                                            <th data-field="unit">Unit</th>
+                                            <th data-field="sname" data-editable="false">Quantity</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse($expenses as $expense)
                                         
+                                        @forelse($materials as $material)
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>SKSEXP {{ $expense->id ? $expense->id : '' }}</td>
-                                            <td>{{ $expense->type ? $expense->type : '' }}</td>
-                                            <td>{{ $expense->name ? $expense->name : '' }}</td>
-                                            <td>{{ $expense->edate ? formatDate($expense->edate) : '' }}</td>
-                                            <td>{{  number_format($expense->amount) }}</td>
-                                            <td>{{ $expense->approved_by ? $expense->approved_by : '' }}</td>
-                                            <td>{{ $expense->received_by ? $expense->received_by : '' }}</td>
-                                            <td class="datatable-ct">
-                                                
-                                                <a href="{{ route('account.expense.edit', $expense->id) }}"
-                                                    class="btn btn-link ">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $expense->id }}').submit();"><i class="fa fa-trash"></i></a>
-                                                <form method="post" action="{{ route('account.expense.destroy', $expense->id) }}" id="delete-post-{{ $expense->id }}" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            </td>
+                                            <td>{{ $material->material ? $material->material->meterial_name : '' }}</td>
+                                            <td>{{ $material->material ? $material->material->unit : '' }}</td>
+                                            <td>{{ $material->quantity ? $material->quantity : '' }}</td>
+                                            
                                         </tr>
                                         @empty
                                         <tr>
                                             <td></td>
-                                            <td colspan="8">No data</td>
+                                            <td colspan="7" class="text-center">No data</td>
                                         </tr>
                                         @endforelse
                                     </tbody>

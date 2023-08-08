@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Expense Payment') }}
+	    {{ __('Suppliers') }}
 	@endsection
 
 	@section('main')
@@ -21,7 +21,7 @@
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Expense</span>
+                                        <li><span class="bread-blod">Site</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -39,12 +39,10 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Expense <span class="table-project-n">Details</span> Table</h1>
+                                <h1>Assigned Site <span class="table-project-n">Details</span> Table</h1>
 
-
+                                <a href="{{ route('chiefengineer.mesthiriindex')}}" class="btn btn-danger">back</a>
                             </div>
-                            <a href="{{ route('account.expense.create')}}" class="btn btn-primary">+ Create</a>
-                            
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -61,46 +59,31 @@
                                         <tr>
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
-                                            <th data-field="cid">Exp ID</th>
-                                            <th data-field="type">Type</th>
-                                            <th data-field="exp">Expense Name</th>
                                             <th data-field="date">Date</th>
-                                            <th data-field="location">Amount</th>
-                                            <th data-field="site">Approved By</th>
-                                            <th data-field="plot">Received By</th>
-                                            <th data-field="action">Action</th>
+                                            <th data-field="siteid">Site ID</th>
+                                            <th data-field="name">Site Name</th>
+                                            <th data-field="chief" data-editable="false">Mesthiri ID</th>
+                                            <th data-field="site" data-editable="false">Mesthiri Name</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse($expenses as $expense)
                                         
+                                        @forelse($mesthiriassigns as $mesthiriassign)
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>SKSEXP {{ $expense->id ? $expense->id : '' }}</td>
-                                            <td>{{ $expense->type ? $expense->type : '' }}</td>
-                                            <td>{{ $expense->name ? $expense->name : '' }}</td>
-                                            <td>{{ $expense->edate ? formatDate($expense->edate) : '' }}</td>
-                                            <td>{{  number_format($expense->amount) }}</td>
-                                            <td>{{ $expense->approved_by ? $expense->approved_by : '' }}</td>
-                                            <td>{{ $expense->received_by ? $expense->received_by : '' }}</td>
-                                            <td class="datatable-ct">
-                                                
-                                                <a href="{{ route('account.expense.edit', $expense->id) }}"
-                                                    class="btn btn-link ">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $expense->id }}').submit();"><i class="fa fa-trash"></i></a>
-                                                <form method="post" action="{{ route('account.expense.destroy', $expense->id) }}" id="delete-post-{{ $expense->id }}" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            </td>
+                                            <td>{{ $mesthiriassign->created_at ? formatDate($mesthiriassign->created_at) : '' }}</td>
+                                            <td>{{ $mesthiriassign->site->siteid ? $mesthiriassign->site->siteid : '' }}</td>
+                                            <td>{{ $mesthiriassign->site->sitename ? $mesthiriassign->site->sitename : '' }}</td>
+                                            <td>{{ $mesthiriassign->mesthiri_id ? 'SKSMT'.$mesthiriassign->mesthiri_id : '-' }}</td>
+                                            <td>{{ $mesthiriassign->mesthiri_id ? $mesthiriassign->mesthiri->name : '-' }}</td>
+                                            
                                         </tr>
                                         @empty
                                         <tr>
                                             <td></td>
-                                            <td colspan="8">No data</td>
+                                            <td colspan="5" class="text-center">No data</td>
                                         </tr>
                                         @endforelse
                                     </tbody>

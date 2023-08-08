@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2023 at 02:39 PM
+-- Generation Time: Aug 08, 2023 at 02:52 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -155,6 +155,13 @@ CREATE TABLE `expenses` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `expenses`
+--
+
+INSERT INTO `expenses` (`id`, `type`, `name`, `edate`, `amount`, `approved_by`, `received_by`, `created_at`, `updated_at`) VALUES
+(1, 'site', 'Office Tea Expenses', '2023-08-07', 500.00, 'Ram', 'Raju', '2023-08-08 00:03:26', '2023-08-08 00:28:27');
+
 -- --------------------------------------------------------
 
 --
@@ -239,6 +246,7 @@ CREATE TABLE `materialins` (
   `paid` double(10,2) NOT NULL DEFAULT 0.00,
   `pending` double(10,2) NOT NULL DEFAULT 0.00,
   `status` enum('order','approved','paid','verified','received','cancel') NOT NULL,
+  `notes` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -247,10 +255,10 @@ CREATE TABLE `materialins` (
 -- Dumping data for table `materialins`
 --
 
-INSERT INTO `materialins` (`id`, `site_id`, `supplier_id`, `siteengineer_id`, `chiefengineer_id`, `amount`, `paid`, `pending`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1, 20000.00, 15000.00, 5000.00, 'approved', '2023-08-01 05:16:52', '2023-08-07 01:16:42'),
-(2, 1, 1, 1, 1, 15000.00, 0.00, 15000.00, 'approved', '2023-08-06 23:49:27', '2023-08-06 23:50:45'),
-(3, 1, 1, 1, 1, 20000.00, 0.00, 20000.00, 'order', '2023-08-07 00:33:35', '2023-08-07 00:33:35');
+INSERT INTO `materialins` (`id`, `site_id`, `supplier_id`, `siteengineer_id`, `chiefengineer_id`, `amount`, `paid`, `pending`, `status`, `notes`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 1, 20000.00, 15000.00, 5000.00, 'paid', NULL, '2023-08-01 05:16:52', '2023-08-08 01:53:11'),
+(2, 1, 1, 1, 1, 15000.00, 0.00, 15000.00, 'approved', NULL, '2023-08-06 23:49:27', '2023-08-08 01:33:31'),
+(3, 1, 1, 1, 1, 20000.00, 0.00, 20000.00, 'order', NULL, '2023-08-07 00:33:35', '2023-08-07 00:33:35');
 
 -- --------------------------------------------------------
 
@@ -331,6 +339,54 @@ INSERT INTO `material_payment_histories` (`id`, `materialins_id`, `paytype`, `am
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `mesthiris`
+--
+
+CREATE TABLE `mesthiris` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `alternate_no` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `gpay` varchar(255) NOT NULL,
+  `account` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `mesthiris`
+--
+
+INSERT INTO `mesthiris` (`id`, `name`, `phone`, `alternate_no`, `location`, `gpay`, `account`, `created_at`, `updated_at`) VALUES
+(1, 'Ragul', '9092255111', '9876543111', 'Saravanam patti,Coimbatore.', '9876543111', '313264325555', '2023-08-08 04:18:02', '2023-08-08 04:23:29'),
+(3, 'Ram', '8610805698', '9876543210', 'Saravanampatti, Coimbatore.', '9876543210', '313264324024', '2023-08-08 05:31:25', '2023-08-08 05:31:25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mesthiri_assigns`
+--
+
+CREATE TABLE `mesthiri_assigns` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `site_id` bigint(20) UNSIGNED NOT NULL,
+  `mesthiri_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `mesthiri_assigns`
+--
+
+INSERT INTO `mesthiri_assigns` (`id`, `site_id`, `mesthiri_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, '2023-08-08 05:28:34', '2023-08-08 05:28:34'),
+(2, 1, 3, '2023-08-08 05:31:52', '2023-08-08 05:31:52');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `meterials`
 --
 
@@ -395,7 +451,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (31, '2023_08_07_052254_create_material_payment_histories_table', 11),
 (32, '2023_08_07_072712_create_land_customers_table', 12),
 (33, '2023_08_07_090023_create_land_payment_histories_table', 13),
-(34, '2023_08_07_121700_create_expenses_table', 14);
+(34, '2023_08_07_121700_create_expenses_table', 14),
+(35, '2023_08_08_085515_create_mesthiris_table', 15),
+(36, '2023_08_08_085548_create_mesthiri_assigns_table', 15),
+(37, '2023_08_08_121600_create_workers_table', 16);
 
 -- --------------------------------------------------------
 
@@ -568,6 +627,7 @@ CREATE TABLE `sites` (
   `owner_id` bigint(20) UNSIGNED NOT NULL,
   `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
   `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
+  `mesthiri_id` bigint(20) DEFAULT NULL,
   `amount` double(10,2) NOT NULL DEFAULT 0.00,
   `paid` double(10,2) NOT NULL DEFAULT 0.00,
   `pending` double(10,2) NOT NULL DEFAULT 0.00,
@@ -582,8 +642,8 @@ CREATE TABLE `sites` (
 -- Dumping data for table `sites`
 --
 
-INSERT INTO `sites` (`id`, `sitename`, `siteid`, `sitetype`, `owner_id`, `chiefengineer_id`, `siteengineer_id`, `amount`, `paid`, `pending`, `location`, `site_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Site A', 'SKSPR01', 'Land & Construction', 1, 1, 1, 2000000.00, 300000.00, 1700000.00, 'Saravanampatti,Coimbatore.', '2023-07-01', 'ready_to_start', '2023-07-26 06:30:12', '2023-08-06 09:30:16');
+INSERT INTO `sites` (`id`, `sitename`, `siteid`, `sitetype`, `owner_id`, `chiefengineer_id`, `siteengineer_id`, `mesthiri_id`, `amount`, `paid`, `pending`, `location`, `site_date`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Site A', 'SKSPR01', 'Land & Construction', 1, 1, 1, 3, 2000000.00, 300000.00, 1700000.00, 'Saravanampatti,Coimbatore.', '2023-07-01', 'ready_to_start', '2023-07-26 06:30:12', '2023-08-08 05:31:52');
 
 -- --------------------------------------------------------
 
@@ -745,6 +805,26 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `email_verified_
 (9, 'Sales Manager', 'salesmanager1@gmail.com', '$2y$10$.xJTK3eC4Xw4CtZVYafbC.4GObyriKLLLhT.2WisGct3vtjVeAzS6', 'salesmanager', NULL, NULL, '2023-07-26 03:23:30', '2023-07-26 04:07:58'),
 (10, 'Sales Person', 'salesperson1@gmail.com', '$2y$10$fJ2Dxk2Fn8sz3lOIPVRc5eRMqopuhDxph8VSwz4vDJxGQsGZm6toK', 'salesperson', NULL, NULL, '2023-07-26 03:25:56', '2023-07-26 03:25:56');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `workers`
+--
+
+CREATE TABLE `workers` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `workers`
+--
+
+INSERT INTO `workers` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Measons', '2023-08-08 07:19:20', '2023-08-08 07:20:46');
+
 --
 -- Indexes for dumped tables
 --
@@ -835,6 +915,19 @@ ALTER TABLE `materialpurchases`
 ALTER TABLE `material_payment_histories`
   ADD PRIMARY KEY (`id`),
   ADD KEY `material_payment_histories_materialins_id_foreign` (`materialins_id`);
+
+--
+-- Indexes for table `mesthiris`
+--
+ALTER TABLE `mesthiris`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `mesthiri_assigns`
+--
+ALTER TABLE `mesthiri_assigns`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `mesthiri_assigns_site_id_foreign` (`site_id`);
 
 --
 -- Indexes for table `meterials`
@@ -946,6 +1039,12 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
+-- Indexes for table `workers`
+--
+ALTER TABLE `workers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -977,7 +1076,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `expenses`
 --
 ALTER TABLE `expenses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1022,6 +1121,18 @@ ALTER TABLE `material_payment_histories`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `mesthiris`
+--
+ALTER TABLE `mesthiris`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `mesthiri_assigns`
+--
+ALTER TABLE `mesthiri_assigns`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `meterials`
 --
 ALTER TABLE `meterials`
@@ -1031,7 +1142,7 @@ ALTER TABLE `meterials`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `owners`
@@ -1106,6 +1217,12 @@ ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT for table `workers`
+--
+ALTER TABLE `workers`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -1155,6 +1272,12 @@ ALTER TABLE `materialpurchases`
 --
 ALTER TABLE `material_payment_histories`
   ADD CONSTRAINT `material_payment_histories_materialins_id_foreign` FOREIGN KEY (`materialins_id`) REFERENCES `materialins` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `mesthiri_assigns`
+--
+ALTER TABLE `mesthiri_assigns`
+  ADD CONSTRAINT `mesthiri_assigns_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `salesmanagers`

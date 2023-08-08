@@ -36,6 +36,12 @@
                             </a>
                         </li>
                         <li >
+                            <a  href="{{ route('worker.index')}}">
+                               <span class="educate-icon educate-professor icon-wrap"></span>
+                               <span class="mini-click-non">Worker Master</span>
+                            </a>
+                        </li>
+                        <li >
                             <a  href="#">
                                <span class="educate-icon educate-form icon-wrap"></span>
                                <span class="mini-click-non">Reports</span>

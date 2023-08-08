@@ -6,7 +6,7 @@
     </a>
 </li>
 <li>
-    <a  href="#">
+    <a  href="{{ route('account.materialstatus')}}">
        <span class="educate-icon educate-form icon-wrap"></span>
        <span class="mini-click-non">Material Details</span>
     </a>
@@ -23,7 +23,7 @@
     </ul>
 </li>
 <li>
-    <a  href="#">
+    <a  href="{{ route('account.expense.index')}}">
        <span class="educate-icon educate-data-table icon-wrap"></span>
        <span class="mini-click-non">Expense</span>
     </a>

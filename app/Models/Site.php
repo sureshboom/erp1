@@ -39,4 +39,9 @@ class Site extends Model
     {
         return $this->hasMany(SitePaymentHistory::class, 'site_id');
     }
+
+    public function mesthiri()
+    {
+        return $this->belongsTo(Mesthiri::class,'mesthiri_id','id');
+    }
 }

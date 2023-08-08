@@ -37,10 +37,15 @@ class ChiefengineerController extends Controller
     public function order()
     {
         $chiefengineer = Chiefengineer::where('user_id',auth()->user()->id)->first();
-        $materials = Materialin::where('chiefengineer_id',$chiefengineer->id)->get();
+        $materials = Materialin::where('chiefengineer_id',$chiefengineer->id)->whereIn('status',['order','approved','cancel'])->get();
         return view('user.chiefengineer.materialstatus.index',compact('materials'));
     }
-
+    public function received()
+    {
+        $chiefengineer = Chiefengineer::where('user_id',auth()->user()->id)->first();
+        $materials = Materialin::where('chiefengineer_id',$chiefengineer->id)->whereIn('status',['paid','verified','received'])->get();
+        return view('user.chiefengineer.materialstatus.view',compact('materials'));
+    }
     public function show($id)
     {
         $materials = Materialpurchasehistory::where('materialin_id',$id)->get();

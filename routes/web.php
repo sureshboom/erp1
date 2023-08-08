@@ -10,6 +10,7 @@ use App\Http\Controllers\User\SalesmanagerController;
 use App\Http\Controllers\User\ChiefengineerController;
 use App\Http\Controllers\User\SalespersonController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\User\chiefengineer\MesthiriController;
 use App\Http\Controllers\User\telecaller\CustomerController;
 use App\Http\Controllers\User\telecaller\WorkController;
 use App\Http\Controllers\User\telecaller\SitevisitController;
@@ -54,6 +55,10 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
     Route::get('/payments/{siteid}',[SitepaymentController::class,'getsite']);
     Route::get('/pay/{orderid}',[MaterialPaymentController::class,'getorder']);
     Route::get('/landpay/{orderid}',[LandPaymentController::class,'getland']);
+    Route::get('material_view', 'order')->name('materialstatus');
+    Route::get('/material_show/{id}', 'show')->name('materialview');
+    Route::get('/materialpaid/{id}', 'materialpaid')->name('materialpaid');
+    Route::get('/materialscancel/{id}', 'materialcancel')->name('materialcancel');
 });
 
 Route::controller(TelecallerController::class)->prefix('telecaller')->middleware('telecaller')->name('telecaller.')->group(function () {
@@ -87,9 +92,14 @@ Route::controller(ChiefengineerController::class)->prefix('chief_engineer')->mid
     Route::get('dashboard', 'dashboard')->name('dashboard');
     Route::get('suppliers', 'suppliers')->name('suppliers');
     Route::get('material_status', 'order')->name('orderstatus');
+    Route::get('material_received', 'received')->name('received');
     Route::get('/materials_show/{id}', 'show')->name('materialview');
     Route::get('/materialapprove/{id}', 'materialapprove')->name('materialapprove');
     Route::get('/materialcancel/{id}', 'materialcancel')->name('materialcancel');
+    Route::resource('/mesthiri', MesthiriController::class);
+    Route::get('/site_view', [MesthiriController::class,'mesthiriindex'])->name('mesthiriindex');
+    Route::get('/mesthiri_assign', [MesthiriController::class,'assign'])->name('assign');
+    Route::post('/mesthiri_assignstore', [MesthiriController::class,'assignstore'])->name('assignstore');
 
 });
 
