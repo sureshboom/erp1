@@ -119,6 +119,51 @@
 
     });
     @endif
+    @if((request()->routeIs('siteengineer.workerentry.create'))or(request()->routeIs('siteengineer.workerentry.edit')))
+
+    $(document).ready(function(){
+        $('.add_item').on('click',function(e){
+            e.preventDefault();
+
+            var rowd='<tr><td><select name="worker_type[]" class="form-control"><option value="">Select Worker Type</option>@foreach($workers as $worker)<option value="{{$worker->name}}">{{$worker->name}}</option>@endforeach</select></td><td><input class="form-control" name="count[]" type="number" min="0"></td><td><button class="btn btn-danger remove_item">Remove</button></td></tr>';
+                
+            $(".show_item").append(rowd);
+        });
+        $("body").on("click",".remove_item",function(){
+          
+            $(this).closest("tr").remove();
+            
+          
+        });
+        $('#site_id').on('change', function () {
+            var siteId = $(this).val();
+            if (siteId) {
+                // Make an AJAX request to fetch the payment data
+                $.ajax({
+                    url: '/site_engineer/payments/' + siteId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.mesthiri_id != null) {
+                            console.log(data);
+                            
+                            $('#mesthiri_id').val(data.mesthiri_id);
+                            // If payment data exists, fill the input fields
+                            
+                        }
+                        else
+                        {
+                            alert('Mesthiri not Assigned for this site');
+                        }
+                    },
+                    error: function () {
+                        // Handle error if the AJAX request fails
+                    }
+                });
+            }
+        });
+    });
+    @endif
 @if(request()->routeIs('account.site_payment.create'))
     // Assuming you're using jQuery for simplicity
     $(document).ready(function () {

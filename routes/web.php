@@ -16,6 +16,8 @@ use App\Http\Controllers\User\telecaller\WorkController;
 use App\Http\Controllers\User\telecaller\SitevisitController;
 use App\Http\Controllers\User\salesperson\ScustomerController;
 use App\Http\Controllers\User\siteengineer\SupplierController;
+use App\Http\Controllers\User\siteengineer\WorkEnteryController;
+use App\Http\Controllers\User\siteengineer\WorkerEntryController;
 use App\Http\Controllers\User\siteengineer\MaterialrequestController;
 use App\Http\Controllers\User\account\SitepaymentController;
 use App\Http\Controllers\User\account\MaterialPaymentController;
@@ -78,11 +80,13 @@ Route::controller(SiteengineerController::class)->prefix('site_engineer')->middl
     Route::get('dashboard', 'dashboard')->name('dashboard');
     Route::get('siteengineer_site', 'assignedsite')->name('assignedsite');
     Route::resource('/supplier', SupplierController::class);
+    Route::resource('/workentry', WorkEnteryController::class);
+    Route::resource('/workerentry', WorkerEntryController::class);
     Route::resource('/material_order', MaterialrequestController::class);
     Route::patch('/purchasehistory',[MaterialrequestController::class,'purchaseupdate'])->name('purchaseupdate');
     Route::delete('/purchasedelete/{id}',[MaterialrequestController::class,'purchasedelete'])->name('purchasedelete');
-
-
+    Route::get('/mesthiri', 'mesthiri')->name('mesthiri');
+    Route::get('/payments/{siteid}',[SitepaymentController::class,'getsite']);
 });
 
 
@@ -90,9 +94,15 @@ Route::controller(ChiefengineerController::class)->prefix('chief_engineer')->mid
 
     Route::get('chiefengineer_site', 'assignedsite')->name('assignedsite');
     Route::get('dashboard', 'dashboard')->name('dashboard');
+    Route::get('workentry', 'workentry')->name('workentry');
+    Route::get('workersentry', 'WorkerEntry')->name('workersentry');
+    Route::get('/worker_salary/{id}', 'Workersalary')->name('workersalary');
+    Route::post('/worker_salary_change/{id}', 'Workersalarychange')->name('workersalarychange');
+    Route::get('/workverify/{id}', 'workverify')->name('workverify');
     Route::get('suppliers', 'suppliers')->name('suppliers');
     Route::get('material_status', 'order')->name('orderstatus');
     Route::get('material_received', 'received')->name('received');
+
     Route::get('/materials_show/{id}', 'show')->name('materialview');
     Route::get('/materialapprove/{id}', 'materialapprove')->name('materialapprove');
     Route::get('/materialcancel/{id}', 'materialcancel')->name('materialcancel');

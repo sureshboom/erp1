@@ -24,4 +24,12 @@ class SiteengineerController extends Controller
 
         return view('user.siteengineer.site',compact('sites'));
     }
+
+    public function mesthiri()
+    {
+        $siteengineer = Siteengineer::where('user_id',auth()->user()->id)->first();
+        $sites = Site::where('siteengineer_id',$siteengineer->id)->get();
+
+        return view('user.siteengineer.mesthiri',compact('sites'));
+    }
 }

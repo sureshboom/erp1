@@ -33,8 +33,8 @@
        <span class="mini-click-non">Works Details</span>
     </a>
     <ul class="submenu-angle" aria-expanded="true">
-        <li><a title="owner" href="#"><span class="mini-sub-pro">Workers Entry</span></a></li>
-        <li><a title="sites" href="#"><span class="mini-sub-pro">Work Entry</span></a></li>
+        <li><a title="owner" href="{{ route('chiefengineer.workersentry')}}"><span class="mini-sub-pro">Workers Entry</span></a></li>
+        <li><a title="sites" href="{{ route('chiefengineer.workentry')}}"><span class="mini-sub-pro">Work Entry</span></a></li>
     </ul>
 </li>
 <li>

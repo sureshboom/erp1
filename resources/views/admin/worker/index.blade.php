@@ -77,7 +77,7 @@
                                                 
                                                 <td>{{$worker->name}}</td>
                                                 
-                                                <td class="datatable-ct"><i class="fa fa-check"></i>
+                                                <td class="datatable-ct">
                                                     <a href="{{ route('worker.edit', $worker->id) }}"
                                                         class="btn ll-mr-4 ll-p-0">
                                                         <i class="fa fa-edit"></i>

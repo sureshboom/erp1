@@ -13,6 +13,7 @@ class Site extends Model
 
     protected $guarded = [];
 
+    
 
     public function siteengineer()
     {
@@ -44,4 +45,10 @@ class Site extends Model
     {
         return $this->belongsTo(Mesthiri::class,'mesthiri_id','id');
     }
+
+    public function workentry()
+    {
+        return $this->hasMany(WorkEntry::class, 'site_id');
+    }
+
 }

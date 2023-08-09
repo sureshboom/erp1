@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2023 at 02:52 PM
+-- Generation Time: Aug 09, 2023 at 02:41 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -454,7 +454,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (34, '2023_08_07_121700_create_expenses_table', 14),
 (35, '2023_08_08_085515_create_mesthiris_table', 15),
 (36, '2023_08_08_085548_create_mesthiri_assigns_table', 15),
-(37, '2023_08_08_121600_create_workers_table', 16);
+(37, '2023_08_08_121600_create_workers_table', 16),
+(38, '2023_08_09_051623_create_work_entries_table', 17),
+(39, '2023_08_09_083834_create_worker_entries_table', 18);
 
 -- --------------------------------------------------------
 
@@ -823,7 +825,64 @@ CREATE TABLE `workers` (
 --
 
 INSERT INTO `workers` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'Measons', '2023-08-08 07:19:20', '2023-08-08 07:20:46');
+(1, 'Mason', '2023-08-08 07:19:20', '2023-08-08 23:09:09'),
+(3, 'Plumber', '2023-08-08 23:09:50', '2023-08-08 23:09:50'),
+(4, 'Electrician', '2023-08-08 23:10:52', '2023-08-08 23:10:52'),
+(5, 'Welder', '2023-08-08 23:11:16', '2023-08-08 23:11:16'),
+(6, 'Concrete Finisher', '2023-08-08 23:11:45', '2023-08-08 23:11:54'),
+(7, 'Tile Setter', '2023-08-08 23:12:09', '2023-08-08 23:12:09'),
+(8, 'Roofer', '2023-08-08 23:12:36', '2023-08-08 23:12:36'),
+(9, 'Flooring Installer', '2023-08-08 23:14:03', '2023-08-08 23:14:03');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `worker_entries`
+--
+
+CREATE TABLE `worker_entries` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `site_id` bigint(20) UNSIGNED NOT NULL,
+  `mesthiri_id` bigint(20) UNSIGNED NOT NULL,
+  `workeddate` date NOT NULL,
+  `salary` double(10,2) NOT NULL DEFAULT 0.00,
+  `workers` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`workers`)),
+  `count` int(11) NOT NULL,
+  `status` enum('pending','verified','paid') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `worker_entries`
+--
+
+INSERT INTO `worker_entries` (`id`, `site_id`, `mesthiri_id`, `workeddate`, `salary`, `workers`, `count`, `status`, `created_at`, `updated_at`) VALUES
+(2, 1, 3, '2023-08-08', 20000.00, '[{\"Mason\":\"15\"},{\"Flooring Installer\":\"20\"}]', 35, 'verified', '2023-08-09 05:59:35', '2023-08-09 07:08:51'),
+(3, 1, 3, '2023-08-09', 0.00, '[{\"Mason\":\"15\"},{\"Plumber\":\"5\"},{\"Electrician\":\"8\"}]', 28, 'pending', '2023-08-09 06:09:55', '2023-08-09 06:42:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `work_entries`
+--
+
+CREATE TABLE `work_entries` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `working_date` date NOT NULL,
+  `site_id` bigint(20) UNSIGNED NOT NULL,
+  `works` varchar(255) NOT NULL,
+  `status` enum('pending','verified') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `work_entries`
+--
+
+INSERT INTO `work_entries` (`id`, `working_date`, `site_id`, `works`, `status`, `created_at`, `updated_at`) VALUES
+(2, '2023-08-09', 1, 'Demo of Works Entry', 'verified', '2023-08-09 01:20:25', '2023-08-09 01:53:07');
 
 --
 -- Indexes for dumped tables
@@ -1045,6 +1104,21 @@ ALTER TABLE `workers`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `worker_entries`
+--
+ALTER TABLE `worker_entries`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `worker_entries_site_id_foreign` (`site_id`),
+  ADD KEY `worker_entries_mesthiri_id_foreign` (`mesthiri_id`);
+
+--
+-- Indexes for table `work_entries`
+--
+ALTER TABLE `work_entries`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `work_entries_site_id_foreign` (`site_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1142,7 +1216,7 @@ ALTER TABLE `meterials`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `owners`
@@ -1220,6 +1294,18 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `workers`
 --
 ALTER TABLE `workers`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `worker_entries`
+--
+ALTER TABLE `worker_entries`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `work_entries`
+--
+ALTER TABLE `work_entries`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
@@ -1328,6 +1414,19 @@ ALTER TABLE `telecallers`
 --
 ALTER TABLE `teleworks`
   ADD CONSTRAINT `teleworks_telecaller_id_foreign` FOREIGN KEY (`telecaller_id`) REFERENCES `telecallers` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `worker_entries`
+--
+ALTER TABLE `worker_entries`
+  ADD CONSTRAINT `worker_entries_mesthiri_id_foreign` FOREIGN KEY (`mesthiri_id`) REFERENCES `mesthiris` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `worker_entries_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `work_entries`
+--
+ALTER TABLE `work_entries`
+  ADD CONSTRAINT `work_entries_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

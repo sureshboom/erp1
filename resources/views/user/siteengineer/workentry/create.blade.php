@@ -1,7 +1,7 @@
-@extends('admin.layout.app')
+    @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Workers') }}
+	    {{ __('Work Entry') }}
 	@endsection
 
 	@section('main')
@@ -19,9 +19,9 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <ul class="breadcome-menu">
-                                        <li><a href="{{ route('admin.dashboard') }}">Home</a> <span class="bread-slash">/</span>
+                                        <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Create Worker</span>
+                                        <li><span class="bread-blod">Create Work Entry</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -36,26 +36,47 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h3 class="text-center">Workers Details</h3>
-                    <form action="{{ route('worker.store') }}" class="acount-infor" method="post" enctype="multipart/form-data">
+                    <h3 class="text-center">Work Entry Details</h3>
+                    <form action="{{ route('siteengineer.workentry.store') }}" class="acount-infor" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
                     <div class="row">
-                        <div class="col-lg-6 col-lg-offset-3 col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-lg-6 col-lg-offset-3">
+                            
                             <div class="form-group">
-                                <label>Worker Name</label>
-                                <input name="name" type="text" class="form-control" placeholder="Worker Name" value="{{ old('name') }}">
-                                @error('name')
+                                <label>Site Name</label>
+                                <select name="site_id" class="form-control">
+                                        <option value="">Select Site</option>
+                                        @foreach($sites as $site)
+                                        <option value="{{$site->id}}">{{$site->sitename}}</option>
+                                        @endforeach
+                                </select>
+                                @error('site_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date"  name="working_date" class="form-control" value="{{old('working_date')}}">
+                                @error('working_date')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group res-mg-t-15">
+                                <label>Work Details</label>
+                                <textarea name="works" placeholder="Work Details"></textarea>
+                                @error('works')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
                     </div>
+                    
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="payment-adress">
                                 <button type="submit" class="btn btn-success ">Submit</button>
-                                <a href="{{route('worker.index')}}" class="btn btn-danger">Back</a>
+                                <a href="{{route('siteengineer.workentry.index')}}" class="btn btn-danger">Back</a>
                             </div>
                         </div>
                     </div>

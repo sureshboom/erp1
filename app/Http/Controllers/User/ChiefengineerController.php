@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Chiefengineer;
 use App\Models\Site;
 use App\Models\Supplier;
+use App\Models\WorkEntry;
+use App\Models\WorkerEntry;
 use App\Models\Materialin;
 use App\Models\Materialpurchase;
 use App\Models\Materialpurchasehistory;
@@ -81,6 +83,60 @@ class ChiefengineerController extends Controller
             return back();
         }
     }
-    
 
+    public function workentry()
+    {
+        $chiefengineer = Chiefengineer::where('user_id',auth()->user()->id)->first();
+        $sites = Site::select('id')->where('chiefengineer_id',$chiefengineer->id)->get();
+        $works = WorkEntry::whereIn('site_id', $sites->pluck('id'))->orderBy('id','desc')->get();
+        return view('user.chiefengineer.works',compact('works'));
+    }
+    
+    public function workverify($id)
+    {
+        $verify = WorkEntry::find($id)->update(['status' => 'verified']);
+        if($verify)
+        {
+            flashSuccess('Work Details Verified Successfully');
+            return back();
+        }
+        else
+        {
+            flashError('Something Wrong');
+            return back();
+        }
+    }
+
+    public function WorkerEntry()
+    {
+        $chiefengineer = Chiefengineer::where('user_id',auth()->user()->id)->first();
+        $sites = Site::select('id')->where('chiefengineer_id',$chiefengineer->id)->get();
+        $workers = WorkerEntry::whereIn('site_id', $sites->pluck('id'))->orderBy('id','desc')->get();
+        return view('user.chiefengineer.workerentry.index',compact('workers'));
+    }
+
+    public function Workersalary($id)
+    {
+        $workers = WorkerEntry::find($id);
+        return view('user.chiefengineer.workerentry.edit',compact('workers'));
+    }
+
+    public function Workersalarychange(Request $request,$id)
+    {
+        $input = $request->validate([
+            'salary' => 'required'
+        ]);
+
+        $salary = WorkerEntry::find($id)->update(['salary' => $request->salary,'status' => 'verified']);
+        if($salary)
+        {
+            flashSuccess('Workers Salary created Successfully');
+            return redirect()->route('chiefengineer.workersentry');
+        }
+        else
+        {
+            flashError('Something Wrong');
+            return back();
+        }
+    }
 }
