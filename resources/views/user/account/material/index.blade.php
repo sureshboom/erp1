@@ -100,10 +100,10 @@
                                                     class="btn badge-success">
                                                     Paid
                                                 </a>
-                                                <a href="{{ route('account.materialcancel', $material->id) }}"
+                                                <!-- <a href="{{ route('account.materialcancel', $material->id) }}"
                                                     class="btn badge-danger">
                                                     Cancel
-                                                </a>
+                                                </a> -->
                                                 @elseif($material->status == 'cancel')
                                                     <p class="text-danger">Order Cancelled</p>
                                                 @else

@@ -21,4 +21,9 @@ class Materialin extends Model
     {
         return $this->belongsTo(Site::class,'site_id','id');
     }
+
+    public function materialhistory()
+    {
+        return $this->hasMany(Materialin::class,'materialin_id','id');
+    }
 }

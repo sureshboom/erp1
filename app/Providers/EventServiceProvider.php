@@ -6,7 +6,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
-use App\Models\MaterialPurchaseHistory;
+use App\Models\Materialpurchasehistory;
 use App\Models\Materialin;
 use App\Observers\MaterialPurchaseHistoryObserver;
 use App\Observers\MaterialInsObserver;
@@ -38,7 +38,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
-        MaterialPurchaseHistory::observe(MaterialPurchaseHistoryObserver::class);
+        Materialpurchasehistory::observe(MaterialPurchaseHistoryObserver::class);
         Materialin::observe(MaterialInsObserver::class);
         SitePaymentHistory::observe(SitePaymentHistoryObserver::class);
         MaterialPaymentHistory::observe(MaterialPaymentHistoryObserver::class);

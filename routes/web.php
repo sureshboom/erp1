@@ -84,6 +84,10 @@ Route::controller(SiteengineerController::class)->prefix('site_engineer')->middl
     Route::resource('/workerentry', WorkerEntryController::class);
     Route::resource('/material_order', MaterialrequestController::class);
     Route::patch('/purchasehistory',[MaterialrequestController::class,'purchaseupdate'])->name('purchaseupdate');
+    Route::get('/received',[MaterialrequestController::class,'received'])->name('received');
+    Route::get('/verify/{id}',[MaterialrequestController::class,'verified'])->name('verified');
+    Route::get('/note/{id}',[MaterialrequestController::class,'note'])->name('note');
+    Route::post('/notestore/{id}',[MaterialrequestController::class,'notestore'])->name('notestore');
     Route::delete('/purchasedelete/{id}',[MaterialrequestController::class,'purchasedelete'])->name('purchasedelete');
     Route::get('/mesthiri', 'mesthiri')->name('mesthiri');
     Route::get('/payments/{siteid}',[SitepaymentController::class,'getsite']);
@@ -102,10 +106,13 @@ Route::controller(ChiefengineerController::class)->prefix('chief_engineer')->mid
     Route::get('suppliers', 'suppliers')->name('suppliers');
     Route::get('material_status', 'order')->name('orderstatus');
     Route::get('material_received', 'received')->name('received');
-
+    Route::get('materialamount/{id}', 'materialamount')->name('materialamount');
+    Route::post('amountstore/{id}', 'amountstore')->name('amountstore');
     Route::get('/materials_show/{id}', 'show')->name('materialview');
     Route::get('/materialapprove/{id}', 'materialapprove')->name('materialapprove');
-    Route::get('/materialcancel/{id}', 'materialcancel')->name('materialcancel');
+    Route::post('/materialcancel/{id}', 'materialcancel')->name('materialcancel');
+    Route::get('/materialcancelview/{id}', 'materialcancelview')->name('materialcancelview');
+    Route::get('/changereceived/{id}', 'changereceived')->name('changereceived');
     Route::resource('/mesthiri', MesthiriController::class);
     Route::get('/site_view', [MesthiriController::class,'mesthiriindex'])->name('mesthiriindex');
     Route::get('/mesthiri_assign', [MesthiriController::class,'assign'])->name('assign');

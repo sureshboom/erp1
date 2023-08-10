@@ -9,7 +9,6 @@ use App\Models\Meterial;
 use App\Models\Materialpurchase;
 use App\Models\Materialpurchasehistory;
 use App\Models\Supplier;
-
 use App\Models\Siteengineer;
 use App\Models\Site;
 
@@ -21,7 +20,7 @@ class MaterialrequestController extends Controller
     public function index()
     {
         $siteengineer = Siteengineer::select('id','user_id')->where('user_id',auth()->user()->id)->first();
-        $materials = Materialin::where('siteengineer_id',$siteengineer->id)->get();
+        $materials = Materialin::where('siteengineer_id',$siteengineer->id)->whereIn('status',['order','cancel','approved'])->get();
         return view('user.siteengineer.materialorder.index',compact('materials'));
     }
 
@@ -49,7 +48,6 @@ class MaterialrequestController extends Controller
         $input = $request->validate([
             'supplier_id' => 'required',
             'site_id' => 'required',
-            'amount' => 'required|numeric',
         ]);
         $site = Site::select('id','siteengineer_id','chiefengineer_id')->find($request->site_id);
         $materialin = Materialin::create([
@@ -57,8 +55,6 @@ class MaterialrequestController extends Controller
             'supplier_id' => $request->supplier_id,
             'siteengineer_id' => $site->siteengineer_id,
             'chiefengineer_id' => $site->chiefengineer_id,
-            'amount' => $request->amount,
-            'pending' => $request->amount,
             'status' => 'order',
         ]);
         if($materialin)
@@ -100,7 +96,7 @@ class MaterialrequestController extends Controller
      */
     public function show(string $id)
     {
-        $materials = Materialpurchasehistory::where('materialin_id',$id)->get();
+        $materials = Materialpurchasehistory::where('materialin_id',$id)->with('materialin:id,status')->get();
         $materialinid = $id;
         return view('user.siteengineer.materialorder.sitematerial',compact('materials','materialinid'));
     }
@@ -152,6 +148,7 @@ class MaterialrequestController extends Controller
         }
         if($delete)
         {
+            $meterialstatus = Materialin::find($request->materialin_id)->update(['status' => 'order']);
             for ($i = 0; $i < count($request->meterial_id); $i++) 
             {
                 $data = [
@@ -178,6 +175,43 @@ class MaterialrequestController extends Controller
         else
         {
             flashSuccess('Something Wrong plz try again');
+            return back();
+        }
+    }
+
+    public function received()
+    {
+        $siteengineer = Siteengineer::select('id','user_id')->where('user_id',auth()->user()->id)->first();
+        $materials = Materialin::where('siteengineer_id',$siteengineer->id)->whereIn('status',['paid','verified','received'])->get();
+        return view('user.siteengineer.materialorder.received',compact('materials'));
+    }
+
+    public function verified($id)
+    {
+        $materialin = Materialin::find($id)->update(['status' => 'verified','notes'=>null]);
+        flashSuccess('Material Order verified updated');
+        return back();
+    }
+
+    public function note($id)
+    {
+        $materialin = Materialin::find($id);
+
+        return view('user.siteengineer.materialorder.note',compact('materialin'));
+    }
+
+    public function notestore(Request $request,$id)
+    {
+        $input = $request->validate(['notes' => 'required']);
+        $materialin = Materialin::find($id)->update(['notes' => $request->notes]);
+        if($materialin)
+        {
+            flashSuccess('Notes Updated');
+            return redirect()->route('siteengineer.received');
+        }
+        else
+        {
+            flashError('Something Wrong');
             return back();
         }
     }

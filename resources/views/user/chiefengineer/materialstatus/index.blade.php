@@ -66,6 +66,7 @@
                                             <th data-field="sname" data-editable="false">Supplier Name</th>
                                             <th data-field="amount" data-editable="false">Amount</th>
                                             <th data-field="status" data-editable="false">Status</th>
+                                            <th data-field="notes" data-editable="false">Notes</th>
                                             <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
@@ -80,9 +81,12 @@
                                             
                                             
                                             <td>{{ $material->supplier ? $material->supplier->supplier_name : '' }}</td>
-                                            <td>{{ $material->amount ? number_format($material->amount) : '' }}</td>
+                                            <td>{{ $material->amount ? number_format($material->amount) : '0.00' }}</td>
                                             <td>
                                                 {{ $material->status ? ucfirst($material->status) : '' }}
+                                            </td>
+                                            <td>
+                                                {{ $material->notes ? $material->notes : '' }}
                                             </td>
                                             
                                             <td class="datatable-ct">
@@ -93,11 +97,22 @@
                                                 </a>
                                                 
                                                 @if($material->status == 'order')
+                                                @if($material->amount != 0)
                                                 <a href="{{ route('chiefengineer.materialapprove', $material->id) }}"
                                                     class="btn badge-success">
                                                     Approve
                                                 </a>
-                                                <a href="{{ route('chiefengineer.materialcancel', $material->id) }}"
+                                                <a href="{{ route('chiefengineer.materialamount', $material->id) }}"
+                                                    class="btn badge-success">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                @else
+                                                <a href="{{ route('chiefengineer.materialamount', $material->id) }}"
+                                                    class="btn badge-success">
+                                                    Amount
+                                                </a>
+                                                @endif
+                                                <a href="{{ route('chiefengineer.materialcancelview', $material->id) }}"
                                                     class="btn badge-danger">
                                                     Cancel
                                                 </a>

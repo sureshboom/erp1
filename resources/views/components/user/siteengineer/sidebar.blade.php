@@ -18,7 +18,7 @@
     <ul class="submenu-angle" aria-expanded="true">
         <li><a title="owner" href="{{ route('siteengineer.supplier.index')}}"><span class="mini-sub-pro">Suppliers</span></a></li>
         <li><a title="sites" href="{{ route('siteengineer.material_order.index')}}"><span class="mini-sub-pro">Material Order</span></a></li>
-        <li><a title="sites" href="#"><span class="mini-sub-pro">Material Received</span></a></li>
+        <li><a title="sites" href="{{ route('siteengineer.received')}}"><span class="mini-sub-pro">Material Received</span></a></li>
         <li><a title="sites" href="#"><span class="mini-sub-pro">Material Transfer</span></a></li>
     </ul>
 </li>

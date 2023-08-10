@@ -12,9 +12,18 @@ class Materialpurchasehistory extends Model
 
     protected $guarded = [];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function material()
     {
         return $this->belongsTo(Meterial::class,'meterial_id','id');
+    }
+    public function materialin()
+    {
+        return $this->belongsTo(Materialin::class,'materialin_id','id');
     }
 }
 

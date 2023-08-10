@@ -64,8 +64,9 @@
                                             <th data-field="day">Date</th>
                                             <th data-field="name">Site Name</th>
                                             <th data-field="sname" data-editable="false">Supplier Name</th>
-                                            <th data-field="amount" data-editable="false">Amount</th>
+                                            
                                             <th data-field="status" data-editable="false">Status</th>
+                                            <th data-field="notes" data-editable="false">Notes</th>
                                             <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
@@ -80,12 +81,14 @@
                                             
                                             
                                             <td>{{ $material->supplier ? $material->supplier->supplier_name : '' }}</td>
-                                            <td>{{ $material->amount ? number_format($material->amount) : '' }}</td>
+                                            
                                             <td>
                                                 {{ $material->status ? ucfirst($material->status) : '' }}
                                             </td>
-                                            
-                                            <td class="datatable-ct"><i class="fa fa-check"></i>
+                                            <td>
+                                                {{ $material->notes ? $material->notes : '-' }}
+                                            </td>
+                                            <td class="datatable-ct">
 
                                                 <a href="{{ route('siteengineer.material_order.show', $material->id) }}"
                                                     class="btn badge-primary">

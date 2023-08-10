@@ -67,13 +67,7 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label>Amount</label>
-                                <input type="number"  name="amount" class="form-control">
-                                @error('amount')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
+                            
                         </div>
                     </div>
                     <div class="row">

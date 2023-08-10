@@ -66,6 +66,7 @@
                                             <th data-field="sname" data-editable="false">Supplier Name</th>
                                             <th data-field="amount" data-editable="false">Amount</th>
                                             <th data-field="status" data-editable="false">Status</th>
+                                            <th data-field="notes" data-editable="false">Notes</th>
                                             <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
@@ -84,7 +85,9 @@
                                             <td>
                                                 {{ $material->status ? ucfirst($material->status) : '' }}
                                             </td>
-                                            
+                                            <td>
+                                                {{ $material->notes ? $material->notes : '' }}
+                                            </td>
                                             <td class="datatable-ct">
 
                                                 <a href="{{ route('chiefengineer.materialview', $material->id) }}"
@@ -93,19 +96,19 @@
                                                 </a>
                                                 
                                                 @if($material->status == 'paid')
-                                                <a href="{{ route('chiefengineer.materialapprove', $material->id) }}"
+                                                <a href="{{ route('chiefengineer.changereceived', $material->id) }}"
                                                     class="btn badge-success">
-                                                    Approve
+                                                    Received
                                                 </a>
-                                                <a href="{{ route('chiefengineer.materialcancel', $material->id) }}"
+                                                <!-- <a href="{{ route('chiefengineer.materialcancel', $material->id) }}"
                                                     class="btn badge-danger">
                                                     Cancel
-                                                </a>
+                                                </a> -->
                                                 @elseif($material->status == 'cancel')
                                                     <p class="text-danger">Order Cancelled</p>
                                                 @else
                                                 
-                                                    <p class="text-success">Waiting For Received </p>
+                                                    <p class="text-success">Waiting For Verify </p>
                                                 @endif
                                             </td>
                                         </tr>

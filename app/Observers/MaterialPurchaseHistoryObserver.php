@@ -3,65 +3,65 @@
 namespace App\Observers;
 
 use Illuminate\Support\Facades\Log;
-use App\Models\MaterialPurchase;
-use App\Models\MaterialPurchaseHistory;
+use App\Models\Materialpurchase;
+use App\Models\Materialpurchasehistory;
 
-class MaterialPurchaseHistoryObserver
+class MaterialpurchasehistoryObserver
 {
     /**
-     * Handle the MaterialPurchaseHistory "created" event.
+     * Handle the Materialpurchasehistory "created" event.
      */
-    public function created(MaterialPurchaseHistory $materialPurchaseHistory): void
+    public function created(Materialpurchasehistory $Materialpurchasehistory): void
     {
         //
     }
 
     /**
-     * Handle the MaterialPurchaseHistory "updated" event.
+     * Handle the Materialpurchasehistory "updated" event.
      */
-    public function updated(MaterialPurchaseHistory $materialPurchaseHistory): void
+    public function updated(Materialpurchasehistory $Materialpurchasehistory): void
     {
         //
-        $oldQuantity = $materialPurchaseHistory->getOriginal('quantity');
-        $newQuantity = $materialPurchaseHistory->quantity;
+        $oldQuantity = $Materialpurchasehistory->getOriginal('quantity');
+        $newQuantity = $Materialpurchasehistory->quantity;
         $quantityDifference = $newQuantity - $oldQuantity;
 
-        MaterialPurchase::where('site_id', $materialPurchaseHistory->site_id)
-            ->where('meterial_id', $materialPurchaseHistory->meterial_id)
+        Materialpurchase::where('site_id', $Materialpurchasehistory->site_id)
+            ->where('meterial_id', $Materialpurchasehistory->meterial_id)
             ->increment('quantity', $quantityDifference);
     }
 
     /**
-     * Handle the MaterialPurchaseHistory "deleted" event.
+     * Handle the Materialpurchasehistory "deleted" event.
      */
-    public function deleted(MaterialPurchaseHistory $materialPurchaseHistory): void
+    public function deleted(Materialpurchasehistory $Materialpurchasehistory): void
     {
         //
         Log::info('Deleted event triggered');
-        Log::info('MaterialPurchaseHistory ID: ' . $materialPurchaseHistory->id);
+        Log::info('Materialpurchasehistory ID: ' . $Materialpurchasehistory->id);
         
-        $purchase = MaterialPurchase::where('site_id', $materialPurchaseHistory->site_id)
-                                    ->where('meterial_id', $materialPurchaseHistory->meterial_id)
+        $purchase = Materialpurchase::where('site_id', $Materialpurchasehistory->site_id)
+                                    ->where('meterial_id', $Materialpurchasehistory->meterial_id)
                                     ->first();
 
         if ($purchase) {
-            // Decrement the quantity in the materialpurchases table
-            $purchase->update(['quantity' => $purchase->quantity - $materialPurchaseHistory->quantity]);
+            // Decrement the quantity in the Materialpurchases table
+            $purchase->update(['quantity' => $purchase->quantity - $Materialpurchasehistory->quantity]);
         }
     }
 
     /**
-     * Handle the MaterialPurchaseHistory "restored" event.
+     * Handle the Materialpurchasehistory "restored" event.
      */
-    public function restored(MaterialPurchaseHistory $materialPurchaseHistory): void
+    public function restored(Materialpurchasehistory $Materialpurchasehistory): void
     {
         //
     }
 
     /**
-     * Handle the MaterialPurchaseHistory "force deleted" event.
+     * Handle the Materialpurchasehistory "force deleted" event.
      */
-    public function forceDeleted(MaterialPurchaseHistory $materialPurchaseHistory): void
+    public function forceDeleted(Materialpurchasehistory $Materialpurchasehistory): void
     {
         //
     }

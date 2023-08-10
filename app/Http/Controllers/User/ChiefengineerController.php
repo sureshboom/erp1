@@ -56,7 +56,7 @@ class ChiefengineerController extends Controller
     }
     public function materialapprove($id)
     {
-        $materialin = Materialin::where('id',$id)->update(['status' => 'approved']);
+        $materialin = Materialin::where('id',$id)->update(['status' => 'approved','notes' => null]);
         if ($materialin) {
             flashSuccess('Meterial Approved Successfully');
             return back();
@@ -68,14 +68,48 @@ class ChiefengineerController extends Controller
         }
     }
 
-    public function materialcancel($id)
+    public function materialamount($id)
     {
-     
-        $materialin = Materialin::where('id',$id)->update(['status' => 'cancel']);
+        $materialamount = Materialin::find($id);
+        $suppliers = Supplier::select('id','supplier_name')->get();
+
+        return view('user.chiefengineer.materialstatus.amount',compact('materialamount','suppliers'));
+    }
+
+    public function amountstore(Request $request,$id)
+    {
+        $input = $request->validate([
+            'supplier_id' => 'required',
+            'amount' => 'required',
+        ]);
+
+        $materialin = Materialin::find($id)->update(['supplier_id' => $request->supplier_id,'amount' => $request->amount]);
+        if($materialin)
+        {
+            flashSuccess('Material Order Amount Placed');
+            return redirect()->route('chiefengineer.orderstatus');
+        }
+        else
+        {
+            flashError('Something Wrong');
+            return back();
+        }
+
+    }
+    public function materialcancelview($id)
+    {
+        $materialin = Materialin::find($id);
+        return view('user.chiefengineer.materialstatus.cancel',compact('materialin'));
+    }
+
+    public function materialcancel(Request $request,$id)
+    {
+        $input = $request->validate(['notes' => 'required']);
+        $materialin = Materialin::where('id',$id)->update(['status' => 'cancel','notes' => $request->notes]);
 
         if ($materialin) {
             flashSuccess('Meterial Order Cancelled Successfully');
-            return back();
+            return redirect()->route('chiefengineer.orderstatus');
         }
         else
         {
@@ -138,5 +172,12 @@ class ChiefengineerController extends Controller
             flashError('Something Wrong');
             return back();
         }
+    }
+
+    public function changereceived($id)
+    {
+        $materialin = Materialin::find($id)->update(['status' => 'received']);
+        flashSuccess('Material Order Received updated');
+        return back();
     }
 }
