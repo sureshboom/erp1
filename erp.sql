@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 09, 2023 at 02:41 PM
+-- Generation Time: Aug 10, 2023 at 11:30 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -242,7 +242,7 @@ CREATE TABLE `materialins` (
   `supplier_id` bigint(20) UNSIGNED NOT NULL,
   `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
   `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
-  `amount` double(10,2) NOT NULL,
+  `amount` double(10,2) NOT NULL DEFAULT 0.00,
   `paid` double(10,2) NOT NULL DEFAULT 0.00,
   `pending` double(10,2) NOT NULL DEFAULT 0.00,
   `status` enum('order','approved','paid','verified','received','cancel') NOT NULL,
@@ -256,9 +256,9 @@ CREATE TABLE `materialins` (
 --
 
 INSERT INTO `materialins` (`id`, `site_id`, `supplier_id`, `siteengineer_id`, `chiefengineer_id`, `amount`, `paid`, `pending`, `status`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1, 20000.00, 15000.00, 5000.00, 'paid', NULL, '2023-08-01 05:16:52', '2023-08-08 01:53:11'),
+(1, 1, 1, 1, 1, 20000.00, 15000.00, 5000.00, 'verified', NULL, '2023-08-01 05:16:52', '2023-08-10 03:51:53'),
 (2, 1, 1, 1, 1, 15000.00, 0.00, 15000.00, 'approved', NULL, '2023-08-06 23:49:27', '2023-08-08 01:33:31'),
-(3, 1, 1, 1, 1, 20000.00, 0.00, 20000.00, 'order', NULL, '2023-08-07 00:33:35', '2023-08-07 00:33:35');
+(4, 1, 1, 1, 1, 25000.00, 0.00, 0.00, 'approved', NULL, '2023-08-10 00:20:58', '2023-08-10 03:10:17');
 
 -- --------------------------------------------------------
 
@@ -286,8 +286,9 @@ INSERT INTO `materialpurchasehistories` (`id`, `site_id`, `materialin_id`, `mete
 (3, 1, 1, 3, 10, '2023-08-01 05:16:52', '2023-08-01 05:16:52'),
 (4, 1, 2, 1, 10, '2023-08-06 23:49:27', '2023-08-06 23:49:27'),
 (5, 1, 2, 3, 5, '2023-08-06 23:49:27', '2023-08-06 23:49:27'),
-(8, 1, 3, 4, 20, '2023-08-07 00:35:58', '2023-08-07 00:35:58'),
-(9, 1, 3, 3, 5, '2023-08-07 00:35:58', '2023-08-07 00:35:58');
+(13, 1, 4, 1, 10, '2023-08-10 01:55:10', '2023-08-10 01:55:10'),
+(14, 1, 4, 3, 3, '2023-08-10 01:55:10', '2023-08-10 01:55:10'),
+(15, 1, 4, 4, 5, '2023-08-10 01:55:10', '2023-08-10 01:55:10');
 
 -- --------------------------------------------------------
 
@@ -309,9 +310,9 @@ CREATE TABLE `materialpurchases` (
 --
 
 INSERT INTO `materialpurchases` (`id`, `site_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 40, '2023-08-01 05:16:52', '2023-08-07 00:35:58'),
-(2, 1, 4, 40, '2023-08-01 05:16:52', '2023-08-07 00:35:58'),
-(3, 1, 3, 20, '2023-08-01 05:16:52', '2023-08-07 00:35:58');
+(1, 1, 1, 50, '2023-08-01 05:16:52', '2023-08-10 01:55:10'),
+(2, 1, 4, 25, '2023-08-01 05:16:52', '2023-08-10 01:55:10'),
+(3, 1, 3, 18, '2023-08-01 05:16:52', '2023-08-10 01:55:10');
 
 -- --------------------------------------------------------
 
@@ -859,7 +860,8 @@ CREATE TABLE `worker_entries` (
 
 INSERT INTO `worker_entries` (`id`, `site_id`, `mesthiri_id`, `workeddate`, `salary`, `workers`, `count`, `status`, `created_at`, `updated_at`) VALUES
 (2, 1, 3, '2023-08-08', 20000.00, '[{\"Mason\":\"15\"},{\"Flooring Installer\":\"20\"}]', 35, 'verified', '2023-08-09 05:59:35', '2023-08-09 07:08:51'),
-(3, 1, 3, '2023-08-09', 0.00, '[{\"Mason\":\"15\"},{\"Plumber\":\"5\"},{\"Electrician\":\"8\"}]', 28, 'pending', '2023-08-09 06:09:55', '2023-08-09 06:42:10');
+(3, 1, 3, '2023-08-09', 0.00, '[{\"Mason\":\"15\"},{\"Plumber\":\"5\"},{\"Electrician\":\"8\"}]', 28, 'pending', '2023-08-09 06:09:55', '2023-08-09 06:42:10'),
+(4, 1, 3, '2023-08-10', 0.00, '[{\"Mason\":\"20\"},{\"Plumber\":\"5\"},{\"Electrician\":\"2\"}]', 27, 'pending', '2023-08-10 03:29:33', '2023-08-10 03:29:33');
 
 -- --------------------------------------------------------
 
@@ -1174,13 +1176,13 @@ ALTER TABLE `land_payment_histories`
 -- AUTO_INCREMENT for table `materialins`
 --
 ALTER TABLE `materialins`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `materialpurchasehistories`
 --
 ALTER TABLE `materialpurchasehistories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `materialpurchases`
@@ -1300,7 +1302,7 @@ ALTER TABLE `workers`
 -- AUTO_INCREMENT for table `worker_entries`
 --
 ALTER TABLE `worker_entries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `work_entries`
