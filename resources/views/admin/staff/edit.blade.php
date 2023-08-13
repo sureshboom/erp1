@@ -66,8 +66,8 @@
                             
                             <div class="form-group">
                                 <label>Role</label>
-
-                                <select name="role"  disabled="true" class="form-control">
+                                <input type="hidden" name="role" value="{{ $user->role }}">
+                                <select  disabled="true" class="form-control">
                                         <option value="" >Select Role</option>
                                         <option value="account" {{ $user->role === 'account' ? 'selected' : '' }}>Account</option>
                                         <option value="telecaller" {{ $user->role === 'telecaller' ? 'selected' : '' }}>Telecaller</option>
@@ -87,14 +87,35 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                            
                             <div class="form-group">
-                                <label>Monthly Salary</label>
-                                <input name="salary" type="number" min="0" step="0.01" class="form-control" placeholder="Monthly Salary" value="{{ $user->account ? $user->account->salary : ($user->siteengineer ? $user->siteengineer->salary : ($user->telecaller ? $user->telecaller->salary : ($user->chiefengineer ? $user->chiefengineer->salary : ($user->salesmanager ? $user->salesmanager->salary : ($user->salesperson ? $user->salesperson->salary : ''))))) }}">
-                                @error('salary')
+                                <label>Aadhar Card No</label>
+                                <input name="aadharno" type="text" class="form-control" placeholder="Aadhar Card No" value="{{ $user->account ? $user->account->aadharno : ($user->siteengineer ? $user->siteengineer->aadharno : ($user->telecaller ? $user->telecaller->aadharno : ($user->chiefengineer ? $user->chiefengineer->aadharno : ($user->salesmanager ? $user->salesmanager->aadharno : ($user->salesperson ? $user->salesperson->aadharno : ''))))) }}">
+                                @error('aadharno')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
+                            <div class="form-group">
+                                <label>Pan Card No</label>
+                                <input name="pancard" type="text" class="form-control" placeholder="Pan Card No" value="{{ $user->account ? $user->account->pancard : ($user->siteengineer ? $user->siteengineer->pancard : ($user->telecaller ? $user->telecaller->pancard : ($user->chiefengineer ? $user->chiefengineer->pancard : ($user->salesmanager ? $user->salesmanager->pancard : ($user->salesperson ? $user->salesperson->pancard : ''))))) }}">
+                                @error('pancard')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>PF No</label>
+                                <input name="pfno" type="text" class="form-control" placeholder="PF No" value="{{ $user->account ? $user->account->pfno : ($user->siteengineer ? $user->siteengineer->pfno : ($user->telecaller ? $user->telecaller->pfno : ($user->chiefengineer ? $user->chiefengineer->pfno : ($user->salesmanager ? $user->salesmanager->pfno : ($user->salesperson ? $user->salesperson->pfno : ''))))) }}">
+                                @error('pfno')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Experience</label>
+                                <input name="experience" type="text" class="form-control" placeholder="Experience" value="{{ $user->account ? $user->account->experience : ($user->siteengineer ? $user->siteengineer->experience : ($user->telecaller ? $user->telecaller->experience : ($user->chiefengineer ? $user->chiefengineer->experience : ($user->salesmanager ? $user->salesmanager->experience : ($user->salesperson ? $user->salesperson->experience : ''))))) }}">
+                                @error('experience')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
@@ -125,7 +146,34 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
+                            <div class="form-group">
+                                <label>Monthly Salary</label>
+                                <input name="salary" type="number" min="0" step="0.01" class="form-control" placeholder="Monthly Salary" value="{{ $user->account ? $user->account->salary : ($user->siteengineer ? $user->siteengineer->salary : ($user->telecaller ? $user->telecaller->salary : ($user->chiefengineer ? $user->chiefengineer->salary : ($user->salesmanager ? $user->salesmanager->salary : ($user->salesperson ? $user->salesperson->salary : ''))))) }}">
+                                @error('salary')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Aadhar Card</label>
+                                <input name="attachment" type="file" class="form-control" placeholder="Monthly Salary" >
+                                @error('attachment')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Pan Card</label>
+                                <input name="attachment1" type="file" class="form-control" placeholder="Monthly Salary" >
+                                @error('attachment1')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Others</label>
+                                <input name="attachment2" type="file" class="form-control" placeholder="Monthly Salary" >
+                                @error('attachment2')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                             
                         </div>
                     </div>

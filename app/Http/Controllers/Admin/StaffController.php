@@ -45,6 +45,10 @@ class StaffController extends Controller
             'alternate_no' => 'required',
             'location' => 'required',
             'salary' => 'required',
+            'aadharno' => 'required',
+            'pancard' => 'required',
+            'pfno' => 'required',
+            'experience' => 'required',
         ]);
 
         $user = User::create($input);
@@ -54,10 +58,10 @@ class StaffController extends Controller
         
         if($user){
             $user_id = $user->id;
-            
+            $roleModel = null;
             switch ($request->role){
                 case "account":
-                    Account::create([
+                    $roleModel = Account::create([
                     'user_id' => $user_id,
                     'user_code' => $request->user_code,
                     'user_code' => $request->user_code,
@@ -66,15 +70,19 @@ class StaffController extends Controller
                     'location' => $request->location,
                     'salary' => $request->salary,
                     'vpassword' => $request->vpassword,
-                    'joined_date' => $date
+                    'joined_date' => $date,
+                    'aadharno' => $request->aadharno,
+                    'pancard' => $request->pancard,
+                    'pfno' => $request->pfno,
+                    'experience' => $request->experience,
 
                 ]);
-                flashSuccess('Account Created Successfully');
-                return redirect()->route('admin.staff');
+                
+                break;
 
                 case "siteengineer":
 
-                    Siteengineer::create([
+                    $roleModel = Siteengineer::create([
                     'user_id' => $user_id,
                     'user_code' => $request->user_code,
                     'user_code' => $request->user_code,
@@ -83,13 +91,17 @@ class StaffController extends Controller
                     'location' => $request->location,
                     'salary' => $request->salary,
                     'vpassword' => $request->vpassword,
-                    'joined_date' => $date
+                    'joined_date' => $date,
+                    'aadharno' => $request->aadharno,
+                    'pancard' => $request->pancard,
+                    'pfno' => $request->pfno,
+                    'experience' => $request->experience,
                 ]);
-                flashSuccess('Site Engineer Created Successfully');
-                return redirect()->route('admin.staff');
+                
+                break;
 
                 case "telecaller":
-                    Telecaller::create([
+                    $roleModel = Telecaller::create([
                     'user_id' => $user_id,
                     'user_code' => $request->user_code,
                     'user_code' => $request->user_code,
@@ -98,13 +110,17 @@ class StaffController extends Controller
                     'location' => $request->location,
                     'salary' => $request->salary,
                     'vpassword' => $request->vpassword,
-                    'joined_date' => $date
+                    'joined_date' => $date,
+                    'aadharno' => $request->aadharno,
+                    'pancard' => $request->pancard,
+                    'pfno' => $request->pfno,
+                    'experience' => $request->experience,
                 ]);
-                flashSuccess('Telecaller Created Successfully');
-                return redirect()->route('admin.staff');
+                
+                break;
 
                 case "chiefengineer":
-                    Chiefengineer::create([
+                    $roleModel = Chiefengineer::create([
                     'user_id' => $user_id,
                     'user_code' => $request->user_code,
                     'user_code' => $request->user_code,
@@ -113,14 +129,18 @@ class StaffController extends Controller
                     'location' => $request->location,
                     'salary' => $request->salary,
                     'vpassword' => $request->vpassword,
-                    'joined_date' => $date
+                    'joined_date' => $date,
+                    'aadharno' => $request->aadharno,
+                    'pancard' => $request->pancard,
+                    'pfno' => $request->pfno,
+                    'experience' => $request->experience,
                 ]);
 
-                flashSuccess('Chief Engineer Created Successfully');
-                return redirect()->route('admin.staff');
+                
+                break;
 
                 case "salesmanager":
-                    Salesmanager::create([
+                    $roleModel = Salesmanager::create([
                     'user_id' => $user_id,
                     'user_code' => $request->user_code,
                     'user_code' => $request->user_code,
@@ -129,13 +149,17 @@ class StaffController extends Controller
                     'location' => $request->location,
                     'salary' => $request->salary,
                     'vpassword' => $request->vpassword,
-                    'joined_date' => $date
+                    'joined_date' => $date,
+                    'aadharno' => $request->aadharno,
+                    'pancard' => $request->pancard,
+                    'pfno' => $request->pfno,
+                    'experience' => $request->experience,
                 ]);
-                flashSuccess('Sales Manager Created Successfully');
-                return redirect()->route('admin.staff');
+                
+                break;
 
                 case "salesperson":
-                    Salesperson::create([
+                    $roleModel = Salesperson::create([
                     'user_id' => $user_id,
                     'user_code' => $request->user_code,
                     'user_code' => $request->user_code,
@@ -144,15 +168,49 @@ class StaffController extends Controller
                     'location' => $request->location,
                     'salary' => $request->salary,
                     'vpassword' => $request->vpassword,
-                    'joined_date' => $date
+                    'joined_date' => $date,
+                    'aadharno' => $request->aadharno,
+                    'pancard' => $request->pancard,
+                    'pfno' => $request->pfno,
+                    'experience' => $request->experience,
                 ]);
-                flashSuccess('Sales Person Created Successfully');
-                return redirect()->route('admin.staff');
+                
 
                 default:
                 return back();
             }
             
+            $roleFolder = 'images/' . $user->role;
+
+            if ($request->hasFile('attachment')) {
+                $attachment = $request->file('attachment');
+                
+                $path = $roleFolder.'/aadhar';
+                $attachmentPath = uploadImage($attachment,$path);
+                $roleModel->attachment = $attachmentPath;
+            }
+
+            if ($request->hasFile('attachment1')) {
+                $attachment1 = $request->file('attachment1');
+                $path1 = $roleFolder.'/pan';
+                $attachment1Path = uploadImage($attachment1,$path1);
+                $roleModel->attachment1 = $attachment1Path;
+            }
+
+            if ($request->hasFile('attachment2')) {
+                $attachment2 = $request->file('attachment2');
+                // $attachment2Path = $attachment2->store($roleFolder . '/others', 'public');
+                $path2 = $roleFolder.'/others';
+                $attachment2Path = uploadImage($attachment2,$path2);
+
+                $roleModel->attachment2 = $attachment2Path;
+            }
+
+            $roleModel->save();
+
+            $role = ucfirst($user->role);
+            flashSuccess($role.'Sales Person Created Successfully');
+            return redirect()->route('admin.staff');
         }
         else
         {
@@ -196,6 +254,7 @@ class StaffController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'role' => $request->role,
             ]);
 
 
@@ -204,104 +263,80 @@ class StaffController extends Controller
         
         if($user){
             $user_id = $id;
-            
-            switch ($request->role){
+            switch ($request->role) {
                 case "account":
-                    Account::where('user_id', $user_id)
-            ->update([
-                    'user_id' => $user_id,
-                    'user_code' => $request->user_code,
-                    'phone' => $request->phone,
-                    'alternate_no' => $request->alternate_no,
-                    'location' => $request->location,
-                    'salary' => $request->salary,
-                    'vpassword' => $request->password,
-                    'joined_date' => $date
-
-                ]);
-                flashSuccess('Account Updated Successfully');
-                return redirect()->route('admin.staff');
+                    $roleModel = Account::where('user_id', $user_id);
+                    break;
 
                 case "siteengineer":
-
-                    Siteengineer::where('user_id', $user_id)
-            ->update([
-                    'user_id' => $user_id,
-                    'user_code' => $request->user_code,
-                    'phone' => $request->phone,
-                    'alternate_no' => $request->alternate_no,
-                    'location' => $request->location,
-                    'salary' => $request->salary,
-                    'vpassword' => $request->password,
-                    'joined_date' => $date
-                ]);
-                flashSuccess('Site Engineer Updated Successfully');
-                return redirect()->route('admin.staff');
+                    $roleModel = Siteengineer::where('user_id', $user_id);
+                    break;
 
                 case "telecaller":
-                    Telecaller::where('user_id', $user_id)
-            ->update([
-                    'user_id' => $user_id,
-                    'user_code' => $request->user_code,
-                    'phone' => $request->phone,
-                    'alternate_no' => $request->alternate_no,
-                    'location' => $request->location,
-                    'salary' => $request->salary,
-                    'vpassword' => $request->password,
-                    'joined_date' => $date
-                ]);
-                flashSuccess('Telecaller Updated Successfully');
-                return redirect()->route('admin.staff');
+                    $roleModel = Telecaller::where('user_id', $user_id);
+                    break;
 
                 case "chiefengineer":
-                    Chiefengineer::where('user_id', $user_id)
-            ->update([
-                    'user_id' => $user_id,
-                    'user_code' => $request->user_code,
-                    'phone' => $request->phone,
-                    'alternate_no' => $request->alternate_no,
-                    'location' => $request->location,
-                    'salary' => $request->salary,
-                    'vpassword' => $request->password,
-                    'joined_date' => $date
-                ]);
-                flashSuccess('Chief Engineer Updated Successfully');
-                return redirect()->route('admin.staff');
+                    $roleModel = Chiefengineer::where('user_id', $user_id);
+                    break;
 
                 case "salesmanager":
-                    Salesmanager::where('user_id', $user_id)
-            ->update([
-                    'user_id' => $user_id,
-                    'user_code' => $request->user_code,
-                    'phone' => $request->phone,
-                    'alternate_no' => $request->alternate_no,
-                    'location' => $request->location,
-                    'salary' => $request->salary,
-                    'vpassword' => $request->password,
-                    'joined_date' => $date
-                ]);
-                flashSuccess('Sales Manager Updated Successfully');
-                return redirect()->route('admin.staff');
+                    $roleModel = Salesmanager::where('user_id', $user_id);
+                    break;
 
                 case "salesperson":
-                    Salesperson::where('user_id', $user_id)
-            ->update([
-                    'user_id' => $user_id,
+                    $roleModel = Salesperson::where('user_id', $user_id);
+                    break;
+            }
+            
+            if ($roleModel) {
+
+                    $roleModel->update([
+                        'user_id' => $user_id,
                     'user_code' => $request->user_code,
                     'phone' => $request->phone,
                     'alternate_no' => $request->alternate_no,
                     'location' => $request->location,
                     'salary' => $request->salary,
                     'vpassword' => $request->password,
-                    'joined_date' => $date
-                ]);
-                flashSuccess('Sales Person Updated Successfully');
-                return redirect()->route('admin.staff');
+                    'joined_date' => $date,
+                    'aadharno' => $request->aadharno,
+                    'pancard' => $request->pancard,
+                    'pfno' => $request->pfno,
+                    'experience' => $request->experience,
+                    ]);
 
-                default:
-                return back();
+            $roleFolder = 'images/' . $request->role;
+
+            if ($request->hasFile('attachment')) {
+                $attachment = $request->file('attachment');
+                
+                $path = $roleFolder.'/aadhar';
+                $attachmentPath = uploadImage($attachment,$path);
+                $roleModel->update(['attachment' =>$attachmentPath]);
             }
+
+            if ($request->hasFile('attachment1')) {
+                $attachment1 = $request->file('attachment1');
+                $path1 = $roleFolder.'/pan';
+                $attachment1Path = uploadImage($attachment1,$path1);
+                
+                $roleModel->update(['attachment1' =>$attachment1Path]);
+            }
+
+            if ($request->hasFile('attachment2')) {
+                $attachment2 = $request->file('attachment2');
+                // $attachment2Path = $attachment2->store($roleFolder . '/others', 'public');
+                $path2 = $roleFolder.'/others';
+                $attachment2Path = uploadImage($attachment2,$path2);
+                $roleModel->update(['attachment2' =>$attachment2Path]);
+            }
+        }
             
+
+            $rolev = ucfirst($request->role);
+            flashSuccess($rolev.' Updated Successfully');
+            return redirect()->route('admin.staff');
         }
         else
         {

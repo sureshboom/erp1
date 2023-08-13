@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2023 at 11:30 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Aug 13, 2023 at 03:52 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,10 +32,17 @@ CREATE TABLE `accounts` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `user_code` varchar(255) DEFAULT NULL,
   `photo` varchar(255) NOT NULL DEFAULT 'uploads/images/icon.jpg',
+  `img` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `alternate_no` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   `salary` double(8,2) NOT NULL,
+  `aadharno` varchar(20) NOT NULL,
+  `pancard` varchar(20) NOT NULL,
+  `pfno` varchar(20) NOT NULL,
+  `experience` varchar(50) NOT NULL,
+  `attachment1` varchar(255) DEFAULT NULL,
+  `attachment2` varchar(255) DEFAULT NULL,
   `attachment` varchar(255) DEFAULT NULL,
   `vpassword` varchar(255) NOT NULL,
   `joined_date` date DEFAULT NULL,
@@ -48,8 +55,8 @@ CREATE TABLE `accounts` (
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`id`, `user_id`, `user_code`, `photo`, `phone`, `alternate_no`, `location`, `salary`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 'SKS0002', 'uploads/images/account/Account_1690000757_64bb5d7564e90.png', '9876543210', '1234567890', 'mettu street\r\nworaiyur', 18000.00, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-21 23:09:17', '2023-07-25 07:20:26');
+INSERT INTO `accounts` (`id`, `user_id`, `user_code`, `photo`, `img`, `phone`, `alternate_no`, `location`, `salary`, `aadharno`, `pancard`, `pfno`, `experience`, `attachment1`, `attachment2`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
+(1, 2, 'SKS0002', 'uploads/images/account/Account_1690000757_64bb5d7564e90.png', '', '9876543210', '1234567890', 'mettu street\r\nworaiyur', 18000.00, '', '', '', '', NULL, NULL, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-21 23:09:17', '2023-07-25 07:20:26');
 
 -- --------------------------------------------------------
 
@@ -87,10 +94,17 @@ CREATE TABLE `chiefengineers` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `user_code` varchar(255) DEFAULT NULL,
   `photo` varchar(255) NOT NULL,
+  `img` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `alternate_no` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   `salary` double(8,2) NOT NULL,
+  `aadharno` varchar(20) NOT NULL,
+  `pancard` varchar(20) NOT NULL,
+  `pfno` varchar(20) NOT NULL,
+  `experience` varchar(20) NOT NULL,
+  `attachment1` varchar(255) DEFAULT NULL,
+  `attachment2` varchar(255) DEFAULT NULL,
   `attachment` varchar(255) DEFAULT NULL,
   `vpassword` varchar(255) NOT NULL,
   `joined_date` date DEFAULT NULL,
@@ -103,8 +117,8 @@ CREATE TABLE `chiefengineers` (
 -- Dumping data for table `chiefengineers`
 --
 
-INSERT INTO `chiefengineers` (`id`, `user_id`, `user_code`, `photo`, `phone`, `alternate_no`, `location`, `salary`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 8, 'SKS0007', 'uploads/images/chiefengineer/Chief Engineer_1690361517_64c0dead750f7.png', '9092250561', '1234567890', 'mettu street\r\nworaiyur', 12000.00, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-26 03:21:57', '2023-07-26 03:21:57');
+INSERT INTO `chiefengineers` (`id`, `user_id`, `user_code`, `photo`, `img`, `phone`, `alternate_no`, `location`, `salary`, `aadharno`, `pancard`, `pfno`, `experience`, `attachment1`, `attachment2`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
+(1, 8, 'SKS0007', 'uploads/images/chiefengineer/Chief Engineer_1690361517_64c0dead750f7.png', NULL, '9092250561', '1234567890', 'mettu street\r\nworaiyur', 12000.00, '', '', '', '', NULL, NULL, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-26 03:21:57', '2023-07-26 03:21:57');
 
 -- --------------------------------------------------------
 
@@ -537,10 +551,17 @@ CREATE TABLE `salesmanagers` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `user_code` varchar(255) DEFAULT NULL,
   `photo` varchar(255) NOT NULL,
+  `img` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `alternate_no` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   `salary` double(8,2) NOT NULL,
+  `aadharno` varchar(20) NOT NULL,
+  `pancard` varchar(20) NOT NULL,
+  `pfno` varchar(20) NOT NULL,
+  `experience` varchar(20) NOT NULL,
+  `attachment1` varchar(255) DEFAULT NULL,
+  `attachment2` varchar(255) DEFAULT NULL,
   `attachment` varchar(255) DEFAULT NULL,
   `vpassword` varchar(255) NOT NULL,
   `joined_date` date DEFAULT NULL,
@@ -553,8 +574,8 @@ CREATE TABLE `salesmanagers` (
 -- Dumping data for table `salesmanagers`
 --
 
-INSERT INTO `salesmanagers` (`id`, `user_id`, `user_code`, `photo`, `phone`, `alternate_no`, `location`, `salary`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 9, 'SKS0008', 'uploads/images/salesmanager/Sales Manager_1690361610_64c0df0a87d3c.png', '9092250561', '9876543210', 'mettu street\r\nworaiyur', 18000.00, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-26 03:23:30', '2023-07-26 04:07:58');
+INSERT INTO `salesmanagers` (`id`, `user_id`, `user_code`, `photo`, `img`, `phone`, `alternate_no`, `location`, `salary`, `aadharno`, `pancard`, `pfno`, `experience`, `attachment1`, `attachment2`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
+(1, 9, 'SKS0008', 'uploads/images/salesmanager/Sales Manager_1690361610_64c0df0a87d3c.png', NULL, '9092250561', '9876543210', 'mettu street\r\nworaiyur', 18000.00, '663446734555557354', '35734574', '27544444444447444', '3', '', '', NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-26 03:23:30', '2023-08-12 08:51:20');
 
 -- --------------------------------------------------------
 
@@ -567,10 +588,17 @@ CREATE TABLE `salespeople` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `user_code` varchar(255) DEFAULT NULL,
   `photo` varchar(255) NOT NULL,
+  `img` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `alternate_no` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   `salary` double(8,2) NOT NULL,
+  `aadharno` varchar(20) NOT NULL,
+  `pancard` varchar(20) NOT NULL,
+  `pfno` varchar(20) NOT NULL,
+  `experience` varchar(20) NOT NULL,
+  `attachment1` varchar(255) DEFAULT NULL,
+  `attachment2` varchar(255) DEFAULT NULL,
   `attachment` varchar(255) DEFAULT NULL,
   `vpassword` varchar(255) NOT NULL,
   `joined_date` date DEFAULT NULL,
@@ -583,8 +611,8 @@ CREATE TABLE `salespeople` (
 -- Dumping data for table `salespeople`
 --
 
-INSERT INTO `salespeople` (`id`, `user_id`, `user_code`, `photo`, `phone`, `alternate_no`, `location`, `salary`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 10, 'SKS0009', 'uploads/images/salesperson/Sales Person_1690361756_64c0df9c3f22b.png', '1234567890', '9876543210', 'mettu street\r\nworaiyur', 12000.00, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-26 03:25:56', '2023-07-26 03:25:56');
+INSERT INTO `salespeople` (`id`, `user_id`, `user_code`, `photo`, `img`, `phone`, `alternate_no`, `location`, `salary`, `aadharno`, `pancard`, `pfno`, `experience`, `attachment1`, `attachment2`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
+(1, 10, 'SKS0009', 'uploads/images/salesperson/Sales Person_1690361756_64c0df9c3f22b.png', NULL, '1234567890', '9876543210', 'mettu street\r\nworaiyur', 12000.00, '12521352135', '1111142', '25231111111115', '4', NULL, NULL, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-26 03:25:56', '2023-08-12 07:48:06');
 
 -- --------------------------------------------------------
 
@@ -597,10 +625,17 @@ CREATE TABLE `siteengineers` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `user_code` varchar(255) DEFAULT NULL,
   `photo` varchar(255) NOT NULL,
+  `img` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `alternate_no` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   `salary` double(8,2) NOT NULL,
+  `aadharno` varchar(20) NOT NULL,
+  `pancard` varchar(20) NOT NULL,
+  `pfno` varchar(20) NOT NULL,
+  `experience` varchar(20) NOT NULL,
+  `attachment1` varchar(255) DEFAULT NULL,
+  `attachment2` varchar(255) DEFAULT NULL,
   `attachment` varchar(255) DEFAULT NULL,
   `vpassword` varchar(255) NOT NULL,
   `joined_date` date DEFAULT NULL,
@@ -613,8 +648,9 @@ CREATE TABLE `siteengineers` (
 -- Dumping data for table `siteengineers`
 --
 
-INSERT INTO `siteengineers` (`id`, `user_id`, `user_code`, `photo`, `phone`, `alternate_no`, `location`, `salary`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 7, 'SKS0006', 'uploads/images/siteengineer/Site Engineer_1690361285_64c0ddc56cc9b.png', '9092250561', '9876543210', 'mettu street\r\nworaiyur', 15000.00, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-26 03:18:05', '2023-07-26 03:18:05');
+INSERT INTO `siteengineers` (`id`, `user_id`, `user_code`, `photo`, `img`, `phone`, `alternate_no`, `location`, `salary`, `aadharno`, `pancard`, `pfno`, `experience`, `attachment1`, `attachment2`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
+(1, 7, 'SKS0006', 'uploads/images/siteengineer/Site Engineer_1690361285_64c0ddc56cc9b.png', NULL, '9092250561', '9876543210', 'mettu street\r\nworaiyur', 15000.00, '432266622623463', '23462646334', '326424623336', '4', 'uploads/images/siteengineer/pan/1691849602_64d793826bd70.png', NULL, 'uploads/images/siteengineer/aadhar/1691849602_64d7938260814.png', 'demo@demo', '2023-07-01', 'Active', '2023-07-26 03:18:05', '2023-08-12 08:43:22'),
+(2, 13, 'sksvn1', 'uploads/images/siteengineer/demo_1691843451_64d77b7b138db.png', NULL, '2342345324', '346324634', 'demo', 15000.00, '42136346234632', '1234fwcx', '23623463534', '4', 'uploads/uploads/images/siteengineer/pan/1691843451_64d77b7b2bde6.png', 'uploads/uploads/images/siteengineer/others/1691843451_64d77b7b2c460.png', 'uploads/uploads/images/siteengineer/aadhar/1691843451_64d77b7b286c6.png', 'demo@demo', '2023-08-04', 'Active', '2023-08-12 07:00:51', '2023-08-12 07:00:51');
 
 -- --------------------------------------------------------
 
@@ -734,11 +770,18 @@ CREATE TABLE `telecallers` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `user_code` varchar(255) DEFAULT NULL,
   `photo` varchar(255) NOT NULL DEFAULT 'uploads/images/icon.jpg',
+  `img` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `alternate_no` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   `salary` double(8,2) NOT NULL,
+  `aadharno` varchar(15) NOT NULL,
+  `pancard` varchar(15) NOT NULL,
+  `pfno` varchar(20) NOT NULL,
+  `experience` varchar(50) NOT NULL,
   `attachment` varchar(255) DEFAULT NULL,
+  `attachment1` varchar(255) DEFAULT NULL,
+  `attachment2` varchar(255) DEFAULT NULL,
   `vpassword` varchar(255) NOT NULL,
   `joined_date` date DEFAULT NULL,
   `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
@@ -750,9 +793,9 @@ CREATE TABLE `telecallers` (
 -- Dumping data for table `telecallers`
 --
 
-INSERT INTO `telecallers` (`id`, `user_id`, `user_code`, `photo`, `phone`, `alternate_no`, `location`, `salary`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'SKS0001', 'uploads/images/telecaller/Telecaller_1690000628_64bb5cf425ffe.png', '9876543212', '1234567690', 'mettu street\r\nworaiyurs.', 10000.00, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-21 23:07:08', '2023-07-25 07:20:34'),
-(3, 6, 'SKS0005', 'uploads/images/telecaller/Telecaller_1690183785_64be2869f0b3f.png', '1234567890', '9876543210', 'mettu street\r\nworaiyur', 10000.00, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-24 01:59:46', '2023-07-25 07:19:55');
+INSERT INTO `telecallers` (`id`, `user_id`, `user_code`, `photo`, `img`, `phone`, `alternate_no`, `location`, `salary`, `aadharno`, `pancard`, `pfno`, `experience`, `attachment`, `attachment1`, `attachment2`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 'SKS0001', 'uploads/images/telecaller/Telecaller_1690000628_64bb5cf425ffe.png', NULL, '9876543212', '1234567690', 'mettu street\r\nworaiyurs.', 10000.00, '', '', '', '', NULL, NULL, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-21 23:07:08', '2023-07-25 07:20:34'),
+(3, 6, 'SKS0005', 'uploads/images/telecaller/Telecaller_1690183785_64be2869f0b3f.png', NULL, '1234567890', '9876543210', 'mettu street\r\nworaiyur', 10000.00, '', '', '', '', NULL, NULL, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-24 01:59:46', '2023-07-25 07:19:55');
 
 -- --------------------------------------------------------
 
@@ -803,10 +846,11 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `email_verified_
 (1, 'Telecaller1', 'telecaller1@gmail.com', '$2y$10$QqnSeIegAXenGM0eLMPmbu6RABKxa8.PMhYZjRx8B6TORkVRxv4Jq', 'telecaller', NULL, NULL, '2023-07-21 23:07:08', '2023-07-25 07:20:34'),
 (2, 'Account', 'account1@gmail.com', '$2y$10$ukMA8mc7tanSSXV6Bkk.oOl6W.DNcw8UtgktldeFAapfIb5YAX7.m', 'account', NULL, NULL, '2023-07-21 23:09:17', '2023-07-25 07:20:26'),
 (6, 'Telecaller', 'telecaller2@gmail.com', '$2y$10$miTEhC2KzFKufgl4rN7HiuORPFId6OpSJNtACnMa0nR6M/.UyOOSS', 'telecaller', NULL, NULL, '2023-07-24 01:59:45', '2023-07-25 07:19:55'),
-(7, 'Site Engineer', 'siteengineer1@gmail.com', '$2y$10$GQgxEPEEO3W4kuFXGyBmyeAOcMZLZN4guVLnV7ukzOS4nBc6TP712', 'siteengineer', NULL, NULL, '2023-07-26 03:18:05', '2023-07-26 03:18:05'),
+(7, 'Site Engineer', 'siteengineer1@gmail.com', '$2y$10$/mKPwXEIlqsUARrL6rvDKu04OkPGSi5FpHTxBnz8.Vp2x/iF5G8kW', 'siteengineer', NULL, NULL, '2023-07-26 03:18:05', '2023-08-12 08:43:22'),
 (8, 'Chief Engineer', 'chiefengineer1@gmail.com', '$2y$10$c/uHZ/xlW9fHt6MIdEMiUeEMzl9pBYpAguUwQVkPt3hF1nAUPgulS', 'chiefengineer', NULL, NULL, '2023-07-26 03:21:57', '2023-07-26 03:21:57'),
-(9, 'Sales Manager', 'salesmanager1@gmail.com', '$2y$10$.xJTK3eC4Xw4CtZVYafbC.4GObyriKLLLhT.2WisGct3vtjVeAzS6', 'salesmanager', NULL, NULL, '2023-07-26 03:23:30', '2023-07-26 04:07:58'),
-(10, 'Sales Person', 'salesperson1@gmail.com', '$2y$10$fJ2Dxk2Fn8sz3lOIPVRc5eRMqopuhDxph8VSwz4vDJxGQsGZm6toK', 'salesperson', NULL, NULL, '2023-07-26 03:25:56', '2023-07-26 03:25:56');
+(9, 'Sales Manager', 'salesmanager1@gmail.com', '$2y$10$Xn10UGreyRbP/qgNmTFopePoqeY8o1m8BhDC/KmFtSeXxmEIBMe96', 'salesmanager', NULL, NULL, '2023-07-26 03:23:30', '2023-08-12 08:51:20'),
+(10, 'Sales Person', 'salesperson1@gmail.com', '$2y$10$.GvPKjzE78OPKsvs3khy/O7jhq12BXPtnks4EM6wVkLFBuc8bNj6y', 'salesperson', NULL, NULL, '2023-07-26 03:25:56', '2023-08-12 07:48:06'),
+(13, 'demo', 'demo@gmail.com', '$2y$10$akhUIO5A030Ylm4.2X4aE.c.LuMV.5DWuraBIvsJ6LQBUkQ8gyik2', 'siteengineer', NULL, NULL, '2023-08-12 07:00:51', '2023-08-12 07:00:51');
 
 -- --------------------------------------------------------
 
@@ -1128,7 +1172,7 @@ ALTER TABLE `work_entries`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `admins`
@@ -1248,7 +1292,7 @@ ALTER TABLE `salespeople`
 -- AUTO_INCREMENT for table `siteengineers`
 --
 ALTER TABLE `siteengineers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sites`
@@ -1290,7 +1334,7 @@ ALTER TABLE `teleworks`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `workers`

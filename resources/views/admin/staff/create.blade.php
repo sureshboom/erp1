@@ -5,6 +5,7 @@
 	@endsection
 
 	@section('main')
+    <br>
 		<div class="breadcome-area">
             <div class="container-fluid">
                 <div class="row">
@@ -92,7 +93,34 @@
                                 @enderror
                             </div>
                             
-                            
+                            <div class="form-group">
+                                <label>Aadhar Card No</label>
+                                <input name="aadharno" type="text" class="form-control" placeholder="Aadhar Card No" value="{{ old('aadharno') }}">
+                                @error('aadharno')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Pan Card No</label>
+                                <input name="pancard" type="text" class="form-control" placeholder="Pan Card No" value="{{ old('pancard') }}">
+                                @error('pancard')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>PF No</label>
+                                <input name="pfno" type="text" class="form-control" placeholder="PF No" value="{{ old('pfno') }}">
+                                @error('pfno')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Experience</label>
+                                <input name="experience" type="text" class="form-control" placeholder="Experience" value="{{ old('experience') }}">
+                                @error('experience')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                             
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -131,7 +159,27 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
+                            <div class="form-group">
+                                <label>Aadhar Card</label>
+                                <input name="attachment" type="file" class="form-control" placeholder="Monthly Salary" >
+                                @error('attachment')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Pan Card</label>
+                                <input name="attachment1" type="file" class="form-control" placeholder="Monthly Salary" >
+                                @error('attachment1')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Others</label>
+                                <input name="attachment2" type="file" class="form-control" placeholder="Monthly Salary" >
+                                @error('attachment2')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -147,5 +195,5 @@
             </div>
         </div>
     </div>
-    <!-- <div style="height:8vh;"></div> -->
+    
 @endsection    

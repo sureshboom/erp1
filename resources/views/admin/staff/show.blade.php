@@ -34,19 +34,25 @@
     <div class="single-pro-review-area mt-t-30 mg-b-15">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div class="profile-info-inner">
+                    <center><img src="{{ $user->account ? $user->account->photo : ($user->siteengineer ? $user->siteengineer->photo : ($user->telecaller ? $user->telecaller->photo : ($user->chiefengineer ? $user->chiefengineer->photo : ($user->salesmanager ? $user->salesmanager->photo : ($user->salesperson ? $user->salesperson->photo : ''))))) }}" style="width: 150px;"  alt="" /></center>
+                </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                     <div class="">
                         <div class="row">
-                            <div class="col-lg-6 col-lg-offset-3">
+                            <div class="col-lg-12 ">
                                 <div class="profile-info-inner">
                                     <div class="profile-img">
                                        <center><img src="{{ $user->account ? $user->account->photo : ($user->siteengineer ? $user->siteengineer->photo : ($user->telecaller ? $user->telecaller->photo : ($user->chiefengineer ? $user->chiefengineer->photo : ($user->salesmanager ? $user->salesmanager->photo : ($user->salesperson ? $user->salesperson->photo : ''))))) }}" style="width: 150px;"  alt="" /></center> 
+                                       <center></center> 
                                     </div>
                                     <div class="profile-details-hr">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                                 <div class="address-hr">
+                                                    
                                                     <p><b>Name</b><br /> {{$user->name}}</p>
                                                 </div>
                                             </div>
@@ -93,6 +99,30 @@
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                                <div class="address-hr">
+                                                    <p><b>Aadhar no</b><br /> {{ $user->account ? $user->account->aadharno     : ($user->siteengineer ? $user->siteengineer->aadharno  : ($user->telecaller ? $user->telecaller->aadharno   : ($user->chiefengineer ? $user->chiefengineer->aadharno : ($user->salesmanager ? $user->salesmanager->aadharno : ($user->salesperson ? $user->salesperson->aadharno : ''))))) }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                                <div class="address-hr ">
+                                                    <p>  <b>Pan Card no</b><br /> {{ $user->account ? $user->account->pancard : ($user->siteengineer ? $user->siteengineer->pancard : ($user->telecaller ? $user->telecaller->pancard : ($user->chiefengineer ? $user->chiefengineer->pancard : ($user->salesmanager ? $user->salesmanager->pancard : ($user->salesperson ? $user->salesperson->pancard : ''))))) }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                                <div class="address-hr">
+                                                    <p><b>PF no</b><br /> {{ $user->account ? $user->account->pfno     : ($user->siteengineer ? $user->siteengineer->pfno  : ($user->telecaller ? $user->telecaller->pfno   : ($user->chiefengineer ? $user->chiefengineer->pfno : ($user->salesmanager ? $user->salesmanager->pfno : ($user->salesperson ? $user->salesperson->pfno : ''))))) }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                                <div class="address-hr ">
+                                                    <p>  <b>Experience</b><br /> {{ $user->account ? $user->account->experience : ($user->siteengineer ? $user->siteengineer->experience : ($user->telecaller ? $user->telecaller->experience : ($user->chiefengineer ? $user->chiefengineer->experience : ($user->salesmanager ? $user->salesmanager->experience : ($user->salesperson ? $user->salesperson->experience : ''))))) }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="address-hr">
                                                     <p><b>Address</b><br />{{ $user->account ? $user->account->location : ($user->siteengineer ? $user->siteengineer->location : ($user->telecaller ? $user->telecaller->location : ($user->chiefengineer ? $user->chiefengineer->location : ($user->salesmanager ? $user->salesmanager->location : ($user->salesperson ? $user->salesperson->location : ''))))) }}</p>
@@ -122,6 +152,7 @@
                     
                     
                 </div>
+                
             </div>
         </div>
     </div>
