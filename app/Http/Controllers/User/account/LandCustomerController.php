@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User\account;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\LandCustomer;
+use App\Models\LandProject;
 use App\Models\LandPaymentHistory;
 
 class LandCustomerController extends Controller
@@ -15,7 +16,7 @@ class LandCustomerController extends Controller
     public function index()
     {
         //
-        $customers = LandCustomer::all();
+        $customers = LandCustomer::orderBy('id','desc')->get();
 
         return view('user.account.landcustomer.index',compact('customers'));
     }
@@ -25,7 +26,8 @@ class LandCustomerController extends Controller
      */
     public function create()
     {
-        return view('user.account.landcustomer.create');
+        $landprojects = LandProject::select('id','project_name')->get();
+        return view('user.account.landcustomer.create',compact('landprojects'));
     }
 
     /**
@@ -37,18 +39,35 @@ class LandCustomerController extends Controller
             'customer_name' => 'required',
             'phone' => 'required',
             'location' => 'required',
-            'sitename' => 'required',
+            'aadharno' => 'required',
+            'pancard' => 'required',
+            'project_id' => 'required',
             'plotno' => 'required',
-            'amount' => 'required|numeric',
-            'bookingby' => 'required',
+            'plot_area' => 'required',
+            'amount' => 'required',
+            'advance' => 'required',
+            'leadfrom' => 'required',
+            'middleman' => 'nullable',
         ]);
-        $input['pending'] = $request->amount;
-        $input['status'] = 'pending';
-
+        $roleFolder = 'images/landcustomer';
+        if ($request->hasFile('attachment1')) {
+                $attachment1 = $request->file('attachment1');
+                
+                $path1 = $roleFolder.'/aadhar';
+                $attachment1Path = uploadImage($attachment1,$path1);
+                $input['attachment1'] = $attachment1Path;
+        }
+        if ($request->hasFile('attachment2')) {
+                $attachment2 = $request->file('attachment2');
+                
+                $path2 = $roleFolder.'/pan';
+                $attachment2Path = uploadImage($attachment2,$path2);
+                $input['attachment2'] = $attachment2Path;
+        }
         $customer = LandCustomer::create($input);
         if($customer)
         {
-            flashSuccess('Customer created Successfully');
+            flashSuccess('Land Customer created Successfully');
             return redirect()->route('account.landcustomer.index');
         }
         else
@@ -72,8 +91,8 @@ class LandCustomerController extends Controller
     public function edit(string $id)
     {
         $customer = LandCustomer::find($id);
-
-        return view('user.account.landcustomer.edit',compact('customer'));
+        $landprojects = LandProject::select('id','project_name')->get();
+        return view('user.account.landcustomer.edit',compact('customer','landprojects'));
     }
 
     /**
@@ -85,18 +104,36 @@ class LandCustomerController extends Controller
             'customer_name' => 'required',
             'phone' => 'required',
             'location' => 'required',
-            'sitename' => 'required',
+            'aadharno' => 'required',
+            'pancard' => 'required',
+            'project_id' => 'required',
             'plotno' => 'required',
-            'amount' => 'required|numeric',
-            
-            'bookingby' => 'required',
+            'plot_area' => 'required',
+            'amount' => 'required',
+            'advance' => 'required',
+            'leadfrom' => 'required',
+            'middleman' => 'nullable',
         ]);
-        
+        $roleFolder = 'images/landcustomer';
+        if ($request->hasFile('attachment1')) {
+                $attachment1 = $request->file('attachment1');
+                
+                $path1 = $roleFolder.'/aadhar';
+                $attachment1Path = uploadImage($attachment1,$path1);
+                $input['attachment1'] = $attachment1Path;
+        }
+        if ($request->hasFile('attachment2')) {
+                $attachment2 = $request->file('attachment2');
+                
+                $path2 = $roleFolder.'/pan';
+                $attachment2Path = uploadImage($attachment2,$path2);
+                $input['attachment2'] = $attachment2Path;
+        }
 
         $customer = LandCustomer::find($id)->update($input);
         if($customer)
         {
-            flashSuccess('Customer Updated Successfully');
+            flashSuccess('Land Customer Updated Successfully');
             return redirect()->route('account.landcustomer.index');
         }
         else

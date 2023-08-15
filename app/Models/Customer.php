@@ -28,15 +28,6 @@ class Customer extends Model
     ];
     
 
-    public function site()
-    {
-        // Assuming the foreign key in "sites" table is "customer_id"
-        return $this->belongsTo(Site::class, 'owner_id','id');
-    }
-
-    
-
-    
 
     public function telecaller(){
         

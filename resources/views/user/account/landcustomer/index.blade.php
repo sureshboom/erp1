@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Material Payment') }}
+	    {{ __('Land Customers') }}
 	@endsection
 
 	@section('main')
@@ -68,7 +68,7 @@
                                             <th data-field="site">Site Name</th>
                                             <th data-field="plot">Plot No</th>
                                             <th data-field="total">Amount</th>
-                                            <th data-field="name">Booking Taken By</th>
+                                            <th data-field="name">Lead From</th>
                                             <th data-field="status" data-editable="false">Status</th>
                                             <th data-field="action">Action</th>
                                         </tr>
@@ -87,11 +87,11 @@
                                             <td>{{ $customer->plotno ? $customer->plotno : '' }}</td>
                                             <td>{{  number_format($customer->amount) }}</td>
                                             
-                                            <td>{{ $customer->bookingby ? $customer->bookingby : '' }}</td>
+                                            <td>{{ $customer->leadfrom ? ucfirst($customer->leadfrom) : '' }}</td>
                                             
                                             <td>
-                                                @if($customer->status == 'pending')
-                                                <h2 class="badge badge-danger ">Pending Payment</h2>
+                                                @if($customer->status == 'booking')
+                                                <h2 class="badge badge-danger ">Booking</h2>
                                                 @else
                                                 <h2 class="badge badge-success "> Completed</h2>
                                                 @endif

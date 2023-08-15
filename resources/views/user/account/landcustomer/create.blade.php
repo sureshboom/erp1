@@ -44,7 +44,7 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label>Customer Name</label>
-                                <input name="customer_name" type="text" class="form-control" placeholder="Supplier Name" value="{{ old('customer_name') }}">
+                                <input name="customer_name" type="text" class="form-control" placeholder="Customer Name" value="{{ old('customer_name') }}">
                                 @error('customer_name')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -63,20 +63,60 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label>Site Name</label>
-                                <input name="sitename" type="text" value="{{ old('sitename') }}" class="form-control" placeholder="Site Name">
-                                @error('sitename')
+                                <label>Aadhar Card No</label>
+                                <input name="aadharno" type="text" value="{{ old('aadharno') }}" class="form-control" placeholder="Aadhar Card No">
+                                @error('aadharno')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label>Aadhar Card</label>
+                                <input name="attachment1" accept="image/*" type="file" required class="form-control" >
+                                @error('attachment1')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Pan Card No</label>
+                                <input name="pancard" type="text" value="{{ old('pancard') }}" class="form-control" placeholder="Pan Card No">
+                                @error('pancard')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Pan Card</label>
+                                <input name="attachment2" accept="image/*" type="file" required class="form-control" placeholder="Aadhar Card No">
+                                @error('attachment2')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label>Land Project</label>
+                                <select name="project_id" class="form-control">
+                                        <option value="">Select Land Project</option>
+                                        @foreach($landprojects as $landproject)
+                                        <option value="{{$landproject->id}}">{{$landproject->project_name}} ({{$landproject->skslp_id}})</option>
+                                        @endforeach
+                                </select>
+                                @error('project_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
                                 <label>Plot No</label>
                                 <input name="plotno" type="text" value="{{ old('plotno') }}" class="form-control" placeholder="Plot No">
                                 @error('plotno')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Plot Area (Cent)</label>
+                                <input name="plot_area" type="text" value="{{ old('plot_area') }}" class="form-control" placeholder="Plot Area">
+                                @error('plot_area')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -87,15 +127,31 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
                             <div class="form-group">
-                                <label>Booking Taken By</label>
-                                <input name="bookingby" type="text" value="{{ old('bookingby') }}" class="form-control" placeholder="Booking Taken By">
-                                @error('bookingby')
+                                <label> Advance</label>
+                                <input name="advance" type="text" value="{{ old('advance') }}" class="form-control" placeholder="Advance">
+                                @error('advance')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
+                            <div class="form-group">
+                                <label>Lead From</label>
+                                <select name="leadfrom" id="leadfrom" class="form-control">
+                                        <option value="">Select Lead From</option>
+                                        <option value="salesteam">Sales Team</option>
+                                        <option value="middleman">Middle Man</option>
+                                </select>
+                                @error('leadfrom')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group" id="middle">
+                                <label>Middle Man</label>
+                                <input type="text" id="middleman" name="middleman" placeholder="Middle Man" class="form-control">
+                                @error('middleman')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                             
                         </div>
                     </div>

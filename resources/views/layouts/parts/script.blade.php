@@ -317,6 +317,29 @@
     });
 
 @endif
+
+@if(request()->routeIs('account.landcustomer.*'))
+    // Assuming you're using jQuery for simplicity
+    
+    $('#middle').hide();
+    var lead = $('#leadfrom').val();
+    if(lead == 'middleman') {
+            $('#middle').show();
+        } else {
+            $('#middle').hide();
+        }
+    $(document).ready(function() {
+        $('#leadfrom').change(function() {
+            if ($(this).val() === 'middleman') {
+                $('#middle').show();
+            } else {
+                $('#middle').hide();
+            }
+        });
+    });
+
+@endif
+
     // toast config
     toastr.options = {
         "closeButton": false,

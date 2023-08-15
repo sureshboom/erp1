@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2023 at 03:52 PM
+-- Generation Time: Aug 15, 2023 at 03:50 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -123,6 +123,60 @@ INSERT INTO `chiefengineers` (`id`, `user_id`, `user_code`, `photo`, `img`, `pho
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `contract_customers`
+--
+
+CREATE TABLE `contract_customers` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `customer_name` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `aadharno` varchar(255) NOT NULL,
+  `pancard` varchar(255) NOT NULL,
+  `attachment1` varchar(255) NOT NULL,
+  `attachment2` varchar(255) NOT NULL,
+  `project_id` bigint(20) UNSIGNED NOT NULL,
+  `amount` double(10,2) NOT NULL,
+  `advance` double(10,2) NOT NULL,
+  `leadfrom` varchar(255) NOT NULL,
+  `middleman` varchar(255) NOT NULL,
+  `status` enum('pending','completed') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contract_projects`
+--
+
+CREATE TABLE `contract_projects` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `project_name` varchar(255) NOT NULL,
+  `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
+  `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
+  `site_date` date DEFAULT NULL,
+  `dtcp_no` varchar(255) NOT NULL,
+  `reg_no` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `total_land_area` varchar(255) NOT NULL,
+  `total_buildup_area` varchar(255) NOT NULL,
+  `status` enum('ready_to_start','processing','completed') NOT NULL DEFAULT 'ready_to_start',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `contract_projects`
+--
+
+INSERT INTO `contract_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengineer_id`, `site_date`, `dtcp_no`, `reg_no`, `location`, `total_land_area`, `total_buildup_area`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Golden Garden', 1, 1, '2023-08-02', '12312412433', '134123413233', 'Ganapathy ,Coimbatore.', '3 Acres', '2.5 Acres', 'processing', '2023-08-15 03:30:39', '2023-08-15 03:33:34');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `customers`
 --
 
@@ -203,13 +257,19 @@ CREATE TABLE `land_customers` (
   `customer_name` varchar(255) NOT NULL,
   `phone` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
-  `sitename` varchar(255) NOT NULL,
+  `aadharno` varchar(255) NOT NULL,
+  `pancard` varchar(255) NOT NULL,
+  `attachment1` varchar(255) NOT NULL,
+  `attachment2` varchar(255) NOT NULL,
+  `project_id` bigint(20) UNSIGNED NOT NULL,
   `plotno` varchar(255) NOT NULL,
+  `plot_area` varchar(255) NOT NULL,
   `amount` double(10,2) NOT NULL,
-  `paid` double(10,2) NOT NULL DEFAULT 0.00,
-  `pending` double(10,2) NOT NULL DEFAULT 0.00,
-  `bookingby` varchar(255) NOT NULL,
-  `status` enum('pending','completed') NOT NULL,
+  `advance` double(10,2) NOT NULL,
+  `leadfrom` enum('salesteam','middleman') NOT NULL DEFAULT 'salesteam',
+  `middleman` varchar(255) NOT NULL,
+  `status` enum('booking','mod','payment','closed') NOT NULL DEFAULT 'booking',
+  `promote` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -218,8 +278,8 @@ CREATE TABLE `land_customers` (
 -- Dumping data for table `land_customers`
 --
 
-INSERT INTO `land_customers` (`id`, `customer_name`, `phone`, `location`, `sitename`, `plotno`, `amount`, `paid`, `pending`, `bookingby`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Siva raj', '9092250561', 'Mettu street\r\nworaiyur', 'Site ABs', '121A', 500000.00, 100000.00, 400000.00, 'Ram', 'pending', '2023-08-07 05:24:01', '2023-08-07 06:30:47');
+INSERT INTO `land_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `plotno`, `plot_area`, `amount`, `advance`, `leadfrom`, `middleman`, `status`, `promote`, `created_at`, `updated_at`) VALUES
+(1, 'Ram', '9876554321', 'Saravanampatti, Coimbatore.', '3366424288997755', '5343feal4c', 'uploads/images/landcustomer/aadhar/1692106272_64db7e204db91.png', 'uploads/images/landcustomer/pan/1692106272_64db7e20522d1.png', 1, '112', '4 Cent', 2000000.00, 200000.00, 'middleman', 'Raja', 'booking', NULL, '2023-08-15 08:01:12', '2023-08-15 08:19:06');
 
 -- --------------------------------------------------------
 
@@ -237,12 +297,34 @@ CREATE TABLE `land_payment_histories` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `land_payment_histories`
+-- Table structure for table `land_projects`
 --
 
-INSERT INTO `land_payment_histories` (`id`, `landcustomers_id`, `paytype`, `amount`, `payway`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Voucher', 100000.00, 'Voucher', '2023-08-07 06:12:51', '2023-08-07 06:30:47');
+CREATE TABLE `land_projects` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `project_name` varchar(255) NOT NULL,
+  `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
+  `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
+  `site_date` date DEFAULT NULL,
+  `dtcp_no` varchar(255) NOT NULL,
+  `reg_no` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `total_area` varchar(255) NOT NULL,
+  `no_plots` varchar(255) NOT NULL,
+  `status` enum('ready_to_start','processing','completed') NOT NULL DEFAULT 'ready_to_start',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `land_projects`
+--
+
+INSERT INTO `land_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengineer_id`, `site_date`, `dtcp_no`, `reg_no`, `location`, `total_area`, `no_plots`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Green Land', 1, 1, '2023-08-02', '11111333', '13331212212', 'Saravanampatti, Coimbatore.', '10 Acres', '30', 'processing', '2023-08-15 01:38:38', '2023-08-15 01:58:07');
 
 -- --------------------------------------------------------
 
@@ -449,7 +531,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (8, '2023_07_18_054243_create_telecallers_table', 1),
 (10, '2023_07_22_090026_create_customers_table', 2),
 (11, '2023_07_22_090447_create_teleworks_table', 2),
-(15, '2023_07_25_125247_create_owners_table', 3),
 (16, '2023_07_26_060745_create_siteengineers_table', 3),
 (17, '2023_07_26_060807_create_chiefengineers_table', 3),
 (18, '2023_07_26_060841_create_salespeople_table', 3),
@@ -464,38 +545,19 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (28, '2023_07_31_120827_create_materialpurchasehistories_table', 9),
 (30, '2023_08_05_071532_create_site_payment_histories_table', 10),
 (31, '2023_08_07_052254_create_material_payment_histories_table', 11),
-(32, '2023_08_07_072712_create_land_customers_table', 12),
 (33, '2023_08_07_090023_create_land_payment_histories_table', 13),
 (34, '2023_08_07_121700_create_expenses_table', 14),
 (35, '2023_08_08_085515_create_mesthiris_table', 15),
 (36, '2023_08_08_085548_create_mesthiri_assigns_table', 15),
 (37, '2023_08_08_121600_create_workers_table', 16),
 (38, '2023_08_09_051623_create_work_entries_table', 17),
-(39, '2023_08_09_083834_create_worker_entries_table', 18);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `owners`
---
-
-CREATE TABLE `owners` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `owner_name` varchar(255) NOT NULL,
-  `phone` varchar(255) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `referred_by` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `owners`
---
-
-INSERT INTO `owners` (`id`, `owner_name`, `phone`, `location`, `referred_by`, `created_at`, `updated_at`) VALUES
-(1, 'Ram', '9876543210', 'saravanam patti, Coimbatore', 'Ragul', '2023-07-26 05:46:28', '2023-07-26 05:59:13'),
-(2, 'Ragul', '9876543210', 'kalapatti,Coimbatore.', 'Ram', '2023-07-26 06:00:20', '2023-07-26 06:00:20');
+(39, '2023_08_09_083834_create_worker_entries_table', 18),
+(40, '2023_08_14_084831_create_land_projects_table', 19),
+(41, '2023_08_14_084902_create_contract_projects_table', 19),
+(42, '2023_08_14_084924_create_villa_projects_table', 19),
+(43, '2023_08_14_085746_create_contract_customers_table', 19),
+(44, '2023_08_14_085807_create_project_customers_table', 19),
+(45, '2023_08_14_131953_create_land_customers_table', 20);
 
 -- --------------------------------------------------------
 
@@ -536,6 +598,33 @@ CREATE TABLE `personal_access_tokens` (
   `abilities` text DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_customers`
+--
+
+CREATE TABLE `project_customers` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `customer_name` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `aadharno` varchar(255) NOT NULL,
+  `pancard` varchar(255) NOT NULL,
+  `attachment1` varchar(255) NOT NULL,
+  `attachment2` varchar(255) NOT NULL,
+  `project_id` bigint(20) UNSIGNED NOT NULL,
+  `vilano` varchar(255) NOT NULL,
+  `villa_area` varchar(255) NOT NULL,
+  `amount` double(10,2) NOT NULL,
+  `advance` double(10,2) NOT NULL,
+  `leadfrom` varchar(255) NOT NULL,
+  `middleman` varchar(255) NOT NULL,
+  `status` enum('pending','completed') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -855,6 +944,36 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `email_verified_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `villa_projects`
+--
+
+CREATE TABLE `villa_projects` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `project_name` varchar(255) NOT NULL,
+  `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
+  `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
+  `site_date` date DEFAULT NULL,
+  `dtcp_no` varchar(255) NOT NULL,
+  `reg_no` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `total_land_area` varchar(255) NOT NULL,
+  `total_buildup_area` varchar(255) NOT NULL,
+  `no_of_unit` varchar(255) NOT NULL,
+  `status` enum('ready_to_start','processing','completed') NOT NULL DEFAULT 'ready_to_start',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `villa_projects`
+--
+
+INSERT INTO `villa_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengineer_id`, `site_date`, `dtcp_no`, `reg_no`, `location`, `total_land_area`, `total_buildup_area`, `no_of_unit`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Green Gardens', 1, 1, '2023-08-02', '123411234', '1411564453', 'Saravanam patti, Coimbatore.', '10 Acres', '9 Acres', '25', 'processing', '2023-08-15 02:51:56', '2023-08-15 03:00:24');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `workers`
 --
 
@@ -956,6 +1075,21 @@ ALTER TABLE `chiefengineers`
   ADD KEY `chiefengineers_user_id_foreign` (`user_id`);
 
 --
+-- Indexes for table `contract_customers`
+--
+ALTER TABLE `contract_customers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `contract_customers_project_id_foreign` (`project_id`);
+
+--
+-- Indexes for table `contract_projects`
+--
+ALTER TABLE `contract_projects`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `contract_projects_chiefengineer_id_foreign` (`chiefengineer_id`),
+  ADD KEY `contract_projects_siteengineer_id_foreign` (`siteengineer_id`);
+
+--
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
@@ -978,7 +1112,8 @@ ALTER TABLE `failed_jobs`
 -- Indexes for table `land_customers`
 --
 ALTER TABLE `land_customers`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `land_customers_project_id_foreign` (`project_id`);
 
 --
 -- Indexes for table `land_payment_histories`
@@ -986,6 +1121,14 @@ ALTER TABLE `land_customers`
 ALTER TABLE `land_payment_histories`
   ADD PRIMARY KEY (`id`),
   ADD KEY `land_payment_histories_landcustomers_id_foreign` (`landcustomers_id`);
+
+--
+-- Indexes for table `land_projects`
+--
+ALTER TABLE `land_projects`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `land_projects_chiefengineer_id_foreign` (`chiefengineer_id`),
+  ADD KEY `land_projects_siteengineer_id_foreign` (`siteengineer_id`);
 
 --
 -- Indexes for table `materialins`
@@ -1047,12 +1190,6 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `owners`
---
-ALTER TABLE `owners`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `password_resets`
 --
 ALTER TABLE `password_resets`
@@ -1071,6 +1208,13 @@ ALTER TABLE `personal_access_tokens`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+
+--
+-- Indexes for table `project_customers`
+--
+ALTER TABLE `project_customers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `project_customers_project_id_foreign` (`project_id`);
 
 --
 -- Indexes for table `salesmanagers`
@@ -1144,6 +1288,14 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
+-- Indexes for table `villa_projects`
+--
+ALTER TABLE `villa_projects`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `villa_projects_chiefengineer_id_foreign` (`chiefengineer_id`),
+  ADD KEY `villa_projects_siteengineer_id_foreign` (`siteengineer_id`);
+
+--
 -- Indexes for table `workers`
 --
 ALTER TABLE `workers`
@@ -1187,6 +1339,18 @@ ALTER TABLE `chiefengineers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `contract_customers`
+--
+ALTER TABLE `contract_customers`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `contract_projects`
+--
+ALTER TABLE `contract_projects`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
@@ -1208,13 +1372,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `land_customers`
 --
 ALTER TABLE `land_customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `land_payment_histories`
 --
 ALTER TABLE `land_payment_histories`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `land_projects`
+--
+ALTER TABLE `land_projects`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `materialins`
@@ -1262,18 +1432,18 @@ ALTER TABLE `meterials`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
-
---
--- AUTO_INCREMENT for table `owners`
---
-ALTER TABLE `owners`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `project_customers`
+--
+ALTER TABLE `project_customers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -1337,6 +1507,12 @@ ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
+-- AUTO_INCREMENT for table `villa_projects`
+--
+ALTER TABLE `villa_projects`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `workers`
 --
 ALTER TABLE `workers`
@@ -1371,10 +1547,36 @@ ALTER TABLE `chiefengineers`
   ADD CONSTRAINT `chiefengineers_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `contract_customers`
+--
+ALTER TABLE `contract_customers`
+  ADD CONSTRAINT `contract_customers_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `contract_projects` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `contract_projects`
+--
+ALTER TABLE `contract_projects`
+  ADD CONSTRAINT `contract_projects_chiefengineer_id_foreign` FOREIGN KEY (`chiefengineer_id`) REFERENCES `chiefengineers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `contract_projects_siteengineer_id_foreign` FOREIGN KEY (`siteengineer_id`) REFERENCES `siteengineers` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `land_customers`
+--
+ALTER TABLE `land_customers`
+  ADD CONSTRAINT `land_customers_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `land_projects` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `land_payment_histories`
 --
 ALTER TABLE `land_payment_histories`
   ADD CONSTRAINT `land_payment_histories_landcustomers_id_foreign` FOREIGN KEY (`landcustomers_id`) REFERENCES `land_customers` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `land_projects`
+--
+ALTER TABLE `land_projects`
+  ADD CONSTRAINT `land_projects_chiefengineer_id_foreign` FOREIGN KEY (`chiefengineer_id`) REFERENCES `chiefengineers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `land_projects_siteengineer_id_foreign` FOREIGN KEY (`siteengineer_id`) REFERENCES `siteengineers` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `materialins`
@@ -1410,6 +1612,12 @@ ALTER TABLE `material_payment_histories`
 --
 ALTER TABLE `mesthiri_assigns`
   ADD CONSTRAINT `mesthiri_assigns_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `project_customers`
+--
+ALTER TABLE `project_customers`
+  ADD CONSTRAINT `project_customers_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `villa_projects` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `salesmanagers`
@@ -1460,6 +1668,13 @@ ALTER TABLE `telecallers`
 --
 ALTER TABLE `teleworks`
   ADD CONSTRAINT `teleworks_telecaller_id_foreign` FOREIGN KEY (`telecaller_id`) REFERENCES `telecallers` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `villa_projects`
+--
+ALTER TABLE `villa_projects`
+  ADD CONSTRAINT `villa_projects_chiefengineer_id_foreign` FOREIGN KEY (`chiefengineer_id`) REFERENCES `chiefengineers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `villa_projects_siteengineer_id_foreign` FOREIGN KEY (`siteengineer_id`) REFERENCES `siteengineers` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `worker_entries`

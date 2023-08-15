@@ -1,9 +1,14 @@
 
- <li>
-    <a  href="{{ route('account.landcustomer.index')}}">
+<li>
+    <a class="has-arrow" href="#">
        <span class="educate-icon educate-professor icon-wrap"></span>
-       <span class="mini-click-non">Land Customers</span>
+       <span class="mini-click-non">Customers</span>
     </a>
+    <ul class="submenu-angle" aria-expanded="true">
+        <li><a title="land" href="{{ route('account.landcustomer.index')}}"><span class="mini-sub-pro">Land Customers</span></a></li>
+        <li><a title="contract" href="{{ route('account.landcustomer.index')}}"><span class="mini-sub-pro">Contract Customers</span></a></li>
+        <li><a title="villa" href="{{ route('account.landcustomer.index')}}"><span class="mini-sub-pro">Villa Customers</span></a></li>
+    </ul>
 </li>
 <li>
     <a  href="{{ route('account.materialstatus')}}">

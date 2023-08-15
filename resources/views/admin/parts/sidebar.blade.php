@@ -19,14 +19,16 @@
                                <span class="mini-click-non">Staff</span>
                             </a>
                         </li>
-                        <li class="{{ ((request()->routeIs('site.*')) ||(request()->routeIs('owner.*'))) ? 'active' : '' }}">
+                        <li class="{{ ((request()->routeIs('landproject.*')) ||(request()->routeIs('contractproject.*')) ||(request()->routeIs('villaproject.*'))) ? 'active' : '' }}">
                             <a class="has-arrow" href="#">
                                <span class="educate-icon educate-form icon-wrap"></span>
-                               <span class="mini-click-non">Sites</span>
+                               <span class="mini-click-non">Project Details</span>
                             </a>
                             <ul class="submenu-angle" aria-expanded="true">
-                                <li><a title="owner" href="{{ route('owner.index')}}"><span class="mini-sub-pro">Site Owners</span></a></li>
-                                <li><a title="sites" href="{{ route('site.index')}}"><span class="mini-sub-pro">Site Details</span></a></li>
+                                
+                                <li><a title="owner" href="{{ route('landproject.index')}}"><span class="mini-sub-pro">Land Projects</span></a></li>
+                                <li><a title="sites" href="{{ route('contractproject.index')}}"><span class="mini-sub-pro">Contract Projects</span></a></li>
+                                <li><a title="sites" href="{{ route('villaproject.index')}}"><span class="mini-sub-pro">Villa Projects</span></a></li>
                             </ul>
                         </li>
                         <li >

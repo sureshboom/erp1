@@ -25,11 +25,7 @@ class Site extends Model
         return $this->belongsTo(Chiefengineer::class,'chiefengineer_id','id');
     }
 
-    public function owner()
-    {
-        // Assuming the foreign key in "sites" table is "customer_id"
-        return $this->belongsTo(Owner::class, 'owner_id', 'id');
-    }
+    
 
     public function materialin()
     {
