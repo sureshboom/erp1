@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layout.app')
 
 	@section('title')
 	    {{ __('Land Customers') }}
@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <ul class="breadcome-menu">
-                                        <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
+                                        <li><a href="{{ route('admin.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
                                         <li><span class="bread-blod">Land Customers</span>
                                         </li>
@@ -43,7 +43,7 @@
 
 
                             </div>
-                            <a href="{{ route('account.landcustomer.create')}}" class="btn btn-primary">+ Create</a>
+                            <a href="{{ route('landcustomer.create')}}" class="btn btn-primary">+ Create</a>
                             
                         </div>
                         <div class="sparkline13-graph">
@@ -95,8 +95,6 @@
                                                 Booking</h2>
                                                     @if($customer->promote == 1)
                                                     <p class="text-danger">Promote Request Placed</p>
-                                                    @else
-                                                    <a href="{{route('account.promotion',$customer->id)}}" class="btn badge-primary">Promote</a>
                                                     @endif
                                                 
                                                 
@@ -104,15 +102,11 @@
                                                 <h2 class="badge badge-warning ">Registration & MOD</h2>
                                                     @if($customer->promote == 1)
                                                     <p class="text-danger">Promote Request Placed</p>
-                                                    @else
-                                                    <a href="{{route('account.promotion',$customer->id)}}" class="btn badge-primary">Promote</a>
                                                     @endif
                                                 @elseif($customer->status == 'payment')
                                                 <h2 class="badge badge-primary ">Payment Receivd</h2>
                                                     @if($customer->promote == 1)
                                                     <p class="text-danger">Promote Request Placed</p>
-                                                    @else
-                                                    <a href="{{route('account.promotion',$customer->id)}}" class="btn badge-primary">Promote</a>
                                                     @endif
                                                 @else
                                                 <h2 class="badge badge-danger "> Completed</h2>
@@ -121,15 +115,18 @@
                                             
                                             <td class="datatable-ct">
                                                 
-                                                <a href="{{ route('account.landcustomer.edit', $customer->id) }}"
+                                                <a href="{{ route('landcustomer.edit', $customer->id) }}"
                                                     class="btn btn-link ">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $customer->id }}').submit();"><i class="fa fa-trash"></i></a>
-                                                <form method="post" action="{{ route('account.landcustomer.destroy', $customer->id) }}" id="delete-post-{{ $customer->id }}" style="display: none;">
+                                                <form method="post" action="{{ route('landcustomer.destroy', $customer->id) }}" id="delete-post-{{ $customer->id }}" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
+                                                @if($customer->level != 4)
+                                                <a href="{{ route('approvepromotion',$customer->id)}}" class="btn badge-success">Promote</a>
+                                                @endif
                                             </td>
                                         </tr>
                                         @empty

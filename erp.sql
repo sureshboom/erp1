@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2023 at 03:50 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Aug 16, 2023 at 02:51 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -139,11 +139,21 @@ CREATE TABLE `contract_customers` (
   `amount` double(10,2) NOT NULL,
   `advance` double(10,2) NOT NULL,
   `leadfrom` varchar(255) NOT NULL,
-  `middleman` varchar(255) NOT NULL,
-  `status` enum('pending','completed') NOT NULL,
+  `middleman` varchar(255) DEFAULT NULL,
+  `level` enum('1','2','3','4') NOT NULL DEFAULT '1',
+  `status` enum('booking','mod','payment','closed') NOT NULL,
+  `promote` tinyint(1) NOT NULL DEFAULT 0,
+  `remarks` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `contract_customers`
+--
+
+INSERT INTO `contract_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `amount`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `promote`, `remarks`, `created_at`, `updated_at`) VALUES
+(1, 'siva raj', '9092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hws54', 'uploads/images/contractcustomer/aadhar/1692166181_64dc68257cafe.png', 'uploads/images/contractcustomer/pan/1692166181_64dc68257ce03.jpg', 1, 5000000.00, 100000.00, 'salesteam', NULL, '2', 'mod', 0, 'Remark Demo', '2023-08-16 00:39:41', '2023-08-16 07:11:37');
 
 -- --------------------------------------------------------
 
@@ -267,9 +277,11 @@ CREATE TABLE `land_customers` (
   `amount` double(10,2) NOT NULL,
   `advance` double(10,2) NOT NULL,
   `leadfrom` enum('salesteam','middleman') NOT NULL DEFAULT 'salesteam',
-  `middleman` varchar(255) NOT NULL,
+  `middleman` varchar(255) DEFAULT NULL,
+  `level` enum('1','2','3','4') NOT NULL DEFAULT '1',
   `status` enum('booking','mod','payment','closed') NOT NULL DEFAULT 'booking',
-  `promote` varchar(255) DEFAULT NULL,
+  `remarks` varchar(255) DEFAULT NULL,
+  `promote` tinyint(1) DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -278,8 +290,8 @@ CREATE TABLE `land_customers` (
 -- Dumping data for table `land_customers`
 --
 
-INSERT INTO `land_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `plotno`, `plot_area`, `amount`, `advance`, `leadfrom`, `middleman`, `status`, `promote`, `created_at`, `updated_at`) VALUES
-(1, 'Ram', '9876554321', 'Saravanampatti, Coimbatore.', '3366424288997755', '5343feal4c', 'uploads/images/landcustomer/aadhar/1692106272_64db7e204db91.png', 'uploads/images/landcustomer/pan/1692106272_64db7e20522d1.png', 1, '112', '4 Cent', 2000000.00, 200000.00, 'middleman', 'Raja', 'booking', NULL, '2023-08-15 08:01:12', '2023-08-15 08:19:06');
+INSERT INTO `land_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `plotno`, `plot_area`, `amount`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `remarks`, `promote`, `created_at`, `updated_at`) VALUES
+(1, 'Ram', '9876554321', 'Saravanampatti, Coimbatore.', '3366424288997755', '5343feal4c', 'uploads/images/landcustomer/aadhar/1692106272_64db7e204db91.png', 'uploads/images/landcustomer/pan/1692106272_64db7e20522d1.png', 1, '122', '4 Cent', 2000000.00, 200000.00, 'middleman', 'Raja', '1', 'booking', 'demo', 0, '2023-08-15 08:01:12', '2023-08-16 07:00:43');
 
 -- --------------------------------------------------------
 
@@ -623,11 +635,21 @@ CREATE TABLE `project_customers` (
   `amount` double(10,2) NOT NULL,
   `advance` double(10,2) NOT NULL,
   `leadfrom` varchar(255) NOT NULL,
-  `middleman` varchar(255) NOT NULL,
-  `status` enum('pending','completed') NOT NULL,
+  `middleman` varchar(255) DEFAULT NULL,
+  `level` enum('1','2','3','4') NOT NULL DEFAULT '1',
+  `status` enum('booking','mod','payment','closed') NOT NULL,
+  `promote` tinyint(1) NOT NULL DEFAULT 0,
+  `remarks` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `project_customers`
+--
+
+INSERT INTO `project_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `vilano`, `villa_area`, `amount`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `promote`, `remarks`, `created_at`, `updated_at`) VALUES
+(1, 'siva raj', '09092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hwstw', 'uploads/images/villacustomer/aadhar/1692177834_64dc95aa691d9.png', 'uploads/images/villacustomer/pan/1692177834_64dc95aa6958f.png', 1, '22', '2550', 5000000.00, 100000.00, 'middleman', 'demo', '2', 'mod', 0, 'Demo', '2023-08-16 03:53:54', '2023-08-16 07:20:40');
 
 -- --------------------------------------------------------
 
@@ -1342,7 +1364,7 @@ ALTER TABLE `chiefengineers`
 -- AUTO_INCREMENT for table `contract_customers`
 --
 ALTER TABLE `contract_customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `contract_projects`
@@ -1444,7 +1466,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `project_customers`
 --
 ALTER TABLE `project_customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `salesmanagers`
@@ -1638,56 +1660,10 @@ ALTER TABLE `siteengineers`
   ADD CONSTRAINT `siteengineers_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `sites`
---
-ALTER TABLE `sites`
-  ADD CONSTRAINT `sites_chiefengineer_id_foreign` FOREIGN KEY (`chiefengineer_id`) REFERENCES `chiefengineers` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `sites_owner_id_foreign` FOREIGN KEY (`owner_id`) REFERENCES `owners` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `sites_siteengineer_id_foreign` FOREIGN KEY (`siteengineer_id`) REFERENCES `siteengineers` (`id`) ON DELETE CASCADE;
-
---
 -- Constraints for table `sitevisitarranges`
 --
 ALTER TABLE `sitevisitarranges`
   ADD CONSTRAINT `sitevisitarranges_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `site_payment_histories`
---
-ALTER TABLE `site_payment_histories`
-  ADD CONSTRAINT `site_payment_histories_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `telecallers`
---
-ALTER TABLE `telecallers`
-  ADD CONSTRAINT `telecallers_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `teleworks`
---
-ALTER TABLE `teleworks`
-  ADD CONSTRAINT `teleworks_telecaller_id_foreign` FOREIGN KEY (`telecaller_id`) REFERENCES `telecallers` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `villa_projects`
---
-ALTER TABLE `villa_projects`
-  ADD CONSTRAINT `villa_projects_chiefengineer_id_foreign` FOREIGN KEY (`chiefengineer_id`) REFERENCES `chiefengineers` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `villa_projects_siteengineer_id_foreign` FOREIGN KEY (`siteengineer_id`) REFERENCES `siteengineers` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `worker_entries`
---
-ALTER TABLE `worker_entries`
-  ADD CONSTRAINT `worker_entries_mesthiri_id_foreign` FOREIGN KEY (`mesthiri_id`) REFERENCES `mesthiris` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `worker_entries_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `work_entries`
---
-ALTER TABLE `work_entries`
-  ADD CONSTRAINT `work_entries_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

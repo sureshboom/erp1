@@ -152,7 +152,13 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
+                            <div class="form-group" >
+                                <label>Remarks</label>
+                                <textarea name="remarks" class="form-control" placeholder="Remarks"></textarea>
+                                @error('middleman')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                     <div class="row">

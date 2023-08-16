@@ -19,6 +19,19 @@
                                <span class="mini-click-non">Staff</span>
                             </a>
                         </li>
+                        
+                        <li class="{{ ((request()->routeIs('landcustomer.*')) ||(request()->routeIs('contractcustomer.*')) ||(request()->routeIs('villacustomer.*'))) ? 'active' : '' }}">
+                            <a class="has-arrow" href="#">
+                               <span class="educate-icon educate-professor icon-wrap"></span>
+                               <span class="mini-click-non">Customers</span>
+                            </a>
+                            <ul class="submenu-angle" aria-expanded="true">
+                                
+                                <li><a title="owner" href="{{ route('landcustomer.index')}}"><span class="mini-sub-pro">Land Customers</span></a></li>
+                                <li><a title="sites" href="{{ route('contractcustomer.index')}}"><span class="mini-sub-pro">Contract Projects</span></a></li>
+                                <li><a title="sites" href="{{ route('villacustomer.index')}}"><span class="mini-sub-pro">Villa Projects</span></a></li>
+                            </ul>
+                        </li>
                         <li class="{{ ((request()->routeIs('landproject.*')) ||(request()->routeIs('contractproject.*')) ||(request()->routeIs('villaproject.*'))) ? 'active' : '' }}">
                             <a class="has-arrow" href="#">
                                <span class="educate-icon educate-form icon-wrap"></span>

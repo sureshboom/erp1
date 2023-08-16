@@ -4,6 +4,8 @@ namespace App\Http\Controllers\User\account;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\ContractCustomer;
+use App\Models\ContractProject;
 
 class ContractCustomerController extends Controller
 {
@@ -13,6 +15,9 @@ class ContractCustomerController extends Controller
     public function index()
     {
         //
+        $customers = ContractCustomer::orderBy('id','desc')->get();
+
+        return view('user.account.contractcustomer.index',compact('customers'));
     }
 
     /**
@@ -20,7 +25,8 @@ class ContractCustomerController extends Controller
      */
     public function create()
     {
-        //
+        $contractprojects = ContractProject::select('id','project_name')->get();
+        return view('user.account.contractcustomer.create',compact('contractprojects'));
     }
 
     /**
@@ -28,7 +34,48 @@ class ContractCustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->validate([
+            'customer_name' => 'required',
+            'phone' => 'required',
+            'location' => 'required',
+            'aadharno' => 'required',
+            'pancard' => 'required',
+            'project_id' => 'required',
+            'amount' => 'required',
+            'advance' => 'required',
+            'leadfrom' => 'required',
+            'middleman' => 'nullable',
+            'remarks' => 'required',
+        ]);
+        
+        $roleFolder = 'images/contractcustomer';
+        if ($request->hasFile('attachment1')) {
+                $attachment1 = $request->file('attachment1');
+                
+                $path1 = $roleFolder.'/aadhar';
+                $attachment1Path = uploadImage($attachment1,$path1);
+                $input['attachment1'] = $attachment1Path;
+        }
+        if ($request->hasFile('attachment2')) {
+                $attachment2 = $request->file('attachment2');
+                
+                $path2 = $roleFolder.'/pan';
+                $attachment2Path = uploadImage($attachment2,$path2);
+                $input['attachment2'] = $attachment2Path;
+        }
+        $input['level'] = 1;
+        $input['status'] = 'booking';
+        $customer = ContractCustomer::create($input);
+        if($customer)
+        {
+            flashSuccess('Contract Customer created Successfully');
+            return redirect()->route('account.contractcustomer.index');
+        }
+        else
+        {
+            flashError('Something Wrong plz try again ');
+            return back();
+        }
     }
 
     /**
@@ -36,7 +83,7 @@ class ContractCustomerController extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**
@@ -44,7 +91,9 @@ class ContractCustomerController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $contractprojects = ContractProject::select('id','project_name')->get();
+        $customer = ContractCustomer::find($id);
+        return view('user.account.contractcustomer.edit',compact('contractprojects','customer'));
     }
 
     /**
@@ -52,14 +101,71 @@ class ContractCustomerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $input = $request->validate([
+            'customer_name' => 'required',
+            'phone' => 'required',
+            'location' => 'required',
+            'aadharno' => 'required',
+            'pancard' => 'required',
+            'project_id' => 'required',
+            'amount' => 'required',
+            'advance' => 'required',
+            'leadfrom' => 'required',
+            'middleman' => 'nullable',
+            'remarks' => 'nullable',
+        ]);
+        
+        $roleFolder = 'images/contractcustomer';
+        if ($request->hasFile('attachment1')) {
+                $attachment1 = $request->file('attachment1');
+                
+                $path1 = $roleFolder.'/aadhar';
+                $attachment1Path = uploadImage($attachment1,$path1);
+                $input['attachment1'] = $attachment1Path;
+        }
+        if ($request->hasFile('attachment2')) {
+                $attachment2 = $request->file('attachment2');
+                
+                $path2 = $roleFolder.'/pan';
+                $attachment2Path = uploadImage($attachment2,$path2);
+                $input['attachment2'] = $attachment2Path;
+        }
+        $customer = ContractCustomer::find($id)->update($input);
+        if($customer)
+        {
+            flashSuccess('Contract Customer Updated Successfully');
+            return redirect()->route('account.contractcustomer.index');
+        }
+        else
+        {
+            flashError('Something Wrong plz try again ');
+            return back();
+        }
     }
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
         //
+        ContractCustomer::find($id)->delete();
+        flashSuccess('Customer Removed Successfully');
+        return back();
+    }
+
+    public function requestPromotion($id)
+    {
+        $customer = ContractCustomer::find($id)->update(['promote' => 1]);
+        
+        if($customer)
+        {
+            flashSuccess('Promote request Submitted');
+            return back();
+        }
+        else
+        {
+            flashSuccess('Something Wrong');
+            return back();
+        }
     }
 }

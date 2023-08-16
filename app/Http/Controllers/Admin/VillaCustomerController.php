@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User\account;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class VillaCustomerController extends Controller
         //
 
         $customers = ProjectCustomer::orderBy('id','desc')->get();
-        return view('user.account.villacustomer.index',compact('customers'));
+        return view('admin.villacustomer.index',compact('customers'));
     }
 
     /**
@@ -26,7 +26,7 @@ class VillaCustomerController extends Controller
     public function create()
     {
         $villaprojects = VillaProject::select('id','project_name')->get();
-        return view('user.account.villacustomer.create',compact('villaprojects'));
+        return view('admin.villacustomer.create',compact('villaprojects'));
     }
 
     /**
@@ -72,7 +72,7 @@ class VillaCustomerController extends Controller
         if($customer)
         {
             flashSuccess('Contract Customer created Successfully');
-            return redirect()->route('account.villacustomer.index');
+            return redirect()->route('villacustomer.index');
         }
         else
         {
@@ -97,7 +97,7 @@ class VillaCustomerController extends Controller
         //
         $villaprojects = VillaProject::select('id','project_name')->get();
         $customer = ProjectCustomer::find($id);
-        return view('user.account.villacustomer.edit',compact('villaprojects','customer'));
+        return view('admin.villacustomer.edit',compact('villaprojects','customer'));
     }
 
     /**
@@ -140,7 +140,7 @@ class VillaCustomerController extends Controller
         if($customer)
         {
             flashSuccess('Villa Customer Updated Successfully');
-            return redirect()->route('account.villacustomer.index');
+            return redirect()->route('villacustomer.index');
         }
         else
         {
@@ -160,18 +160,38 @@ class VillaCustomerController extends Controller
         return back();
     }
 
-    public function requestPromotion($id)
+    public function approvePromotion($id)
     {
-        $customer = ProjectCustomer::find($id)->update(['promote' => 1]);
-        
-        if($customer)
-        {
-            flashSuccess('Promote request Submitted');
+        $customer = ProjectCustomer::find($id);
+
+        if (!$customer) {
+            flashError('Customer not found');
             return back();
         }
-        else
-        {
-            flashSuccess('Something Wrong');
+
+        // Assuming your levels are '1', '2', '3', '4'
+        $currentLevel = intval($customer->level);
+        $nextLevel = $currentLevel + 1;
+
+        if ($nextLevel > 4) {
+            flashError('Customer is already at the highest level');
+            return back();
+        }
+
+        // Define status based on level
+        $statusOptions = ['booking', 'mod', 'payment', 'closed'];
+        $status = $statusOptions[$nextLevel - 1]; // Array is zero-indexed
+
+        // Update customer attributes
+        $customer->level = strval($nextLevel);
+        $customer->status = $status;
+        $customer->promote = false; // Reset promotion flag
+
+        if ($customer->save()) {
+            flashSuccess('Promotion approved and customer updated');
+            return back();
+        } else {
+            flashError('Failed to update customer');
             return back();
         }
     }

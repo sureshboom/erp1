@@ -21,7 +21,7 @@
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Land Customers</span>
+                                        <li><span class="bread-blod">Contract Customers</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -39,11 +39,11 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Land Customers <span class="table-project-n">Details</span> Table</h1>
+                                <h1>Contract Customers <span class="table-project-n">Details</span> Table</h1>
 
 
                             </div>
-                            <a href="{{ route('account.landcustomer.create')}}" class="btn btn-primary">+ Create</a>
+                            <a href="{{ route('account.contractcustomer.create')}}" class="btn btn-primary">+ Create</a>
                             
                         </div>
                         <div class="sparkline13-graph">
@@ -61,12 +61,11 @@
                                         <tr>
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
-                                            <th data-field="cid">Land ID</th>
+                                            <th data-field="cid">Contract ID</th>
                                             <th data-field="customer">Customer Name</th>
                                             <th data-field="phone">Phone No</th>
                                             <th data-field="location">Location</th>
                                             <th data-field="site">Project Name</th>
-                                            <th data-field="plot">Plot No</th>
                                             <th data-field="total">Amount</th>
                                             <th data-field="name">Lead From</th>
                                             <th data-field="status" data-editable="false">Status</th>
@@ -79,12 +78,12 @@
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{ $customer->skslc_id ? $customer->skslc_id : '' }}</td>
+                                            <td>{{ $customer->skscc_id ? $customer->skscc_id : '' }}</td>
                                             <td>{{ $customer->customer_name ? $customer->customer_name : '' }}</td>
                                             <td>{{ $customer->phone ? $customer->phone : '' }}</td>
                                             <td>{{ $customer->location ? $customer->location : '' }}</td>
-                                            <td>{{ $customer->landproject->project_name ? $customer->landproject->project_name : '' }}</td>
-                                            <td>{{ $customer->plotno ? $customer->plotno : '' }}</td>
+                                            <td>{{ $customer->contractproject->project_name ? $customer->contractproject->project_name : '' }}</td>
+                                            
                                             <td>{{  number_format($customer->amount) }}</td>
                                             
                                             <td>{{ $customer->leadfrom ? ucfirst($customer->leadfrom) : '' }}</td>
@@ -96,7 +95,7 @@
                                                     @if($customer->promote == 1)
                                                     <p class="text-danger">Promote Request Placed</p>
                                                     @else
-                                                    <a href="{{route('account.promotion',$customer->id)}}" class="btn badge-primary">Promote</a>
+                                                    <a href="{{route('account.cpromotion',$customer->id)}}" class="btn badge-primary">Promote</a>
                                                     @endif
                                                 
                                                 
@@ -105,14 +104,14 @@
                                                     @if($customer->promote == 1)
                                                     <p class="text-danger">Promote Request Placed</p>
                                                     @else
-                                                    <a href="{{route('account.promotion',$customer->id)}}" class="btn badge-primary">Promote</a>
+                                                    <a href="{{route('account.cpromotion',$customer->id)}}" class="btn badge-primary">Promote</a>
                                                     @endif
                                                 @elseif($customer->status == 'payment')
                                                 <h2 class="badge badge-primary ">Payment Receivd</h2>
                                                     @if($customer->promote == 1)
                                                     <p class="text-danger">Promote Request Placed</p>
                                                     @else
-                                                    <a href="{{route('account.promotion',$customer->id)}}" class="btn badge-primary">Promote</a>
+                                                    <a href="{{route('account.cpromotion',$customer->id)}}" class="btn badge-primary">Promote</a>
                                                     @endif
                                                 @else
                                                 <h2 class="badge badge-danger "> Completed</h2>
@@ -121,12 +120,12 @@
                                             
                                             <td class="datatable-ct">
                                                 
-                                                <a href="{{ route('account.landcustomer.edit', $customer->id) }}"
+                                                <a href="{{ route('account.contractcustomer.edit', $customer->id) }}"
                                                     class="btn btn-link ">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $customer->id }}').submit();"><i class="fa fa-trash"></i></a>
-                                                <form method="post" action="{{ route('account.landcustomer.destroy', $customer->id) }}" id="delete-post-{{ $customer->id }}" style="display: none;">
+                                                <form method="post" action="{{ route('account.contractcustomer.destroy', $customer->id) }}" id="delete-post-{{ $customer->id }}" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>

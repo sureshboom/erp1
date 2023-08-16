@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('admin.layout.app')
 
 	@section('title')
-	    {{ __('Land Customer') }}
+	    {{ __('Contract Customer') }}
 	@endsection
 
 	@section('main')
@@ -19,9 +19,9 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <ul class="breadcome-menu">
-                                        <li><a href="{{ route('user.dashboard')}}">Home</a> <span class="bread-slash">/</span>
+                                        <li><a href="{{ route('admin.dashboard')}}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Edit Land Customer</span>
+                                        <li><span class="bread-blod">Edit Contract Customer</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -36,8 +36,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h3 class="text-center">Land Customer Details</h3>
-                    <form action="{{ route('account.landcustomer.update',$customer->id) }}" class="acount-infor" method="post" enctype="multipart/form-data">
+                    <h3 class="text-center">Contract Customer Details</h3>
+                    <form action="{{ route('contractcustomer.update',$customer->id) }}" class="acount-infor" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
                     <div class="row">
@@ -94,31 +94,18 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label>Land Project</label>
+                                <label>Contract Project</label>
                                 <select name="project_id" class="form-control">
                                         <option value="">Select Land Project</option>
-                                        @foreach($landprojects as $landproject)
-                                        <option value="{{$landproject->id}}" {{$customer->project_id == $landproject->id ? 'selected' : ''}}>{{$landproject->project_name}} ({{$landproject->skslp_id}})</option>
+                                        @foreach($contractprojects as $contractproject)
+                                        <option value="{{$contractproject->id}}" {{$customer->project_id == $contractproject->id ? 'selected' : ''}}>{{$contractproject->project_name}} ({{$contractproject->skscp_id}})</option>
                                         @endforeach
                                 </select>
                                 @error('project_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label>Plot No</label>
-                                <input name="plotno" type="text" value="{{ $customer->plotno }}" class="form-control" placeholder="Plot No">
-                                @error('plotno')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>Plot Area (Cent)</label>
-                                <input name="plot_area" type="text" value="{{ $customer->plot_area}}" class="form-control" placeholder="Plot Area">
-                                @error('plot_area')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
+                            
                             <div class="form-group">
                                 <label>Total Amount</label>
                                 <input name="amount" type="text" value="{{ $customer->amount }}" class="form-control" placeholder="Total Amount">

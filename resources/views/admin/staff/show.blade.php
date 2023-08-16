@@ -5,6 +5,57 @@
 	@endsection
 
 	@section('main')
+    @php 
+
+                    $attachment = null;
+
+                    if ($user->account) {
+                        $attachment = $user->account->attachment;
+                    } elseif ($user->siteengineer) {
+                        $attachment = $user->siteengineer->attachment;
+                    } elseif ($user->telecaller) {
+                        $attachment = $user->telecaller->attachment;
+                    } elseif ($user->chiefengineer) {
+                        $attachment = $user->chiefengineer->attachment;
+                    } elseif ($user->salesmanager) {
+                        $attachment = $user->salesmanager->attachment;
+                    } elseif ($user->salesperson) {
+                        $attachment = $user->salesperson->attachment;
+                    }
+
+                    $attachment1 = null;
+
+                    if ($user->account) {
+                        $attachment1 = $user->account->attachment1;
+                    } elseif ($user->siteengineer) {
+                        $attachment1 = $user->siteengineer->attachment1;
+                    } elseif ($user->telecaller) {
+                        $attachment1 = $user->telecaller->attachment1;
+                    } elseif ($user->chiefengineer) {
+                        $attachment1 = $user->chiefengineer->attachment1;
+                    } elseif ($user->salesmanager) {
+                        $attachment1 = $user->salesmanager->attachment1;
+                    } elseif ($user->salesperson) {
+                        $attachment1 = $user->salesperson->attachment1;
+                    }
+
+                    $attachment2 = null;
+
+                    if ($user->account) {
+                        $attachment2 = $user->account->attachment2;
+                    } elseif ($user->siteengineer) {
+                        $attachment2 = $user->siteengineer->attachment2;
+                    } elseif ($user->telecaller) {
+                        $attachment2 = $user->telecaller->attachment2;
+                    } elseif ($user->chiefengineer) {
+                        $attachment2 = $user->chiefengineer->attachment2;
+                    } elseif ($user->salesmanager) {
+                        $attachment2 = $user->salesmanager->attachment2;
+                    } elseif ($user->salesperson) {
+                        $attachment2 = $user->salesperson->attachment2;
+                    }
+
+                    @endphp
 		<div class="breadcome-area">
             <div class="container-fluid">
                 <div class="row">
@@ -34,20 +85,40 @@
     <div class="single-pro-review-area mt-t-30 mg-b-15">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12">
                     <div class="profile-info-inner">
                     <center><img src="{{ $user->account ? $user->account->photo : ($user->siteengineer ? $user->siteengineer->photo : ($user->telecaller ? $user->telecaller->photo : ($user->chiefengineer ? $user->chiefengineer->photo : ($user->salesmanager ? $user->salesmanager->photo : ($user->salesperson ? $user->salesperson->photo : ''))))) }}" style="width: 150px;"  alt="" /></center>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            @if(!empty($attachment))
+                            <a href="{{ $attachment }}" class="btn btn-primary" target="_blank" download><span class="fa fa-download"></span> Aadhar Card</a>
+                            @endif
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            @if(!empty($attachment1))
+                            <a href="{{ $attachment1 }}" class="btn btn-primary" target="_blank" download><span class="fa fa-download"></span> Pancard</a>
+                            @endif
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            @if(!empty($attachment2))
+                            <a href="{{ $attachment2 }}" class="btn btn-primary" target="_blank" download><span class="fa fa-download"></span> Others</a>
+                            @endif
+                        </div>
+                    </div>
+
+                 
+                    </div>
                 </div>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
                     <div class="">
                         <div class="row">
                             <div class="col-lg-12 ">
                                 <div class="profile-info-inner">
-                                    <div class="profile-img">
+                                    <!-- <div class="profile-img">
                                        <center><img src="{{ $user->account ? $user->account->photo : ($user->siteengineer ? $user->siteengineer->photo : ($user->telecaller ? $user->telecaller->photo : ($user->chiefengineer ? $user->chiefengineer->photo : ($user->salesmanager ? $user->salesmanager->photo : ($user->salesperson ? $user->salesperson->photo : ''))))) }}" style="width: 150px;"  alt="" /></center> 
                                        <center></center> 
-                                    </div>
+                                    </div> -->
                                     <div class="profile-details-hr">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
@@ -149,10 +220,7 @@
                             </div>
                         </div>
                     </div>
-                    
-                    
-                </div>
-                
+                </div>              
             </div>
         </div>
     </div>

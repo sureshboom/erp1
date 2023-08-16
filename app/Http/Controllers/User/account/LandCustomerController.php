@@ -48,6 +48,7 @@ class LandCustomerController extends Controller
             'advance' => 'required',
             'leadfrom' => 'required',
             'middleman' => 'nullable',
+            'remarks' =>'nullable'
         ]);
         $roleFolder = 'images/landcustomer';
         if ($request->hasFile('attachment1')) {
@@ -64,6 +65,7 @@ class LandCustomerController extends Controller
                 $attachment2Path = uploadImage($attachment2,$path2);
                 $input['attachment2'] = $attachment2Path;
         }
+        
         $customer = LandCustomer::create($input);
         if($customer)
         {
@@ -113,6 +115,7 @@ class LandCustomerController extends Controller
             'advance' => 'required',
             'leadfrom' => 'required',
             'middleman' => 'nullable',
+            'remarks' =>'nullable'
         ]);
         $roleFolder = 'images/landcustomer';
         if ($request->hasFile('attachment1')) {
@@ -153,4 +156,22 @@ class LandCustomerController extends Controller
         flashSuccess('Customer Removed Successfully');
         return back();
     }
+
+
+    public function requestPromotion($id)
+    {
+        $customer = LandCustomer::find($id)->update(['promote' => 1]);
+        
+        if($customer)
+        {
+            flashSuccess('Promote request Submitted');
+            return back();
+        }
+        else
+        {
+            flashSuccess('Something Wrong');
+            return back();
+        }
+    }
+
 }

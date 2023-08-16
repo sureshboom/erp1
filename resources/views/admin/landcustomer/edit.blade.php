@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layout.app')
 
 	@section('title')
 	    {{ __('Land Customer') }}
@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <ul class="breadcome-menu">
-                                        <li><a href="{{ route('user.dashboard')}}">Home</a> <span class="bread-slash">/</span>
+                                        <li><a href="{{ route('admin.dashboard')}}">Home</a> <span class="bread-slash">/</span>
                                         </li>
                                         <li><span class="bread-blod">Edit Land Customer</span>
                                         </li>
@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h3 class="text-center">Land Customer Details</h3>
-                    <form action="{{ route('account.landcustomer.update',$customer->id) }}" class="acount-infor" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('landcustomer.update',$customer->id) }}" class="acount-infor" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
                     <div class="row">

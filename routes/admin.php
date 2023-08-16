@@ -10,6 +10,9 @@ use App\Http\Controllers\Admin\VillaProjectController;
 use App\Http\Controllers\Admin\OwnerController;
 use App\Http\Controllers\Admin\MeterialController;
 use App\Http\Controllers\Admin\WorkerController;
+use App\Http\Controllers\Admin\LandCustomerController;
+use App\Http\Controllers\Admin\VillaCustomerController;
+use App\Http\Controllers\Admin\ContractCustomerController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 
 
@@ -34,6 +37,15 @@ Route::prefix('admin')->group(function () {
 			
 			Route::resource('/meterial', MeterialController::class);
 			Route::resource('/worker', WorkerController::class);
+			Route::resource('/landcustomer', LandCustomerController::class);
+			Route::resource('/contractcustomer', ContractCustomerController::class);
+			Route::resource('/villacustomer', VillaCustomerController::class);
+			Route::get('/landcustomerapprove/{id}', [LandCustomerController::class,'approvePromotion'])->name('approvepromotion');
+			Route::get('/contractcustomerapprove/{id}', [ContractCustomerController::class,'approvePromotion'])->name('capprovepromotion');
+			Route::get('/villacustomerapprove/{id}', [VillaCustomerController::class,'approvePromotion'])->name('vapprovepromotion');
+
+			
+			
 		});
 	
 	

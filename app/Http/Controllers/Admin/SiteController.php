@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Site;
 use App\Models\User;
 use App\Models\Supervisor;
-use App\Models\owner;
+use App\Models\Owner;
 
 
 class SiteController extends Controller

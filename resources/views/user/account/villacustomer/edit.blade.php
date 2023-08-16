@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Land Customer') }}
+	    {{ __('Villa Customer') }}
 	@endsection
 
 	@section('main')
@@ -21,7 +21,7 @@
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('user.dashboard')}}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Edit Land Customer</span>
+                                        <li><span class="bread-blod">Edit Villa Customer</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -36,8 +36,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h3 class="text-center">Land Customer Details</h3>
-                    <form action="{{ route('account.landcustomer.update',$customer->id) }}" class="acount-infor" method="post" enctype="multipart/form-data">
+                    <h3 class="text-center">Villa Customer Details</h3>
+                    <form action="{{ route('account.villacustomer.update',$customer->id) }}" class="acount-infor" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
                     <div class="row">
@@ -94,11 +94,11 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label>Land Project</label>
+                                <label>Villa Project</label>
                                 <select name="project_id" class="form-control">
                                         <option value="">Select Land Project</option>
-                                        @foreach($landprojects as $landproject)
-                                        <option value="{{$landproject->id}}" {{$customer->project_id == $landproject->id ? 'selected' : ''}}>{{$landproject->project_name}} ({{$landproject->skslp_id}})</option>
+                                        @foreach($villaprojects as $villaproject)
+                                        <option value="{{$villaproject->id}}" {{$customer->project_id == $villaproject->id ? 'selected' : ''}}>{{$villaproject->project_name}} ({{$villaproject->sksvp_id}})</option>
                                         @endforeach
                                 </select>
                                 @error('project_id')
@@ -106,16 +106,16 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Plot No</label>
-                                <input name="plotno" type="text" value="{{ $customer->plotno }}" class="form-control" placeholder="Plot No">
-                                @error('plotno')
+                                <label>Villa No</label>
+                                <input name="vilano" type="text" value="{{ $customer->vilano }}" class="form-control" placeholder="Villa No">
+                                @error('vilano')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Plot Area (Cent)</label>
-                                <input name="plot_area" type="text" value="{{ $customer->plot_area}}" class="form-control" placeholder="Plot Area">
-                                @error('plot_area')
+                                <label>Villa Area (Square)</label>
+                                <input name="villa_area" type="text" value="{{ $customer->villa_area }}" class="form-control" placeholder="Villa Area">
+                                @error('villa_area')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>

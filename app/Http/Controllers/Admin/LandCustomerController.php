@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\User\account;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\VillaProject;
-use App\Models\ProjectCustomer;
+use App\Models\LandCustomer;
+use App\Models\LandProject;
 
-class VillaCustomerController extends Controller
+class LandCustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,9 @@ class VillaCustomerController extends Controller
     public function index()
     {
         //
+        $customers = LandCustomer::orderBy('id','desc')->get();
 
-        $customers = ProjectCustomer::orderBy('id','desc')->get();
-        return view('user.account.villacustomer.index',compact('customers'));
+        return view('admin.landcustomer.index',compact('customers'));
     }
 
     /**
@@ -25,8 +25,8 @@ class VillaCustomerController extends Controller
      */
     public function create()
     {
-        $villaprojects = VillaProject::select('id','project_name')->get();
-        return view('user.account.villacustomer.create',compact('villaprojects'));
+        $landprojects = LandProject::select('id','project_name')->get();
+        return view('admin.landcustomer.create',compact('landprojects'));
     }
 
     /**
@@ -41,17 +41,15 @@ class VillaCustomerController extends Controller
             'aadharno' => 'required',
             'pancard' => 'required',
             'project_id' => 'required',
-            'vilano' => 'required',
-            'villa_area' => 'required',
+            'plotno' => 'required',
+            'plot_area' => 'required',
             'amount' => 'required',
             'advance' => 'required',
             'leadfrom' => 'required',
             'middleman' => 'nullable',
-            'remarks' => 'required',
+            'remarks' =>'nullable'
         ]);
-         
-        
-        $roleFolder = 'images/villacustomer';
+        $roleFolder = 'images/landcustomer';
         if ($request->hasFile('attachment1')) {
                 $attachment1 = $request->file('attachment1');
                 
@@ -66,13 +64,12 @@ class VillaCustomerController extends Controller
                 $attachment2Path = uploadImage($attachment2,$path2);
                 $input['attachment2'] = $attachment2Path;
         }
-        $input['level'] = 1;
-        $input['status'] = 'booking';
-        $customer = ProjectCustomer::create($input);
+        
+        $customer = LandCustomer::create($input);
         if($customer)
         {
-            flashSuccess('Contract Customer created Successfully');
-            return redirect()->route('account.villacustomer.index');
+            flashSuccess('Land Customer created Successfully');
+            return redirect()->route('landcustomer.index');
         }
         else
         {
@@ -94,10 +91,9 @@ class VillaCustomerController extends Controller
      */
     public function edit(string $id)
     {
-        //
-        $villaprojects = VillaProject::select('id','project_name')->get();
-        $customer = ProjectCustomer::find($id);
-        return view('user.account.villacustomer.edit',compact('villaprojects','customer'));
+        $customer = LandCustomer::find($id);
+        $landprojects = LandProject::select('id','project_name')->get();
+        return view('admin.landcustomer.edit',compact('customer','landprojects'));
     }
 
     /**
@@ -112,16 +108,15 @@ class VillaCustomerController extends Controller
             'aadharno' => 'required',
             'pancard' => 'required',
             'project_id' => 'required',
-            'vilano' => 'required',
-            'villa_area' => 'required',
+            'plotno' => 'required',
+            'plot_area' => 'required',
             'amount' => 'required',
             'advance' => 'required',
             'leadfrom' => 'required',
             'middleman' => 'nullable',
-            'remarks' => 'required',
+            'remarks' =>'nullable'
         ]);
-        
-        $roleFolder = 'images/villacustomer';
+        $roleFolder = 'images/landcustomer';
         if ($request->hasFile('attachment1')) {
                 $attachment1 = $request->file('attachment1');
                 
@@ -136,17 +131,19 @@ class VillaCustomerController extends Controller
                 $attachment2Path = uploadImage($attachment2,$path2);
                 $input['attachment2'] = $attachment2Path;
         }
-        $customer = ProjectCustomer::find($id)->update($input);
+
+        $customer = LandCustomer::find($id)->update($input);
         if($customer)
         {
-            flashSuccess('Villa Customer Updated Successfully');
-            return redirect()->route('account.villacustomer.index');
+            flashSuccess('Land Customer Updated Successfully');
+            return redirect()->route('landcustomer.index');
         }
         else
         {
             flashError('Something Wrong plz try again ');
             return back();
         }
+
     }
 
     /**
@@ -154,25 +151,48 @@ class VillaCustomerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-        ProjectCustomer::find($id)->delete();
+        LandCustomer::find($id)->delete();
         flashSuccess('Customer Removed Successfully');
         return back();
     }
 
-    public function requestPromotion($id)
+
+    public function approvePromotion($id)
     {
-        $customer = ProjectCustomer::find($id)->update(['promote' => 1]);
-        
-        if($customer)
-        {
-            flashSuccess('Promote request Submitted');
+        $customer = LandCustomer::find($id);
+
+        if (!$customer) {
+            flashError('Customer not found');
             return back();
         }
-        else
-        {
-            flashSuccess('Something Wrong');
+
+        // Assuming your levels are '1', '2', '3', '4'
+        $currentLevel = intval($customer->level);
+        $nextLevel = $currentLevel + 1;
+
+        if ($nextLevel > 4) {
+            flashError('Customer is already at the highest level');
+            return back();
+        }
+
+        // Define status based on level
+        $statusOptions = ['booking', 'mod', 'payment', 'closed'];
+        $status = $statusOptions[$nextLevel - 1]; // Array is zero-indexed
+
+        // Update customer attributes
+        $customer->level = strval($nextLevel);
+        $customer->status = $status;
+        $customer->promote = false; // Reset promotion flag
+
+        if ($customer->save()) {
+            flashSuccess('Promotion approved and customer updated');
+            return back();
+        } else {
+            flashError('Failed to update customer');
             return back();
         }
     }
+
+
+
 }

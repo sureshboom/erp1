@@ -318,7 +318,7 @@
 
 @endif
 
-@if(request()->routeIs('account.landcustomer.*'))
+@if((request()->routeIs('account.landcustomer.*')) or (request()->routeIs('account.contractcustomer.*')) or (request()->routeIs('account.villacustomer.*')))
     // Assuming you're using jQuery for simplicity
     
     $('#middle').hide();

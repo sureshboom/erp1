@@ -22,6 +22,8 @@ use App\Http\Controllers\User\siteengineer\MaterialrequestController;
 use App\Http\Controllers\User\account\SitepaymentController;
 use App\Http\Controllers\User\account\MaterialPaymentController;
 use App\Http\Controllers\User\account\LandCustomerController;
+use App\Http\Controllers\User\account\ContractCustomerController;
+use App\Http\Controllers\User\account\VillaCustomerController;
 use App\Http\Controllers\User\account\LandPaymentController;
 use App\Http\Controllers\User\account\ExpenseController;
 
@@ -52,6 +54,12 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
     Route::resource('/site_payment', SitepaymentController::class);
     Route::resource('/material_payment', MaterialPaymentController::class);
     Route::resource('/landcustomer', LandCustomerController::class);
+    Route::get('/landrequestPromotion/{id}', [LandCustomerController::class,'requestPromotion'])->name('promotion');
+    Route::get('/contractrequestPromotion/{id}', [ContractCustomerController::class,'requestPromotion'])->name('cpromotion');
+    Route::get('/villarequestPromotion/{id}', [VillaCustomerController::class,'requestPromotion'])->name('vpromotion');
+    
+    Route::resource('/contractcustomer', ContractCustomerController::class);
+    Route::resource('/villacustomer', VillaCustomerController::class);
     Route::resource('/land_payment', LandPaymentController::class);
     Route::resource('/expense', ExpenseController::class);
     Route::get('/payments/{siteid}',[SitepaymentController::class,'getsite']);
