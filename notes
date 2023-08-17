@@ -154,54 +154,68 @@ order by status
         $supplier = $purchase->supplier;
 
 <!-----perform crud opertion based on relation in laravel ----->
-Creating a New Material with Associated Project:
+        Creating a New Material with Associated Project:
 
-$landProject = LandProject::find(1);
+        $landProject = LandProject::find(1);
 
-$material = new Material([
-    'name' => 'Material Name',
-    // other material attributes
-]);
+        $material = new Material([
+            'name' => 'Material Name',
+            // other material attributes
+        ]);
 
-$landProject->materials()->save($material);
+        $landProject->materials()->save($material);
 
-Creating a New Material Purchase with Associated Material and Supplier:
+        Creating a New Material Purchase with Associated Material and Supplier:
 
-$supplier = Supplier::find(1);
-$material = Material::find(1);
+        $supplier = Supplier::find(1);
+        $material = Material::find(1);
 
-$materialPurchase = new MaterialPurchase([
-    'purchase_date' => now(),
-    // other purchase attributes
-]);
+        $materialPurchase = new MaterialPurchase([
+            'purchase_date' => now(),
+            // other purchase attributes
+        ]);
 
-$supplier->materialPurchases()->save($materialPurchase);
-$material->materialPurchases()->save($materialPurchase);
+        $supplier->materialPurchases()->save($materialPurchase);
+        $material->materialPurchases()->save($materialPurchase);
 
-Updating Material Attributes:
+        Updating Material Attributes:
 
-$material = Material::find(1);
-$material->name = 'Updated Material Name';
-// update other attributes
-$material->save();
+        $material = Material::find(1);
+        $material->name = 'Updated Material Name';
+        // update other attributes
+        $material->save();
 
-Updating Material Purchase Attributes:
+        Updating Material Purchase Attributes:
 
-$materialPurchase = MaterialPurchase::find(1);
-$materialPurchase->purchase_date = now(); // Update the purchase date
-// update other attributes
-$materialPurchase->save();
+        $materialPurchase = MaterialPurchase::find(1);
+        $materialPurchase->purchase_date = now(); // Update the purchase date
+        // update other attributes
+        $materialPurchase->save();
 
 
-Deleting a Material:
+        Deleting a Material:
 
-$material = Material::find(1);
-$material->delete();
+        $material = Material::find(1);
+        $material->delete();
 
-Deleting a Material Purchase:
+        Deleting a Material Purchase:
 
-$materialPurchase = MaterialPurchase::find(1);
-$materialPurchase->delete();
+        $materialPurchase = MaterialPurchase::find(1);
+        $materialPurchase->delete();
+
+        Retrieving Related Data:
+        // Retrieve materials for a specific LandProject
+        $landProject = LandProject::find(1);
+        $materials = $landProject->materials;
+
+        // Retrieve materials purchased by a specific supplier
+        $supplier = Supplier::find(1);
+        $materialPurchases = $supplier->materialPurchases;
+
+        // Retrieve materials purchased for a specific material
+        $material = Material::find(1);
+        $materialPurchases = $material->materialPurchases;
+
 
 
 
