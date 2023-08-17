@@ -6,3 +6,205 @@ $orderedItems = Item::orderBy(DB::raw("CASE
 END"))
 ->get();
 order by status
+
+
+<!------ 3 table key in single table ----->
+
+        // In create_materials_table migration file
+        public function up()
+        {
+            Schema::create('materials', function (Blueprint $table) {
+                $table->id();
+                $table->enum('project_type', ['land', 'construction', 'villa']);
+                $table->unsignedBigInteger('project_id');
+                $table->foreign('project_id')->references('id')->on('land_projects')->onDelete('cascade');
+                $table->foreign('project_id')->references('id')->on('construction_projects')->onDelete('cascade');
+                $table->foreign('project_id')->references('id')->on('villa_projects')->onDelete('cascade');
+                // Other material-specific columns
+                $table->timestamps();
+            });
+        }
+
+
+        <!------- relationship between these tables ----->
+        LandProject Model:
+        class LandProject extends Model
+        {
+            // ...
+
+            public function materials()
+            {
+                return $this->hasMany(Material::class, 'project_id');
+            }
+        }
+
+        ConstructionProject Model:
+        class ConstructionProject extends Model
+        {
+            // ...
+
+            public function materials()
+            {
+                return $this->hasMany(Material::class, 'project_id');
+            }
+        }
+
+        VillaProject Model:
+        class VillaProject extends Model
+        {
+            // ...
+
+            public function materials()
+            {
+                return $this->hasMany(Material::class, 'project_id');
+            }
+        }
+
+        Material Model:
+        class Material extends Model
+        {
+            // ...
+
+            public function project()
+            {
+                return $this->morphTo('project', 'project_type', 'project_id');
+            }
+        }
+
+
+        retrive
+
+        // Retrieve materials for a specific LandProject
+        $landProject = LandProject::find(1);
+        $materials = $landProject->materials;
+
+        // Retrieve the project associated with a specific Material
+        $material = Material::find(1);
+        $project = $material->project; // Returns either a LandProject, ConstructionProject, or VillaProject model
+
+
+<!----supplier table each material purchase details need to store---->
+
+        Supplier Model:
+
+        class Supplier extends Model
+        {
+            // ...
+
+            public function materialPurchases()
+            {
+                return $this->hasMany(MaterialPurchase::class);
+            }
+        }
+
+        MaterialPurchase Model:
+
+        class MaterialPurchase extends Model
+        {
+            // ...
+
+            public function material()
+            {
+                return $this->belongsTo(Material::class);
+            }
+
+            public function supplier()
+            {
+                return $this->belongsTo(Supplier::class);
+            }
+        }
+
+        Material Model (Updated):
+
+        class Material extends Model
+        {
+            // ...
+
+            public function project()
+            {
+                return $this->morphTo('project', 'project_type', 'project_id');
+            }
+
+            public function materialPurchases()
+            {
+                return $this->hasMany(MaterialPurchase::class);
+            }
+        }
+
+
+
+        // Storing a purchase detail for a material
+        $supplier = Supplier::find(1);
+        $material = Material::find(1);
+
+        $purchase = new MaterialPurchase([
+            'purchase_date' => now(),
+            // other purchase-related attributes
+        ]);
+
+        $supplier->materialPurchases()->save($purchase);
+        $material->materialPurchases()->save($purchase);
+
+        // Retrieving purchase details for a material
+        $material = Material::find(1);
+        $materialPurchases = $material->materialPurchases;
+
+        // Retrieving supplier information for a purchase
+        $purchase = MaterialPurchase::find(1);
+        $supplier = $purchase->supplier;
+
+<!-----perform crud opertion based on relation in laravel ----->
+Creating a New Material with Associated Project:
+
+$landProject = LandProject::find(1);
+
+$material = new Material([
+    'name' => 'Material Name',
+    // other material attributes
+]);
+
+$landProject->materials()->save($material);
+
+Creating a New Material Purchase with Associated Material and Supplier:
+
+$supplier = Supplier::find(1);
+$material = Material::find(1);
+
+$materialPurchase = new MaterialPurchase([
+    'purchase_date' => now(),
+    // other purchase attributes
+]);
+
+$supplier->materialPurchases()->save($materialPurchase);
+$material->materialPurchases()->save($materialPurchase);
+
+Updating Material Attributes:
+
+$material = Material::find(1);
+$material->name = 'Updated Material Name';
+// update other attributes
+$material->save();
+
+Updating Material Purchase Attributes:
+
+$materialPurchase = MaterialPurchase::find(1);
+$materialPurchase->purchase_date = now(); // Update the purchase date
+// update other attributes
+$materialPurchase->save();
+
+
+Deleting a Material:
+
+$material = Material::find(1);
+$material->delete();
+
+Deleting a Material Purchase:
+
+$materialPurchase = MaterialPurchase::find(1);
+$materialPurchase->delete();
+
+
+
+
+
+
