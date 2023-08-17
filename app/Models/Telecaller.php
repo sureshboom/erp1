@@ -32,6 +32,33 @@ class Telecaller extends Model
         }
     }
 
+    public function getAttachmentAttribute($attachment)
+    {
+        if ($attachment == null) {
+            return '';
+        } else {
+            return asset($attachment);
+        }
+    }
+
+    public function getAttachment1Attribute($attachment1)
+    {
+        if ($attachment1 == null) {
+            return '';
+        } else {
+            return asset($attachment1);
+        }
+    }
+
+    public function getAttachment2Attribute($attachment2)
+    {
+        if ($attachment2 == null) {
+            return '';
+        } else {
+            return asset($attachment2);
+        }
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

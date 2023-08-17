@@ -16,7 +16,7 @@ class VillaCustomerController extends Controller
     {
         //
 
-        $customers = ProjectCustomer::orderBy('id','desc')->get();
+        $customers = ProjectCustomer::select('id','customer_name','project_id','phone','vilano','villa_area','level','status','promote')->orderBy('id','desc')->get();
         return view('user.account.villacustomer.index',compact('customers'));
     }
 
@@ -86,7 +86,39 @@ class VillaCustomerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $customer = ProjectCustomer::find($id);
+
+        switch ($customer->level) {
+            case '1':
+                $levelPercentage = 25;
+                $levelColor = 'green'; // Yellow
+                $statusview = 'Booking';
+                $statuscolor = 'badge-success';
+                break;
+            case '2':
+                $levelPercentage = 50;
+                $levelColor = '#d98638'; // Blue
+                $statusview = 'Registration & MOD';
+                $statuscolor = 'badge-warning';
+                break;
+            case '3':
+                $levelPercentage = 75;
+                $levelColor = '#337ab7'; // Green
+                $statusview = 'Payment Received';
+                $statuscolor = 'badge-primary';
+                break;
+            case '4':
+                $levelPercentage = 100;
+                $levelColor = '#cc0a0a'; // Red
+                $statusview = 'Closed';
+                $statuscolor = 'badge-danger';
+                break;
+            default:
+                $levelPercentage = 0;
+                $levelColor = '#ccc'; // Default gray
+        }
+
+        return view('user.account.villacustomer.show',compact('customer','levelPercentage','levelColor','statusview','statuscolor'));
     }
 
     /**

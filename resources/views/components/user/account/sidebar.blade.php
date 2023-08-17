@@ -1,5 +1,5 @@
 
-<li>
+<li class="{{ ((request()->routeIs('account.landcustomer.*')) ||(request()->routeIs('account.contractcustomer.*')) ||(request()->routeIs('account.villacustomer.*'))) ? 'active' : '' }}">
     <a class="has-arrow" href="#">
        <span class="educate-icon educate-professor icon-wrap"></span>
        <span class="mini-click-non">Customers</span>

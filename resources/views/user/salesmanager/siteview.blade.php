@@ -65,6 +65,7 @@
                                             <th data-field="day">Date</th>
                                             <th data-field="sname">Site Name</th>
                                             <th data-field="status" >Status</th>
+                                            <th data-field="remarks" >Remarks</th>
                                             <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
@@ -79,21 +80,23 @@
                                             <td>{{ $siteview->date ? formatDate($siteview->date) : '' }}</td>
                                             <td>{{ $siteview->site_name ? $siteview->site_name : '' }}</td>
                                             <td>@if($siteview->status == 'open')
-                                                <h2 class="badge badge-danger ">{{ucfirst($siteview->status)}}</h2>
+                                                <h2 class="badge badge-success ">{{ucfirst($siteview->status)}}</h2>
                                                 @elseif($siteview->status == 'visited')
                                                 <h2 class="badge badge-warning ">{{ucfirst($siteview->status)}}</h2>
                                                 @else
-                                                <h2 class="badge badge-success">{{ucfirst($siteview->status)}}</h2>
+                                                <h2 class="badge badge-danger">{{ucfirst($siteview->status)}}</h2>
                                                 @endif
                                             </td>
-                                            
+                                            <td>
+                                                {{$siteview->customer->remarks}}
+                                            </td>
                                             <td class="datatable-ct">
                                                 <a href="{{ route('salesmanager.siteviewshow', $siteview->id) }}"
                                                     class="btn badge-primary">
                                                     <i class="fa fa-eye"></i> 
                                                 </a>&nbsp;
                                                 @if($siteview->status == 'visited')
-                                                <a href="{{ route('salesmanager.siteviewchange', $siteview->id) }}"
+                                                <a href="{{ route('salesmanager.viewsiteviewchange', ['id'=>$siteview->customer->id,'siteid'=>$siteview->id]) }}"
                                                     class="btn badge-primary">
                                                     <i class="fa fa-edit"></i> Change
                                                 </a> 

@@ -65,6 +65,8 @@
                                             <th data-field="day">Date</th>
                                             <th data-field="sname">Site Name</th>
                                             <th data-field="status" data-editable="false">Status</th>
+                                            <th data-field="feedback" data-editable="false">Feedback</th>
+                                            <th data-field="remarks" data-editable="false">Remarks</th>
                                             <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
@@ -79,18 +81,23 @@
                                             <td>{{ $sitevisit->date ? formatDate($sitevisit->date) : '' }}</td>
                                             <td>{{ $sitevisit->site_name ? $sitevisit->site_name : '' }}</td>
                                             <td>@if($sitevisit->status == 'open')
-                                                <h2 class="badge badge-danger ">{{ucfirst($sitevisit->status)}}</h2>
+                                                <h2 class="badge badge-success ">{{ucfirst($sitevisit->status)}}</h2>
                                                 @elseif($sitevisit->status == 'visited')
                                                 <h2 class="badge badge-warning ">{{ucfirst($sitevisit->status)}}</h2>
                                                 @else
-                                                <h2 class="badge badge-success ">{{ucfirst($sitevisit->status)}}</h2>
+                                                <h2 class="badge badge-danger ">{{ucfirst($sitevisit->status)}}</h2>
                                                 @endif
-                                                </td>
-                                            
+                                            </td>
+                                            <td>
+                                                {{ $sitevisit->customer->feedback ? $sitevisit->customer->feedback : '' }}
+                                            </td>
+                                            <td>
+                                                {{ $sitevisit->customer->remarks ? $sitevisit->customer->remarks : '' }}
+                                            </td>
                                             <td class="datatable-ct">
                                                 <!-- <i class="fa fa-check"></i> -->
                                                 @if($sitevisit->status == 'open')
-                                                <a href="{{ route('salesperson.visitchange', $sitevisit->id) }}"
+                                                <a href="{{ route('salesperson.viewvisitchange',['id'=>$sitevisit->customer->id,'siteid'=>$sitevisit->id]) }}"
                                                     class="btn badge-primary">
                                                     <i class="fa fa-edit"></i> Change
                                                 </a>
@@ -98,6 +105,7 @@
                                                     <p class="text-success"> Site Visit Completed</p>
                                                 @endif
                                             </td>
+                                            
                                         </tr>
                                         @empty
                                         <tr>

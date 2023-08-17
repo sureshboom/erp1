@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Sitevisitarrange;
 use App\Models\Customer;
 use App\Models\Telecaller;
+use Illuminate\Support\Facades\DB;
 
 class SitevisitController extends Controller
 {
@@ -16,7 +17,13 @@ class SitevisitController extends Controller
     public function index()
     {
         //
-        $sitevisits = Sitevisitarrange::with('customer:id,customer_name')->get();
+        $sitevisits = Sitevisitarrange::with('customer:id,customer_name')->orderBy(
+        DB::raw("CASE 
+    WHEN status = 'open' THEN 1 
+    WHEN status = 'visited' THEN 2 
+    WHEN status = 'close' THEN 3 
+    ELSE 4 
+END"))->get();
         return view('user.telecaller.sitevisit.index',compact('sitevisits'));
     }
 

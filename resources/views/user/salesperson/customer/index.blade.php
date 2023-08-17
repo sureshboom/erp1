@@ -66,8 +66,9 @@
                                             <th data-field="location" data-editable="false">Location</th>
                                             <th data-field="interested_project" data-editable="false">Interested Project</th>
                                             <th data-field="interested_area">Interested Area</th>
-                                            <th data-field="date" data-editable="false">Feedback</th>
                                             <th data-field="source" data-editable="false">Source</th>
+                                            <th data-field="date" data-editable="false">Feedback</th>
+                                            
                                             <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
@@ -84,11 +85,12 @@
                                             <td>{{ $customer->location ? $customer->location : '' }}</td>
                                             <td>{{ $customer->interested_project ? $customer->interested_project : '' }}</td>
                                             <td>{{ $customer->interested_area ? $customer->interested_area : '' }}</td>
+                                            
+                                            <td>{{ $customer->source ? $customer->source : '' }}</td>
                                             <td>
                                                 {{ $customer->feedback ? $customer->feedback : '' }}
                                             </td>
-                                            <td>{{ $customer->source ? $customer->source : '' }}</td>
-                                            <td class="datatable-ct"><i class="fa fa-check"></i>
+                                            <td class="datatable-ct">
                                                 <a href="{{ route('salesperson.direct_customer.edit', $customer->id) }}"
                                                     class="btn ll-mr-4 ll-p-0">
                                                     <i class="fa fa-edit"></i>

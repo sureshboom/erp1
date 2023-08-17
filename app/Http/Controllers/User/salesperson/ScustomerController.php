@@ -8,6 +8,7 @@ use App\Models\Salesperson;
 use App\Models\Customer;
 use App\Models\Sitevisitarrange;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ScustomerController extends Controller
 {
@@ -136,12 +137,25 @@ class ScustomerController extends Controller
 
     public function salespersonvisit()
     {
-        $sitevisits = Sitevisitarrange::where('status','!=','closed')->get();
+        $sitevisits = Sitevisitarrange::where('status','!=','closed')->orderBy(
+        DB::raw("CASE 
+    WHEN status = 'open' THEN 1 
+    WHEN status = 'visited' THEN 2 
+    WHEN status = 'close' THEN 3 
+    ELSE 4 
+END"))->get();
 
         return view('user.salesperson.sitevisit.index',compact('sitevisits'));
     }
+    public function viewvisitchange($id,$siteid)
+    {
+        $customer = Customer::find($id);
+        $sitevisit = Sitevisitarrange::find($siteid);
 
-    public function visitchange($id){
+        return view('user.salesperson.sitevisit.create',compact('sitevisit','customer'));
+    }
+    public function visitchange(Request $request,$id){
+        $input = $request->validate(['feedback'=>'required']);
         $salesperson = Salesperson::where('user_id',auth()->user()->id)->first();
         $change = Sitevisitarrange::where('id',$id)->update([
             'status' => 'visited',
@@ -149,8 +163,9 @@ class ScustomerController extends Controller
         ]);
 
         if ($change) {
+            Customer::find($request->customer_id)->update(['feedback'=>$request->feedback]);
             flashSuccess('Sitevisit Changed Successfully');
-            return back();
+            return redirect()->route('salesperson.sitevisit');
         }
         else
         {

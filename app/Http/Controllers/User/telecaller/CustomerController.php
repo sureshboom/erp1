@@ -44,7 +44,7 @@ class CustomerController extends Controller
             'location' => 'required',
             'interested_project' => 'required',
             'interested_area' => 'required',
-            'feedback' => 'required',
+            'response' => 'required',
             'source' => 'required'
         ]);
         
@@ -93,7 +93,7 @@ class CustomerController extends Controller
             'location' => 'required',
             'interested_project' => 'required',
             'interested_area' => 'required',
-            'feedback' => 'required',
+            'response' => 'required',
             'source' => 'required'
         ]);
 

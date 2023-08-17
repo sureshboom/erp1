@@ -64,12 +64,9 @@
                                             <th data-field="cid">Villa ID</th>
                                             <th data-field="customer">Customer Name</th>
                                             <th data-field="phone">Phone No</th>
-                                            
                                             <th data-field="site">Project Name</th>
                                             <th data-field="plot">Villa No</th>
                                             <th data-field="plt">Villa Area</th>
-                                            
-                                            <th data-field="name">Lead From</th>
                                             <th data-field="status" data-editable="false">Status</th>
                                             <th data-field="action">Action</th>
                                         </tr>
@@ -87,9 +84,6 @@
                                             <td>{{ $customer->villaproject->project_name ? $customer->villaproject->project_name : '' }}</td>
                                             <td>{{ $customer->vilano ? $customer->vilano : '' }}</td>
                                             <td>{{ $customer->villa_area ? $customer->villa_area : '' }}</td>
-                                            
-                                            
-                                            <td>{{ $customer->leadfrom ? ucfirst($customer->leadfrom) : '' }}</td>
                                             
                                             <td>
                                                 @if($customer->status == 'booking')
@@ -110,7 +104,7 @@
                                                     <a href="{{route('account.vpromotion',$customer->id)}}" class="btn badge-primary">Promote</a>
                                                     @endif
                                                 @elseif($customer->status == 'payment')
-                                                <h2 class="badge badge-primary ">Payment Receivd</h2>
+                                                <h2 class="badge badge-primary ">Payment Received</h2>
                                                     @if($customer->promote == 1)
                                                     <p class="text-danger">Promote Request Placed</p>
                                                     @else
@@ -126,6 +120,10 @@
                                                 <a href="{{ route('account.villacustomer.edit', $customer->id) }}"
                                                     class="btn btn-link ">
                                                     <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a href="{{ route('account.villacustomer.show', $customer->id) }}"
+                                                    class="btn btn-link ">
+                                                    <i class="fa fa-eye"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $customer->id }}').submit();"><i class="fa fa-trash"></i></a>
                                                 <form method="post" action="{{ route('account.villacustomer.destroy', $customer->id) }}" id="delete-post-{{ $customer->id }}" style="display: none;">

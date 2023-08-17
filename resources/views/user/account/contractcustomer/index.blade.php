@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Land Customers') }}
+	    {{ __('Contract Customers') }}
 	@endsection
 
 	@section('main')
@@ -64,10 +64,7 @@
                                             <th data-field="cid">Contract ID</th>
                                             <th data-field="customer">Customer Name</th>
                                             <th data-field="phone">Phone No</th>
-                                            <th data-field="location">Location</th>
                                             <th data-field="site">Project Name</th>
-                                            <th data-field="total">Amount</th>
-                                            <th data-field="name">Lead From</th>
                                             <th data-field="status" data-editable="false">Status</th>
                                             <th data-field="action">Action</th>
                                         </tr>
@@ -81,12 +78,7 @@
                                             <td>{{ $customer->skscc_id ? $customer->skscc_id : '' }}</td>
                                             <td>{{ $customer->customer_name ? $customer->customer_name : '' }}</td>
                                             <td>{{ $customer->phone ? $customer->phone : '' }}</td>
-                                            <td>{{ $customer->location ? $customer->location : '' }}</td>
                                             <td>{{ $customer->contractproject->project_name ? $customer->contractproject->project_name : '' }}</td>
-                                            
-                                            <td>{{  number_format($customer->amount) }}</td>
-                                            
-                                            <td>{{ $customer->leadfrom ? ucfirst($customer->leadfrom) : '' }}</td>
                                             
                                             <td>
                                                 @if($customer->status == 'booking')
@@ -107,7 +99,7 @@
                                                     <a href="{{route('account.cpromotion',$customer->id)}}" class="btn badge-primary">Promote</a>
                                                     @endif
                                                 @elseif($customer->status == 'payment')
-                                                <h2 class="badge badge-primary ">Payment Receivd</h2>
+                                                <h2 class="badge badge-primary ">Payment Received</h2>
                                                     @if($customer->promote == 1)
                                                     <p class="text-danger">Promote Request Placed</p>
                                                     @else
@@ -123,6 +115,10 @@
                                                 <a href="{{ route('account.contractcustomer.edit', $customer->id) }}"
                                                     class="btn btn-link ">
                                                     <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a href="{{ route('account.contractcustomer.show', $customer->id) }}"
+                                                    class="btn btn-link ">
+                                                    <i class="fa fa-eye"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $customer->id }}').submit();"><i class="fa fa-trash"></i></a>
                                                 <form method="post" action="{{ route('account.contractcustomer.destroy', $customer->id) }}" id="delete-post-{{ $customer->id }}" style="display: none;">

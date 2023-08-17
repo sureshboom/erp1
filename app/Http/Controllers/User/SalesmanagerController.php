@@ -9,6 +9,7 @@ use App\Models\Telecaller;
 use App\Models\Telework;
 use App\Models\Salesperson;
 use App\Models\Sitevisitarrange;
+use Illuminate\Support\Facades\DB;
 
 class SalesmanagerController extends Controller
 {
@@ -21,7 +22,7 @@ class SalesmanagerController extends Controller
 
     public function allcustomers()
     {
-         $customers = Customer::select('id','customer_name','created_by_type','created_by_id','created_at','phone','location','interested_project','interested_area','source','feedback')->with('telecaller:id,user_id','salesperson:id,user_id','telecaller.user:id,name','salesperson.user:id,name')->get();
+         $customers = Customer::select('id','customer_name','created_by_type','created_by_id','created_at','phone','location','interested_project','interested_area','source','feedback','response')->with('telecaller:id,user_id','salesperson:id,user_id','telecaller.user:id,name','salesperson.user:id,name')->get();
          
          // $customers = Customer::with('creator')->get();
 
@@ -40,7 +41,13 @@ class SalesmanagerController extends Controller
 
     public function siteview()
     {
-        $siteviews = Sitevisitarrange::select('id','customer_id','date','site_name','status','received_id')->with('customer:id,customer_name')->get();
+        $siteviews = Sitevisitarrange::select('id','customer_id','date','site_name','status','received_id')->orderBy(
+        DB::raw("CASE 
+    WHEN status = 'open' THEN 1 
+    WHEN status = 'visited' THEN 2 
+    WHEN status = 'close' THEN 3 
+    ELSE 4 
+END"))->with('customer:id,customer_name,remarks')->get();
         return view('user.salesmanager.siteview',compact('siteviews'));
     }
 
@@ -50,14 +57,25 @@ class SalesmanagerController extends Controller
         return view('user.salesmanager.siteviewshow',compact('siteviews'));   
     }
 
-    public function siteviewchange($id){
-        $change = Sitevisitarrange::where('id',$id)->update([
-            'status' => 'closed',
-        ]);
+    public function viewsiteviewchange($id,$siteid)
+    {
+        $customer = Customer::find($id);
+        $sitevisit = Sitevisitarrange::find($siteid);
 
-        if ($change) {
+        return view('user.salesmanager.siteviewshows',compact('sitevisit','customer'));
+    }
+
+    public function siteviewchange(Request $request,$id){
+        $input = $request->validate(['status' =>'required','remarks' =>'required','customer_id' =>'required']);
+        $change = Sitevisitarrange::where('id',$id)->update([
+            'status' => $request->status
+        ]);
+        Customer::where('id',$request->customer_id)->update(['remarks' => $request->remarks]);
+        if ($change) 
+        {
+            
             flashSuccess('Sitevisit Closed Successfully');
-            return back();
+            return redirect()->route('salesmanager.siteview');
         }
         else
         {

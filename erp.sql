@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2023 at 02:51 PM
+-- Generation Time: Aug 17, 2023 at 01:06 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -199,6 +199,8 @@ CREATE TABLE `customers` (
   `interested_area` varchar(255) DEFAULT NULL,
   `source` varchar(255) DEFAULT NULL,
   `feedback` varchar(255) DEFAULT NULL,
+  `response` varchar(255) DEFAULT NULL,
+  `remarks` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `created_by_id` bigint(20) UNSIGNED NOT NULL,
@@ -209,11 +211,11 @@ CREATE TABLE `customers` (
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`id`, `customer_name`, `phone`, `location`, `interested_project`, `interested_area`, `source`, `feedback`, `created_at`, `updated_at`, `created_by_id`, `created_by_type`) VALUES
-(1, 'siva raj1', '9092255561', 'mettu street\r\nworaiyurs.', 'lands', 'coimbatore', 'Telecaller', 'demos', '2023-07-22 06:04:07', '2023-07-26 07:21:05', 1, 'salesperson'),
-(4, 'siva raj', '09092250561', 'mettu street\r\nworaiyur', 'lands', 'coimbatore', 'Telecaller', 'demo', '2023-07-27 02:04:30', '2023-07-27 02:04:30', 1, 'telecaller'),
-(6, 'Raj', '09092250561', 'mettu street\r\nworaiyur', 'lands', 'coimbatore', 'Walk In', 'Demos', '2023-07-28 01:42:09', '2023-07-28 01:42:09', 1, 'salesperson'),
-(8, 'Ramu', '09092250561', 'mettu street\r\nworaiyur', 'Land & Constructions', 'coimbatore', 'Website', 'demo', '2023-07-28 06:26:41', '2023-07-28 06:26:41', 1, 'telecaller');
+INSERT INTO `customers` (`id`, `customer_name`, `phone`, `location`, `interested_project`, `interested_area`, `source`, `feedback`, `response`, `remarks`, `created_at`, `updated_at`, `created_by_id`, `created_by_type`) VALUES
+(1, 'siva raj1', '9092255561', 'mettu street\r\nworaiyurs.', 'lands', 'coimbatore', 'Telecaller', '', NULL, NULL, '2023-07-22 06:04:07', '2023-07-26 07:21:05', 1, 'salesperson'),
+(4, 'siva raj', '09092250561', 'mettu street\r\nworaiyur', 'lands', 'coimbatore', 'Telecaller', 'demo', 'Need to Visit', NULL, '2023-07-27 02:04:30', '2023-08-17 03:19:59', 1, 'telecaller'),
+(6, 'Raj', '09092250561', 'mettu street\r\nworaiyur', 'lands', 'coimbatore', 'Walk In', 'Visited', NULL, 'Revisit', '2023-07-28 01:42:09', '2023-08-17 05:34:59', 1, 'salesperson'),
+(8, 'Ramu', '09092250561', 'mettu street\r\nworaiyur', 'Land & Constructions', 'coimbatore', 'Website', NULL, 'Need to visit two sites', NULL, '2023-07-28 06:26:41', '2023-08-17 04:01:39', 1, 'telecaller');
 
 -- --------------------------------------------------------
 
@@ -808,6 +810,7 @@ CREATE TABLE `sitevisitarranges` (
   `date` date NOT NULL,
   `received_id` varchar(255) DEFAULT NULL,
   `status` enum('open','visited','closed') NOT NULL,
+  `remarks` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -816,10 +819,10 @@ CREATE TABLE `sitevisitarranges` (
 -- Dumping data for table `sitevisitarranges`
 --
 
-INSERT INTO `sitevisitarranges` (`id`, `customer_id`, `site_name`, `date`, `received_id`, `status`, `created_at`, `updated_at`) VALUES
-(2, 4, 'Site A', '2023-07-31', '1', 'closed', '2023-07-27 06:45:30', '2023-07-28 04:28:13'),
-(3, 6, 'Site B', '2023-07-28', '1', 'visited', '2023-07-28 01:42:09', '2023-07-28 01:42:09'),
-(5, 8, 'Site C', '2023-08-01', NULL, 'open', '2023-07-28 06:29:49', '2023-07-28 06:29:49');
+INSERT INTO `sitevisitarranges` (`id`, `customer_id`, `site_name`, `date`, `received_id`, `status`, `remarks`, `created_at`, `updated_at`) VALUES
+(2, 4, 'Site A', '2023-07-31', '1', 'closed', NULL, '2023-07-27 06:45:30', '2023-07-28 04:28:13'),
+(3, 6, 'Site B', '2023-07-28', '1', 'open', NULL, '2023-07-28 01:42:09', '2023-08-17 05:34:59'),
+(5, 8, 'Site C', '2023-08-01', '1', 'open', NULL, '2023-07-28 06:29:49', '2023-08-17 04:01:39');
 
 -- --------------------------------------------------------
 

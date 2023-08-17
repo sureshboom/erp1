@@ -65,9 +65,10 @@
                                             <th data-field="location" data-editable="false">Location</th>
                                             <th data-field="interested_project" data-editable="false">Interested Project</th>
                                             <th data-field="interested_area">Interested Area</th>
-                                            <th data-field="date" data-editable="false">Feedback</th>
-                                            <th data-field="source" data-editable="false">Source</th>
+                                            <th data-field="date" data-editable="false">Response</th>
+                                            <!-- <th data-field="source" data-editable="false">Source</th> -->
                                             <th data-field="created_by">Created By</th>
+                                            <th data-field="feedback">Feedback</th>
                                             
                                         </tr>
                                     </thead>
@@ -85,11 +86,13 @@
                                             <td>{{ $customer->interested_project ? $customer->interested_project : '' }}</td>
                                             <td>{{ $customer->interested_area ? $customer->interested_area : '' }}</td>
                                             <td>
-                                                {{ $customer->feedback ? $customer->feedback : '' }}
+                                                <p class="text-success">{{ $customer->response ? $customer->response : '' }}</p>
                                             </td>
-                                            <td>{{ $customer->source ? $customer->source : '' }}</td>
+                                            <!-- <td>{{ $customer->source ? $customer->source : '' }}</td> -->
                                             <td>@if($customer->created_by_type == 'telecaller'){{$customer->telecaller->user->name}}@elseif($customer->created_by_type == 'salesperson'){{$customer->salesperson->user->name}}@endif-{{ $customer->created_by_type ? ucfirst($customer->created_by_type) : '' }}</td>
-                                            
+                                            <td>
+                                                <p class="text-danger">{{ $customer->feedback ? $customer->feedback : '' }}</p>
+                                            </td>
                                         </tr>
                                         @empty
                                         <tr>

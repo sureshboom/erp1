@@ -134,7 +134,8 @@ Route::controller(SalesmanagerController::class)->prefix('sales_manager')->middl
     Route::get('allcustomers', 'allcustomers')->name('allcustomers');
     Route::get('teleworks', 'telework')->name('teleworks');
     Route::get('siteview', 'siteview')->name('siteview');
-    Route::get('/siteviewchange/{id}', 'siteviewchange')->name('siteviewchange');
+    Route::post('/siteviewchange/{id}', 'siteviewchange')->name('siteviewchange');
+    Route::get('/viewsiteviewchange/{id}/{siteid}', 'viewsiteviewchange')->name('viewsiteviewchange');
     Route::get('/siteviewshow/{id}', 'siteviewshow')->name('siteviewshow');
     
 });
@@ -144,8 +145,8 @@ Route::controller(SalespersonController::class)->prefix('sales_person')->middlew
     Route::get('dashboard', 'dashboard')->name('dashboard');
     Route::resource('/direct_customer', ScustomerController::class);
     Route::get('/sitevisit',[ScustomerController::class,'salespersonvisit'])->name('sitevisit');
-    Route::get('/visitchange/{id}',[ScustomerController::class,'visitchange'])->name('visitchange');
-
+    Route::post('/visitchange/{id}',[ScustomerController::class,'visitchange'])->name('visitchange');
+    Route::get('/viewvisitchange/{id}/{siteid}',[ScustomerController::class,'viewvisitchange'])->name('viewvisitchange');
 });
 // Routes for Supervisors
 

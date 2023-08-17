@@ -79,11 +79,11 @@
                                             <td>{{ $sitevisit->date ? formatDate($sitevisit->date) : '' }}</td>
                                             <td>{{ $sitevisit->site_name ? $sitevisit->site_name : '' }}</td>
                                             <td>@if($sitevisit->status == 'open')
-                                                <h2 class="badge badge-danger ">{{ucfirst($sitevisit->status)}}</h2>
+                                                <h2 class="badge badge-success ">{{ucfirst($sitevisit->status)}}</h2>
                                                 @elseif($sitevisit->status == 'visited')
                                                 <h2 class="badge badge-warning ">{{ucfirst($sitevisit->status)}}</h2>
                                                 @else
-                                                <h2 class="badge badge-success ">{{ucfirst($sitevisit->status)}}</h2>
+                                                <h2 class="badge badge-danger ">{{ucfirst($sitevisit->status)}}</h2>
                                                 @endif
                                                 </td>
                                             

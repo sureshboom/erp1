@@ -100,9 +100,9 @@
                                 @enderror
                             </div>
                             <div class="form-group res-mg-t-15">
-                                <label>Feedback</label>
-                                <textarea name="feedback" placeholder="Feedback"></textarea>
-                                @error('feedback')
+                                <label>Response</label>
+                                <textarea name="response" placeholder="Response"></textarea>
+                                @error('response')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>

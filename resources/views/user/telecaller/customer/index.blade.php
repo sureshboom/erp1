@@ -66,7 +66,7 @@
                                             <th data-field="location" data-editable="false">Location</th>
                                             <th data-field="interested_project" data-editable="false">Interested Project</th>
                                             <th data-field="interested_area">Interested Area</th>
-                                            <th data-field="date" data-editable="false">Feedback</th>
+                                            <th data-field="date" data-editable="false">Response</th>
                                             <th data-field="source" data-editable="false">Source</th>
                                             <th data-field="action">Action</th>
                                         </tr>
@@ -85,7 +85,7 @@
                                             <td>{{ $customer->interested_project ? $customer->interested_project : '' }}</td>
                                             <td>{{ $customer->interested_area ? $customer->interested_area : '' }}</td>
                                             <td>
-                                                {{ $customer->feedback ? $customer->feedback : '' }}
+                                                {{ $customer->response ? $customer->response : '' }}
                                             </td>
                                             <td>{{ $customer->source ? $customer->source : '' }}</td>
                                             <td class="datatable-ct"><i class="fa fa-check"></i>
