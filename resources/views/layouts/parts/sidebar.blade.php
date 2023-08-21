@@ -7,7 +7,8 @@
             <div class="left-custom-menu-adp-wrap comment-scrollbar">
                 <nav class="sidebar-nav left-sidebar-menu-pro">
                     <ul class="metismenu" id="menu1">
-                        <li class="active">
+                        <li class="{{ ((request()->routeIs('chiefengineer.dashboard')) ||(request()->routeIs('siteengineer.dashboard')) ||(request()->routeIs('account.dashboard')) ||(request()->routeIs('telecaller.dashboard')) ||(request()->routeIs('salesmanager.dashboard')) ||(request()->routeIs('salesperson.dashboard'))) ? 'active' : '' }}">
+                            
                             <a  href="{{ route('user.dashboard')}}">
                                    <span class="educate-icon educate-home icon-wrap"></span>
                                    <span class="mini-click-non">Dashboard</span>

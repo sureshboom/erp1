@@ -17,6 +17,16 @@ class Mesthiri extends Model
         return $this->belongsTo(Site::class,'mesthiri_id');
     }
 
+    public function villaproject()
+    {
+        return $this->belongsTo(VillaProject::class,'mesthiri_id');
+    }
+
+    public function contractproject()
+    {
+        return $this->belongsTo(ContractProject::class,'mesthiri_id');
+    }
+
     public function getSksmtIdAttribute()
     {
         return 'SKSMT ' . $this->attributes['id'];

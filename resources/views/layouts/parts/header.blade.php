@@ -91,7 +91,7 @@
                         <div class="mobile-menu">
                             <nav id="dropdown">
                             <ul class="mobile-menu-nav">
-                                <li><a  href="{{ route('user.dashboard')}}">Dashboard <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                <li ><a  href="{{ route('user.dashboard')}}">Dashboard <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                         
                                 </li>
                                 @auth('user')

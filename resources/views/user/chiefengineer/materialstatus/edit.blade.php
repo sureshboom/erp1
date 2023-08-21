@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h3 class="text-center">Material Details</h3>
-                    <form action="{{ route('siteengineer.purchaseupdate') }}" class="acount-infor" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('chiefengineer.material_status.update',$siteid->materialin_id) }}" class="acount-infor" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
                     <input type="hidden" name="project_type" value="{{$siteid->project_type}}">
@@ -82,4 +82,4 @@
         </div>
     </div>
     
-@endsection    
+@endsection

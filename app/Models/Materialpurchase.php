@@ -11,6 +11,6 @@ class Materialpurchase extends Model
 
     
 
-    protected $fillable = ['site_id', 'meterial_id', 'quantity'];
+    protected $fillable = ['project_type','contract_project_id','materialin_id','villa_project_id', 'meterial_id', 'quantity'];
 
 }

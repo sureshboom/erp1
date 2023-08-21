@@ -20,4 +20,14 @@ class MesthiriAssign extends Model
     {
         return $this->belongsTo(Mesthiri::class,'mesthiri_id');
     }
+
+    public function contractproject()
+    {
+        return $this->belongsTo(ContractProject::class,'contract_project_id');
+    }
+
+    public function villaproject()
+    {
+        return $this->belongsTo(VillaProject::class,'villa_project_id');
+    }
 }

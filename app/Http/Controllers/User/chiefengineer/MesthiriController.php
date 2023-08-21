@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Mesthiri;
 use App\Models\MesthiriAssign;
 use App\Models\Chiefengineer;
-use App\Models\Site;
+use App\Models\LandProject;
+use App\Models\ContractProject;
+use App\Models\VillaProject;
+use App\Models\site;
 
 class MesthiriController extends Controller
 {
@@ -38,6 +41,7 @@ class MesthiriController extends Controller
     {
         $input = $request->validate([
             'name' => 'required',
+            'nickname' => 'required',
             'phone' => 'required',
             'alternate_no' => 'nullable',
             'location' => 'required',
@@ -63,8 +67,20 @@ class MesthiriController extends Controller
      */
     public function show(string $id)
     {
-        $mesthiriassigns = MesthiriAssign::where('site_id',$id)->orderBy('id','desc')->get();
-        return view('user.chiefengineer.mesthiri.show',compact('mesthiriassigns'));
+        // $mesthiriassigns = MesthiriAssign::where('site_id',$id)->orderBy('id','desc')->get();
+        // return view('user.chiefengineer.mesthiri.show',compact('mesthiriassigns'));
+    }
+
+    public function assigncontract($id)
+    {
+        $mesthiriassigns = MesthiriAssign::where('contract_project_id',$id)->orderBy('id','desc')->get();
+        return view('user.chiefengineer.mesthiri.showcontract',compact('mesthiriassigns'));
+    }
+
+    public function assignvilla($id)
+    {
+        $mesthiriassigns = MesthiriAssign::where('villa_project_id',$id)->orderBy('id','desc')->get();
+        return view('user.chiefengineer.mesthiri.showvilla',compact('mesthiriassigns'));
     }
 
     /**
@@ -84,6 +100,7 @@ class MesthiriController extends Controller
     {
         $input = $request->validate([
             'name' => 'required',
+            'nickname' => 'required',
             'phone' => 'required',
             'alternate_no' => 'nullable',
             'location' => 'required',
@@ -114,52 +131,124 @@ class MesthiriController extends Controller
         return back();
     }
 
-    public function mesthiriindex()
+    public function mesthiricontract()
     {
         $chiefengineer = Chiefengineer::where('user_id',auth()->user()->id)->first();
-        $sites = Site::where('chiefengineer_id',$chiefengineer->id)->get();
+        $contractprojects = ContractProject::where('chiefengineer_id',$chiefengineer->id)->get();
 
-        return view('user.chiefengineer.mesthiri.view',compact('sites'));
+        return view('user.chiefengineer.mesthiri.view',compact('contractprojects'));
+    }
+
+    public function mesthirivilla()
+    {
+        $chiefengineer = Chiefengineer::where('user_id',auth()->user()->id)->first();
+        $villaprojects = VillaProject::where('chiefengineer_id',$chiefengineer->id)->get();
+
+        return view('user.chiefengineer.mesthiri.villaview',compact('villaprojects'));
     }
 
     public function assign()
     {
         $chiefengineer = Chiefengineer::where('user_id',auth()->user()->id)->first();
-        $sites = Site::where('chiefengineer_id',$chiefengineer->id)->get();
-        $mesthiris = Mesthiri::select('id','name')->get();
+        $contractprojects = ContractProject::where('chiefengineer_id',$chiefengineer->id)->get();
+        $villaprojects = VillaProject::where('chiefengineer_id',$chiefengineer->id)->get();
+        $mesthiris = Mesthiri::select('id','name','nickname')->get();
 
-        return view('user.chiefengineer.mesthiri.assign',compact('sites','mesthiris'));
+        return view('user.chiefengineer.mesthiri.assign',compact('contractprojects','villaprojects','mesthiris'));
     }
 
     public function assignstore(Request $request)
     {
         $input = $request->validate([
-            'site_id' => 'required',
+            'project_type' => 'required',
+            'contract_project_id' => 'required_if:project_type,contract',
+            'villa_project_id' => 'required_if:project_type,villa',
             'mesthiri_id' => 'required',
         ]);
 
-        
+        $projectType = $request->project_type;
+        $projectId = ($projectType === 'contract') ? $request->contract_project_id : $request->villa_project_id;
+        $model = ($projectType === 'contract') ? ContractProject::class : VillaProject::class;
 
-        $site = Site::find($request->site_id);
-        if($site->mesthiri_id == $request->mesthiri_id)
-        {
+        $project = $model::find($projectId);
+
+        if ($project->mesthiri_id == $request->mesthiri_id) {
             flashError('Already Exists');
             return back();
         }
-        else
-        {
-            $sites = $site->update(['mesthiri_id' => $request->mesthiri_id]);
-            if($sites)
-            {
-                MesthiriAssign::create($input);
-                flashSuccess('Mesthiri Assigned Successfully');
-                return redirect()->route('chiefengineer.mesthiriindex');
-            }
-            else
-            {
-                flashError('Something Wrong');
-                return back();
-            }
+
+        $projects = $project->update(['mesthiri_id' => $request->mesthiri_id]);
+
+        if ($projects) {
+            MesthiriAssign::create($input);
+            flashSuccess('Mesthiri Assigned Successfully');
+            return ($projectType === 'contract')
+                ? redirect()->route('chiefengineer.mesthiricontract')
+                : redirect()->route('chiefengineer.mesthirivilla');
+        } else {
+            flashError('Something Wrong');
+            return back();
         }
     }
+
+    // public function assignstore(Request $request)
+    // {
+        
+    //     $input = $request->validate([
+    //         'project_type' => 'required',
+    //         'contract_project_id' => 'required_if:project_type,contract',
+    //         'villa_project_id' => 'required_if:project_type,villa',
+    //         'mesthiri_id' => 'required',
+    //     ]);
+    //     if($request->project_type == 'contract')
+    //     {
+    //         $project = ContractProject::find($request->contract_project_id);
+    //         if($project->mesthiri_id == $request->mesthiri_id)
+    //         {
+    //             flashError('Already Exists');
+    //             return back();
+    //         }
+    //         else
+    //         {
+    //             $projects = $project->update(['mesthiri_id' => $request->mesthiri_id]);
+    //             if($projects)
+    //             {
+    //                 MesthiriAssign::create($input);
+    //                 flashSuccess('Mesthiri Assigned Successfully');
+    //                 return redirect()->route('chiefengineer.mesthiricontract');
+    //             }
+    //             else
+    //             {  
+    //                 flashError('Something Wrong');
+    //                 return back();
+    //             }
+    //         }
+    //     }
+    //     else
+    //     {
+    //         $project = VillaProject::find($request->villa_project_id);
+
+    //         if($project->mesthiri_id == $request->mesthiri_id)
+    //         {
+    //             flashError('Already Exists');
+    //             return back();
+    //         }
+    //         else
+    //         {
+    //             $projects = $project->update(['mesthiri_id' => $request->mesthiri_id]);
+    //             if($projects)
+    //             {
+    //                 MesthiriAssign::create($input);
+    //                 flashSuccess('Mesthiri Assigned Successfully');
+    //                 return redirect()->route('chiefengineer.mesthirivilla');
+    //             }
+    //             else
+    //             {  
+    //                 flashError('Something Wrong');
+    //                 return back();
+    //             }
+    //         }
+    //     }
+        
+    // }
 }

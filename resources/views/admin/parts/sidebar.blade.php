@@ -7,16 +7,22 @@
             <div class="left-custom-menu-adp-wrap comment-scrollbar">
                 <nav class="sidebar-nav left-sidebar-menu-pro">
                     <ul class="metismenu" id="menu1">
-                        <li class="active">
+                        <li class="{{(request()->routeIs('admin.dashboard')) ? 'active' : '' }}">
                             <a  href="{{ route('admin.dashboard')}}">
                                <span class="educate-icon educate-home icon-wrap"></span>
                                <span class="mini-click-non">Dashboard</span>
                             </a>
                         </li>
-                        <li >
+                        <li class="{{(request()->routeIs('admin.staff')) ? 'active' : '' }}">
                             <a  href="{{ route('admin.staff')}}">
                                <span class="educate-icon educate-professor icon-wrap"></span>
                                <span class="mini-click-non">Staff</span>
+                            </a>
+                        </li>
+                        <li class="{{(request()->routeIs('supplier.index')) ? 'active' : '' }}">
+                            <a  href="{{ route('supplier.index')}}">
+                               <span class="educate-icon educate-professor icon-wrap"></span>
+                               <span class="mini-click-non">Supplier</span>
                             </a>
                         </li>
                         
@@ -27,9 +33,9 @@
                             </a>
                             <ul class="submenu-angle" aria-expanded="true">
                                 
-                                <li><a title="owner" href="{{ route('landcustomer.index')}}"><span class="mini-sub-pro">Land Customers</span></a></li>
-                                <li><a title="sites" href="{{ route('contractcustomer.index')}}"><span class="mini-sub-pro">Contract Projects</span></a></li>
-                                <li><a title="sites" href="{{ route('villacustomer.index')}}"><span class="mini-sub-pro">Villa Projects</span></a></li>
+                                <li class="{{(request()->routeIs('landcustomer.*')) ? 'active' : '' }}"><a title="owner" href="{{ route('landcustomer.index')}}"><span class="mini-sub-pro">Land Customers</span></a></li>
+                                <li class="{{(request()->routeIs('contractcustomer.*')) ? 'active' : '' }}"><a title="sites" href="{{ route('contractcustomer.index')}}"><span class="mini-sub-pro">Contract Projects</span></a></li>
+                                <li class="{{(request()->routeIs('villacustomer.*')) ? 'active' : '' }}"><a title="sites" href="{{ route('villacustomer.index')}}"><span class="mini-sub-pro">Villa Projects</span></a></li>
                             </ul>
                         </li>
                         <li class="{{ ((request()->routeIs('landproject.*')) ||(request()->routeIs('contractproject.*')) ||(request()->routeIs('villaproject.*'))) ? 'active' : '' }}">
@@ -39,18 +45,18 @@
                             </a>
                             <ul class="submenu-angle" aria-expanded="true">
                                 
-                                <li><a title="owner" href="{{ route('landproject.index')}}"><span class="mini-sub-pro">Land Projects</span></a></li>
-                                <li><a title="sites" href="{{ route('contractproject.index')}}"><span class="mini-sub-pro">Contract Projects</span></a></li>
-                                <li><a title="sites" href="{{ route('villaproject.index')}}"><span class="mini-sub-pro">Villa Projects</span></a></li>
+                                <li class="{{(request()->routeIs('landproject.*')) ? 'active' : '' }}"><a title="owner" href="{{ route('landproject.index')}}"><span class="mini-sub-pro">Land Projects</span></a></li>
+                                <li class="{{(request()->routeIs('contractproject.*')) ? 'active' : '' }}"><a title="sites" href="{{ route('contractproject.index')}}"><span class="mini-sub-pro">Contract Projects</span></a></li>
+                                <li class="{{(request()->routeIs('villaproject.*')) ? 'active' : '' }}"><a title="sites" href="{{ route('villaproject.index')}}"><span class="mini-sub-pro">Villa Projects</span></a></li>
                             </ul>
                         </li>
-                        <li >
+                        <li class="{{(request()->routeIs('meterial.*')) ? 'active' : '' }}">
                             <a  href="{{ route('meterial.index')}}">
                                <span class="educate-icon educate-form icon-wrap"></span>
                                <span class="mini-click-non">Meterial Master</span>
                             </a>
                         </li>
-                        <li >
+                        <li class="{{(request()->routeIs('worker.*')) ? 'active' : '' }}">
                             <a  href="{{ route('worker.index')}}">
                                <span class="educate-icon educate-professor icon-wrap"></span>
                                <span class="mini-click-non">Worker Master</span>

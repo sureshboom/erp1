@@ -81,13 +81,13 @@ if (!function_exists('flashWarning')) {
 }
 
 if (!function_exists('formatDate')) {
-function formatDate($date, $formatFrom = 'Y-m-d H:i:s', $formatTo = 'M j, Y')
-{
-    if (!$date instanceof Carbon) {
-        $date = new Carbon($date, 'UTC'); // Assume UTC timezone, adjust as needed
-    }
+    function formatDate($date, $formatFrom = 'Y-m-d H:i:s', $formatTo = 'M j, Y')
+    {
+        if (!$date instanceof Carbon) {
+            $date = new Carbon($date, 'UTC'); // Assume UTC timezone, adjust as needed
+        }
 
-    return $date->format($formatTo);
-}
+        return $date->format($formatTo);
+    }
 }
 

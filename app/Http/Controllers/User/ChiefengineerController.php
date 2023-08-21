@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Chiefengineer;
 use App\Models\Site;
+use App\Models\LandProject;
+use App\Models\ContractProject;
+use App\Models\VillaProject;
 use App\Models\Supplier;
 use App\Models\WorkEntry;
 use App\Models\WorkerEntry;
@@ -22,12 +25,28 @@ class ChiefengineerController extends Controller
         return view('user.chiefengineer.dashboard');
     }
 
-    public function assignedsite()
+    public function landsite()
     {
         $chiefengineer = Chiefengineer::where('user_id',auth()->user()->id)->first();
-        $sites = Site::where('chiefengineer_id',$chiefengineer->id)->get();
+        $landprojects = LandProject::select('id','project_name','location','siteengineer_id','chiefengineer_id')->where('chiefengineer_id',$chiefengineer->id)->orderBy('id','desc')->get();
 
-        return view('user.chiefengineer.site',compact('sites'));
+        return view('user.chiefengineer.assigned.landsite',compact('landprojects'));
+    }
+
+    public function contractsite()
+    {
+        $chiefengineer = Chiefengineer::where('user_id',auth()->user()->id)->first();
+        $contractprojects = ContractProject::select('id','project_name','location','siteengineer_id','chiefengineer_id')->where('chiefengineer_id',$chiefengineer->id)->orderBy('id','desc')->get();
+
+        return view('user.chiefengineer.assigned.contractsite',compact('contractprojects'));
+    }
+
+    public function villasite()
+    {
+        $chiefengineer = Chiefengineer::where('user_id',auth()->user()->id)->first();
+        $villaprojects = VillaProject::where('chiefengineer_id',$chiefengineer->id)->get();
+
+        return view('user.chiefengineer.assigned.villasite',compact('villaprojects'));
     }
 
     public function suppliers()
@@ -38,9 +57,7 @@ class ChiefengineerController extends Controller
 
     public function order()
     {
-        $chiefengineer = Chiefengineer::where('user_id',auth()->user()->id)->first();
-        $materials = Materialin::where('chiefengineer_id',$chiefengineer->id)->whereIn('status',['order','approved','cancel'])->get();
-        return view('user.chiefengineer.materialstatus.index',compact('materials'));
+        
     }
     public function received()
     {
@@ -56,7 +73,7 @@ class ChiefengineerController extends Controller
     }
     public function materialapprove($id)
     {
-        $materialin = Materialin::where('id',$id)->update(['status' => 'approved','notes' => null]);
+        $materialin = Materialin::where('id',$id)->update(['status' => 'approved']);
         if ($materialin) {
             flashSuccess('Meterial Approved Successfully');
             return back();

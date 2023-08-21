@@ -30,4 +30,9 @@ class ContractProject extends Model
     {
         return 'SKSCP ' . $this->attributes['id'];
     }
+
+    public function mesthiri()
+    {
+        return $this->belongsTo(Mesthiri::class,'mesthiri_id');
+    }
 }

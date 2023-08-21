@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Suppliers') }}
+	    {{ __('Contract Projects') }}
 	@endsection
 
 	@section('main')
@@ -21,7 +21,7 @@
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Site</span>
+                                        <li><span class="bread-blod">Projects</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -39,9 +39,9 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Assigned Site <span class="table-project-n">Details</span> Table</h1>
+                                <h1>Assigned Contract <span class="table-project-n">Projects</span> Table</h1>
 
-                                <a href="{{ route('chiefengineer.mesthiriindex')}}" class="btn btn-danger">back</a>
+
                             </div>
                         </div>
                         <div class="sparkline13-graph">
@@ -59,31 +59,29 @@
                                         <tr>
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
-                                            <th data-field="date">Date</th>
-                                            <th data-field="siteid">Site ID</th>
                                             <th data-field="name">Site Name</th>
-                                            <th data-field="chief" data-editable="false">Mesthiri ID</th>
-                                            <th data-field="site" data-editable="false">Mesthiri Name</th>
-                                            
+                                            <th data-field="siteid">Site ID</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="chief" data-editable="false">Chief Engineer</th>
+                                            <th data-field="site" data-editable="false">Site Engineer</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
-                                        @forelse($mesthiriassigns as $mesthiriassign)
+                                        @forelse($contractprojects as $contractproject)
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{ $mesthiriassign->created_at ? formatDate($mesthiriassign->created_at) : '' }}</td>
-                                            <td>{{ $mesthiriassign->site->siteid ? $mesthiriassign->site->siteid : '' }}</td>
-                                            <td>{{ $mesthiriassign->site->sitename ? $mesthiriassign->site->sitename : '' }}</td>
-                                            <td>{{ $mesthiriassign->mesthiri_id ? 'SKSMT'.$mesthiriassign->mesthiri_id : '-' }}</td>
-                                            <td>{{ $mesthiriassign->mesthiri_id ? $mesthiriassign->mesthiri->name : '-' }}</td>
-                                            
+                                            <td>{{ $contractproject->project_name ? $contractproject->project_name : '' }}</td>
+                                            <td>{{ $contractproject->skscp_id ? $contractproject->skscp_id : '' }}</td>
+                                            <td>{{ $contractproject->location ? $contractproject->location : '' }}</td>
+                                            <td>{{ $contractproject->chiefengineer->user ? $contractproject->chiefengineer->user->name : '' }}</td>
+                                            <td>{{ $contractproject->siteengineer->user ? $contractproject->siteengineer->user->name : '' }}</td>
                                         </tr>
                                         @empty
                                         <tr>
                                             <td></td>
-                                            <td colspan="5" class="text-center">No data</td>
+                                            <td colspan="4" class="text-center">No data</td>
                                         </tr>
                                         @endforelse
                                     </tbody>

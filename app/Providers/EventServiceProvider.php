@@ -11,7 +11,7 @@ use App\Models\Materialin;
 use App\Observers\MaterialPurchaseHistoryObserver;
 use App\Observers\MaterialInsObserver;
 use App\Observers\SitePaymentHistoryObserver;
-use App\Models\Site;
+// use App\Models\Site;
 use App\Models\SitePaymentHistory;
 use App\Observers\MaterialPaymentHistoryObserver;
 use App\Models\MaterialPaymentHistory;
@@ -38,11 +38,11 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
-        Materialpurchasehistory::observe(MaterialPurchaseHistoryObserver::class);
-        Materialin::observe(MaterialInsObserver::class);
-        SitePaymentHistory::observe(SitePaymentHistoryObserver::class);
-        MaterialPaymentHistory::observe(MaterialPaymentHistoryObserver::class);
-        LandPaymentHistory::observe(LandPaymentHistoryObserver::class);
+        // Materialpurchasehistory::observe(MaterialPurchaseHistoryObserver::class);
+        // Materialin::observe(MaterialInsObserver::class);
+        // SitePaymentHistory::observe(SitePaymentHistoryObserver::class);
+        // MaterialPaymentHistory::observe(MaterialPaymentHistoryObserver::class);
+        // LandPaymentHistory::observe(LandPaymentHistoryObserver::class);
     }
 
     /**

@@ -62,11 +62,9 @@
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
                                             <th data-field="day">Date</th>
-                                            <th data-field="name">Site Name</th>
-                                            <th data-field="sname" data-editable="false">Supplier Name</th>
-                                            <th data-field="amount" data-editable="false">Amount</th>
+                                            <th data-field="type">Project Type</th>
+                                            <th data-field="name">Project Name</th>
                                             <th data-field="status" data-editable="false">Status</th>
-                                            <th data-field="notes" data-editable="false">Notes</th>
                                             <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
@@ -76,18 +74,23 @@
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{ $material->created_at ? formatDate($material->created_at) : '' }}</td>
-                                            <td>{{ $material->site ? $material->site->sitename : '' }}</td>
-                                            
-                                            
-                                            <td>{{ $material->supplier ? $material->supplier->supplier_name : '' }}</td>
-                                            <td>{{ $material->amount ? number_format($material->amount) : '' }}</td>
+                                            <td>{{ $material->created_at ? formatDate($material->updated_at) : '' }}</td>
+                                            <td><p>{{ $material->project_type ? ucfirst($material->project_type).' Project' : '' }}<p></td>
                                             <td>
-                                                {{ $material->status ? ucfirst($material->status) : '' }}
+                                                @if($material->project_type == 'villa')
+                                                {{ $material->villaProject ? $material->villaProject->project_name : '' }}
+                                                @else
+                                                {{ $material->contractProject ? $material->contractProject->project_name : '' }}
+                                                @endif
                                             </td>
                                             <td>
-                                                {{ $material->notes ? $material->notes : '' }}
+                                                @if($material->status == 'order')
+                                                <p class="text-danger">Order Placed</p>
+                                                @elseif($material->status == 'verified')
+                                                <p class="text-success">Order Received Completed</p>
+                                                @endif
                                             </td>
+                                            
                                             <td class="datatable-ct">
 
                                                 <a href="{{ route('chiefengineer.materialview', $material->id) }}"
@@ -95,21 +98,7 @@
                                                     <i class="fa fa-eye"></i>
                                                 </a>
                                                 
-                                                @if($material->status == 'paid')
-                                                <a href="{{ route('chiefengineer.changereceived', $material->id) }}"
-                                                    class="btn badge-success">
-                                                    Received
-                                                </a>
-                                                <!-- <a href="{{ route('chiefengineer.materialcancel', $material->id) }}"
-                                                    class="btn badge-danger">
-                                                    Cancel
-                                                </a> -->
-                                                @elseif($material->status == 'cancel')
-                                                    <p class="text-danger">Order Cancelled</p>
-                                                @else
                                                 
-                                                    <p class="text-success">Waiting For Verify </p>
-                                                @endif
                                             </td>
                                         </tr>
                                         @empty

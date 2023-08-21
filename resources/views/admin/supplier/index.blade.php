@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('admin.layout.app')
 
 	@section('title')
-	    {{ __('Contract Project Mesthiri') }}
+	    {{ __('Suppliers') }}
 	@endsection
 
 	@section('main')
@@ -19,9 +19,9 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <ul class="breadcome-menu">
-                                        <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
+                                        <li><a href="{{ route('admin.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Site</span>
+                                        <li><span class="bread-blod">Suppliers</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -39,10 +39,12 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Assigned Contract <span class="table-project-n">Project</span> Table</h1>
+                                <h1>Suppliers <span class="table-project-n">Details</span> Table</h1>
 
-                                <a href="{{ route('chiefengineer.assign')}}" class="btn btn-primary">+ Assign</a>
+
                             </div>
+                            <a href="{{ route('supplier.create')}}" class="btn btn-primary">+ Add New</a>
+                            <!-- {{ $suppliers }} -->
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -59,36 +61,48 @@
                                         <tr>
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
-                                            <th data-field="name">Project Name</th>
-                                            <th data-field="siteid">Project ID</th>
-                                            <th data-field="location">Location</th>
-                                            <th data-field="chief" data-editable="false">Mesthiri ID</th>
-                                            <th data-field="site" data-editable="false">Mesthiri Name</th>
-                                            <th data-field="action" data-editable="false">Action</th>
+                                            <th data-field="day">Date</th>
+                                            <th data-field="name">Supplier Name</th>
+                                            <th data-field="phone" data-editable="false">Phone</th>
+                                            <th data-field="location" data-editable="false">Location</th>
+                                            <th data-field="gst" data-editable="false">GST No</th>
+                                            <th data-field="gpay">Gpay/Phonepay</th>
+                                            <th data-field="date" data-editable="false">Account Details</th>
+                                            <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
-                                        @forelse($contractprojects as $contractproject)
+                                        @forelse($suppliers as $supplier)
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{ $contractproject->project_name ? $contractproject->project_name : '' }}</td>
-                                            <td>{{ $contractproject->skscp_id ? $contractproject->skscp_id : '' }}</td>
-                                            
-                                            <td>{{ $contractproject->location ? $contractproject->location : '' }}</td>
-                                            <td>{{ $contractproject->mesthiri_id ? 'SKSMT'.$contractproject->mesthiri_id : '-' }}</td>
-                                            <td>{{ $contractproject->mesthiri_id ? $contractproject->mesthiri->name : '-' }}</td>
+                                            <td>{{ $supplier->created_at ? formatDate($supplier->created_at) : '' }}</td>
+                                            <td>{{ $supplier->supplier_name ? $supplier->supplier_name : '' }}</td>
+                                            <td>{{ $supplier->supplier_phone ? $supplier->supplier_phone : '' }}</td>
+                                            <td>{{ $supplier->supplier_location ? $supplier->supplier_location : '' }}</td>
+                                            <td>{{ $supplier->supplier_gstno ? $supplier->supplier_gstno : '' }}</td>
+                                            <td>{{ $supplier->supplier_gpay ? $supplier->supplier_gpay : '' }}</td>
                                             <td>
-                                                <a href="{{route('chiefengineer.assigncontract',$contractproject->id)}}" class="btn btn-link">
-                                                    <i class="fa fa-eye"></i>
+                                                {{ $supplier->supplier_account ? $supplier->supplier_account : '' }}
+                                            </td>
+                                            
+                                            <td class="datatable-ct">
+                                                <a href="{{ route('supplier.edit', $supplier->id) }}"
+                                                    class="btn ll-mr-4 ll-p-0">
+                                                    <i class="fa fa-edit"></i>
                                                 </a>
+                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $supplier->id }}').submit();"><i class="fa fa-trash"></i></a>
+                                                <form method="post" action="{{ route('supplier.destroy', $supplier->id) }}" id="delete-post-{{ $supplier->id }}" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
                                             </td>
                                         </tr>
                                         @empty
                                         <tr>
                                             <td></td>
-                                            <td colspan="4" class="text-center">No data</td>
+                                            <td colspan="9" class="text-center">No data</td>
                                         </tr>
                                         @endforelse
                                     </tbody>

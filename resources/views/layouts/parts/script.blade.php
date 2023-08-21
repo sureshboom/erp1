@@ -100,9 +100,78 @@
     @if(Session::has('error'))
     toastr.error("{{ Session::get('error') }}", 'Error!')
     @endif
+@if((request()->routeIs('chiefengineer.assign')))
+    $(document).ready(function(){
+        if(($('#project_type').val()) == 'contract')
+        {
+            $('#displaycontract').show();
+            $('#displayvilla').hide();
+        }
+        else if(($('#project_type').val()) == 'villa'){
+            $('#displaycontract').hide();
+            $('#displayvilla').show();
+        }
+        else
+        {
+            $('#displaycontract').hide();
+            $('#displayvilla').hide();
+        }
+        
+        $('#project_type').on('change',function(e){
+            var type =$(this).val();
+            if(type == 'contract'){
+                $('#displaycontract').show();
+                $('#displayvilla').hide();
+            }
+            else if(type == 'villa')
+            {
+                $('#displayvilla').show();
+                $('#displaycontract').hide();
+            }
+            else{
+                $('#displaycontract').hide();
+            $('#displayvilla').hide();
+            }
+            // alert(type);
+        });
+       
+    });
+@endif
 @if((request()->routeIs('siteengineer.material_order.create')) or (request()->routeIs('siteengineer.material_order.edit')))
 
     $(document).ready(function(){
+        if(($('#project_type').val()) == 'contract')
+        {
+            $('#displaycontract').show();
+            $('#displayvilla').hide();
+        }
+        else if(($('#project_type').val()) == 'villa'){
+            $('#displaycontract').hide();
+            $('#displayvilla').show();
+        }
+        else
+        {
+            $('#displaycontract').hide();
+            $('#displayvilla').hide();
+        }
+        
+        $('#project_type').on('change',function(e){
+            var type =$(this).val();
+            if(type == 'contract'){
+                $('#displaycontract').show();
+                $('#displayvilla').hide();
+            }
+            else if(type == 'villa')
+            {
+                $('#displayvilla').show();
+                $('#displaycontract').hide();
+            }
+            else{
+                $('#displaycontract').hide();
+            $('#displayvilla').hide();
+            }
+            // alert(type);
+        });
         $('.add_item').on('click',function(e){
             e.preventDefault();
 

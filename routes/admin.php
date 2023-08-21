@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\WorkerController;
 use App\Http\Controllers\Admin\LandCustomerController;
 use App\Http\Controllers\Admin\VillaCustomerController;
 use App\Http\Controllers\Admin\ContractCustomerController;
+use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 
 
@@ -43,8 +44,7 @@ Route::prefix('admin')->group(function () {
 			Route::get('/landcustomerapprove/{id}', [LandCustomerController::class,'approvePromotion'])->name('approvepromotion');
 			Route::get('/contractcustomerapprove/{id}', [ContractCustomerController::class,'approvePromotion'])->name('capprovepromotion');
 			Route::get('/villacustomerapprove/{id}', [VillaCustomerController::class,'approvePromotion'])->name('vapprovepromotion');
-
-			
+			Route::resource('/supplier', SupplierController::class);
 			
 		});
 	

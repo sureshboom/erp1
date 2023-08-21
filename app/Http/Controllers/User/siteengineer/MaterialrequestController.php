@@ -11,6 +11,8 @@ use App\Models\Materialpurchasehistory;
 use App\Models\Supplier;
 use App\Models\Siteengineer;
 use App\Models\Site;
+use App\Models\ContractProject;
+use App\Models\VillaProject;
 
 class MaterialrequestController extends Controller
 {
@@ -20,7 +22,7 @@ class MaterialrequestController extends Controller
     public function index()
     {
         $siteengineer = Siteengineer::select('id','user_id')->where('user_id',auth()->user()->id)->first();
-        $materials = Materialin::where('siteengineer_id',$siteengineer->id)->whereIn('status',['order','cancel','approved'])->get();
+        $materials = Materialin::where('siteengineer_id',$siteengineer->id)->whereIn('status',['request','cancel','approved'])->get();
         return view('user.siteengineer.materialorder.index',compact('materials'));
     }
 
@@ -31,12 +33,10 @@ class MaterialrequestController extends Controller
     {
         //
         $siteengineer = Siteengineer::select('id','user_id')->where('user_id',auth()->user()->id)->first();
-        $sites = Site::select('id','sitename')->where('siteengineer_id',$siteengineer->id)->get();
-        $suppliers = Supplier::get();
+        $contractprojects = ContractProject::select('id','project_name')->where('siteengineer_id',$siteengineer->id)->get();
+        $villaprojects = VillaProject::select('id','project_name')->where('siteengineer_id',$siteengineer->id)->get();
         $materials = Meterial::select('id','meterial_name')->get();
-        return view('user.siteengineer.materialorder.create',compact('suppliers','sites','materials'));
-
-
+        return view('user.siteengineer.materialorder.create',compact('contractprojects','villaprojects','materials'));
     }
 
     /**
@@ -46,47 +46,98 @@ class MaterialrequestController extends Controller
     {
         //
         $input = $request->validate([
-            'supplier_id' => 'required',
-            'site_id' => 'required',
+            'project_type' => 'required',
+            'contract_project_id' => 'required_if:project_type,contract',
+            'villa_project_id' => 'required_if:project_type,villa',
         ]);
-        $site = Site::select('id','siteengineer_id','chiefengineer_id')->find($request->site_id);
-        $materialin = Materialin::create([
-            'site_id' => $site->id,
-            'supplier_id' => $request->supplier_id,
-            'siteengineer_id' => $site->siteengineer_id,
-            'chiefengineer_id' => $site->chiefengineer_id,
-            'status' => 'order',
-        ]);
-        if($materialin)
+        if($request->project_type == 'contract')
         {
-            for ($i = 0; $i < count($request->meterial_id); $i++) 
+            $contractproject = ContractProject::select('id','siteengineer_id','chiefengineer_id')->find($request->contract_project_id);
+            $materialin = Materialin::create([
+                'project_type' =>$request->project_type,
+                'contract_project_id' =>$request->contract_project_id,
+                'siteengineer_id' => $contractproject->siteengineer_id,
+                'chiefengineer_id' => $contractproject->chiefengineer_id,
+                'status' => 'request'
+            ]);
+            $mid = $materialin->id;
+            if($materialin)
             {
-                $data = [
-                    'site_id' => $site->id,
-                    'materialin_id' => $materialin->id,
-                    'meterial_id' => $request->meterial_id[$i],
-                    'quantity' => $request->quantity[$i],
-                ];
+                for ($i = 0; $i < count($request->meterial_id); $i++) 
+                {
+                    $data = [
+                        'project_type' => $request->project_type,
+                        'contract_project_id' =>$request->contract_project_id,
+                        'materialin_id' => $mid,
+                        'meterial_id' => $request->meterial_id[$i],
+                        'quantity' => $request->quantity[$i],
+                    ];
 
-                $materialQuantity = Materialpurchase::where('site_id', $data['site_id'])
-                                        ->where('meterial_id', $data['meterial_id'])
-                                        ->first();
-                if ($materialQuantity) {
-                    $materialQuantity->quantity += $data['quantity'];
-                    $materialQuantity->save();
-                } else {
-                    Materialpurchase::create($data);
+                    $materialQuantity = Materialpurchase::where('contract_project_id', $data['contract_project_id'])
+                                            ->where('meterial_id', $data['meterial_id'])
+                                            ->first();
+                    if ($materialQuantity) {
+                        $materialQuantity->quantity += $data['quantity'];
+                        $materialQuantity->save();
+                    } else {
+                        Materialpurchase::create($data);
+                    }
+                    Materialpurchasehistory::create($data);
                 }
-                Materialpurchasehistory::create($data);
+                flashSuccess('Order Placed Successfully');
+                return redirect()->route('siteengineer.material_order.index');
             }
-            flashSuccess('Order Placed Successfully');
-            return redirect()->route('siteengineer.material_order.index');
+            else
+            {
+                flashSuccess('Something Wrong plz try again');
+                return back();
+            } 
         }
         else
         {
-            flashSuccess('Something Wrong plz try again');
-            return back();
+
+         $villaproject = VillaProject::select('id','siteengineer_id','chiefengineer_id')->find($request->villa_project_id);
+            $materialin = Materialin::create([
+                'project_type' =>$request->project_type,
+                'villa_project_id' =>$request->villa_project_id,
+                'siteengineer_id' => $villaproject->siteengineer_id,
+                'chiefengineer_id' => $villaproject->chiefengineer_id,
+                'status' => 'request',
+            ]);
+            $mid = $materialin->id;
+            if($materialin)
+            {
+                for ($i = 0; $i < count($request->meterial_id); $i++) 
+                {
+                    $data = [
+                        'project_type' => $request->project_type,
+                        'villa_project_id' =>$request->villa_project_id,
+                        'materialin_id' => $mid,
+                        'meterial_id' => $request->meterial_id[$i],
+                        'quantity' => $request->quantity[$i],
+                    ];
+
+                    $materialQuantity = Materialpurchase::where('villa_project_id', $data['villa_project_id'])
+                                            ->where('meterial_id', $data['meterial_id'])
+                                            ->first();
+                    if ($materialQuantity) {
+                        $materialQuantity->quantity += $data['quantity'];
+                        $materialQuantity->save();
+                    } else {
+                        Materialpurchase::create($data);
+                    }
+                    Materialpurchasehistory::create($data);
+                }
+                flashSuccess('Order Placed Successfully');
+                return redirect()->route('siteengineer.material_order.index');
+            }
+            else
+            {
+                flashSuccess('Something Wrong plz try again');
+                return back();
+            }    
         }
+        
 
         // return $request;
     }
@@ -107,7 +158,7 @@ class MaterialrequestController extends Controller
     public function edit(string $id)
     {
         $materialspurs = Materialpurchasehistory::where('materialin_id',$id)->get();
-        $siteid = Materialpurchasehistory::select('site_id','materialin_id')->where('materialin_id',$id)->first();
+        $siteid = Materialpurchasehistory::select('project_type','contract_project_id','villa_project_id','materialin_id')->where('materialin_id',$id)->first();
         $materials = Meterial::select('id','meterial_name')->get();
         return view('user.siteengineer.materialorder.edit',compact('materials','siteid','materialspurs'));
 
@@ -146,31 +197,63 @@ class MaterialrequestController extends Controller
             
             $history->delete();
         }
+        
         if($delete)
         {
-            $meterialstatus = Materialin::find($request->materialin_id)->update(['status' => 'order']);
-            for ($i = 0; $i < count($request->meterial_id); $i++) 
+            $meterialstatus = Materialin::find($request->materialin_id)->update(['status' => 'request']);
+            if($request->project_type == 'villa')
             {
-                $data = [
-                    'site_id' => $request->site_id,
-                    'materialin_id' => $request->materialin_id,
-                    'meterial_id' => $request->meterial_id[$i],
-                    'quantity' => $request->quantity[$i],
-                ];
+                for ($i = 0; $i < count($request->meterial_id); $i++) 
+                {
+                    $data = [
+                        'project_type' => $request->project_type,
+                        'villa_project_id' =>$request->villa_project_id,
+                        'materialin_id' => $request->materialin_id,
+                        'meterial_id' => $request->meterial_id[$i],
+                        'quantity' => $request->quantity[$i],
+                    ];
 
-                $materialQuantity = Materialpurchase::where('site_id', $data['site_id'])
-                                        ->where('meterial_id', $data['meterial_id'])
-                                        ->first();
-                if ($materialQuantity) {
-                    $materialQuantity->quantity += $data['quantity'];
-                    $materialQuantity->save();
-                } else {
-                    Materialpurchase::create($data);
+                    $materialQuantity = Materialpurchase::where('villa_project_id', $data['villa_project_id'])
+                                            ->where('meterial_id', $data['meterial_id'])
+                                            ->first();
+                    if ($materialQuantity) {
+                        $materialQuantity->quantity += $data['quantity'];
+                        $materialQuantity->save();
+                    } else {
+                        Materialpurchase::create($data);
+                    }
+                    Materialpurchasehistory::create($data);
                 }
-                Materialpurchasehistory::create($data);
+                flashSuccess('Order Updated Successfully');
+                return redirect()->route('siteengineer.material_order.index');
             }
-            flashSuccess('Order Updated Successfully');
-            return redirect()->route('siteengineer.material_order.index');
+            elseif($request->project_type == 'contract')
+            {
+                for ($i = 0; $i < count($request->meterial_id); $i++) 
+                {
+                    $data = [
+                        'project_type' => $request->project_type,
+                        'contract_project_id' =>$request->contract_project_id,
+                        'materialin_id' => $request->materialin_id,
+                        'meterial_id' => $request->meterial_id[$i],
+                        'quantity' => $request->quantity[$i],
+                    ];
+
+                    $materialQuantity = Materialpurchase::where('contract_project_id', $data['contract_project_id'])
+                                            ->where('meterial_id', $data['meterial_id'])
+                                            ->first();
+                    if ($materialQuantity) {
+                        $materialQuantity->quantity += $data['quantity'];
+                        $materialQuantity->save();
+                    } else {
+                        Materialpurchase::create($data);
+                    }
+                    Materialpurchasehistory::create($data);
+                }
+                flashSuccess('Order Updated Successfully');
+                return redirect()->route('siteengineer.material_order.index');
+            }
+            
         }
         else
         {
@@ -182,13 +265,13 @@ class MaterialrequestController extends Controller
     public function received()
     {
         $siteengineer = Siteengineer::select('id','user_id')->where('user_id',auth()->user()->id)->first();
-        $materials = Materialin::where('siteengineer_id',$siteengineer->id)->whereIn('status',['paid','verified','received'])->get();
+        $materials = Materialin::where('siteengineer_id',$siteengineer->id)->whereIn('status',['order','verified','received'])->get();
         return view('user.siteengineer.materialorder.received',compact('materials'));
     }
 
     public function verified($id)
     {
-        $materialin = Materialin::find($id)->update(['status' => 'verified','notes'=>null]);
+        $materialin = Materialin::find($id)->update(['status' => 'verified']);
         flashSuccess('Material Order verified updated');
         return back();
     }

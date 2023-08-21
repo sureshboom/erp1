@@ -1,30 +1,35 @@
-<li>
-    <a  href="{{ route('chiefengineer.assignedsite')}}">
+<li class="{{ ((request()->routeIs('chiefengineer.landsite')) ||(request()->routeIs('chiefengineer.contractsite')) ||(request()->routeIs('chiefengineer.villasite'))) ? 'active' : '' }}">
+    <a class="has-arrow" href="#">
        <span class="educate-icon educate-data-table icon-wrap"></span>
-       <span class="mini-click-non">Site Details</span>
+       <span class="mini-click-non">Project Details</span>
     </a>
+    <ul class="submenu-angle" aria-expanded="true">
+        <li class="{{request()->routeIs('chiefengineer.landsite') ? 'active' : ''}}"><a title="landsite" href="{{ route('chiefengineer.landsite')}}"><span class="mini-sub-pro">Land Project</span></a></li>
+        <li class="{{request()->routeIs('chiefengineer.contractsite') ? 'active' : ''}}"><a title="contractsite" href="{{ route('chiefengineer.contractsite')}}"><span class="mini-sub-pro">Contract Project</span></a></li>
+        <li class="{{request()->routeIs('chiefengineer.villasite') ? 'active' : ''}}"><a title="villasite" href="{{ route('chiefengineer.villasite')}}"><span class="mini-sub-pro">Villa Project</span></a></li>
+    </ul>
 </li>
-
-<li>
+<li class="{{ ((request()->routeIs('chiefengineer.mesthiri.*')) ||(request()->routeIs('chiefengineer.mesthiricontract')) ||(request()->routeIs('chiefengineer.mesthirivilla')) ||(request()->routeIs('chiefengineer.assigncontract')) ||(request()->routeIs('chiefengineer.assignvilla'))) ? 'active' : '' }}">
     <a class="has-arrow" href="#">
        <span class="educate-icon educate-professor icon-wrap"></span>
        <span class="mini-click-non">Meshthri</span>
     </a>
     <ul class="submenu-angle" aria-expanded="true">
-        <li><a title="owner" href="{{ route('chiefengineer.mesthiri.index')}}"><span class="mini-sub-pro">Meshthri Create</span></a></li>
-        <li><a title="sites" href="{{ route('chiefengineer.mesthiriindex')}}"><span class="mini-sub-pro">Meshthri Assign</span></a></li>
+        <li class="{{request()->routeIs('chiefengineer.mesthiri.*') ? 'active' : ''}}"><a title="owner" href="{{ route('chiefengineer.mesthiri.index')}}"><span class="mini-sub-pro">Meshthri Create</span></a></li>
+        <li class="{{(request()->routeIs('chiefengineer.mesthiricontract') || request()->routeIs('chiefengineer.assigncontract')) ? 'active' : ''}}"><a title="sites" href="{{ route('chiefengineer.mesthiricontract')}}"><span class="mini-sub-pro">Contract Project</span></a></li>
+        <li class="{{(request()->routeIs('chiefengineer.mesthirivilla') || request()->routeIs('chiefengineer.assignvilla')) ? 'active' : ''}}"><a title="sites" href="{{ route('chiefengineer.mesthirivilla')}}"><span class="mini-sub-pro">Villa Project</span></a></li>
     </ul>
 </li>
-<li>
+<li class="{{ ((request()->routeIs('chiefengineer.material_status.*')) ||(request()->routeIs('chiefengineer.contractsite')) ||(request()->routeIs('chiefengineer.received')) ||(request()->routeIs('chiefengineer.materialview'))) ? 'active' : '' }}">
     <a class="has-arrow" href="#">
        <span class="educate-icon educate-form icon-wrap"></span>
        <span class="mini-click-non">Material Details</span>
     </a>
     <ul class="submenu-angle" aria-expanded="true">
-        <li><a title="owner" href="{{ route('chiefengineer.suppliers')}}"><span class="mini-sub-pro">Suppliers</span></a></li>
-        <li><a title="sites" href="{{ route('chiefengineer.orderstatus')}}"><span class="mini-sub-pro">Material Order</span></a></li>
-        <li><a title="sites" href="{{ route('chiefengineer.received')}}"><span class="mini-sub-pro">Material Received</span></a></li>
-        <li><a title="sites" href="#"><span class="mini-sub-pro">Material Transfer</span></a></li>
+        {{-- <li><a title="owner" href="{{ route('chiefengineer.suppliers')}}"><span class="mini-sub-pro">Suppliers</span></a></li> --}}
+        <li class="{{ (request()->routeIs('chiefengineer.material_status.*')) ? 'active' : '' }}"><a title="sites" href="{{ route('chiefengineer.material_status.index')}}"><span class="mini-sub-pro">Material Order</span></a></li>
+        <li class="{{ request()->routeIs('chiefengineer.received') ? 'active' : '' }}"><a title="sites" href="{{ route('chiefengineer.received')}}"><span class="mini-sub-pro">Material Received</span></a></li>
+        
     </ul>
 </li>
 <li>

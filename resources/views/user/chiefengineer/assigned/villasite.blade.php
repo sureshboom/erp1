@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Contract Project Mesthiri') }}
+	    {{ __('Villa Project') }}
 	@endsection
 
 	@section('main')
@@ -21,7 +21,7 @@
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Site</span>
+                                        <li><span class="bread-blod">Projects</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -39,9 +39,9 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Assigned Contract <span class="table-project-n">Project</span> Table</h1>
+                                <h1>Assigned Villa <span class="table-project-n">Projects</span> Table</h1>
 
-                                <a href="{{ route('chiefengineer.assign')}}" class="btn btn-primary">+ Assign</a>
+
                             </div>
                         </div>
                         <div class="sparkline13-graph">
@@ -59,31 +59,24 @@
                                         <tr>
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
-                                            <th data-field="name">Project Name</th>
-                                            <th data-field="siteid">Project ID</th>
+                                            <th data-field="name">Site Name</th>
+                                            <th data-field="siteid">Site ID</th>
                                             <th data-field="location">Location</th>
-                                            <th data-field="chief" data-editable="false">Mesthiri ID</th>
-                                            <th data-field="site" data-editable="false">Mesthiri Name</th>
-                                            <th data-field="action" data-editable="false">Action</th>
+                                            <th data-field="chief" data-editable="false">Chief Engineer</th>
+                                            <th data-field="site" data-editable="false">Site Engineer</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
-                                        @forelse($contractprojects as $contractproject)
+                                        @forelse($villaprojects as $villaproject)
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{ $contractproject->project_name ? $contractproject->project_name : '' }}</td>
-                                            <td>{{ $contractproject->skscp_id ? $contractproject->skscp_id : '' }}</td>
-                                            
-                                            <td>{{ $contractproject->location ? $contractproject->location : '' }}</td>
-                                            <td>{{ $contractproject->mesthiri_id ? 'SKSMT'.$contractproject->mesthiri_id : '-' }}</td>
-                                            <td>{{ $contractproject->mesthiri_id ? $contractproject->mesthiri->name : '-' }}</td>
-                                            <td>
-                                                <a href="{{route('chiefengineer.assigncontract',$contractproject->id)}}" class="btn btn-link">
-                                                    <i class="fa fa-eye"></i>
-                                                </a>
-                                            </td>
+                                            <td>{{ $villaproject->project_name ? $villaproject->project_name : '' }}</td>
+                                            <td>{{ $villaproject->sksvp_id ? $villaproject->sksvp_id : '' }}</td>
+                                            <td>{{ $villaproject->location ? $villaproject->location : '' }}</td>
+                                            <td>{{ $villaproject->chiefengineer->user ? $villaproject->chiefengineer->user->name : '' }}</td>
+                                            <td>{{ $villaproject->siteengineer->user ? $villaproject->siteengineer->user->name : '' }}</td>
                                         </tr>
                                         @empty
                                         <tr>

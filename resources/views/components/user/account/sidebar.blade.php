@@ -11,6 +11,12 @@
     </ul>
 </li>
 <li>
+    <a  href="{{ route('account.supplier.index')}}">
+       <span class="educate-icon educate-professor icon-wrap"></span>
+       <span class="mini-click-non">Suppliers</span>
+    </a>
+</li>
+<li>
     <a  href="{{ route('account.materialstatus')}}">
        <span class="educate-icon educate-form icon-wrap"></span>
        <span class="mini-click-non">Material Details</span>

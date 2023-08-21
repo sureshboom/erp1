@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Suppliers') }}
+	    {{ __('Mesthiri') }}
 	@endsection
 
 	@section('main')
@@ -64,6 +64,7 @@
                                             <th data-field="mid">Mesthiri ID</th>
                                             <th data-field="day">Date</th>
                                             <th data-field="name">Mesthiri Name</th>
+                                            <th data-field="nick">Nick Name</th>
                                             <th data-field="phone" data-editable="false">Phone</th>
                                             <th data-field="phone" data-editable="false">Alternate No</th>
                                             <th data-field="location" data-editable="false">Location</th>
@@ -82,6 +83,7 @@
                                             <td>{{ $mesthiri->id ? 'SKSMT '.$mesthiri->id : '' }}</td>
                                             <td>{{ $mesthiri->created_at ? formatDate($mesthiri->created_at) : '' }}</td>
                                             <td>{{ $mesthiri->name ? $mesthiri->name : '' }}</td>
+                                            <td>{{ $mesthiri->nickname ? $mesthiri->nickname : '' }}</td>
                                             <td>{{ $mesthiri->phone ? $mesthiri->phone : '' }}</td>
                                             <td>{{ $mesthiri->alternate_no ? $mesthiri->alternate_no : '' }}</td>
 

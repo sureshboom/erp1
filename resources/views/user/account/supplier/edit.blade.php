@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h3 class="text-center">Supplier Details</h3>
-                    <form action="{{ route('siteengineer.supplier.update',$supplier->id) }}" class="acount-infor" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('account.supplier.update',$supplier->id) }}" class="acount-infor" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
                     <div class="row">
@@ -96,7 +96,7 @@
                         <div class="col-lg-12">
                             <div class="payment-adress">
                                 <button type="submit" class="btn btn-success ">Submit</button>
-                                <a href="{{route('siteengineer.supplier.index')}}" class="btn btn-danger">Back</a>
+                                <a href="{{route('account.supplier.index')}}" class="btn btn-danger">Back</a>
                             </div>
                         </div>
                     </div>

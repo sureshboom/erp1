@@ -43,9 +43,12 @@
 
 
                             </div>
-                            <!-- <a href="{{ route('siteengineer.material_order.edit', $materialinid) }}" class="btn btn-primary">
+                            @if(($materials[0]->materialin->status == 'request') or ($materials[0]->materialin->status == 'cancel'))
+                            <a href="{{ route('chiefengineer.material_status.edit', $materialinid) }}" class="btn btn-primary">
                                                     Edit
-                                                </a> -->
+                                                </a>
+                            @endif
+                            
                             <!-- {{ $materials }} -->
                         </div>
                         <div class="sparkline13-graph">

@@ -11,14 +11,15 @@ use App\Http\Controllers\User\ChiefengineerController;
 use App\Http\Controllers\User\SalespersonController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\chiefengineer\MesthiriController;
+use App\Http\Controllers\User\chiefengineer\MaterialstatusController;
 use App\Http\Controllers\User\telecaller\CustomerController;
 use App\Http\Controllers\User\telecaller\WorkController;
 use App\Http\Controllers\User\telecaller\SitevisitController;
 use App\Http\Controllers\User\salesperson\ScustomerController;
-use App\Http\Controllers\User\siteengineer\SupplierController;
 use App\Http\Controllers\User\siteengineer\WorkEnteryController;
 use App\Http\Controllers\User\siteengineer\WorkerEntryController;
 use App\Http\Controllers\User\siteengineer\MaterialrequestController;
+use App\Http\Controllers\User\account\SupplierController;
 use App\Http\Controllers\User\account\SitepaymentController;
 use App\Http\Controllers\User\account\MaterialPaymentController;
 use App\Http\Controllers\User\account\LandCustomerController;
@@ -62,10 +63,12 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
     Route::resource('/villacustomer', VillaCustomerController::class);
     Route::resource('/land_payment', LandPaymentController::class);
     Route::resource('/expense', ExpenseController::class);
+    Route::resource('/supplier', SupplierController::class);
     Route::get('/payments/{siteid}',[SitepaymentController::class,'getsite']);
     Route::get('/pay/{orderid}',[MaterialPaymentController::class,'getorder']);
     Route::get('/landpay/{orderid}',[LandPaymentController::class,'getland']);
     Route::get('material_view', 'order')->name('materialstatus');
+    Route::post('/material_amount/{id}', 'amountstore')->name('amountstore');
     Route::get('/material_show/{id}', 'show')->name('materialview');
     Route::get('/materialpaid/{id}', 'materialpaid')->name('materialpaid');
     Route::get('/materialscancel/{id}', 'materialcancel')->name('materialcancel');
@@ -86,8 +89,13 @@ Route::controller(TelecallerController::class)->prefix('telecaller')->middleware
 Route::controller(SiteengineerController::class)->prefix('site_engineer')->middleware('siteengineer')->name('siteengineer.')->group(function () {
 
     Route::get('dashboard', 'dashboard')->name('dashboard');
-    Route::get('siteengineer_site', 'assignedsite')->name('assignedsite');
-    Route::resource('/supplier', SupplierController::class);
+    Route::get('landproject', 'landsite')->name('landsite');
+    Route::get('contractproject', 'contractsite')->name('contractsite');
+    Route::get('villaproject', 'villasite')->name('villasite');
+    Route::get('contractprojectlist', 'contractprojectlist')->name('contractprojectlist');
+    Route::get('villaprojectlist', 'villaprojectlist')->name('villaprojectlist');
+    
+    
     Route::resource('/workentry', WorkEnteryController::class);
     Route::resource('/workerentry', WorkerEntryController::class);
     Route::resource('/material_order', MaterialrequestController::class);
@@ -104,7 +112,10 @@ Route::controller(SiteengineerController::class)->prefix('site_engineer')->middl
 
 Route::controller(ChiefengineerController::class)->prefix('chief_engineer')->middleware('chiefengineer')->name('chiefengineer.')->group(function () {
 
-    Route::get('chiefengineer_site', 'assignedsite')->name('assignedsite');
+    
+    Route::get('landproject', 'landsite')->name('landsite');
+    Route::get('contractproject', 'contractsite')->name('contractsite');
+    Route::get('villaproject', 'villasite')->name('villasite');
     Route::get('dashboard', 'dashboard')->name('dashboard');
     Route::get('workentry', 'workentry')->name('workentry');
     Route::get('workersentry', 'WorkerEntry')->name('workersentry');
@@ -112,7 +123,6 @@ Route::controller(ChiefengineerController::class)->prefix('chief_engineer')->mid
     Route::post('/worker_salary_change/{id}', 'Workersalarychange')->name('workersalarychange');
     Route::get('/workverify/{id}', 'workverify')->name('workverify');
     Route::get('suppliers', 'suppliers')->name('suppliers');
-    Route::get('material_status', 'order')->name('orderstatus');
     Route::get('material_received', 'received')->name('received');
     Route::get('materialamount/{id}', 'materialamount')->name('materialamount');
     Route::post('amountstore/{id}', 'amountstore')->name('amountstore');
@@ -121,8 +131,12 @@ Route::controller(ChiefengineerController::class)->prefix('chief_engineer')->mid
     Route::post('/materialcancel/{id}', 'materialcancel')->name('materialcancel');
     Route::get('/materialcancelview/{id}', 'materialcancelview')->name('materialcancelview');
     Route::get('/changereceived/{id}', 'changereceived')->name('changereceived');
+    Route::resource('/material_status', MaterialstatusController::class);
     Route::resource('/mesthiri', MesthiriController::class);
-    Route::get('/site_view', [MesthiriController::class,'mesthiriindex'])->name('mesthiriindex');
+    Route::get('/contract_view', [MesthiriController::class,'mesthiricontract'])->name('mesthiricontract');
+    Route::get('/contract_show/{id}', [MesthiriController::class,'assigncontract'])->name('assigncontract');
+    Route::get('/villa_show/{id}', [MesthiriController::class,'assignvilla'])->name('assignvilla');
+    Route::get('/villa_view', [MesthiriController::class,'mesthirivilla'])->name('mesthirivilla');
     Route::get('/mesthiri_assign', [MesthiriController::class,'assign'])->name('assign');
     Route::post('/mesthiri_assignstore', [MesthiriController::class,'assignstore'])->name('assignstore');
 

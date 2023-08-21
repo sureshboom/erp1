@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layout.app')
 
 	@section('title')
 	    {{ __('Supplier') }}
@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <ul class="breadcome-menu">
-                                        <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
+                                        <li><a href="{{ route('admin.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
                                         <li><span class="bread-blod">Create Supplier</span>
                                         </li>
@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h3 class="text-center">Supplier Details</h3>
-                    <form action="{{ route('siteengineer.supplier.store') }}" class="acount-infor" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('supplier.store') }}" class="acount-infor" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
                     <div class="row">
@@ -98,7 +98,7 @@
                         <div class="col-lg-12">
                             <div class="payment-adress">
                                 <button type="submit" class="btn btn-success ">Submit</button>
-                                <a href="{{route('siteengineer.supplier.index')}}" class="btn btn-danger">Back</a>
+                                <a href="{{route('supplier.index')}}" class="btn btn-danger">Back</a>
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Staff') }}
+	    {{ __('Mesthiri Assign') }}
 	@endsection
 
 	@section('main')
@@ -45,14 +45,39 @@
                         <div class="col-lg-6 col-lg-offset-3 col-md-6 col-sm-6 col-xs-12">
                             
                             <div class="form-group">
-                                <label>Site</label>
-                                <select name="site_id" class="form-control">
-                                        <option value="">Select Site</option>
-                                        @foreach($sites as $site)
-                                        <option value="{{$site->id}}">{{$site->sitename}}</option>
+                                <label>Project Type</label>
+                                <select name="project_type" id="project_type" class="form-control">
+                                        <option value="">Select Project Type</option>
+                                        
+                                        <option value="contract" {{old('project_type') == 'contract' ? 'selected':'' }}>Contract Projects</option>
+                                        <option value="villa" {{old('project_type') == 'villa' ? 'selected':'' }}>Vila Projects</option>
+                                        
+                                </select>
+                                @error('project_type')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group" id="displaycontract">
+                                <label>Contract Project</label>
+                                <select name="contract_project_id" class="form-control">
+                                        <option value="">Select Contract Project</option>
+                                        @foreach($contractprojects as $contractproject)
+                                        <option value="{{$contractproject->id}}">{{$contractproject->project_name}}</option>
                                         @endforeach
                                 </select>
-                                @error('site_id')
+                                @error('contract_project_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group" id="displayvilla">
+                                <label>Villa Project</label>
+                                <select name="villa_project_id" class="form-control">
+                                        <option value="">Select Villa Project</option>
+                                        @foreach($villaprojects as $villaproject)
+                                        <option value="{{$villaproject->id}}">{{$villaproject->project_name}}</option>
+                                        @endforeach
+                                </select>
+                                @error('villa_project_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -63,7 +88,7 @@
                                         <option value="">Select Mesthiri</option>
                                         @foreach($mesthiris as $mesthiri)
                                         
-                                            <option value="{{$mesthiri->id}}">SKSMT {{$mesthiri->id}}</option>
+                                            <option value="{{$mesthiri->id}}">SKSMT {{$mesthiri->id}} - {{($mesthiri->nickname)}}</option>
                                         
                                         @endforeach
                                 </select>
@@ -77,7 +102,7 @@
                         <div class="col-lg-12">
                             <div class="payment-adress">
                                 <button type="submit" class="btn btn-success ">Submit</button>
-                                <a href="{{route('chiefengineer.mesthiriindex')}}" class="btn btn-danger">Back</a>
+                                <a href="{{ url()->previous() }}" class="btn btn-danger">Back</a>
                             </div>
                         </div>
                     </div>

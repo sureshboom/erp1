@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Mesthiri') }}
+	    {{ __('Supplier') }}
 	@endsection
 
 	@section('main')
@@ -21,7 +21,7 @@
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Edit Mesthiri</span>
+                                        <li><span class="bread-blod">Create Supplier</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -36,65 +36,61 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h3 class="text-center">Mesthiri Details</h3>
-                    <form action="{{ route('chiefengineer.mesthiri.update',$mesthiri->id) }}" class="acount-infor" method="post" enctype="multipart/form-data">
+                    <h3 class="text-center">Supplier Details</h3>
+                    <form action="{{ route('account.supplier.store') }}" class="acount-infor" method="post" enctype="multipart/form-data">
                     @csrf
-                    @method('PATCH')
+                    @method('POST')
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label>Mesthiri Name</label>
-                                <input name="name" type="text" class="form-control" placeholder="Mesthiri Name" value="{{ $mesthiri->name }}">
-                                @error('name')
+                                <label>Supplier Name</label>
+                                <input name="supplier_name" type="text" class="form-control" placeholder="Supplier Name" value="{{ old('supplier_name') }}">
+                                @error('supplier_name')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Mesthiri Nick Name</label>
-                                <input name="nickname" type="text" class="form-control" placeholder="Mesthiri Nick Name" value="{{ $mesthiri->nickname }}">
-                                @error('nickname')
+                                <label>GST No</label>
+                                <input name="supplier_gstno" type="text" value="{{ old('supplier_gstno') }}" class="form-control" placeholder="GST No">
+                                @error('supplier_gstno')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                            <br>
                             <div class="form-group">
                                 <label>Phono</label>
-                                <input name="phone" type="tel" pattern="[0-9]*" class="form-control" placeholder="Phono" value="{{ $mesthiri->phone }}">
-                                @error('phone')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>Alternate No</label>
-                                <input name="alternate_no" type="tel" pattern="[0-9]*" class="form-control" placeholder="Phono" value="{{ $mesthiri->alternate_no }}">
-                                @error('alternate_no')
+                                <input name="supplier_phone" type="tel" pattern="[0-9]*" class="form-control" placeholder="Phono" value="{{ old('supplier_phone') }}">
+                                @error('supplier_phone')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             
-                            
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label>Gpay/Phonepay</label>
-                                <input name="gpay" type="tel" pattern="[0-9]*"  class="form-control" placeholder="Gpay/Phonepay" value="{{ $mesthiri->gpay }}">
-                                @error('gpay')
+                                <input name="supplier_gpay" type="tel" pattern="[0-9]*"  class="form-control" placeholder="Gpay/Phonepay" value="{{ old('supplier_gpay') }}">
+                                @error('supplier_gpay')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label>Account No</label>
-                                <input name="account" type="text" class="form-control" placeholder="Account No" value="{{ $mesthiri->account }}">
-                                @error('account')
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            
+                            
+                            <div class="form-group res-mg-t-15">
+                                <label>Address</label>
+                                <textarea name="supplier_location" placeholder="Address"></textarea>
+                                @error('supplier_location')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group res-mg-t-15">
-                                <label>Location</label>
-                                <textarea name="location" placeholder="Address">{{ $mesthiri->location }}</textarea>
-                                @error('location')
+                                <label>Account Details</label>
+                                <textarea name="supplier_account" placeholder="Account Details"></textarea>
+                                @error('supplier_account')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                            
                             
                         </div>
                     </div>
@@ -102,7 +98,7 @@
                         <div class="col-lg-12">
                             <div class="payment-adress">
                                 <button type="submit" class="btn btn-success ">Submit</button>
-                                <a href="{{route('chiefengineer.mesthiri.index')}}" class="btn btn-danger">Back</a>
+                                <a href="{{route('account.supplier.index')}}" class="btn btn-danger">Back</a>
                             </div>
                         </div>
                     </div>

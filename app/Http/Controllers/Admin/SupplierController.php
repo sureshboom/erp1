@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User\siteengineer;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class SupplierController extends Controller
     public function index()
     {
         $suppliers = Supplier::orderBy('id','desc')->get();
-        return view('user.siteengineer.supplier.index',compact('suppliers'));
+        return view('admin.supplier.index',compact('suppliers'));
     }
 
     /**
@@ -22,7 +22,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        return view('user.siteengineer.supplier.create');
+        return view('admin.supplier.create');
     }
 
     /**
@@ -44,7 +44,7 @@ class SupplierController extends Controller
         if($supplier)
         {
             flashSuccess('Supplier created Successfully');
-            return redirect()->route('siteengineer.supplier.index');
+            return redirect()->route('supplier.index');
         }else
         {
             flashSuccess('Something Wrong');
@@ -66,7 +66,7 @@ class SupplierController extends Controller
     public function edit(string $id)
     {
         $supplier = Supplier::find($id);
-        return view('user.siteengineer.supplier.edit',compact('supplier'));
+        return view('admin.supplier.edit',compact('supplier'));
     }
 
     /**
@@ -88,7 +88,7 @@ class SupplierController extends Controller
         if($supplier)
         {
             flashSuccess('Supplier Updated Successfully');
-            return redirect()->route('siteengineer.supplier.index');
+            return redirect()->route('supplier.index');
         }else
         {
             flashSuccess('Something Wrong');

@@ -16,6 +16,8 @@ class VillaProject extends Model
         'updated_at',
     ];
 
+
+
     public function siteengineer()
     {
         return $this->belongsTo(Siteengineer::class,'siteengineer_id','id');
@@ -29,5 +31,10 @@ class VillaProject extends Model
     public function getSksvpIdAttribute()
     {
         return 'SKSVP ' . $this->attributes['id'];
+    }
+
+    public function mesthiri()
+    {
+        return $this->belongsTo(Mesthiri::class,'mesthiri_id');
     }
 }

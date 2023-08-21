@@ -43,7 +43,7 @@
 
 
                             </div>
-                            @if(($materials[0]->materialin->status == 'order') or ($materials[0]->materialin->status == 'cancel'))
+                            @if(($materials[0]->materialin->status == 'request') or ($materials[0]->materialin->status == 'cancel'))
                             <a href="{{ route('siteengineer.material_order.edit', $materialinid) }}" class="btn btn-primary">
                                                     Edit
                                                 </a>
@@ -82,7 +82,7 @@
                                             <td>{{ $material->quantity ? $material->quantity : '' }}</td>
                                             <td class="datatable-ct">
                                                 
-                                                @if(($material->materialin->status == 'order') or ($material->materialin->status == 'cancel'))
+                                                @if(($material->materialin->status == 'request') or ($material->materialin->status == 'cancel'))
                                                 <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $material->id }}').submit();"><i class="fa fa-trash"></i></a>
                                                 <form method="post" action="{{ route('siteengineer.purchasedelete', $material->id) }}" id="delete-post-{{ $material->id }}" style="display: none;">
                                                     @csrf

@@ -5,64 +5,32 @@ namespace App\Observers;
 use Illuminate\Support\Facades\Log;
 use App\Models\Materialpurchase;
 use App\Models\Materialpurchasehistory;
+use App\Models\Materialin;
 
 class MaterialpurchasehistoryObserver
 {
     /**
      * Handle the Materialpurchasehistory "created" event.
      */
-    public function created(Materialpurchasehistory $Materialpurchasehistory): void
-    {
-        //
-    }
-
-    /**
-     * Handle the Materialpurchasehistory "updated" event.
-     */
-    public function updated(Materialpurchasehistory $Materialpurchasehistory): void
-    {
-        //
-        $oldQuantity = $Materialpurchasehistory->getOriginal('quantity');
-        $newQuantity = $Materialpurchasehistory->quantity;
-        $quantityDifference = $newQuantity - $oldQuantity;
-
-        Materialpurchase::where('site_id', $Materialpurchasehistory->site_id)
-            ->where('meterial_id', $Materialpurchasehistory->meterial_id)
-            ->increment('quantity', $quantityDifference);
-    }
-
-    /**
-     * Handle the Materialpurchasehistory "deleted" event.
-     */
-    public function deleted(Materialpurchasehistory $Materialpurchasehistory): void
+    
+    public function deleted(Materialpurchasehistory $purchaseHistory): void
     {
         //
         Log::info('Deleted event triggered');
-        Log::info('Materialpurchasehistory ID: ' . $Materialpurchasehistory->id);
-        
-        $purchase = Materialpurchase::where('site_id', $Materialpurchasehistory->site_id)
-                                    ->where('meterial_id', $Materialpurchasehistory->meterial_id)
-                                    ->first();
+        Log::info('Materialpurchasehistory ID: ' . $purchaseHistory->id);
+        $projectType = $purchaseHistory->project_type;
+        $projectId = $projectType === 'contract' ? $purchaseHistory->contract_project_id : $purchaseHistory->villa_project_id;
+        $materialId = $purchaseHistory->meterial_id;
+        $quantity = $purchaseHistory->quantity;
 
-        if ($purchase) {
-            // Decrement the quantity in the Materialpurchases table
-            $purchase->update(['quantity' => $purchase->quantity - $Materialpurchasehistory->quantity]);
+        $materialPurchase = MaterialPurchase::where('project_type', $projectType)
+            ->where($projectType . '_project_id', $projectId)
+            ->where('meterial_id', $materialId)
+            ->first();
+
+        if ($materialPurchase) {
+            $materialPurchase->decrement('quantity', $quantity);
         }
     }
-
-    /**
-     * Handle the Materialpurchasehistory "restored" event.
-     */
-    public function restored(Materialpurchasehistory $Materialpurchasehistory): void
-    {
-        //
-    }
-
-    /**
-     * Handle the Materialpurchasehistory "force deleted" event.
-     */
-    public function forceDeleted(Materialpurchasehistory $Materialpurchasehistory): void
-    {
-        //
-    }
+    
 }

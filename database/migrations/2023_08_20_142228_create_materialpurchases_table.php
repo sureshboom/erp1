@@ -13,7 +13,17 @@ return new class extends Migration
     {
         Schema::create('materialpurchases', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('site_id')->constrained('sites')->cascadeOnDelete();
+            $table->enum('project_type',['contract','villa']);
+            $table->unsignedBigInteger('contract_project_id')->nullable();
+            $table->foreign('contract_project_id')
+                ->references('id')
+                ->on('contract_projects')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('villa_project_id')->nullable();
+            $table->foreign('villa_project_id')
+                ->references('id')
+                ->on('villa_projects')
+                ->onDelete('cascade');
             $table->foreignId('materialin_id')->constrained('materialins')->cascadeOnDelete();
             $table->foreignId('meterial_id')->constrained('meterials')->cascadeOnDelete();
             $table->integer('quantity');

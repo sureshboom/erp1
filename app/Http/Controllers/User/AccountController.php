@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Materialin;
 use App\Models\Materialpurchasehistory;
+use App\Models\Supplier;
 
 class AccountController extends Controller
 {
@@ -20,7 +21,7 @@ class AccountController extends Controller
     public function order()
     {
         
-        $materials = Materialin::where('status','!=','order')->get();
+        $materials = Materialin::where('status','!=','request')->get();
         return view('user.account.material.index',compact('materials'));
     }
 
@@ -33,18 +34,31 @@ class AccountController extends Controller
 
     public function materialpaid($id)
     {
-        $materialin = Materialin::where('id',$id)->update(['status' => 'paid']);
-        if ($materialin) {
-            flashSuccess('Meterial Payment Paid Successfully');
-            return back();
+        $materialamount = Materialin::find($id);
+        $suppliers = Supplier::select('id','supplier_name')->get();
+
+        return view('user.account.material.edit',compact('materialamount','suppliers'));
+    }
+    public function amountstore(Request $request,$id)
+    {
+        $input = $request->validate([
+            'supplier_id' => 'required',
+            'amount' => 'required',
+        ]);
+
+        $materialin = Materialin::find($id)->update(['supplier_id' => $request->supplier_id,'amount' => $request->amount,'status' => 'order']);
+        if($materialin)
+        {
+            flashSuccess('Material Order Placed');
+            return redirect()->route('account.materialstatus');
         }
         else
         {
-            flashError('Something Wrong plz try again');
+            flashError('Something Wrong');
             return back();
         }
-    }
 
+    }
     public function materialcancel($id)
     {
      

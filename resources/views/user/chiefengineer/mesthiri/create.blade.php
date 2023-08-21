@@ -50,6 +50,13 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label>Mesthiri Nick Name</label>
+                                <input name="nickname" type="text" class="form-control" placeholder="Mesthiri Nick Name" value="{{ old('nickname') }}">
+                                @error('nickname')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label>Phono</label>
                                 <input name="phone" type="tel" pattern="[0-9]*" class="form-control" placeholder="Phono" value="{{ old('phone') }}">
                                 @error('phone')
@@ -63,7 +70,8 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label>Gpay/Phonepay</label>
                                 <input name="gpay" type="tel" pattern="[0-9]*"  class="form-control" placeholder="Gpay/Phonepay" value="{{ old('gpay') }}">
@@ -71,9 +79,6 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            
                             <div class="form-group">
                                 <label>Account No</label>
                                 <input name="account" type="text" class="form-control" placeholder="Account No" value="{{ old('account') }}">

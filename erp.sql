@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2023 at 01:06 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Aug 21, 2023 at 03:55 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -166,6 +166,7 @@ CREATE TABLE `contract_projects` (
   `project_name` varchar(255) NOT NULL,
   `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
   `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
+  `mesthiri_id` int(11) DEFAULT NULL,
   `site_date` date DEFAULT NULL,
   `dtcp_no` varchar(255) NOT NULL,
   `reg_no` varchar(255) NOT NULL,
@@ -181,8 +182,8 @@ CREATE TABLE `contract_projects` (
 -- Dumping data for table `contract_projects`
 --
 
-INSERT INTO `contract_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengineer_id`, `site_date`, `dtcp_no`, `reg_no`, `location`, `total_land_area`, `total_buildup_area`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Golden Garden', 1, 1, '2023-08-02', '12312412433', '134123413233', 'Ganapathy ,Coimbatore.', '3 Acres', '2.5 Acres', 'processing', '2023-08-15 03:30:39', '2023-08-15 03:33:34');
+INSERT INTO `contract_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengineer_id`, `mesthiri_id`, `site_date`, `dtcp_no`, `reg_no`, `location`, `total_land_area`, `total_buildup_area`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Golden Garden', 1, 1, 1, '2023-08-02', '12312412433', '134123413233', 'Ganapathy ,Coimbatore.', '3 Acres', '2.5 Acres', 'processing', '2023-08-15 03:30:39', '2023-08-21 07:40:40');
 
 -- --------------------------------------------------------
 
@@ -348,15 +349,14 @@ INSERT INTO `land_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengi
 
 CREATE TABLE `materialins` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `site_id` bigint(20) UNSIGNED NOT NULL,
-  `supplier_id` bigint(20) UNSIGNED NOT NULL,
+  `project_type` enum('contract','villa') NOT NULL,
+  `contract_project_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `villa_project_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `supplier_id` bigint(20) UNSIGNED DEFAULT NULL,
   `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
   `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
-  `amount` double(10,2) NOT NULL DEFAULT 0.00,
-  `paid` double(10,2) NOT NULL DEFAULT 0.00,
-  `pending` double(10,2) NOT NULL DEFAULT 0.00,
-  `status` enum('order','approved','paid','verified','received','cancel') NOT NULL,
-  `notes` varchar(255) DEFAULT NULL,
+  `amount` double(10,2) DEFAULT 0.00,
+  `status` enum('request','approved','order','verified','received') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -365,10 +365,10 @@ CREATE TABLE `materialins` (
 -- Dumping data for table `materialins`
 --
 
-INSERT INTO `materialins` (`id`, `site_id`, `supplier_id`, `siteengineer_id`, `chiefengineer_id`, `amount`, `paid`, `pending`, `status`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1, 20000.00, 15000.00, 5000.00, 'verified', NULL, '2023-08-01 05:16:52', '2023-08-10 03:51:53'),
-(2, 1, 1, 1, 1, 15000.00, 0.00, 15000.00, 'approved', NULL, '2023-08-06 23:49:27', '2023-08-08 01:33:31'),
-(4, 1, 1, 1, 1, 25000.00, 0.00, 0.00, 'approved', NULL, '2023-08-10 00:20:58', '2023-08-10 03:10:17');
+INSERT INTO `materialins` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `supplier_id`, `siteengineer_id`, `chiefengineer_id`, `amount`, `status`, `created_at`, `updated_at`) VALUES
+(4, 'contract', 1, NULL, 1, 1, 1, 20000.00, 'verified', '2023-08-20 09:39:34', '2023-08-21 03:10:04'),
+(12, 'contract', 1, NULL, NULL, 1, 1, 0.00, 'request', '2023-08-20 11:10:31', '2023-08-20 11:10:31'),
+(14, 'contract', 1, NULL, NULL, 1, 1, 0.00, 'request', '2023-08-21 07:52:41', '2023-08-21 07:52:41');
 
 -- --------------------------------------------------------
 
@@ -378,7 +378,9 @@ INSERT INTO `materialins` (`id`, `site_id`, `supplier_id`, `siteengineer_id`, `c
 
 CREATE TABLE `materialpurchasehistories` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `site_id` bigint(20) UNSIGNED NOT NULL,
+  `project_type` enum('contract','villa') NOT NULL,
+  `contract_project_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `villa_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `materialin_id` bigint(20) UNSIGNED NOT NULL,
   `meterial_id` bigint(20) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL,
@@ -390,15 +392,13 @@ CREATE TABLE `materialpurchasehistories` (
 -- Dumping data for table `materialpurchasehistories`
 --
 
-INSERT INTO `materialpurchasehistories` (`id`, `site_id`, `materialin_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 30, '2023-08-01 05:16:52', '2023-08-01 05:16:52'),
-(2, 1, 1, 4, 20, '2023-08-01 05:16:52', '2023-08-01 05:16:52'),
-(3, 1, 1, 3, 10, '2023-08-01 05:16:52', '2023-08-01 05:16:52'),
-(4, 1, 2, 1, 10, '2023-08-06 23:49:27', '2023-08-06 23:49:27'),
-(5, 1, 2, 3, 5, '2023-08-06 23:49:27', '2023-08-06 23:49:27'),
-(13, 1, 4, 1, 10, '2023-08-10 01:55:10', '2023-08-10 01:55:10'),
-(14, 1, 4, 3, 3, '2023-08-10 01:55:10', '2023-08-10 01:55:10'),
-(15, 1, 4, 4, 5, '2023-08-10 01:55:10', '2023-08-10 01:55:10');
+INSERT INTO `materialpurchasehistories` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `materialin_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
+(20, 'contract', 1, NULL, 12, 1, 8, '2023-08-20 11:11:52', '2023-08-20 11:11:52'),
+(21, 'contract', 1, NULL, 12, 3, 2, '2023-08-20 11:11:52', '2023-08-20 11:11:52'),
+(22, 'contract', 1, NULL, 4, 1, 10, '2023-08-21 02:38:23', '2023-08-21 02:38:23'),
+(23, 'contract', 1, NULL, 4, 3, 6, '2023-08-21 02:38:23', '2023-08-21 02:38:23'),
+(27, 'contract', 1, NULL, 14, 1, 7, '2023-08-21 07:52:41', '2023-08-21 07:52:41'),
+(28, 'contract', 1, NULL, 14, 3, 3, '2023-08-21 07:52:42', '2023-08-21 07:52:42');
 
 -- --------------------------------------------------------
 
@@ -408,7 +408,10 @@ INSERT INTO `materialpurchasehistories` (`id`, `site_id`, `materialin_id`, `mete
 
 CREATE TABLE `materialpurchases` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `site_id` bigint(20) UNSIGNED NOT NULL,
+  `project_type` enum('contract','villa') NOT NULL,
+  `contract_project_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `villa_project_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `materialin_id` bigint(20) UNSIGNED NOT NULL,
   `meterial_id` bigint(20) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -419,10 +422,9 @@ CREATE TABLE `materialpurchases` (
 -- Dumping data for table `materialpurchases`
 --
 
-INSERT INTO `materialpurchases` (`id`, `site_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 50, '2023-08-01 05:16:52', '2023-08-10 01:55:10'),
-(2, 1, 4, 25, '2023-08-01 05:16:52', '2023-08-10 01:55:10'),
-(3, 1, 3, 18, '2023-08-01 05:16:52', '2023-08-10 01:55:10');
+INSERT INTO `materialpurchases` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `materialin_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
+(1, 'contract', 1, NULL, 4, 1, 25, '2023-08-20 09:39:34', '2023-08-21 07:52:41'),
+(2, 'contract', 1, NULL, 4, 3, 11, '2023-08-20 09:39:34', '2023-08-21 07:52:42');
 
 -- --------------------------------------------------------
 
@@ -440,13 +442,6 @@ CREATE TABLE `material_payment_histories` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `material_payment_histories`
---
-
-INSERT INTO `material_payment_histories` (`id`, `materialins_id`, `paytype`, `amount`, `payway`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Voucher', 15000.00, 'Voucher', '2023-08-07 00:43:44', '2023-08-07 01:16:42');
-
 -- --------------------------------------------------------
 
 --
@@ -456,6 +451,7 @@ INSERT INTO `material_payment_histories` (`id`, `materialins_id`, `paytype`, `am
 CREATE TABLE `mesthiris` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
+  `nickname` varchar(255) NOT NULL,
   `phone` varchar(255) NOT NULL,
   `alternate_no` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
@@ -469,9 +465,9 @@ CREATE TABLE `mesthiris` (
 -- Dumping data for table `mesthiris`
 --
 
-INSERT INTO `mesthiris` (`id`, `name`, `phone`, `alternate_no`, `location`, `gpay`, `account`, `created_at`, `updated_at`) VALUES
-(1, 'Ragul', '9092255111', '9876543111', 'Saravanam patti,Coimbatore.', '9876543111', '313264325555', '2023-08-08 04:18:02', '2023-08-08 04:23:29'),
-(3, 'Ram', '8610805698', '9876543210', 'Saravanampatti, Coimbatore.', '9876543210', '313264324024', '2023-08-08 05:31:25', '2023-08-08 05:31:25');
+INSERT INTO `mesthiris` (`id`, `name`, `nickname`, `phone`, `alternate_no`, `location`, `gpay`, `account`, `created_at`, `updated_at`) VALUES
+(1, 'Ragul', 'Demo', '9092255111', '9876543111', 'Saravanam patti,Coimbatore.', '9876543111', '313264325555', '2023-08-08 04:18:02', '2023-08-21 04:28:17'),
+(3, 'Ram', 'Demo1', '8610805698', '9876543210', 'Saravanampatti, Coimbatore.', '9876543210', '313264324024', '2023-08-08 05:31:25', '2023-08-21 04:28:27');
 
 -- --------------------------------------------------------
 
@@ -481,7 +477,9 @@ INSERT INTO `mesthiris` (`id`, `name`, `phone`, `alternate_no`, `location`, `gpa
 
 CREATE TABLE `mesthiri_assigns` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `site_id` bigint(20) UNSIGNED NOT NULL,
+  `project_type` enum('contract','villa') NOT NULL,
+  `contract_project_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `villa_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `mesthiri_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -491,9 +489,9 @@ CREATE TABLE `mesthiri_assigns` (
 -- Dumping data for table `mesthiri_assigns`
 --
 
-INSERT INTO `mesthiri_assigns` (`id`, `site_id`, `mesthiri_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2023-08-08 05:28:34', '2023-08-08 05:28:34'),
-(2, 1, 3, '2023-08-08 05:31:52', '2023-08-08 05:31:52');
+INSERT INTO `mesthiri_assigns` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `mesthiri_id`, `created_at`, `updated_at`) VALUES
+(1, 'contract', 1, NULL, 1, '2023-08-21 07:40:40', '2023-08-21 07:40:40'),
+(2, 'villa', NULL, 1, 3, '2023-08-21 07:41:18', '2023-08-21 07:41:18');
 
 -- --------------------------------------------------------
 
@@ -554,15 +552,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (22, '2023_07_27_073138_add_created_by_to_customers', 5),
 (24, '2023_07_29_075935_create_meterials_table', 6),
 (25, '2023_07_29_102229_create_suppliers_table', 7),
-(26, '2023_07_31_083027_create_materialins_table', 8),
-(27, '2023_07_31_085152_create_materialpurchases_table', 8),
-(28, '2023_07_31_120827_create_materialpurchasehistories_table', 9),
 (30, '2023_08_05_071532_create_site_payment_histories_table', 10),
 (31, '2023_08_07_052254_create_material_payment_histories_table', 11),
 (33, '2023_08_07_090023_create_land_payment_histories_table', 13),
 (34, '2023_08_07_121700_create_expenses_table', 14),
 (35, '2023_08_08_085515_create_mesthiris_table', 15),
-(36, '2023_08_08_085548_create_mesthiri_assigns_table', 15),
 (37, '2023_08_08_121600_create_workers_table', 16),
 (38, '2023_08_09_051623_create_work_entries_table', 17),
 (39, '2023_08_09_083834_create_worker_entries_table', 18),
@@ -571,7 +565,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (42, '2023_08_14_084924_create_villa_projects_table', 19),
 (43, '2023_08_14_085746_create_contract_customers_table', 19),
 (44, '2023_08_14_085807_create_project_customers_table', 19),
-(45, '2023_08_14_131953_create_land_customers_table', 20);
+(45, '2023_08_14_131953_create_land_customers_table', 20),
+(47, '2023_08_18_131033_create_materialins_table', 21),
+(48, '2023_08_20_142228_create_materialpurchases_table', 22),
+(49, '2023_08_20_142947_create_materialpurchasehistories_table', 23),
+(50, '2023_08_21_100821_create_mesthiri_assigns_table', 24);
 
 -- --------------------------------------------------------
 
@@ -871,7 +869,7 @@ CREATE TABLE `suppliers` (
 --
 
 INSERT INTO `suppliers` (`id`, `supplier_name`, `supplier_phone`, `supplier_gstno`, `supplier_location`, `supplier_gpay`, `supplier_account`, `created_at`, `updated_at`) VALUES
-(1, 'Ramu', '9876543554', '9922884466113', 'Saravanampatti, Coimbatore.', '1234567788', 'Account No: 238461298367,\r\nBank :state bank of india,\r\nIFSC Code:SBIN0007039', '2023-07-29 06:03:38', '2023-07-31 04:05:34');
+(1, 'Ramu', '9876543554', '9922884466113', 'Saravanampatti, Coimbatore.', '1234567787', 'Account No: 238461298367,\r\nBank :state bank of india,\r\nIFSC Code:SBIN0007039', '2023-07-29 06:03:38', '2023-08-21 04:03:50');
 
 -- --------------------------------------------------------
 
@@ -977,6 +975,7 @@ CREATE TABLE `villa_projects` (
   `project_name` varchar(255) NOT NULL,
   `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
   `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
+  `mesthiri_id` int(11) DEFAULT NULL,
   `site_date` date DEFAULT NULL,
   `dtcp_no` varchar(255) NOT NULL,
   `reg_no` varchar(255) NOT NULL,
@@ -993,8 +992,8 @@ CREATE TABLE `villa_projects` (
 -- Dumping data for table `villa_projects`
 --
 
-INSERT INTO `villa_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengineer_id`, `site_date`, `dtcp_no`, `reg_no`, `location`, `total_land_area`, `total_buildup_area`, `no_of_unit`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Green Gardens', 1, 1, '2023-08-02', '123411234', '1411564453', 'Saravanam patti, Coimbatore.', '10 Acres', '9 Acres', '25', 'processing', '2023-08-15 02:51:56', '2023-08-15 03:00:24');
+INSERT INTO `villa_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengineer_id`, `mesthiri_id`, `site_date`, `dtcp_no`, `reg_no`, `location`, `total_land_area`, `total_buildup_area`, `no_of_unit`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Green Gardens', 1, 1, 3, '2023-08-02', '123411234', '1411564453', 'Saravanam patti, Coimbatore.', '10 Acres', '9 Acres', '25', 'processing', '2023-08-15 02:51:56', '2023-08-21 07:41:18');
 
 -- --------------------------------------------------------
 
@@ -1160,7 +1159,8 @@ ALTER TABLE `land_projects`
 --
 ALTER TABLE `materialins`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `materialins_site_id_foreign` (`site_id`),
+  ADD KEY `materialins_contract_project_id_foreign` (`contract_project_id`),
+  ADD KEY `materialins_villa_project_id_foreign` (`villa_project_id`),
   ADD KEY `materialins_supplier_id_foreign` (`supplier_id`),
   ADD KEY `materialins_siteengineer_id_foreign` (`siteengineer_id`),
   ADD KEY `materialins_chiefengineer_id_foreign` (`chiefengineer_id`);
@@ -1170,7 +1170,8 @@ ALTER TABLE `materialins`
 --
 ALTER TABLE `materialpurchasehistories`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `materialpurchasehistories_site_id_foreign` (`site_id`),
+  ADD KEY `materialpurchasehistories_contract_project_id_foreign` (`contract_project_id`),
+  ADD KEY `materialpurchasehistories_villa_project_id_foreign` (`villa_project_id`),
   ADD KEY `materialpurchasehistories_meterial_id_foreign` (`meterial_id`),
   ADD KEY `materialpurchasehistories_materialin_id_foreign` (`materialin_id`);
 
@@ -1179,7 +1180,9 @@ ALTER TABLE `materialpurchasehistories`
 --
 ALTER TABLE `materialpurchases`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `materialpurchases_site_id_foreign` (`site_id`),
+  ADD KEY `materialpurchases_contract_project_id_foreign` (`contract_project_id`),
+  ADD KEY `materialpurchases_villa_project_id_foreign` (`villa_project_id`),
+  ADD KEY `materialpurchases_materialin_id_foreign` (`materialin_id`),
   ADD KEY `materialpurchases_meterial_id_foreign` (`meterial_id`);
 
 --
@@ -1200,7 +1203,8 @@ ALTER TABLE `mesthiris`
 --
 ALTER TABLE `mesthiri_assigns`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `mesthiri_assigns_site_id_foreign` (`site_id`);
+  ADD KEY `mesthiri_assigns_contract_project_id_foreign` (`contract_project_id`),
+  ADD KEY `mesthiri_assigns_villa_project_id_foreign` (`villa_project_id`);
 
 --
 -- Indexes for table `meterials`
@@ -1415,19 +1419,19 @@ ALTER TABLE `land_projects`
 -- AUTO_INCREMENT for table `materialins`
 --
 ALTER TABLE `materialins`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `materialpurchasehistories`
 --
 ALTER TABLE `materialpurchasehistories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `materialpurchases`
 --
 ALTER TABLE `materialpurchases`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `material_payment_histories`
@@ -1457,7 +1461,7 @@ ALTER TABLE `meterials`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1608,23 +1612,28 @@ ALTER TABLE `land_projects`
 --
 ALTER TABLE `materialins`
   ADD CONSTRAINT `materialins_chiefengineer_id_foreign` FOREIGN KEY (`chiefengineer_id`) REFERENCES `chiefengineers` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `materialins_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `materialins_contract_project_id_foreign` FOREIGN KEY (`contract_project_id`) REFERENCES `contract_projects` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `materialins_siteengineer_id_foreign` FOREIGN KEY (`siteengineer_id`) REFERENCES `siteengineers` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `materialins_supplier_id_foreign` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `materialins_supplier_id_foreign` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `materialins_villa_project_id_foreign` FOREIGN KEY (`villa_project_id`) REFERENCES `villa_projects` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `materialpurchasehistories`
 --
 ALTER TABLE `materialpurchasehistories`
+  ADD CONSTRAINT `materialpurchasehistories_contract_project_id_foreign` FOREIGN KEY (`contract_project_id`) REFERENCES `contract_projects` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `materialpurchasehistories_materialin_id_foreign` FOREIGN KEY (`materialin_id`) REFERENCES `materialins` (`id`) ON DELETE NO ACTION,
   ADD CONSTRAINT `materialpurchasehistories_meterial_id_foreign` FOREIGN KEY (`meterial_id`) REFERENCES `meterials` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `materialpurchasehistories_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `materialpurchasehistories_villa_project_id_foreign` FOREIGN KEY (`villa_project_id`) REFERENCES `villa_projects` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `materialpurchases`
 --
 ALTER TABLE `materialpurchases`
+  ADD CONSTRAINT `materialpurchases_contract_project_id_foreign` FOREIGN KEY (`contract_project_id`) REFERENCES `contract_projects` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `materialpurchases_materialin_id_foreign` FOREIGN KEY (`materialin_id`) REFERENCES `materialins` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `materialpurchases_meterial_id_foreign` FOREIGN KEY (`meterial_id`) REFERENCES `meterials` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `materialpurchases_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `materialpurchases_villa_project_id_foreign` FOREIGN KEY (`villa_project_id`) REFERENCES `villa_projects` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `material_payment_histories`
@@ -1636,7 +1645,8 @@ ALTER TABLE `material_payment_histories`
 -- Constraints for table `mesthiri_assigns`
 --
 ALTER TABLE `mesthiri_assigns`
-  ADD CONSTRAINT `mesthiri_assigns_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `mesthiri_assigns_contract_project_id_foreign` FOREIGN KEY (`contract_project_id`) REFERENCES `contract_projects` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `mesthiri_assigns_villa_project_id_foreign` FOREIGN KEY (`villa_project_id`) REFERENCES `villa_projects` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `project_customers`
