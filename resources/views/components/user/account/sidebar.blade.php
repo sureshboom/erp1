@@ -28,7 +28,7 @@
        <span class="mini-click-non">Payments</span>
     </a>
     <ul class="submenu-angle" aria-expanded="true">
-        <li><a title="owner" href="{{ route('account.site_payment.index')}}"><span class="mini-sub-pro">Site Payments</span></a></li>
+        
         <li><a title="sites" href="{{ route('account.material_payment.index')}}"><span class="mini-sub-pro">Material Payments</span></a></li>
         <li><a title="sites" href="{{ route('account.land_payment.index')}}"><span class="mini-sub-pro">Land Payments</span></a></li>
     </ul>

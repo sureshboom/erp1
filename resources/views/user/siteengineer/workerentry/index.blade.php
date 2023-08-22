@@ -44,7 +44,8 @@
 
                             </div>
                             <a href="{{ route('siteengineer.workerentry.create')}}" class="btn btn-primary">+ Add New</a>
-                            <!-- {{ $workers }} -->
+                            {{-- {{ $workers }} --}}
+
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -62,8 +63,9 @@
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
                                             <th data-field="day">Date</th>
-                                            <th data-field="name">Site Name</th>
-                                            <th data-field="phone" data-editable="false">Mesthiri Name</th>
+                                            <th data-field="type">Project Type</th>
+                                            <th data-field="name">Project Name</th>
+                                            <th data-field="phone" data-editable="false">Mesthiri Name (Nickname)</th>
                                             <th data-field="location" data-editable="false">Workers Details</th>
                                             <th data-field="count" data-editable="false">Count</th>
                                             <th data-field="status">Status</th>
@@ -78,8 +80,14 @@
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{ $worker->workeddate ? formatDate($worker->workeddate) : '' }}</td>
-                                            <td>{{ $worker->site->sitename ? $worker->site->sitename : '' }}</td>
-                                            <td>{{ $worker->mesthiri->name ? $worker->mesthiri->name : '' }}</td>
+                                            <td>{{ $worker->project_type ? ucfirst($worker->project_type).' Project' : '' }}</td>
+                                            <td>@if($worker->project_type == 'contract')
+                                                {{ $worker->contractproject->project_name ? $worker->contractproject->project_name : '' }}
+                                                @else
+                                                {{ $worker->villaproject->project_name ? $worker->villaproject->project_name : '' }}
+                                                @endif
+                                            </td>
+                                            <td>{{ $worker->mesthiri->name ? $worker->mesthiri->name : '' }} {{ $worker->mesthiri->nickname ? '( '.$worker->mesthiri->nickname.' )' : '' }}</td>
                                             <td>
                                                 @if($worker->workers)
                                                 @foreach ($worker->workers as $workerv)
@@ -92,7 +100,7 @@
                                             </td>
                                             <td>{{ $worker->count ? $worker->count : '' }}</td>
                                             <td>
-                                                @if($worker->status != 'Paid')
+                                                @if($worker->status == 'pending')
                                                 <p class="text-danger">{{ $worker->status ? ucfirst($worker->status) : '' }}</p>
                                                 @else
                                                 <p class="text-success">{{ $worker->status ? ucfirst($worker->status) : '' }}</p>

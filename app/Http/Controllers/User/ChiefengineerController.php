@@ -5,11 +5,11 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Chiefengineer;
-use App\Models\Site;
 use App\Models\LandProject;
 use App\Models\ContractProject;
 use App\Models\VillaProject;
 use App\Models\Supplier;
+use App\Models\Site;
 use App\Models\WorkEntry;
 use App\Models\WorkerEntry;
 use App\Models\Materialin;
@@ -138,8 +138,15 @@ class ChiefengineerController extends Controller
     public function workentry()
     {
         $chiefengineer = Chiefengineer::where('user_id',auth()->user()->id)->first();
+        $contractproject = ContractProject::select('id')->where('chiefengineer_id',$chiefengineer->id)->get();
+        $villaproject = VillaProject::select('id')->where('chiefengineer_id',$chiefengineer->id)->get();
+        $contractWorkerIds = WorkEntry::whereIn('contract_project_id', $contractproject->pluck('id'))->pluck('id');
+        $villaWorkerIds = WorkEntry::whereIn('villa_project_id', $villaproject->pluck('id'))->pluck('id');
+
+        $workerIds = $contractWorkerIds->merge($villaWorkerIds)->unique();
+
+        $works = WorkEntry::whereIn('id', $workerIds)->orderBy('id', 'desc')->get();
         $sites = Site::select('id')->where('chiefengineer_id',$chiefengineer->id)->get();
-        $works = WorkEntry::whereIn('site_id', $sites->pluck('id'))->orderBy('id','desc')->get();
         return view('user.chiefengineer.works',compact('works'));
     }
     
@@ -161,8 +168,14 @@ class ChiefengineerController extends Controller
     public function WorkerEntry()
     {
         $chiefengineer = Chiefengineer::where('user_id',auth()->user()->id)->first();
-        $sites = Site::select('id')->where('chiefengineer_id',$chiefengineer->id)->get();
-        $workers = WorkerEntry::whereIn('site_id', $sites->pluck('id'))->orderBy('id','desc')->get();
+        $contractproject = ContractProject::select('id')->where('chiefengineer_id',$chiefengineer->id)->get();
+        $villaproject = VillaProject::select('id')->where('chiefengineer_id',$chiefengineer->id)->get();
+        $contractWorkerIds = WorkerEntry::whereIn('contract_project_id', $contractproject->pluck('id'))->pluck('id');
+        $villaWorkerIds = WorkerEntry::whereIn('villa_project_id', $villaproject->pluck('id'))->pluck('id');
+
+        $workerIds = $contractWorkerIds->merge($villaWorkerIds)->unique();
+
+        $workers = WorkerEntry::whereIn('id', $workerIds)->orderBy('id', 'desc')->get();
         return view('user.chiefengineer.workerentry.index',compact('workers'));
     }
 

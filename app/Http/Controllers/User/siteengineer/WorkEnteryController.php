@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\WorkEntry;
 use App\Models\Siteengineer;
-use App\Models\Site;
+use App\Models\ContractProject;
+use App\Models\VillaProject;
 
 class WorkEnteryController extends Controller
 {
@@ -26,8 +27,9 @@ class WorkEnteryController extends Controller
     public function create()
     {
         $siteengineer = Siteengineer::select('id','user_id')->where('user_id',auth()->user()->id)->first();
-        $sites = Site::select('id','sitename')->where('siteengineer_id',$siteengineer->id)->get();
-        return view('user.siteengineer.workentry.create',compact('sites'));
+        $contractprojects = ContractProject::select('id','project_name')->where('siteengineer_id',$siteengineer->id)->get();
+        $villaprojects = VillaProject::select('id','project_name')->where('siteengineer_id',$siteengineer->id)->get();
+        return view('user.siteengineer.workentry.create',compact('contractprojects','villaprojects'));
     }
 
     /**
@@ -37,8 +39,10 @@ class WorkEnteryController extends Controller
     {
         $input = $request->validate([
             'working_date' => 'required',
-            'site_id' => 'required',
             'works' => 'required',
+            'project_type' => 'required',
+            'contract_project_id' => 'required_if:project_type,contract',
+            'villa_project_id' => 'required_if:project_type,villa',
         ]);
         $input['status'] = 'pending';
         $works = WorkEntry::create($input);
@@ -69,9 +73,10 @@ class WorkEnteryController extends Controller
     {
         $work = WorkEntry::find($id);
         $siteengineer = Siteengineer::select('id','user_id')->where('user_id',auth()->user()->id)->first();
-        $sites = Site::select('id','sitename')->where('siteengineer_id',$siteengineer->id)->get();
+        $contractprojects = ContractProject::select('id','project_name')->where('siteengineer_id',$siteengineer->id)->get();
+        $villaprojects = VillaProject::select('id','project_name')->where('siteengineer_id',$siteengineer->id)->get();
 
-         return view('user.siteengineer.workentry.edit',compact('work','sites'));
+         return view('user.siteengineer.workentry.edit',compact('work','contractprojects','villaprojects'));
     }
 
     /**
@@ -81,8 +86,10 @@ class WorkEnteryController extends Controller
     {
         $input = $request->validate([
             'working_date' => 'required',
-            'site_id' => 'required',
             'works' => 'required',
+            'project_type' => 'required',
+            'contract_project_id' => 'required_if:project_type,contract',
+            'villa_project_id' => 'required_if:project_type,villa',
         ]);
         $works = WorkEntry::find($id)->update($input);
         if($works)

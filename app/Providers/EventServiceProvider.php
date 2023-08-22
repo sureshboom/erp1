@@ -10,9 +10,7 @@ use App\Models\Materialpurchasehistory;
 use App\Models\Materialin;
 use App\Observers\MaterialPurchaseHistoryObserver;
 use App\Observers\MaterialInsObserver;
-use App\Observers\SitePaymentHistoryObserver;
-// use App\Models\Site;
-use App\Models\SitePaymentHistory;
+
 use App\Observers\MaterialPaymentHistoryObserver;
 use App\Models\MaterialPaymentHistory;
 use App\Observers\LandPaymentHistoryObserver;

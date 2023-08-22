@@ -188,8 +188,79 @@
 
     });
     @endif
+    @if((request()->routeIs('siteengineer.workentry.create'))or(request()->routeIs('siteengineer.workentry.edit')))
+        $(document).ready(function(){
+            if(($('#project_type').val()) == 'contract')
+            {
+                $('#displaycontract').show();
+                $('#displayvilla').hide();
+            }
+            else if(($('#project_type').val()) == 'villa'){
+                $('#displaycontract').hide();
+                $('#displayvilla').show();
+            }
+            else
+            {
+                $('#displaycontract').hide();
+                $('#displayvilla').hide();
+            }
+            
+            $('#project_type').on('change',function(e){
+                var type =$(this).val();
+                if(type == 'contract'){
+                    $('#displaycontract').show();
+                    $('#displayvilla').hide();
+                }
+                else if(type == 'villa')
+                {
+                    $('#displayvilla').show();
+                    $('#displaycontract').hide();
+                }
+                else{
+                    $('#displaycontract').hide();
+                $('#displayvilla').hide();
+                }
+                // alert(type);
+            });
+           
+        });
+    @endif
     @if((request()->routeIs('siteengineer.workerentry.create'))or(request()->routeIs('siteengineer.workerentry.edit')))
-
+    $(document).ready(function(){
+        if(($('#project_type').val()) == 'contract')
+        {
+            $('#displaycontract').show();
+            $('#displayvilla').hide();
+        }
+        else if(($('#project_type').val()) == 'villa'){
+            $('#displaycontract').hide();
+            $('#displayvilla').show();
+        }
+        else
+        {
+            $('#displaycontract').hide();
+            $('#displayvilla').hide();
+        }
+        
+        $('#project_type').on('change',function(e){
+            var type =$(this).val();
+            if(type == 'contract'){
+                $('#displaycontract').show();
+                $('#displayvilla').hide();
+            }
+            else if(type == 'villa')
+            {
+                $('#displayvilla').show();
+                $('#displaycontract').hide();
+            }
+            else{
+                $('#displaycontract').hide();
+            $('#displayvilla').hide();
+            }
+            // alert(type);
+        });
+       
+    });
     $(document).ready(function(){
         $('.add_item').on('click',function(e){
             e.preventDefault();
@@ -204,18 +275,20 @@
             
           
         });
-        $('#site_id').on('change', function () {
-            var siteId = $(this).val();
-            if (siteId) {
+        $('#contract_project_id, #villa_project_id').on('change', function () {
+            var id = $(this).val();
+            var type = $('#project_type').val();
+            
+            if (id) {
                 // Make an AJAX request to fetch the payment data
                 $.ajax({
-                    url: '/site_engineer/payments/' + siteId,
+                    url: '/site_engineer/payments/'+ type +'/' + id,
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
                         if (data.mesthiri_id != null) {
                             console.log(data);
-                            
+                            // alert(data.mesthiri_id);
                             $('#mesthiri_id').val(data.mesthiri_id);
                             // If payment data exists, fill the input fields
                             
@@ -233,57 +306,57 @@
         });
     });
     @endif
-@if(request()->routeIs('account.site_payment.create'))
-    // Assuming you're using jQuery for simplicity
-    $(document).ready(function () {
-        $('#site_id').on('change', function () {
-            var siteId = $(this).val();
-            if (siteId) {
-                // Make an AJAX request to fetch the payment data
-                $.ajax({
-                    url: '/account/payments/' + siteId,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data) {
-                            if (data && Object.keys(data).length > 0)
-                            {
-                                $('#total').val(data.amount);
-                                $('#paid').val(data.paid);
-                                $('#oldpaid').val(data.paid);
-                                $('#pending').val(data.pending);
+// @if(request()->routeIs('account.site_payment.create'))
+//     // Assuming you're using jQuery for simplicity
+//     $(document).ready(function () {
+//         $('#site_id').on('change', function () {
+//             var siteId = $(this).val();
+//             if (siteId) {
+//                 // Make an AJAX request to fetch the payment data
+//                 $.ajax({
+//                     url: '/account/payments/' + siteId,
+//                     type: 'GET',
+//                     dataType: 'json',
+//                     success: function (data) {
+//                         if (data) {
+//                             if (data && Object.keys(data).length > 0)
+//                             {
+//                                 $('#total').val(data.amount);
+//                                 $('#paid').val(data.paid);
+//                                 $('#oldpaid').val(data.paid);
+//                                 $('#pending').val(data.pending);
                                 
-                            }
-                            else
-                            {
-                                $('#total').val(0);
-                                $('#paid').val(0);
-                                $('#oldpaid').val(0);
-                                $('#pending').val(0);
-                            }
-                            // If payment data exists, fill the input fields
+//                             }
+//                             else
+//                             {
+//                                 $('#total').val(0);
+//                                 $('#paid').val(0);
+//                                 $('#oldpaid').val(0);
+//                                 $('#pending').val(0);
+//                             }
+//                             // If payment data exists, fill the input fields
                             
-                        }
-                    },
-                    error: function () {
-                        // Handle error if the AJAX request fails
-                    }
-                });
-            }
-        });
-        $('#amount').on('input', function () {
-            var amount = Number($(this).val());
-            var total = Number($('#total').val());
-            var paid = Number($('#paid').val());
-            var oldpaid = Number($('#oldpaid').val());
-            var currentpay = (oldpaid + amount);
-            var pay = (total - currentpay);
-            $('#paid').val(currentpay);
-            $('#pending').val(pay);
-        });
-    });
+//                         }
+//                     },
+//                     error: function () {
+//                         // Handle error if the AJAX request fails
+//                     }
+//                 });
+//             }
+//         });
+//         $('#amount').on('input', function () {
+//             var amount = Number($(this).val());
+//             var total = Number($('#total').val());
+//             var paid = Number($('#paid').val());
+//             var oldpaid = Number($('#oldpaid').val());
+//             var currentpay = (oldpaid + amount);
+//             var pay = (total - currentpay);
+//             $('#paid').val(currentpay);
+//             $('#pending').val(pay);
+//         });
+//     });
 
-@endif
+// @endif
 @if(request()->routeIs('account.material_payment.create'))
     // Assuming you're using jQuery for simplicity
     $(document).ready(function () {

@@ -41,17 +41,42 @@
                     @csrf
                     @method('POST')
                     <div class="row">
-                        <div class="col-lg-6 col-lg-offset-3">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
                             
                             <div class="form-group">
-                                <label>Site Name</label>
-                                <select name="site_id" class="form-control">
-                                        <option value="">Select Site</option>
-                                        @foreach($sites as $site)
-                                        <option value="{{$site->id}}">{{$site->sitename}}</option>
+                                <label>Project Type</label>
+                                <select name="project_type" id="project_type" class="form-control">
+                                        <option value="">Select Project Type</option>
+                                        
+                                        <option value="contract" {{old('project_type') == 'contract' ? 'selected':'' }}>Contract Projects</option>
+                                        <option value="villa" {{old('project_type') == 'villa' ? 'selected':'' }}>Vila Projects</option>
+                                        
+                                </select>
+                                @error('project_type')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group" id="displaycontract">
+                                <label>Contract Project</label>
+                                <select name="contract_project_id" id="contract_project_id" class="form-control project_id">
+                                        <option value="">Select Contract Project</option>
+                                        @foreach($contractprojects as $contractproject)
+                                        <option value="{{$contractproject->id}}">{{$contractproject->project_name}}</option>
                                         @endforeach
                                 </select>
-                                @error('site_id')
+                                @error('contract_project_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group" id="displayvilla">
+                                <label>Villa Project</label>
+                                <select name="villa_project_id" id="villa_project_id" class="form-control project_id">
+                                        <option value="">Select Villa Project</option>
+                                        @foreach($villaprojects as $villaproject)
+                                        <option value="{{$villaproject->id}}">{{$villaproject->project_name}}</option>
+                                        @endforeach
+                                </select>
+                                @error('villa_project_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -62,6 +87,9 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                            
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
                             <div class="form-group res-mg-t-15">
                                 <label>Work Details</label>
                                 <textarea name="works" placeholder="Work Details"></textarea>

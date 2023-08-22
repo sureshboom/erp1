@@ -20,7 +20,6 @@ use App\Http\Controllers\User\siteengineer\WorkEnteryController;
 use App\Http\Controllers\User\siteengineer\WorkerEntryController;
 use App\Http\Controllers\User\siteengineer\MaterialrequestController;
 use App\Http\Controllers\User\account\SupplierController;
-use App\Http\Controllers\User\account\SitepaymentController;
 use App\Http\Controllers\User\account\MaterialPaymentController;
 use App\Http\Controllers\User\account\LandCustomerController;
 use App\Http\Controllers\User\account\ContractCustomerController;
@@ -52,7 +51,7 @@ include(base_path('routes/admin.php'));
 Route::controller(AccountController::class)->prefix('account')->middleware('account')->name('account.')->group(function () {
 
     Route::get('dashboard', 'dashboard')->name('dashboard');
-    Route::resource('/site_payment', SitepaymentController::class);
+    
     Route::resource('/material_payment', MaterialPaymentController::class);
     Route::resource('/landcustomer', LandCustomerController::class);
     Route::get('/landrequestPromotion/{id}', [LandCustomerController::class,'requestPromotion'])->name('promotion');
@@ -64,7 +63,7 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
     Route::resource('/land_payment', LandPaymentController::class);
     Route::resource('/expense', ExpenseController::class);
     Route::resource('/supplier', SupplierController::class);
-    Route::get('/payments/{siteid}',[SitepaymentController::class,'getsite']);
+    
     Route::get('/pay/{orderid}',[MaterialPaymentController::class,'getorder']);
     Route::get('/landpay/{orderid}',[LandPaymentController::class,'getland']);
     Route::get('material_view', 'order')->name('materialstatus');
@@ -95,7 +94,8 @@ Route::controller(SiteengineerController::class)->prefix('site_engineer')->middl
     Route::get('contractprojectlist', 'contractprojectlist')->name('contractprojectlist');
     Route::get('villaprojectlist', 'villaprojectlist')->name('villaprojectlist');
     
-    
+    Route::get('/payments/{type}/{id}', [WorkerEntryController::class,'getsite']);
+
     Route::resource('/workentry', WorkEnteryController::class);
     Route::resource('/workerentry', WorkerEntryController::class);
     Route::resource('/material_order', MaterialrequestController::class);
@@ -106,7 +106,7 @@ Route::controller(SiteengineerController::class)->prefix('site_engineer')->middl
     Route::post('/notestore/{id}',[MaterialrequestController::class,'notestore'])->name('notestore');
     Route::delete('/purchasedelete/{id}',[MaterialrequestController::class,'purchasedelete'])->name('purchasedelete');
     Route::get('/mesthiri', 'mesthiri')->name('mesthiri');
-    Route::get('/payments/{siteid}',[SitepaymentController::class,'getsite']);
+    
 });
 
 

@@ -62,8 +62,13 @@ class Siteengineer extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function site(): BelongsTo
+    public function villaproject(): BelongsTo
     {
-        return $this->belongsTo(Site::class);
+        return $this->belongsTo(VillaProject::class,'villa_project_id');
+    }
+
+    public function contractproject(): BelongsTo
+    {
+        return $this->belongsTo(ContractProject::class,'contract_project_id');
     }
 }

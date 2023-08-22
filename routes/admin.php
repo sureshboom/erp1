@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\StaffController;
-use App\Http\Controllers\Admin\SiteController;
+
 use App\Http\Controllers\Admin\LandProjectController;
 use App\Http\Controllers\Admin\ContractProjectController;
 use App\Http\Controllers\Admin\VillaProjectController;
@@ -31,7 +31,7 @@ Route::prefix('admin')->group(function () {
 			Route::post('/editstaff/{id}', [StaffController::class, 'update'])->name('admin.staff.update');
 			Route::get('/viewstaff/{id}', [StaffController::class, 'show'])->name('admin.staff.show');
 			Route::delete('/deletestaff/{id}', [StaffController::class, 'destroy'])->name('admin.staff.delete');
-			Route::resource('/site', SiteController::class);
+			
 			Route::resource('/landproject', LandProjectController::class);
 			Route::resource('/villaproject', VillaProjectController::class);
 			Route::resource('/contractproject', ContractProjectController::class);

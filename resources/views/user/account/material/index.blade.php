@@ -95,6 +95,8 @@
                                                 <p class="text-danger">Wait For Order</p>
                                                 @elseif($material->status == 'order')
                                                 <p class="text-success">Order Placed</p>
+                                                @elseif($material->status == 'verified')
+                                                <p class="text-success">Order Completed</p>
                                                 @endif
                                             </td>
                                             
@@ -116,6 +118,8 @@
                                                 </a> -->
                                                 @elseif($material->status == 'cancel')
                                                     <p class="text-danger">Order Cancelled</p>
+                                                @elseif($material->status == 'verified')
+                                                <p></p>
                                                 @else
                                                 
                                                     <p class="text-success">Waiting For Verify</p>

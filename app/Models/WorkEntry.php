@@ -11,14 +11,19 @@ class WorkEntry extends Model
 
     protected $guarded = [];
 
-    public function site()
+    public $hidden =[
+        'created_at',
+        'updated_at'
+    ];
+
+    public function villaproject()
     {
-        return $this->belongsTo(Site::class,'site_id');
+        return $this->belongsTo(VillaProject::class,'villa_project_id');
     }
 
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-    ];
+    public function contractproject()
+    {
+        return $this->belongsTo(ContractProject::class,'contract_project_id');
+    }
     
 }

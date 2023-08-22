@@ -11,11 +11,6 @@ class MesthiriAssign extends Model
 
     protected $guarded = [];
 
-    public function site()
-    {
-        return $this->belongsTo(Site::class,'site_id');
-    }
-
     public function mesthiri()
     {
         return $this->belongsTo(Mesthiri::class,'mesthiri_id');

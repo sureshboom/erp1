@@ -44,14 +44,39 @@
                         <div class="col-lg-6 col-lg-offset-3">
                             
                             <div class="form-group">
-                                <label>Site Name</label>
-                                <select name="site_id" id="site_id" class="form-control">
-                                        <option value="">Select Site</option>
-                                        @foreach($sites as $site)
-                                        <option value="{{$site->id}}" {{$worker->site_id == $site->id ? 'selected' :''}}>{{$site->sitename}}</option>
+                                <label>Project Type</label>
+                                <select name="project_type" id="project_type" class="form-control">
+                                        <option value="">Select Project Type</option>
+                                        
+                                        <option value="contract" {{ $worker->project_type == 'contract' ? 'selected':'' }}>Contract Projects</option>
+                                        <option value="villa" {{ $worker->project_type == 'villa' ? 'selected':'' }}>Vila Projects</option>
+                                        
+                                </select>
+                                @error('project_type')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group" id="displaycontract">
+                                <label>Contract Project</label>
+                                <select name="contract_project_id" id="contract_project_id" class="form-control project_id">
+                                        <option value="">Select Contract Project</option>
+                                        @foreach($contractprojects as $contractproject)
+                                        <option value="{{$contractproject->id}}" {{$worker->contract_project_id == $contractproject->id ? 'selected' : ''}}>{{$contractproject->project_name}}</option>
                                         @endforeach
                                 </select>
-                                @error('site_id')
+                                @error('contract_project_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group" id="displayvilla">
+                                <label>Villa Project</label>
+                                <select name="villa_project_id" id="villa_project_id" class="form-control project_id">
+                                        <option value="">Select Villa Project</option>
+                                        @foreach($villaprojects as $villaproject)
+                                        <option value="{{$villaproject->id}}" {{$worker->villa_project_id == $villaproject->id ? 'selected' : ''}}>{{$villaproject->project_name}}</option>
+                                        @endforeach
+                                </select>
+                                @error('villa_project_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>

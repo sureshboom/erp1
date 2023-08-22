@@ -62,8 +62,9 @@
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
                                             <th data-field="day">Date</th>
-                                            <th data-field="name">Site Name</th>
-                                            <th data-field="phone" data-editable="false">Site ID</th>
+                                            <th data-field="type">Project Type</th>
+                                            <th data-field="name">Project Name</th>
+                                            <th data-field="phone" data-editable="false">Project ID</th>
                                             <th data-field="location" data-editable="false">Work Details</th>
                                             <th data-field="status">Status</th>
                                             
@@ -77,8 +78,17 @@
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{ $work->working_date ? formatDate($work->working_date) : '' }}</td>
-                                            <td>{{ $work->site->sitename ? $work->site->sitename : '' }}</td>
-                                            <td>{{ $work->site->siteid ? $work->site->siteid : '' }}</td>
+                                            <td>{{ $work->project_type ? $work->project_type : '' }}</td>
+                                            <td>@if($work->project_type == 'villa')
+                                                {{ $work->villaProject ? $work->villaProject->project_name : '' }}
+                                                @else
+                                                {{ $work->contractProject ? $work->contractProject->project_name : '' }}
+                                                @endif</td>
+                                            <td>@if($work->project_type == 'villa')
+                                                {{ $work->villaProject ? $work->villaProject->sksvp_id : '' }}
+                                                @else
+                                                {{ $work->contractProject ? $work->contractProject->skscp_id : '' }}
+                                                @endif</td>
                                             <td>{{ $work->works ? $work->works : '' }}</td>
                                             <td>
                                                 @if($work->status != 'verified')

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2023 at 03:55 PM
+-- Generation Time: Aug 22, 2023 at 11:51 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -552,14 +552,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (22, '2023_07_27_073138_add_created_by_to_customers', 5),
 (24, '2023_07_29_075935_create_meterials_table', 6),
 (25, '2023_07_29_102229_create_suppliers_table', 7),
-(30, '2023_08_05_071532_create_site_payment_histories_table', 10),
 (31, '2023_08_07_052254_create_material_payment_histories_table', 11),
 (33, '2023_08_07_090023_create_land_payment_histories_table', 13),
 (34, '2023_08_07_121700_create_expenses_table', 14),
 (35, '2023_08_08_085515_create_mesthiris_table', 15),
 (37, '2023_08_08_121600_create_workers_table', 16),
-(38, '2023_08_09_051623_create_work_entries_table', 17),
-(39, '2023_08_09_083834_create_worker_entries_table', 18),
 (40, '2023_08_14_084831_create_land_projects_table', 19),
 (41, '2023_08_14_084902_create_contract_projects_table', 19),
 (42, '2023_08_14_084924_create_villa_projects_table', 19),
@@ -569,7 +566,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (47, '2023_08_18_131033_create_materialins_table', 21),
 (48, '2023_08_20_142228_create_materialpurchases_table', 22),
 (49, '2023_08_20_142947_create_materialpurchasehistories_table', 23),
-(50, '2023_08_21_100821_create_mesthiri_assigns_table', 24);
+(50, '2023_08_21_100821_create_mesthiri_assigns_table', 24),
+(51, '2023_08_22_062618_create_work_entries_table', 25),
+(52, '2023_08_22_062833_create_worker_entries_table', 25);
 
 -- --------------------------------------------------------
 
@@ -825,30 +824,6 @@ INSERT INTO `sitevisitarranges` (`id`, `customer_id`, `site_name`, `date`, `rece
 -- --------------------------------------------------------
 
 --
--- Table structure for table `site_payment_histories`
---
-
-CREATE TABLE `site_payment_histories` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `site_id` bigint(20) UNSIGNED NOT NULL,
-  `paytype` varchar(255) NOT NULL,
-  `amount` double(10,2) NOT NULL,
-  `payway` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `site_payment_histories`
---
-
-INSERT INTO `site_payment_histories` (`id`, `site_id`, `paytype`, `amount`, `payway`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Voucher', 200000.00, 'Voucher', '2023-08-05 06:59:15', '2023-08-05 06:59:15'),
-(6, 1, 'Gpay/Phonepay', 100000.00, '9876543210', '2023-08-06 08:52:47', '2023-08-06 09:30:16');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `suppliers`
 --
 
@@ -1030,7 +1005,9 @@ INSERT INTO `workers` (`id`, `name`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `worker_entries` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `site_id` bigint(20) UNSIGNED NOT NULL,
+  `project_type` enum('contract','villa') NOT NULL,
+  `contract_project_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `villa_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `mesthiri_id` bigint(20) UNSIGNED NOT NULL,
   `workeddate` date NOT NULL,
   `salary` double(10,2) NOT NULL DEFAULT 0.00,
@@ -1045,10 +1022,9 @@ CREATE TABLE `worker_entries` (
 -- Dumping data for table `worker_entries`
 --
 
-INSERT INTO `worker_entries` (`id`, `site_id`, `mesthiri_id`, `workeddate`, `salary`, `workers`, `count`, `status`, `created_at`, `updated_at`) VALUES
-(2, 1, 3, '2023-08-08', 20000.00, '[{\"Mason\":\"15\"},{\"Flooring Installer\":\"20\"}]', 35, 'verified', '2023-08-09 05:59:35', '2023-08-09 07:08:51'),
-(3, 1, 3, '2023-08-09', 0.00, '[{\"Mason\":\"15\"},{\"Plumber\":\"5\"},{\"Electrician\":\"8\"}]', 28, 'pending', '2023-08-09 06:09:55', '2023-08-09 06:42:10'),
-(4, 1, 3, '2023-08-10', 0.00, '[{\"Mason\":\"20\"},{\"Plumber\":\"5\"},{\"Electrician\":\"2\"}]', 27, 'pending', '2023-08-10 03:29:33', '2023-08-10 03:29:33');
+INSERT INTO `worker_entries` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `mesthiri_id`, `workeddate`, `salary`, `workers`, `count`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'contract', 1, NULL, 1, '2023-08-22', 0.00, '[{\"Mason\":\"3\"},{\"Plumber\":\"4\"}]', 7, 'pending', '2023-08-22 02:03:54', '2023-08-22 02:03:54'),
+(2, 'villa', 1, 1, 3, '2023-08-22', 2500.00, '[{\"Mason\":\"5\"},{\"Plumber\":\"4\"}]', 9, 'verified', '2023-08-22 02:15:47', '2023-08-22 03:21:39');
 
 -- --------------------------------------------------------
 
@@ -1058,8 +1034,10 @@ INSERT INTO `worker_entries` (`id`, `site_id`, `mesthiri_id`, `workeddate`, `sal
 
 CREATE TABLE `work_entries` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `project_type` enum('contract','villa') NOT NULL,
+  `contract_project_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `villa_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `working_date` date NOT NULL,
-  `site_id` bigint(20) UNSIGNED NOT NULL,
   `works` varchar(255) NOT NULL,
   `status` enum('pending','verified') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -1070,8 +1048,8 @@ CREATE TABLE `work_entries` (
 -- Dumping data for table `work_entries`
 --
 
-INSERT INTO `work_entries` (`id`, `working_date`, `site_id`, `works`, `status`, `created_at`, `updated_at`) VALUES
-(2, '2023-08-09', 1, 'Demo of Works Entry', 'verified', '2023-08-09 01:20:25', '2023-08-09 01:53:07');
+INSERT INTO `work_entries` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `working_date`, `works`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'villa', 1, 1, '2023-08-22', 'Work Details Testing', 'verified', '2023-08-22 03:00:12', '2023-08-22 03:16:55');
 
 --
 -- Indexes for dumped tables
@@ -1283,13 +1261,6 @@ ALTER TABLE `sitevisitarranges`
   ADD KEY `sitevisitarranges_customer_id_foreign` (`customer_id`);
 
 --
--- Indexes for table `site_payment_histories`
---
-ALTER TABLE `site_payment_histories`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `site_payment_histories_site_id_foreign` (`site_id`);
-
---
 -- Indexes for table `suppliers`
 --
 ALTER TABLE `suppliers`
@@ -1335,7 +1306,8 @@ ALTER TABLE `workers`
 --
 ALTER TABLE `worker_entries`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `worker_entries_site_id_foreign` (`site_id`),
+  ADD KEY `worker_entries_contract_project_id_foreign` (`contract_project_id`),
+  ADD KEY `worker_entries_villa_project_id_foreign` (`villa_project_id`),
   ADD KEY `worker_entries_mesthiri_id_foreign` (`mesthiri_id`);
 
 --
@@ -1343,7 +1315,8 @@ ALTER TABLE `worker_entries`
 --
 ALTER TABLE `work_entries`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `work_entries_site_id_foreign` (`site_id`);
+  ADD KEY `work_entries_contract_project_id_foreign` (`contract_project_id`),
+  ADD KEY `work_entries_villa_project_id_foreign` (`villa_project_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -1461,7 +1434,7 @@ ALTER TABLE `meterials`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1506,12 +1479,6 @@ ALTER TABLE `sitevisitarranges`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `site_payment_histories`
---
-ALTER TABLE `site_payment_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
@@ -1551,13 +1518,13 @@ ALTER TABLE `workers`
 -- AUTO_INCREMENT for table `worker_entries`
 --
 ALTER TABLE `worker_entries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `work_entries`
 --
 ALTER TABLE `work_entries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -1677,6 +1644,21 @@ ALTER TABLE `siteengineers`
 --
 ALTER TABLE `sitevisitarranges`
   ADD CONSTRAINT `sitevisitarranges_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `worker_entries`
+--
+ALTER TABLE `worker_entries`
+  ADD CONSTRAINT `worker_entries_contract_project_id_foreign` FOREIGN KEY (`contract_project_id`) REFERENCES `contract_projects` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `worker_entries_mesthiri_id_foreign` FOREIGN KEY (`mesthiri_id`) REFERENCES `mesthiris` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `worker_entries_villa_project_id_foreign` FOREIGN KEY (`villa_project_id`) REFERENCES `villa_projects` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `work_entries`
+--
+ALTER TABLE `work_entries`
+  ADD CONSTRAINT `work_entries_contract_project_id_foreign` FOREIGN KEY (`contract_project_id`) REFERENCES `contract_projects` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `work_entries_villa_project_id_foreign` FOREIGN KEY (`villa_project_id`) REFERENCES `villa_projects` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

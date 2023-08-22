@@ -20,7 +20,7 @@
         <li class="{{(request()->routeIs('chiefengineer.mesthirivilla') || request()->routeIs('chiefengineer.assignvilla')) ? 'active' : ''}}"><a title="sites" href="{{ route('chiefengineer.mesthirivilla')}}"><span class="mini-sub-pro">Villa Project</span></a></li>
     </ul>
 </li>
-<li class="{{ ((request()->routeIs('chiefengineer.material_status.*')) ||(request()->routeIs('chiefengineer.contractsite')) ||(request()->routeIs('chiefengineer.received')) ||(request()->routeIs('chiefengineer.materialview'))) ? 'active' : '' }}">
+<li class="{{ ((request()->routeIs('chiefengineer.material_status.*')) ||(request()->routeIs('chiefengineer.received'))) ? 'active' : '' }}">
     <a class="has-arrow" href="#">
        <span class="educate-icon educate-form icon-wrap"></span>
        <span class="mini-click-non">Material Details</span>
@@ -32,14 +32,14 @@
         
     </ul>
 </li>
-<li>
+<li class="{{ ((request()->routeIs('chiefengineer.workersentry')) ||(request()->routeIs('chiefengineer.workentry'))) ? 'active' : '' }}">
     <a class="has-arrow" href="#">
        <span class="educate-icon educate-event icon-wrap"></span>
        <span class="mini-click-non">Works Details</span>
     </a>
     <ul class="submenu-angle" aria-expanded="true">
-        <li><a title="owner" href="{{ route('chiefengineer.workersentry')}}"><span class="mini-sub-pro">Workers Entry</span></a></li>
-        <li><a title="sites" href="{{ route('chiefengineer.workentry')}}"><span class="mini-sub-pro">Work Entry</span></a></li>
+        <li class="{{ (request()->routeIs('chiefengineer.workersentry')) ? 'active' : '' }}"><a title="owner" href="{{ route('chiefengineer.workersentry')}}"><span class="mini-sub-pro">Workers Entry</span></a></li>
+        <li class="{{ (request()->routeIs('chiefengineer.workentry')) ? 'active' : '' }}"><a title="sites" href="{{ route('chiefengineer.workentry')}}"><span class="mini-sub-pro">Work Entry</span></a></li>
     </ul>
 </li>
 <li>

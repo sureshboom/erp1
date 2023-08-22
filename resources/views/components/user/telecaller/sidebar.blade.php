@@ -1,16 +1,16 @@
-<li >
+<li class="{{ request()->routeIs('telecaller.customer.*') ? 'active' : '' }}">
     <a  href="{{ route('telecaller.customer.index')}}">
        <span class="educate-icon educate-professor icon-wrap"></span>
        <span class="mini-click-non">Customer</span>
     </a>
 </li>
-<li >
+<li class="{{ request()->routeIs('telecaller.sitevisit.*') ? 'active' : '' }}">
     <a  href="{{ route('telecaller.sitevisit.index')}}">
        <span class="educate-icon educate-data-table icon-wrap"></span>
        <span class="mini-click-non">Site Visits</span>
     </a>
 </li>
-<li >
+<li class="{{ request()->routeIs('telecaller.todays_work.*') ? 'active' : '' }}">
     <a  href="{{ route('telecaller.todays_work.index')}}">
        <span class="educate-icon educate-data-table icon-wrap"></span>
        <span class="mini-click-non">Todays Work</span>

@@ -12,11 +12,6 @@ class Mesthiri extends Model
     protected $guarded = [];
 
 
-    public function site()
-    {
-        return $this->belongsTo(Site::class,'mesthiri_id');
-    }
-
     public function villaproject()
     {
         return $this->belongsTo(VillaProject::class,'mesthiri_id');
