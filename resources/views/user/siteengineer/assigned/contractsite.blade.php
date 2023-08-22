@@ -59,8 +59,8 @@
                                         <tr>
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
-                                            <th data-field="name">Site Name</th>
-                                            <th data-field="siteid">Site ID</th>
+                                            <th data-field="name">Project Name</th>
+                                            <th data-field="siteid">Project ID</th>
                                             <th data-field="location">Location</th>
                                             <th data-field="chief" data-editable="false">Chief Engineer</th>
                                             <th data-field="site" data-editable="false">Site Engineer</th>

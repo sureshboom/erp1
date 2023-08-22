@@ -91,7 +91,7 @@
                             <ul class="mobile-menu-nav">
                                 <li><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
                                 <li><a href="{{ route('admin.staff')}}">Staff</a></li>
-                                <li><a href="{{ route('site.index')}}">Sites</a></li>
+                                
                                 </ul>
                              </nav>
                         </div>
