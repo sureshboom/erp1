@@ -17,21 +17,14 @@ class ExpenseController extends Controller
         return view('user.account.expense.index',compact('expenses'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('user.account.expense.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         
-
         $input = $request->validate([
             'type' => 'required',
             'name' => 'required',
@@ -55,17 +48,11 @@ class ExpenseController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $expense = Expense::find($id);

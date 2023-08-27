@@ -47,8 +47,10 @@ class AccountController extends Controller
         ]);
 
         $materialin = Materialin::find($id)->update(['supplier_id' => $request->supplier_id,'amount' => $request->amount,'status' => 'order']);
+
         if($materialin)
         {
+            // $supplierv = Supplier::find($request->supplier_id)->increment('')
             flashSuccess('Material Order Placed');
             return redirect()->route('account.materialstatus');
         }

@@ -38,4 +38,9 @@ class LandCustomer extends Model
     {
         return 'SKSLC ' . $this->attributes['id'];
     }
+
+    public function payments()
+    {
+        return $this->morphMany(Payment::class, 'payable');
+    }
 }

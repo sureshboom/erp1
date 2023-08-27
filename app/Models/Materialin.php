@@ -16,14 +16,46 @@ class Materialin extends Model
     {
         return $this->hasMany(Materialpurchasehistory::class, 'materialin_id');
     }
-    protected static function booted()
+
+    protected static function boot()
     {
-        static::deleting(function ($materialIn) {
-            foreach ($materialIn->purchaseHistories as $purchaseHistory) {
+        parent::boot();
+
+        // Listen for when a Materialin is updated
+        static::updated(function ($materialin) {
+            if ($materialin->isDirty('supplier_id') || $materialin->isDirty('amount')) {
+                $originalSupplierId = $materialin->getOriginal('supplier_id');
+                $originalAmount = $materialin->getOriginal('amount');
+
+                // Decrement the old supplier's total and pending
+                if ($originalSupplierId) {
+                    $originalSupplier = Supplier::find($originalSupplierId);
+                    $originalSupplier->decrement('total', $originalAmount);
+                    $originalSupplier->decrement('pending', $originalAmount);
+                }
+
+                // Increment the new supplier's total and pending
+                if ($materialin->supplier_id) {
+                    $supplier = Supplier::find($materialin->supplier_id);
+                    $supplier->increment('total', $materialin->amount);
+                    $supplier->increment('pending', $materialin->amount);
+                }
+            }
+        });
+
+        // Listen for when a Materialin is deleted
+        static::deleted(function ($materialin) {
+            if ($materialin->supplier_id) {
+                $supplier = Supplier::find($materialin->supplier_id);
+                $supplier->decrement('total', $materialin->amount);
+                $supplier->decrement('pending', $materialin->amount);
+            }
+            foreach ($materialin->purchaseHistories as $purchaseHistory) {
                 $purchaseHistory->delete();
             }
         });
     }
+
 
     public function supplier()
     {

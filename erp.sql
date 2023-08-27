@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 22, 2023 at 11:51 AM
+-- Generation Time: Aug 27, 2023 at 04:19 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -137,6 +137,8 @@ CREATE TABLE `contract_customers` (
   `attachment2` varchar(255) NOT NULL,
   `project_id` bigint(20) UNSIGNED NOT NULL,
   `amount` double(10,2) NOT NULL,
+  `paid` double(10,2) NOT NULL DEFAULT 0.00,
+  `pending` double(10,2) NOT NULL DEFAULT 0.00,
   `advance` double(10,2) NOT NULL,
   `leadfrom` varchar(255) NOT NULL,
   `middleman` varchar(255) DEFAULT NULL,
@@ -152,8 +154,8 @@ CREATE TABLE `contract_customers` (
 -- Dumping data for table `contract_customers`
 --
 
-INSERT INTO `contract_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `amount`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `promote`, `remarks`, `created_at`, `updated_at`) VALUES
-(1, 'siva raj', '9092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hws54', 'uploads/images/contractcustomer/aadhar/1692166181_64dc68257cafe.png', 'uploads/images/contractcustomer/pan/1692166181_64dc68257ce03.jpg', 1, 5000000.00, 100000.00, 'salesteam', NULL, '2', 'mod', 0, 'Remark Demo', '2023-08-16 00:39:41', '2023-08-16 07:11:37');
+INSERT INTO `contract_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `amount`, `paid`, `pending`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `promote`, `remarks`, `created_at`, `updated_at`) VALUES
+(1, 'siva raj', '9092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hws54', 'uploads/images/contractcustomer/aadhar/1692166181_64dc68257cafe.png', 'uploads/images/contractcustomer/pan/1692166181_64dc68257ce03.jpg', 1, 5000000.00, 200000.00, 4700000.00, 100000.00, 'salesteam', NULL, '2', 'mod', 0, 'Remark Demo', '2023-08-16 00:39:41', '2023-08-27 07:23:26');
 
 -- --------------------------------------------------------
 
@@ -278,6 +280,8 @@ CREATE TABLE `land_customers` (
   `plotno` varchar(255) NOT NULL,
   `plot_area` varchar(255) NOT NULL,
   `amount` double(10,2) NOT NULL,
+  `paid` double(10,2) NOT NULL DEFAULT 0.00,
+  `pending` double(10,2) NOT NULL DEFAULT 0.00,
   `advance` double(10,2) NOT NULL,
   `leadfrom` enum('salesteam','middleman') NOT NULL DEFAULT 'salesteam',
   `middleman` varchar(255) DEFAULT NULL,
@@ -293,8 +297,8 @@ CREATE TABLE `land_customers` (
 -- Dumping data for table `land_customers`
 --
 
-INSERT INTO `land_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `plotno`, `plot_area`, `amount`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `remarks`, `promote`, `created_at`, `updated_at`) VALUES
-(1, 'Ram', '9876554321', 'Saravanampatti, Coimbatore.', '3366424288997755', '5343feal4c', 'uploads/images/landcustomer/aadhar/1692106272_64db7e204db91.png', 'uploads/images/landcustomer/pan/1692106272_64db7e20522d1.png', 1, '122', '4 Cent', 2000000.00, 200000.00, 'middleman', 'Raja', '1', 'booking', 'demo', 0, '2023-08-15 08:01:12', '2023-08-16 07:00:43');
+INSERT INTO `land_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `plotno`, `plot_area`, `amount`, `paid`, `pending`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `remarks`, `promote`, `created_at`, `updated_at`) VALUES
+(1, 'Ram', '9876554321', 'Saravanampatti, Coimbatore.', '3366424288997755', '5343feal4c', 'uploads/images/landcustomer/aadhar/1692106272_64db7e204db91.png', 'uploads/images/landcustomer/pan/1692106272_64db7e20522d1.png', 1, '122', '4 Cent', 2000000.00, 100000.00, 1700000.00, 200000.00, 'middleman', 'Raja', '1', 'booking', 'demo', 0, '2023-08-15 08:01:12', '2023-08-26 10:14:15');
 
 -- --------------------------------------------------------
 
@@ -366,7 +370,7 @@ CREATE TABLE `materialins` (
 --
 
 INSERT INTO `materialins` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `supplier_id`, `siteengineer_id`, `chiefengineer_id`, `amount`, `status`, `created_at`, `updated_at`) VALUES
-(4, 'contract', 1, NULL, 1, 1, 1, 20000.00, 'verified', '2023-08-20 09:39:34', '2023-08-21 03:10:04'),
+(4, 'contract', 1, NULL, 1, 1, 1, 20000.00, 'order', '2023-08-20 09:39:34', '2023-08-26 01:55:53'),
 (12, 'contract', 1, NULL, NULL, 1, 1, 0.00, 'request', '2023-08-20 11:10:31', '2023-08-20 11:10:31'),
 (14, 'contract', 1, NULL, NULL, 1, 1, 0.00, 'request', '2023-08-21 07:52:41', '2023-08-21 07:52:41');
 
@@ -568,7 +572,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (49, '2023_08_20_142947_create_materialpurchasehistories_table', 23),
 (50, '2023_08_21_100821_create_mesthiri_assigns_table', 24),
 (51, '2023_08_22_062618_create_work_entries_table', 25),
-(52, '2023_08_22_062833_create_worker_entries_table', 25);
+(52, '2023_08_22_062833_create_worker_entries_table', 25),
+(53, '2023_08_24_061059_create_payments_table', 26);
 
 -- --------------------------------------------------------
 
@@ -593,6 +598,46 @@ CREATE TABLE `password_reset_tokens` (
   `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `payment_type` enum('project','material','expense') NOT NULL,
+  `payment_subtype` enum('villa','contract','land','project','office') DEFAULT NULL,
+  `expense_project_type` enum('villa','contract','land') DEFAULT NULL,
+  `project_id` bigint(20) DEFAULT NULL,
+  `customer_id` bigint(20) DEFAULT NULL,
+  `supplier_id` bigint(20) DEFAULT NULL,
+  `payment_mode` varchar(255) DEFAULT NULL,
+  `payment_by` varchar(255) DEFAULT NULL,
+  `total` double(10,2) NOT NULL DEFAULT 0.00,
+  `advance` double(10,2) NOT NULL DEFAULT 0.00,
+  `paid` double(10,2) NOT NULL DEFAULT 0.00,
+  `pending` double(10,2) NOT NULL DEFAULT 0.00,
+  `amount` double(10,2) NOT NULL,
+  `payment_date` date NOT NULL,
+  `expense_for` varchar(255) DEFAULT NULL,
+  `approved_by` varchar(255) DEFAULT NULL,
+  `received_by` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `payment_type`, `payment_subtype`, `expense_project_type`, `project_id`, `customer_id`, `supplier_id`, `payment_mode`, `payment_by`, `total`, `advance`, `paid`, `pending`, `amount`, `payment_date`, `expense_for`, `approved_by`, `received_by`, `created_at`, `updated_at`) VALUES
+(4, 'project', 'land', NULL, 1, 1, NULL, 'Voucher', 'Voucher', 2000000.00, 200000.00, 300000.00, 1700000.00, 100000.00, '2023-08-25', NULL, NULL, NULL, '2023-08-26 10:14:14', '2023-08-26 10:14:14'),
+(6, 'material', NULL, NULL, NULL, NULL, 1, 'Voucher', 'Voucher', 20000.00, 0.00, 10000.00, 10000.00, 10000.00, '2023-08-25', NULL, NULL, NULL, '2023-08-27 05:15:12', '2023-08-27 05:15:12'),
+(9, 'expense', 'office', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 500.00, '2023-08-25', 'Tea', 'Account', 'Ramu', '2023-08-27 06:19:00', '2023-08-27 06:19:00'),
+(10, 'expense', 'project', 'contract', 1, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 10000.00, '2023-08-25', 'Material Purchase', 'Account', 'Raj', '2023-08-27 06:20:26', '2023-08-27 06:20:26'),
+(11, 'project', 'contract', NULL, 1, 1, NULL, 'Voucher', 'Voucher', 5000000.00, 100000.00, 300000.00, 4700000.00, 200000.00, '2023-08-25', NULL, NULL, NULL, '2023-08-27 07:23:26', '2023-08-27 07:23:26');
 
 -- --------------------------------------------------------
 
@@ -632,6 +677,8 @@ CREATE TABLE `project_customers` (
   `vilano` varchar(255) NOT NULL,
   `villa_area` varchar(255) NOT NULL,
   `amount` double(10,2) NOT NULL,
+  `paid` double(10,2) NOT NULL DEFAULT 0.00,
+  `pending` double(10,2) NOT NULL DEFAULT 0.00,
   `advance` double(10,2) NOT NULL,
   `leadfrom` varchar(255) NOT NULL,
   `middleman` varchar(255) DEFAULT NULL,
@@ -647,8 +694,8 @@ CREATE TABLE `project_customers` (
 -- Dumping data for table `project_customers`
 --
 
-INSERT INTO `project_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `vilano`, `villa_area`, `amount`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `promote`, `remarks`, `created_at`, `updated_at`) VALUES
-(1, 'siva raj', '09092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hwstw', 'uploads/images/villacustomer/aadhar/1692177834_64dc95aa691d9.png', 'uploads/images/villacustomer/pan/1692177834_64dc95aa6958f.png', 1, '22', '2550', 5000000.00, 100000.00, 'middleman', 'demo', '2', 'mod', 0, 'Demo', '2023-08-16 03:53:54', '2023-08-16 07:20:40');
+INSERT INTO `project_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `vilano`, `villa_area`, `amount`, `paid`, `pending`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `promote`, `remarks`, `created_at`, `updated_at`) VALUES
+(1, 'siva raj', '09092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hwstw', 'uploads/images/villacustomer/aadhar/1692177834_64dc95aa691d9.png', 'uploads/images/villacustomer/pan/1692177834_64dc95aa6958f.png', 1, '22', '2550', 5000000.00, 0.00, 0.00, 100000.00, 'middleman', 'demo', '2', 'mod', 0, 'Demo', '2023-08-16 03:53:54', '2023-08-16 07:20:40');
 
 -- --------------------------------------------------------
 
@@ -835,6 +882,9 @@ CREATE TABLE `suppliers` (
   `supplier_location` varchar(255) NOT NULL,
   `supplier_gpay` varchar(255) NOT NULL,
   `supplier_account` varchar(255) NOT NULL,
+  `total` double(10,2) NOT NULL DEFAULT 0.00,
+  `paid` double(10,2) NOT NULL DEFAULT 0.00,
+  `pending` double(10,2) NOT NULL DEFAULT 0.00,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -843,8 +893,8 @@ CREATE TABLE `suppliers` (
 -- Dumping data for table `suppliers`
 --
 
-INSERT INTO `suppliers` (`id`, `supplier_name`, `supplier_phone`, `supplier_gstno`, `supplier_location`, `supplier_gpay`, `supplier_account`, `created_at`, `updated_at`) VALUES
-(1, 'Ramu', '9876543554', '9922884466113', 'Saravanampatti, Coimbatore.', '1234567787', 'Account No: 238461298367,\r\nBank :state bank of india,\r\nIFSC Code:SBIN0007039', '2023-07-29 06:03:38', '2023-08-21 04:03:50');
+INSERT INTO `suppliers` (`id`, `supplier_name`, `supplier_phone`, `supplier_gstno`, `supplier_location`, `supplier_gpay`, `supplier_account`, `total`, `paid`, `pending`, `created_at`, `updated_at`) VALUES
+(1, 'Ramu', '9876543554', '9922884466113', 'Saravanampatti, Coimbatore.', '1234567787', 'Account No: 238461298367,\r\nBank :state bank of india,\r\nIFSC Code:SBIN0007039', 20000.00, 10000.00, 10000.00, '2023-07-29 06:03:38', '2023-08-27 05:15:47');
 
 -- --------------------------------------------------------
 
@@ -1209,6 +1259,12 @@ ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
 
 --
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
@@ -1434,7 +1490,13 @@ ALTER TABLE `meterials`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+
+--
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`

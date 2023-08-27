@@ -37,4 +37,9 @@ class VillaProject extends Model
     {
         return $this->belongsTo(Mesthiri::class,'mesthiri_id');
     }
+
+    public function payments()
+    {
+        return $this->morphMany(Payment::class, 'payable');
+    }
 }

@@ -31,5 +31,9 @@ class LandProject extends Model
         return 'SKSLP ' . $this->attributes['id'];
     }
 
+    public function payments()
+    {
+        return $this->morphMany(Payment::class, 'payable');
+    }
 
 }

@@ -25,6 +25,22 @@ order by status
             });
         }
 
+id  bigint
+payment_type    string
+payment_subtype string
+project_id  bigint
+customer_id bigint
+supplier_id bigint
+payment_mode    string
+payment_by  string
+total   decimal
+paid    decimal
+pending decimal
+amount  decimal
+created_at  datetime
+updated_at  datetime
+        
+
 
         <!------- relationship between these tables ----->
         LandProject Model:
@@ -83,7 +99,7 @@ order by status
         $project = $material->project; // Returns either a LandProject, ConstructionProject, or VillaProject model
 
 
-<!----supplier table each material purchase details need to store---->
+    <!----supplier table each material purchase details need to store---->
 
         Supplier Model:
 
@@ -220,5 +236,39 @@ order by status
 
 
 
+morph details of project
+
+$landPayments = Payment::where('payment_type', 'project')
+    ->where('payment_subtype', 'land')
+    ->with('payable') // Eager load the related model
+    ->get();
+
+foreach ($landPayments as $payment) {
+    $project = $payment->payable; // This will dynamically retrieve the associated project (LandProject in this case)
+    // Do something with the project...
+}
 
 
+
+if(($('#payment_type').val()) == 'project')
+{
+    $('#displayproject').show();
+    $('#displaymaterial').hide();
+    $('#displayexpense').hide();
+}
+else if(($('#payment_type').val()) == 'material'){
+    $('#displayproject').hide();
+    $('#displaymaterial').show();
+    $('#displayexpense').hide();  
+}
+else if(($('#payment_type').val()) == 'expense'){
+    $('#displayproject').hide();
+    $('#displaymaterial').hide();
+    $('#displayexpense').show();
+}
+else
+{
+    $('#displayproject').hide();
+    $('#displaymaterial').hide();
+    $('#displayexpense').hide();
+}

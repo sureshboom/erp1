@@ -1,4 +1,4 @@
-<!-- jquery
+    <!-- jquery
         ============================================ -->
     <script src="{{ asset('assets/js/vendor/jquery-1.12.4.min.js') }}"></script>
     <!-- bootstrap JS
@@ -100,7 +100,7 @@
     @if(Session::has('error'))
     toastr.error("{{ Session::get('error') }}", 'Error!')
     @endif
-@if((request()->routeIs('chiefengineer.assign')))
+    @if((request()->routeIs('chiefengineer.assign')))
     $(document).ready(function(){
         if(($('#project_type').val()) == 'contract')
         {
@@ -136,8 +136,8 @@
         });
        
     });
-@endif
-@if((request()->routeIs('siteengineer.material_order.create')) or (request()->routeIs('siteengineer.material_order.edit')))
+    @endif
+    @if((request()->routeIs('siteengineer.material_order.create')) or (request()->routeIs('siteengineer.material_order.edit')))
 
     $(document).ready(function(){
         if(($('#project_type').val()) == 'contract')
@@ -225,8 +225,342 @@
            
         });
     @endif
+    @if(request()->routeIs('account.payment.create'))
+        $(document).ready(function(){
+            var load = $('#payment_type').val();
+            switch(load)
+            {
+                case('project'):
+                    $('#displayproject').show();
+                    $('#displaymaterial').hide();
+                    $('#displayexpense').hide();
+                    $('#displayland').hide();
+                    $('#displaycontract').hide();
+                    $('#displayvilla').hide();
+                    switch($('#project_type').val())
+                    {
+                        case('land'):
+                            $('#displayland').show();
+                        break;
+                        case('contract'):
+                            $('#displaycontract').show();
+                        break;
+                        case('villa'):
+                            $('#displayvilla').show();
+                        break;
+                        default:
+                            $('#displayland').hide();
+                            $('#displaycontract').hide();
+                            $('#displayvilla').hide();
+                        break;
+                    }
+                break;
+                case('material'):
+                    $('#displaymaterial').show();
+                    $('#displayproject').hide();
+                    $('#displayexpense').hide();
+                break;
+                case('expense'):
+                    $('#displayexpense').show();
+                    $('#displayproject').hide();
+                    $('#displaymaterial').hide();
+                    switch($('#expense_type').val())
+                    {
+                        case('project'):
+                            $('#displayprojecttype').show();
+                        switch($('#expense_project_type').val())
+                        {
+                            case('land'):
+                                $('#displayexpenseland').show();
+                                $('#displayexpensecontract').hide();
+                                $('#displayexpensevilla').hide();
+                            break;
+                            case('contract'):
+                                $('#displayexpensecontract').show();
+                                $('#displayexpenseland').hide();
+                                $('#displayexpensevilla').hide();
+                            break;
+                            case('villa'):
+                                $('#displayexpensevilla').show();
+                                $('#displayexpenseland').hide();
+                                $('#displayexpensecontract').hide();
+                            break;
+                            default:
+                                $('#displayexpenseland').hide();
+                                $('#displayexpensecontract').hide();
+                                $('#displayexpensevilla').hide();
+                            break;
+                        }       
+                        break;
+                        default:
+                            $('#displayprojecttype').hide();
+                            $('#displayexpenseland').hide();
+                            $('#displayexpensecontract').hide();
+                            $('#displayexpensevilla').hide();
+                        break;
+                    }
+                break;
+                default:
+                    $('#displayproject').hide();
+                    $('#displaymaterial').hide();
+                    $('#displayexpense').hide();
+                break;
+
+            }
+            $('#payment_type').on('change',function(e){
+                var type =$(this).val();
+                switch (type)
+                {
+                    case ('project'):
+                        $('#displayproject').show();
+                        $('#displaymaterial').hide();
+
+                        $('#displayexpense').hide();
+                        $('#displayland').hide();
+                        $('#displaycontract').hide();
+                        $('#displayvilla').hide();
+                        $('#customers').hide();
+                        
+                    break;
+                    case ('material'):
+                        $('#displayproject').hide();
+                        $('#displaymaterial').show();
+                        $('#displayexpense').hide();    
+                    break;
+                    case ('expense'):
+                        $('#displayproject').hide();
+                        $('#displaymaterial').hide();
+                        $('#displayexpense').show();
+                        $('#displayprojecttype').hide();
+                        $('#displayexpenseland').hide();
+                        $('#displayexpensecontract').hide();
+                        $('#displayexpensevilla').hide();
+                    break;
+                    default:
+                        $('#displayproject').hide();
+                        $('#displaymaterial').hide();
+                        $('#displayexpense').hide();    
+                }
+            });
+            $('#project_type').on('change',function(e){
+                var type1 =$(this).val();
+                
+                switch (type1)
+                {
+                    case ('land'):
+                        $('#displayland').show();
+                        $('#displaycontract').hide();
+                        $('#displayvilla').hide();    
+                        break;
+                    case ('contract'):
+                        $('#displayland').hide();
+                        $('#displaycontract').show();
+                        $('#displayvilla').hide();    
+                        break;
+                    case ('villa'):
+                        $('#displayland').hide();
+                        $('#displaycontract').hide();
+                        $('#displayvilla').show();    
+                        break;
+                    default:
+                        $('#displayland').hide();
+                        $('#displaycontract').hide();
+                        $('#displayvilla').hide();    
+                        
+                }
+            });
+            $('#land_project_id,#contract_project_id,#villa_project_id').on('change',function(e){
+                var projectid =$(this).val();
+                var projecttype = $('#project_type').val();
+
+                $.ajax({
+                    url: '/account/customersid',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        projectid: projectid,
+                        projecttype: projecttype
+                    },
+                    success: function (data) {
+                        if (data) {
+                            console.log(data);
+                            $('#customers').show();
+                            var customerSelect = $('#customer_id');
+                            customerSelect.empty();
+                            if (data && Object.keys(data).length > 0)
+                            {
+                                customerSelect.append($('<option>', {
+                                        value: '',
+                                        text: 'Select Customer' // Assuming your customer model has a "name" attribute
+                                    }));
+                                $.each(data, function(index, customer) {
+                                    customerSelect.append($('<option>', {
+                                        value: customer.id,
+                                        text: customer.customer_name // Assuming your customer model has a "name" attribute
+                                    }));
+                                });
+                                $('#total').val(0);
+                                $('#paid').val(0);
+                                $('#advance').val(0);
+                                $('#oldpaid').val(0);
+                                $('#pending').val(0);
+                            }
+                            else
+                            {
+                                alert('Select Other Project');
+                                
+                            }
+                            // If payment data exists, fill the input fields
+                            
+                        }
+                    },
+                    error: function () {
+                        // Handle error if the AJAX request fails
+                    }
+                });
+            });
+            $('#customer_id').on('change',function(e){
+                var customerid =$(this).val();
+                var projecttype = $('#project_type').val();
+
+                $.ajax({
+                    url: '/account/customersdetails',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        customerid: customerid,
+                        projecttype: projecttype
+                    },
+                    success: function (data) {
+                        if (data) {
+                            
+                            if (data && Object.keys(data).length > 0)
+                            {
+                                $('#total').val(data.amount);
+                                $('#advance').val(data.advance);
+                                $('#paid').val(data.paid + data.advance);
+                                $('#oldpaid').val(data.paid);
+                                $('#pending').val((data.amount)-(data.paid + data.advance));
+                                $('#amount').val('');
+                            }
+                            else
+                            {
+                                $('#total').val(0);
+                                $('#paid').val(0);
+                                $('#advance').val(0);
+                                $('#oldpaid').val(0);
+                                $('#pending').val(0);
+                            }
+                            // If payment data exists, fill the input fields
+                            
+                        }
+                    },
+                    error: function () {
+                        // Handle error if the AJAX request fails
+                    }
+                });
+            });
+            $('#amount').on('input', function () {
+            var amount = Number($(this).val());
+            var total = Number($('#total').val());
+            var advance = Number($('#advance').val());
+            var paid = Number($('#paid').val());
+            var oldpaid = Number($('#oldpaid').val());
+            var currentpay = (advance + oldpaid + amount);
+            var pay = (total - currentpay);
+            $('#paid').val(currentpay);
+            $('#pending').val(pay);
+            });
+            $('#supplier_id').on('change',function(e){
+                var supplier_id =$(this).val();
+                
+                $.ajax({
+                    url: '/account/supplierdetails',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        supplier: supplier_id
+                    },
+                    success: function (data) {
+                        if (data) {
+                            console.log(data);
+                            if (data && Object.keys(data).length > 0)
+                            {
+                                $('#mtotal').val(data.total);
+                                $('#mpaid').val(data.paid);
+                                $('#moldpaid').val(data.paid);
+                                $('#mpending').val((data.total)-(data.paid));
+                                $('#mamount').val('');
+                            }
+                            else
+                            {
+                                $('#mtotal').val(0);
+                                $('#mpaid').val(0);
+                                $('#moldpaid').val(0);
+                                $('#mpending').val(0);
+                            }
+                            // If payment data exists, fill the input fields
+                            
+                        }
+                    },
+                    error: function () {
+                        // Handle error if the AJAX request fails
+                    }
+                });
+            });
+            $('#mamount').on('input', function () {
+            var amount = Number($(this).val());
+            var total = Number($('#mtotal').val());
+            var paid = Number($('#mpaid').val());
+            var oldpaid = Number($('#moldpaid').val());
+            var currentpay = (oldpaid + amount);
+            var pay = (total - currentpay);
+            $('#mpaid').val(currentpay);
+            $('#mpending').val(pay);
+            });
+            $('#expense_type').on('change',function(e){
+                var type2 =$(this).val();
+                if(type2 == 'project')
+                {
+                    $('#displayprojecttype').show();
+                }
+                else
+                {
+                    $('#displayprojecttype').hide();
+                    $('#displayexpenseland').hide();
+                        $('#displayexpensecontract').hide();
+                        $('#displayexpensevilla').hide();
+                }
+            });
+            $('#expense_project_type').on('change',function(e){
+                var type3 =$(this).val();
+                switch (type3)
+                {
+                    case ('land'):
+                        $('#displayexpenseland').show();
+                        $('#displayexpensecontract').hide();
+                        $('#displayexpensevilla').hide();    
+                        break;
+                    case ('contract'):
+                        $('#displayexpenseland').hide();
+                        $('#displayexpensecontract').show();
+                        $('#displayexpensevilla').hide();    
+                        break;
+                    case ('villa'):
+                        $('#displayexpenseland').hide();
+                        $('#displayexpensecontract').hide();
+                        $('#displayexpensevilla').show();    
+                        break;
+                    default:
+                        $('#displayexpenseland').hide();
+                        $('#displayexpensecontract').hide();
+                        $('#displayexpensevilla').hide();
+                }
+            });       
+        });
+    @endif
     @if((request()->routeIs('siteengineer.workerentry.create'))or(request()->routeIs('siteengineer.workerentry.edit')))
-    $(document).ready(function(){
+        $(document).ready(function(){
         if(($('#project_type').val()) == 'contract')
         {
             $('#displaycontract').show();
@@ -306,179 +640,27 @@
         });
     });
     @endif
-// @if(request()->routeIs('account.site_payment.create'))
-//     // Assuming you're using jQuery for simplicity
-//     $(document).ready(function () {
-//         $('#site_id').on('change', function () {
-//             var siteId = $(this).val();
-//             if (siteId) {
-//                 // Make an AJAX request to fetch the payment data
-//                 $.ajax({
-//                     url: '/account/payments/' + siteId,
-//                     type: 'GET',
-//                     dataType: 'json',
-//                     success: function (data) {
-//                         if (data) {
-//                             if (data && Object.keys(data).length > 0)
-//                             {
-//                                 $('#total').val(data.amount);
-//                                 $('#paid').val(data.paid);
-//                                 $('#oldpaid').val(data.paid);
-//                                 $('#pending').val(data.pending);
-                                
-//                             }
-//                             else
-//                             {
-//                                 $('#total').val(0);
-//                                 $('#paid').val(0);
-//                                 $('#oldpaid').val(0);
-//                                 $('#pending').val(0);
-//                             }
-//                             // If payment data exists, fill the input fields
-                            
-//                         }
-//                     },
-//                     error: function () {
-//                         // Handle error if the AJAX request fails
-//                     }
-//                 });
-//             }
-//         });
-//         $('#amount').on('input', function () {
-//             var amount = Number($(this).val());
-//             var total = Number($('#total').val());
-//             var paid = Number($('#paid').val());
-//             var oldpaid = Number($('#oldpaid').val());
-//             var currentpay = (oldpaid + amount);
-//             var pay = (total - currentpay);
-//             $('#paid').val(currentpay);
-//             $('#pending').val(pay);
-//         });
-//     });
-
-// @endif
-@if(request()->routeIs('account.material_payment.create'))
-    // Assuming you're using jQuery for simplicity
-    $(document).ready(function () {
-        $('#materialins_id').on('change', function () {
-            var orderid = $(this).val();
-            if (orderid) {
-                // Make an AJAX request to fetch the payment data
-                $.ajax({
-                    url: '/account/pay/' + orderid,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data) {
-                            if (data && Object.keys(data).length > 0)
-                            {
-                                $('#total').val(data.amount);
-                                $('#paid').val(data.paid);
-                                $('#oldpaid').val(data.paid);
-                                $('#pending').val(data.pending);
-                                
-                            }
-                            else
-                            {
-                                $('#total').val(0);
-                                $('#paid').val(0);
-                                $('#oldpaid').val(0);
-                                $('#pending').val(0);
-                            }
-                            // If payment data exists, fill the input fields
-                            
-                        }
-                    },
-                    error: function () {
-                        // Handle error if the AJAX request fails
-                    }
-                });
-            }
-        });
-        $('#amount').on('input', function () {
-            var amount = Number($(this).val());
-            var total = Number($('#total').val());
-            var paid = Number($('#paid').val());
-            var oldpaid = Number($('#oldpaid').val());
-            var currentpay = (oldpaid + amount);
-            var pay = (total - currentpay);
-            $('#paid').val(currentpay);
-            $('#pending').val(pay);
-        });
-    });
-
-@endif
-@if(request()->routeIs('account.land_payment.create'))
-    // Assuming you're using jQuery for simplicity
-    $(document).ready(function () {
-        $('#landcustomers_id').on('change', function () {
-            var orderid = $(this).val();
-            if (orderid) {
-                // Make an AJAX request to fetch the payment data
-                $.ajax({
-                    url: '/account/landpay/' + orderid,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data) {
-                            if (data && Object.keys(data).length > 0)
-                            {
-                                $('#total').val(data.amount);
-                                $('#paid').val(data.paid);
-                                $('#oldpaid').val(data.paid);
-                                $('#pending').val(data.pending);
-                                
-                            }
-                            else
-                            {
-                                $('#total').val(0);
-                                $('#paid').val(0);
-                                $('#oldpaid').val(0);
-                                $('#pending').val(0);
-                            }
-                            // If payment data exists, fill the input fields
-                            
-                        }
-                    },
-                    error: function () {
-                        // Handle error if the AJAX request fails
-                    }
-                });
-            }
-        });
-        $('#amount').on('input', function () {
-            var amount = Number($(this).val());
-            var total = Number($('#total').val());
-            var paid = Number($('#paid').val());
-            var oldpaid = Number($('#oldpaid').val());
-            var currentpay = (oldpaid + amount);
-            var pay = (total - currentpay);
-            $('#paid').val(currentpay);
-            $('#pending').val(pay);
-        });
-    });
-
-@endif
+ 
 
 @if((request()->routeIs('account.landcustomer.*')) or (request()->routeIs('account.contractcustomer.*')) or (request()->routeIs('account.villacustomer.*')))
     // Assuming you're using jQuery for simplicity
     
-    $('#middle').hide();
-    var lead = $('#leadfrom').val();
-    if(lead == 'middleman') {
-            $('#middle').show();
-        } else {
-            $('#middle').hide();
-        }
-    $(document).ready(function() {
-        $('#leadfrom').change(function() {
-            if ($(this).val() === 'middleman') {
+        $('#middle').hide();
+        var lead = $('#leadfrom').val();
+        if(lead == 'middleman') {
                 $('#middle').show();
             } else {
                 $('#middle').hide();
             }
+        $(document).ready(function() {
+            $('#leadfrom').change(function() {
+                if ($(this).val() === 'middleman') {
+                    $('#middle').show();
+                } else {
+                    $('#middle').hide();
+                }
+            });
         });
-    });
 
 @endif
 
@@ -499,7 +681,5 @@
         "hideEasing": "linear",
         "hideMethod": "fadeOut"
     }
-
-    
 
 </script>

@@ -26,6 +26,7 @@ use App\Http\Controllers\User\account\ContractCustomerController;
 use App\Http\Controllers\User\account\VillaCustomerController;
 use App\Http\Controllers\User\account\LandPaymentController;
 use App\Http\Controllers\User\account\ExpenseController;
+use App\Http\Controllers\User\account\PaymentController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -63,7 +64,16 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
     Route::resource('/land_payment', LandPaymentController::class);
     Route::resource('/expense', ExpenseController::class);
     Route::resource('/supplier', SupplierController::class);
+    Route::resource('/payment', PaymentController::class);
+    Route::get('/expensepayment',[PaymentController::class,'expensepaymentshow'])->name('expensepayment');
+    Route::get('/materialpayment',[PaymentController::class,'materialpaymentshow'])->name('materialpayment');
+    Route::get('/landpayment',[PaymentController::class,'landpaymentshow'])->name('landpayment');
+    Route::get('/contractpayment',[PaymentController::class,'contractpaymentshow'])->name('contractpayment');
+    Route::get('/villapayment',[PaymentController::class,'villapaymentshow'])->name('villapayment');
+    Route::get('/customersid',[PaymentController::class,'customersid']);
     
+    Route::get('/customersdetails',[PaymentController::class,'customersdetails']);
+    Route::get('/supplierdetails',[PaymentController::class,'supplierdetails']);
     Route::get('/pay/{orderid}',[MaterialPaymentController::class,'getorder']);
     Route::get('/landpay/{orderid}',[LandPaymentController::class,'getland']);
     Route::get('material_view', 'order')->name('materialstatus');
