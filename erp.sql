@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2023 at 04:19 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Aug 28, 2023 at 02:54 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -155,7 +155,7 @@ CREATE TABLE `contract_customers` (
 --
 
 INSERT INTO `contract_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `amount`, `paid`, `pending`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `promote`, `remarks`, `created_at`, `updated_at`) VALUES
-(1, 'siva raj', '9092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hws54', 'uploads/images/contractcustomer/aadhar/1692166181_64dc68257cafe.png', 'uploads/images/contractcustomer/pan/1692166181_64dc68257ce03.jpg', 1, 5000000.00, 200000.00, 4700000.00, 100000.00, 'salesteam', NULL, '2', 'mod', 0, 'Remark Demo', '2023-08-16 00:39:41', '2023-08-27 07:23:26');
+(1, 'siva raj', '9092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hws54', 'uploads/images/contractcustomer/aadhar/1692166181_64dc68257cafe.png', 'uploads/images/contractcustomer/pan/1692166181_64dc68257ce03.jpg', 1, 5000000.00, 0.00, 4900000.00, 100000.00, 'salesteam', NULL, '2', 'mod', 0, 'Remark Demo', '2023-08-16 00:39:41', '2023-08-27 23:44:31');
 
 -- --------------------------------------------------------
 
@@ -634,10 +634,10 @@ CREATE TABLE `payments` (
 
 INSERT INTO `payments` (`id`, `payment_type`, `payment_subtype`, `expense_project_type`, `project_id`, `customer_id`, `supplier_id`, `payment_mode`, `payment_by`, `total`, `advance`, `paid`, `pending`, `amount`, `payment_date`, `expense_for`, `approved_by`, `received_by`, `created_at`, `updated_at`) VALUES
 (4, 'project', 'land', NULL, 1, 1, NULL, 'Voucher', 'Voucher', 2000000.00, 200000.00, 300000.00, 1700000.00, 100000.00, '2023-08-25', NULL, NULL, NULL, '2023-08-26 10:14:14', '2023-08-26 10:14:14'),
-(6, 'material', NULL, NULL, NULL, NULL, 1, 'Voucher', 'Voucher', 20000.00, 0.00, 10000.00, 10000.00, 10000.00, '2023-08-25', NULL, NULL, NULL, '2023-08-27 05:15:12', '2023-08-27 05:15:12'),
 (9, 'expense', 'office', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 500.00, '2023-08-25', 'Tea', 'Account', 'Ramu', '2023-08-27 06:19:00', '2023-08-27 06:19:00'),
-(10, 'expense', 'project', 'contract', 1, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 10000.00, '2023-08-25', 'Material Purchase', 'Account', 'Raj', '2023-08-27 06:20:26', '2023-08-27 06:20:26'),
-(11, 'project', 'contract', NULL, 1, 1, NULL, 'Voucher', 'Voucher', 5000000.00, 100000.00, 300000.00, 4700000.00, 200000.00, '2023-08-25', NULL, NULL, NULL, '2023-08-27 07:23:26', '2023-08-27 07:23:26');
+(13, 'expense', 'office', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 500.00, '2023-08-28', 'demo', 'Ram', 'Raju', '2023-08-28 07:18:29', '2023-08-28 07:18:29'),
+(14, 'expense', 'office', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 500.00, '2023-08-28', 'demo', 'Ram', 'Raju', '2023-08-28 07:18:43', '2023-08-28 07:18:43'),
+(15, 'expense', 'office', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 1000.00, '2023-08-29', 'demo', 'Ram', 'Rajus', '2023-08-28 07:23:15', '2023-08-28 07:23:15');
 
 -- --------------------------------------------------------
 
@@ -894,7 +894,7 @@ CREATE TABLE `suppliers` (
 --
 
 INSERT INTO `suppliers` (`id`, `supplier_name`, `supplier_phone`, `supplier_gstno`, `supplier_location`, `supplier_gpay`, `supplier_account`, `total`, `paid`, `pending`, `created_at`, `updated_at`) VALUES
-(1, 'Ramu', '9876543554', '9922884466113', 'Saravanampatti, Coimbatore.', '1234567787', 'Account No: 238461298367,\r\nBank :state bank of india,\r\nIFSC Code:SBIN0007039', 20000.00, 10000.00, 10000.00, '2023-07-29 06:03:38', '2023-08-27 05:15:47');
+(1, 'Ramu', '9876543554', '9922884466113', 'Saravanampatti, Coimbatore.', '1234567787', 'Account No: 238461298367,\r\nBank :state bank of india,\r\nIFSC Code:SBIN0007039', 20000.00, 0.00, 20000.00, '2023-07-29 06:03:38', '2023-08-27 23:41:26');
 
 -- --------------------------------------------------------
 
@@ -1496,7 +1496,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`

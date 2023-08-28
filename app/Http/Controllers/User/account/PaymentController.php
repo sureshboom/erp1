@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\User\account;
-
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\LandProject;
@@ -12,6 +14,8 @@ use App\Models\VillaProject;
 use App\Models\ProjectCustomer;
 use App\Models\Supplier;
 use App\Models\Payment;
+
+
 class PaymentController extends Controller
 {
     /**
@@ -177,7 +181,8 @@ class PaymentController extends Controller
                 if($payment)
                 {
                     flashSuccess('Expense Payment Created Successfully');
-                    return redirect()->route('account.payment.create');
+                    return redirect()->route('account.receiptview', ['id' => $payment->id])->with('delayedRedirect', true);
+                    
                 }
                 else
                 {
@@ -224,7 +229,74 @@ class PaymentController extends Controller
     public function destroy(string $id)
     {
         //
+    
+    $payment = Payment::find($id);
+
+    if (!$payment) {
+        flashError('Payment not found');
+        return back();
     }
+
+    $paymentType = $payment->payment_type;
+
+    switch ($paymentType) {
+        case 'project':
+            // Get the project type and project_id
+            $projectType = $payment->payment_subtype;
+            $projectId = $payment->project_id;
+
+            $customerModel = null;
+            if ($projectType === 'contract') {
+                $customerModel = ContractCustomer::class;
+            } elseif ($projectType === 'land') {
+                $customerModel = LandCustomer::class;
+            } elseif ($projectType === 'villa') {
+                $customerModel = ProjectCustomer::class;
+            }
+
+            if ($customerModel) {
+                $customer = $customerModel::find($payment->customer_id);
+                if ($customer) {
+                    // Update the paid and pending values
+                    $newPaid = $customer->paid - $payment->amount;
+                    $newPending = $customer->pending + $payment->amount;
+                    $customer->update([
+                        'paid' => $newPaid,
+                        'pending' => $newPending,
+                    ]);
+                }
+            }
+            break;
+
+        case 'material':
+            $supplier = Supplier::find($payment->supplier_id);
+            if ($supplier) {
+                // Update the paid and pending values
+                $newPaid = $supplier->paid - $payment->paid;
+                $newPending = $supplier->pending + $payment->paid;
+                $supplier->update([
+                    'paid' => $newPaid,
+                    'pending' => $newPending,
+                ]);
+            }
+            break;
+
+        case 'expense':
+            // No need to update other tables for expenses
+            break;
+
+        // Handle other payment types if needed
+
+        default:
+            break;
+    }
+
+    $payment->delete();
+
+    flashSuccess('Payment deleted successfully');
+    return back();
+}
+
 
     public function customersid(Request $request)
     {
@@ -322,5 +394,47 @@ class PaymentController extends Controller
     {
         $expensepayments = Payment::where('payment_type','expense')->orderBy('payment_date','desc')->get();
         return view('user.account.payment.expense',compact('expensepayments'));
+    }
+
+    public function receiptview($id)
+    {
+        
+
+        $payment = Payment::find($id);
+
+        $dompdf = new Dompdf();
+
+        $imagePath = public_path('image/sks.png');
+
+        if ($imagePath) {
+            // Convert image to base64 data URI
+            $imageData = base64_encode(file_get_contents($imagePath));
+        } else {
+            // If image doesn't exist, set to empty string
+            $imageData = '';
+        }
+
+        $html = view('user.account.payment.receipt', compact('payment','imageData'))->render();
+
+        $dompdf->loadHtml($html);
+
+    // Set paper size and orientation
+    // $dompdf->setPaper('A4', 'landscape');
+
+    // Render the PDF (first parameter is optional filename)
+    $dompdf->render();
+
+    // Get the generated PDF content
+    $pdfContent = $dompdf->output();
+
+    // Create a response with the PDF content and appropriate headers
+    $response = new Response($pdfContent, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'attachment; filename="receipt.pdf"',
+    ]);
+
+    return $response;
+    return back();
+
     }
 }

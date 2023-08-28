@@ -89,6 +89,14 @@
     <!-- <script src="{{ asset('assets/js/tawk-chat.js') }}"></script> -->
 
     <script>
+    @if(session('delayedRedirect'))
+    
+        setTimeout(function() {
+            window.location.href = '{{ route('account.payment.create') }}';
+        }, 1000); // Delay in milliseconds (3 seconds)
+    
+    @endif
+
     @if(Session::has('success'))
     toastr.success("{{ Session::get('success') }}", 'Success!')
     @endif

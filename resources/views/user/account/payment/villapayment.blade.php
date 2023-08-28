@@ -92,7 +92,11 @@
                                                 <p class="text-success"> Current Pay : <span class="btn btn-sm badge-success">{{  number_format($villapayment->amount) }}</span></p>
                                             </td>
                                             <td>
-                                                
+                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $villapayment->id }}').submit();"><i class="fa fa-trash"></i></a>
+                                                <form method="post" action="{{ route('account.payment.destroy', $villapayment->id) }}" id="delete-post-{{ $villapayment->id }}" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
                                             </td>
                                                 
                                         </tr>

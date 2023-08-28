@@ -89,10 +89,19 @@
                                                 <p> Advance : <span>{{  number_format($landpayment->advance) }}</span></p>
                                                 <p> Paid : <span>{{  number_format($landpayment->paid) }}</span></p>
                                                 <p> Pending : <span>{{  number_format($landpayment->pending) }}</span></p>
-                                                <p class="text-success"> Current Pay : <span class="btn btn-sm badge-success">{{  number_format($landpayment->amount) }}</span></p>
+                                                
+                                                <!-- {{ AmountInWords($landpayment->total) }} -->
+                                                <p class="text-success"> Current Pay : <span class="btn btn-sm badge-success">{{  number_format($landpayment->amount) }}
+
+                                                </span></p>
                                             </td>
                                             <td>
-                                                
+                                                <a href="{{ route('account.receiptview',$landpayment->id)}}"><i class="fa fa-eye"></i></a>
+                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $landpayment->id }}').submit();"><i class="fa fa-trash"></i></a>
+                                                <form method="post" action="{{ route('account.payment.destroy', $landpayment->id) }}" id="delete-post-{{ $landpayment->id }}" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
                                             </td>
                                                 
                                         </tr>

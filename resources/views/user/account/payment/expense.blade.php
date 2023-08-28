@@ -106,8 +106,14 @@
                                             <td>{{  number_format($expensepayment->amount) }}</td>
                                             <td>{{ $expensepayment->approved_by ? ucfirst($expensepayment->approved_by ) : '' }}</td>
                                             <td>{{ $expensepayment->received_by ? ucfirst($expensepayment->received_by) : '' }}</td>
-                                            <td></td>
-                                            
+                                            <td>
+                                                <a href="{{ route('account.receiptview',$expensepayment->id)}}"><i class="fa fa-eye"></i></a>
+                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $expensepayment->id }}').submit();"><i class="fa fa-trash"></i></a>
+                                                <form method="post" action="{{ route('account.payment.destroy', $expensepayment->id) }}" id="delete-post-{{ $expensepayment->id }}" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            </td>
                                         </tr>
                                         @empty
                                         <tr>
