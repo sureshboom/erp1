@@ -121,6 +121,10 @@
                                                     class="btn btn-link ">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
+                                                <a href="{{ route('account.downloadvrep', $customer->id) }}"
+                                                    class="btn btn-link ">
+                                                    <i class="fa fa-download"></i>
+                                                </a>
                                                 <a href="{{ route('account.villacustomer.show', $customer->id) }}"
                                                     class="btn btn-link ">
                                                     <i class="fa fa-eye"></i>

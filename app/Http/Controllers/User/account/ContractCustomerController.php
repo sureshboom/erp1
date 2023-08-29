@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\User\account;
-
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ContractCustomer;
@@ -199,5 +201,45 @@ class ContractCustomerController extends Controller
             flashSuccess('Something Wrong');
             return back();
         }
+    }
+
+    public function receiptview($id)
+    {
+        $customer = ContractCustomer::find($id);
+        $type = 'contract';
+        $dompdf = new Dompdf();
+        $imagePath = public_path('image/sks.png');
+
+        if ($imagePath) {
+            // Convert image to base64 data URI
+            $imageData = base64_encode(file_get_contents($imagePath));
+        } else {
+            // If image doesn't exist, set to empty string
+            $imageData = '';
+        }
+
+         $html = view('user.account.downloadrcp',compact('customer','type','imageData'))->render();
+
+
+        $dompdf->loadHtml($html);
+
+        // Set paper size and orientation
+        // $dompdf->setPaper('A4', 'landscape');
+        $dompdf->setPaper([0, 0, 800, 900], 'portrait');
+        // Render the PDF (first parameter is optional filename)
+        $dompdf->render();
+
+        // Get the generated PDF content
+        $pdfContent = $dompdf->output();
+
+
+
+        // Create a response with the PDF content and appropriate headers
+        $response = new Response($pdfContent, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="ContractReceipt.pdf"',
+        ]);
+
+        return $response;
     }
 }

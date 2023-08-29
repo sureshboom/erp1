@@ -56,6 +56,9 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
     Route::resource('/material_payment', MaterialPaymentController::class);
     Route::resource('/landcustomer', LandCustomerController::class);
     Route::get('/landrequestPromotion/{id}', [LandCustomerController::class,'requestPromotion'])->name('promotion');
+    Route::get('/landdownload/{id}', [LandCustomerController::class,'receiptview'])->name('downloadlrep');
+    Route::get('/contractdownload/{id}', [ContractCustomerController::class,'receiptview'])->name('downloadcrep');
+    Route::get('/villadownload/{id}', [VillaCustomerController::class,'receiptview'])->name('downloadvrep');
     Route::get('/contractrequestPromotion/{id}', [ContractCustomerController::class,'requestPromotion'])->name('cpromotion');
     Route::get('/villarequestPromotion/{id}', [VillaCustomerController::class,'requestPromotion'])->name('vpromotion');
     

@@ -181,8 +181,8 @@ class PaymentController extends Controller
                 if($payment)
                 {
                     flashSuccess('Expense Payment Created Successfully');
-                    return redirect()->route('account.receiptview', ['id' => $payment->id])->with('delayedRedirect', true);
                     
+                    return redirect()->route('account.payment.create');
                 }
                 else
                 {
@@ -434,7 +434,44 @@ class PaymentController extends Controller
     ]);
 
     return $response;
-    return back();
 
+    }
+
+    private function receiptdownload($id)
+    {
+        $payment = Payment::find($id);
+
+        $dompdf = new Dompdf();
+
+        $imagePath = public_path('image/sks.png');
+
+        if ($imagePath) {
+            // Convert image to base64 data URI
+            $imageData = base64_encode(file_get_contents($imagePath));
+        } else {
+            // If image doesn't exist, set to empty string
+            $imageData = '';
+        }
+
+        $html = view('user.account.payment.receipt', compact('payment','imageData'))->render();
+
+        $dompdf->loadHtml($html);
+
+        // Set paper size and orientation
+        // $dompdf->setPaper('A4', 'landscape');
+
+        // Render the PDF (first parameter is optional filename)
+        $dompdf->render();
+
+        // Get the generated PDF content
+        $pdfContent = $dompdf->output();
+
+        // Create a response with the PDF content and appropriate headers
+        $response = new Response($pdfContent, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="voucher.pdf"',
+        ]);
+
+        return $response;
     }
 }

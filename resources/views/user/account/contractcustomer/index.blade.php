@@ -116,6 +116,10 @@
                                                     class="btn btn-link ">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
+                                                <a href="{{ route('account.downloadcrep', $customer->id) }}"
+                                                    class="btn btn-link ">
+                                                    <i class="fa fa-download"></i>
+                                                </a>
                                                 <a href="{{ route('account.contractcustomer.show', $customer->id) }}"
                                                     class="btn btn-link ">
                                                     <i class="fa fa-eye"></i>

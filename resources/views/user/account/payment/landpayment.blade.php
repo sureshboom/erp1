@@ -96,7 +96,7 @@
                                                 </span></p>
                                             </td>
                                             <td>
-                                                <a href="{{ route('account.receiptview',$landpayment->id)}}"><i class="fa fa-eye"></i></a>
+                                                <a href="{{ route('account.receiptview',$landpayment->id)}}"><i class="fa fa-download"></i></a>
                                                 <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $landpayment->id }}').submit();"><i class="fa fa-trash"></i></a>
                                                 <form method="post" action="{{ route('account.payment.destroy', $landpayment->id) }}" id="delete-post-{{ $landpayment->id }}" style="display: none;">
                                                     @csrf
