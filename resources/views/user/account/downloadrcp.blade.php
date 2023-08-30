@@ -202,7 +202,7 @@
      @break
      @case('contract')
         <h4>
-            Project Name <span class="btb gray-color">&nbsp;{{$customer->contractproject->project_name}}&nbsp;&nbsp;</span> &nbsp;Total Area <span class="btb gray-color">&nbsp;{{$customer->contractproject->total_land_area}}&nbsp;&nbsp;</span>&nbsp;Buildup Area <span class="btb gray-color">&nbsp;{{$customer->contractproject->total_buildup_area}}&nbsp;</span>
+            Location <span class="btb gray-color">&nbsp;{{$customer->contractproject->location}}&nbsp;&nbsp;</span> &nbsp;Total Area <span class="btb gray-color">&nbsp;{{$customer->contractproject->total_land_area}}&nbsp;&nbsp;</span>&nbsp;Buildup Area <span class="btb gray-color">&nbsp;{{$customer->contractproject->total_buildup_area}}&nbsp;</span>
             
             
         </h4>
@@ -223,15 +223,15 @@
     <h3>Amount Finalization</h3>
     @switch($type)
         @case('land')
-            <h4 class="gray-color ti">Total Amount : Rs.{{ moneyFormatIndia($customer->amount).'.00'}} &nbsp;For {{$customer->plot_area}}.
+            <h4 class="gray-color ti">Total Amount : Rs.{{ moneyFormatIndia($customer->amount).'.00'}} &nbsp;For Project: <span class="btb">{{$customer->landproject->project_name}}</span> and Plot No {{$customer->plotno}}.
             </h4>
         @break
         @case('contract')
-            <h4 class="gray-color ti">Total Amount : Rs.{{ moneyFormatIndia($customer->amount).'.00'}} &nbsp;For Total Area {{$customer->contractproject->total_land_area}}&nbsp;&nbsp;and Buildup Area {{$customer->contractproject->total_buildup_area}}.
+            <h4 class="gray-color ti">Total Amount : Rs.{{ moneyFormatIndia($customer->amount).'.00'}} &nbsp;For Project: <span class="btb">{{$customer->contractproject->project_name}}</span> Total Area {{$customer->contractproject->total_land_area}}&nbsp;&nbsp;and Buildup Area {{$customer->contractproject->total_buildup_area}}.
             </h4>
         @break
         @case('villa')
-            <h4 class="gray-color ti">Total Amount : Rs.{{ moneyFormatIndia($customer->amount).'.00'}} &nbsp;For {{$customer->villa_area}}.
+            <h4 class="gray-color ti">Total Amount : Rs.{{ moneyFormatIndia($customer->amount).'.00'}} &nbsp;For Project: <span class="btb">{{$customer->villaproject->project_name}}</span> and Villa No {{$customer->vilano}}.
             </h4>
         @break
     @endswitch

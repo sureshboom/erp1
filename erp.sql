@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 28, 2023 at 02:54 PM
+-- Generation Time: Aug 30, 2023 at 02:19 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -82,6 +82,53 @@ CREATE TABLE `admins` (
 
 INSERT INTO `admins` (`id`, `name`, `email`, `email_verified_at`, `password`, `image`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin@gmail.com', NULL, '$2y$10$3sHdPZXurAzJUdpthKVja.tto00iP08QHLB/tN3iQ33oBtR/Rw/Qu', 'image/sks.png', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `advances`
+--
+
+CREATE TABLE `advances` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `staff_id` bigint(20) UNSIGNED NOT NULL,
+  `amount` double(10,2) NOT NULL DEFAULT 0.00,
+  `detection` double(10,2) NOT NULL DEFAULT 0.00,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `advances`
+--
+
+INSERT INTO `advances` (`id`, `staff_id`, `amount`, `detection`, `created_at`, `updated_at`) VALUES
+(2, 10, 3000.00, 0.00, '2023-08-30 04:34:09', '2023-08-30 06:08:18');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `advance_histories`
+--
+
+CREATE TABLE `advance_histories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `advance_id` bigint(20) UNSIGNED NOT NULL,
+  `staff_id` bigint(20) UNSIGNED NOT NULL,
+  `advance_date` date NOT NULL,
+  `amount` double(10,2) NOT NULL DEFAULT 0.00,
+  `notes` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `advance_histories`
+--
+
+INSERT INTO `advance_histories` (`id`, `advance_id`, `staff_id`, `advance_date`, `amount`, `notes`, `created_at`, `updated_at`) VALUES
+(1, 2, 10, '2023-08-16', 2000.00, 'Demo', '2023-08-30 04:34:10', '2023-08-30 04:34:10'),
+(5, 2, 10, '2023-08-18', 1000.00, 'demo2', '2023-08-30 06:07:25', '2023-08-30 06:08:18');
 
 -- --------------------------------------------------------
 
@@ -185,7 +232,7 @@ CREATE TABLE `contract_projects` (
 --
 
 INSERT INTO `contract_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengineer_id`, `mesthiri_id`, `site_date`, `dtcp_no`, `reg_no`, `location`, `total_land_area`, `total_buildup_area`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Golden Garden', 1, 1, 1, '2023-08-02', '12312412433', '134123413233', 'Ganapathy ,Coimbatore.', '3 Acres', '2.5 Acres', 'processing', '2023-08-15 03:30:39', '2023-08-21 07:40:40');
+(1, 'Golden Garden', 1, 1, 1, '2023-08-02', '12312412433', '134123413233', 'Ganapathy', '3 Acres', '2.5 Acres', 'processing', '2023-08-15 03:30:39', '2023-08-29 05:23:14');
 
 -- --------------------------------------------------------
 
@@ -299,22 +346,6 @@ CREATE TABLE `land_customers` (
 
 INSERT INTO `land_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `plotno`, `plot_area`, `amount`, `paid`, `pending`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `remarks`, `promote`, `created_at`, `updated_at`) VALUES
 (1, 'Ram', '9876554321', 'Saravanampatti, Coimbatore.', '3366424288997755', '5343feal4c', 'uploads/images/landcustomer/aadhar/1692106272_64db7e204db91.png', 'uploads/images/landcustomer/pan/1692106272_64db7e20522d1.png', 1, '122', '4 Cent', 2000000.00, 100000.00, 1700000.00, 200000.00, 'middleman', 'Raja', '1', 'booking', 'demo', 0, '2023-08-15 08:01:12', '2023-08-26 10:14:15');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `land_payment_histories`
---
-
-CREATE TABLE `land_payment_histories` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `landcustomers_id` bigint(20) UNSIGNED NOT NULL,
-  `paytype` varchar(255) NOT NULL,
-  `amount` double(10,2) NOT NULL,
-  `payway` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -557,7 +588,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (24, '2023_07_29_075935_create_meterials_table', 6),
 (25, '2023_07_29_102229_create_suppliers_table', 7),
 (31, '2023_08_07_052254_create_material_payment_histories_table', 11),
-(33, '2023_08_07_090023_create_land_payment_histories_table', 13),
 (34, '2023_08_07_121700_create_expenses_table', 14),
 (35, '2023_08_08_085515_create_mesthiris_table', 15),
 (37, '2023_08_08_121600_create_workers_table', 16),
@@ -573,7 +603,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (50, '2023_08_21_100821_create_mesthiri_assigns_table', 24),
 (51, '2023_08_22_062618_create_work_entries_table', 25),
 (52, '2023_08_22_062833_create_worker_entries_table', 25),
-(53, '2023_08_24_061059_create_payments_table', 26);
+(53, '2023_08_24_061059_create_payments_table', 26),
+(55, '2023_08_30_083757_create_advances_table', 27),
+(56, '2023_08_30_090724_create_advance_histories_table', 28),
+(57, '2023_08_30_121211_create_salaries_table', 29);
 
 -- --------------------------------------------------------
 
@@ -635,9 +668,7 @@ CREATE TABLE `payments` (
 INSERT INTO `payments` (`id`, `payment_type`, `payment_subtype`, `expense_project_type`, `project_id`, `customer_id`, `supplier_id`, `payment_mode`, `payment_by`, `total`, `advance`, `paid`, `pending`, `amount`, `payment_date`, `expense_for`, `approved_by`, `received_by`, `created_at`, `updated_at`) VALUES
 (4, 'project', 'land', NULL, 1, 1, NULL, 'Voucher', 'Voucher', 2000000.00, 200000.00, 300000.00, 1700000.00, 100000.00, '2023-08-25', NULL, NULL, NULL, '2023-08-26 10:14:14', '2023-08-26 10:14:14'),
 (9, 'expense', 'office', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 500.00, '2023-08-25', 'Tea', 'Account', 'Ramu', '2023-08-27 06:19:00', '2023-08-27 06:19:00'),
-(13, 'expense', 'office', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 500.00, '2023-08-28', 'demo', 'Ram', 'Raju', '2023-08-28 07:18:29', '2023-08-28 07:18:29'),
-(14, 'expense', 'office', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 500.00, '2023-08-28', 'demo', 'Ram', 'Raju', '2023-08-28 07:18:43', '2023-08-28 07:18:43'),
-(15, 'expense', 'office', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 1000.00, '2023-08-29', 'demo', 'Ram', 'Rajus', '2023-08-28 07:23:15', '2023-08-28 07:23:15');
+(24, 'expense', 'office', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 2000.00, '2023-08-28', 'demo2', 'Ram', 'Raju', '2023-08-28 23:43:32', '2023-08-28 23:43:32');
 
 -- --------------------------------------------------------
 
@@ -695,7 +726,26 @@ CREATE TABLE `project_customers` (
 --
 
 INSERT INTO `project_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `vilano`, `villa_area`, `amount`, `paid`, `pending`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `promote`, `remarks`, `created_at`, `updated_at`) VALUES
-(1, 'siva raj', '09092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hwstw', 'uploads/images/villacustomer/aadhar/1692177834_64dc95aa691d9.png', 'uploads/images/villacustomer/pan/1692177834_64dc95aa6958f.png', 1, '22', '2550', 5000000.00, 0.00, 0.00, 100000.00, 'middleman', 'demo', '2', 'mod', 0, 'Demo', '2023-08-16 03:53:54', '2023-08-16 07:20:40');
+(1, 'siva raj', '09092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hwstw', 'uploads/images/villacustomer/aadhar/1692177834_64dc95aa691d9.png', 'uploads/images/villacustomer/pan/1692177834_64dc95aa6958f.png', 1, '22', '2550 sq ft', 5000000.00, 0.00, 0.00, 100000.00, 'middleman', 'demo', '2', 'mod', 0, 'Demo', '2023-08-16 03:53:54', '2023-08-29 04:02:30');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `salaries`
+--
+
+CREATE TABLE `salaries` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `staff_id` bigint(20) UNSIGNED NOT NULL,
+  `from_date` date NOT NULL,
+  `to_date` date NOT NULL,
+  `salary_amount` double(10,2) NOT NULL DEFAULT 0.00,
+  `amount` double(10,2) NOT NULL DEFAULT 0.00,
+  `detection` double(10,2) NOT NULL DEFAULT 0.00,
+  `salary` double(10,2) NOT NULL DEFAULT 0.00,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1120,6 +1170,21 @@ ALTER TABLE `admins`
   ADD UNIQUE KEY `admins_email_unique` (`email`);
 
 --
+-- Indexes for table `advances`
+--
+ALTER TABLE `advances`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `advances_staff_id_foreign` (`staff_id`);
+
+--
+-- Indexes for table `advance_histories`
+--
+ALTER TABLE `advance_histories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `advance_histories_advance_id_foreign` (`advance_id`),
+  ADD KEY `advance_histories_staff_id_foreign` (`staff_id`);
+
+--
 -- Indexes for table `chiefengineers`
 --
 ALTER TABLE `chiefengineers`
@@ -1166,13 +1231,6 @@ ALTER TABLE `failed_jobs`
 ALTER TABLE `land_customers`
   ADD PRIMARY KEY (`id`),
   ADD KEY `land_customers_project_id_foreign` (`project_id`);
-
---
--- Indexes for table `land_payment_histories`
---
-ALTER TABLE `land_payment_histories`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `land_payment_histories_landcustomers_id_foreign` (`landcustomers_id`);
 
 --
 -- Indexes for table `land_projects`
@@ -1278,6 +1336,13 @@ ALTER TABLE `personal_access_tokens`
 ALTER TABLE `project_customers`
   ADD PRIMARY KEY (`id`),
   ADD KEY `project_customers_project_id_foreign` (`project_id`);
+
+--
+-- Indexes for table `salaries`
+--
+ALTER TABLE `salaries`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `salaries_staff_id_foreign` (`staff_id`);
 
 --
 -- Indexes for table `salesmanagers`
@@ -1391,6 +1456,18 @@ ALTER TABLE `admins`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `advances`
+--
+ALTER TABLE `advances`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `advance_histories`
+--
+ALTER TABLE `advance_histories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `chiefengineers`
 --
 ALTER TABLE `chiefengineers`
@@ -1431,12 +1508,6 @@ ALTER TABLE `failed_jobs`
 --
 ALTER TABLE `land_customers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `land_payment_histories`
---
-ALTER TABLE `land_payment_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `land_projects`
@@ -1490,13 +1561,13 @@ ALTER TABLE `meterials`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1509,6 +1580,12 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `project_customers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `salaries`
+--
+ALTER TABLE `salaries`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `salesmanagers`
@@ -1599,6 +1676,19 @@ ALTER TABLE `accounts`
   ADD CONSTRAINT `accounts_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `advances`
+--
+ALTER TABLE `advances`
+  ADD CONSTRAINT `advances_staff_id_foreign` FOREIGN KEY (`staff_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `advance_histories`
+--
+ALTER TABLE `advance_histories`
+  ADD CONSTRAINT `advance_histories_advance_id_foreign` FOREIGN KEY (`advance_id`) REFERENCES `advances` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `advance_histories_staff_id_foreign` FOREIGN KEY (`staff_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `chiefengineers`
 --
 ALTER TABLE `chiefengineers`
@@ -1622,12 +1712,6 @@ ALTER TABLE `contract_projects`
 --
 ALTER TABLE `land_customers`
   ADD CONSTRAINT `land_customers_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `land_projects` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `land_payment_histories`
---
-ALTER TABLE `land_payment_histories`
-  ADD CONSTRAINT `land_payment_histories_landcustomers_id_foreign` FOREIGN KEY (`landcustomers_id`) REFERENCES `land_customers` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `land_projects`
@@ -1682,6 +1766,12 @@ ALTER TABLE `mesthiri_assigns`
 --
 ALTER TABLE `project_customers`
   ADD CONSTRAINT `project_customers_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `villa_projects` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `salaries`
+--
+ALTER TABLE `salaries`
+  ADD CONSTRAINT `salaries_staff_id_foreign` FOREIGN KEY (`staff_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `salesmanagers`

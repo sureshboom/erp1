@@ -44,12 +44,17 @@
        <span class="mini-click-non">Attendance</span>
     </a>
 </li>
-<li>
-    <a  href="#">
+<li class="{{ ((request()->routeIs('account.advance.*'))|| (request()->routeIs('account.advance.*'))) ? 'active' : ''}}">
+    <a class="has-arrow" href="#">
        <span class="educate-icon educate-event icon-wrap"></span>
        <span class="mini-click-non">Salary</span>
     </a>
+    <ul class="submenu-angle" aria-expanded="true">
+        <li class="{{request()->routeIs('account.advance.*') ? 'active' : ''}}"><a title="land" href="{{ route('account.advance.index')}}"><span class="mini-sub-pro">Advance</span></a></li>
+        <li><a title="contract" href="#"><span class="mini-sub-pro">Salary</span></a></li>
+    </ul>
 </li>
+
 <li>
     <a class="has-arrow" href="#">
        <span class="educate-icon educate-library icon-wrap"></span>

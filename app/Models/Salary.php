@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LandPaymentHistory extends Model
+class Salary extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    public function landcustomer()
+
+    public function user()
     {
-        return $this->belongsTo(LandCustomer::class,'landcustomers_id');
+        return $this->belongsTo(User::class,'staff_id');
     }
 }

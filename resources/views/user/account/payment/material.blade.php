@@ -40,7 +40,7 @@
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
                                 <h1>Supplier Payment <span class="table-project-n">Details</span> Table</h1>
-
+                                
 
                             </div>
                             <a href="{{ route('account.payment.create')}}" class="btn btn-primary">+ Pay Now</a>

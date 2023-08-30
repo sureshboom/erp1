@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('land_payment_histories', function (Blueprint $table) {
+        Schema::create('advances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('landcustomers_id')->constrained('land_customers')->cascadeOnDelete();
-            $table->string('paytype');
-            $table->float('amount',10,2);
-            $table->string('payway');
+            $table->foreignId('staff_id')->constrained('users')->cascadeOnDelete();
+            $table->double('amount',10,2)->default(0.00);
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('land_payment_histories');
+        Schema::dropIfExists('advances');
     }
 };
