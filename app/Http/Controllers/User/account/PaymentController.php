@@ -437,7 +437,7 @@ class PaymentController extends Controller
 
     }
 
-    private function receiptdownload($id)
+    public function receiptdownload($id)
     {
         $payment = Payment::find($id);
 
@@ -453,7 +453,9 @@ class PaymentController extends Controller
             $imageData = '';
         }
 
-        $html = view('user.account.payment.receipt', compact('payment','imageData'))->render();
+        // return view('user.account.payment.creceipt', compact('payment','imageData'));
+
+        $html = view('user.account.payment.creceipt', compact('payment','imageData'))->render();
 
         $dompdf->loadHtml($html);
 
@@ -469,7 +471,7 @@ class PaymentController extends Controller
         // Create a response with the PDF content and appropriate headers
         $response = new Response($pdfContent, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="voucher.pdf"',
+            'Content-Disposition' => 'attachment; filename="payment.pdf"',
         ]);
 
         return $response;
