@@ -85,11 +85,11 @@
                                             </td>
                                             
                                             <td>
-                                                <p>Total Amount : <span>{{  number_format($contractpayment->total) }}</span></p>
-                                                <p> Advance : <span>{{  number_format($contractpayment->advance) }}</span></p>
-                                                <p> Paid : <span>{{  number_format($contractpayment->paid) }}</span></p>
-                                                <p> Pending : <span>{{  number_format($contractpayment->pending) }}</span></p>
-                                                <p class="text-success"> Current Pay : <span class="btn btn-sm badge-success">{{  number_format($contractpayment->amount) }}</span></p>
+                                                <p>Total Amount : <span>{{  moneyFormatIndia($contractpayment->total) }}</span></p>
+                                                <p> Advance : <span>{{  moneyFormatIndia($contractpayment->advance) }}</span></p>
+                                                <p> Paid : <span>{{  moneyFormatIndia($contractpayment->paid) }}</span></p>
+                                                <p> Pending : <span>{{  moneyFormatIndia($contractpayment->pending) }}</span></p>
+                                                <p class="text-success"> Current Pay : <span class="btn btn-sm badge-success">{{  moneyFormatIndia($contractpayment->amount) }}</span></p>
                                             </td>
                                             <td>
                                                 <a href="{{ route('account.receiptview',$contractpayment->id)}}"><i class="fa fa-download"></i></a>

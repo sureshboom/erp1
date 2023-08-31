@@ -64,7 +64,7 @@
                                                 
                                                 <th data-field="name" data-editable="false">Staff Name</th>
                                                 <th data-field="unit" data-editable="false">Advance</th>
-                                                
+                                                <th data-field="detect" data-editable="false">Detection</th>
                                                 <th data-field="action">Action</th>
                                             </tr>
                                         </thead>
@@ -76,7 +76,8 @@
                                                 <td>{{$loop->iteration}}</td>
                                                 
                                                 <td>{{$advance->user->name}}</td>
-                                                <td>{{$advance->amount}}</td>
+                                                <td>{{moneyFormatIndia($advance->amount)}}.00</td>
+                                                <td>{{moneyFormatIndia($advance->detection).'.00'}}</td>
                                                 <td class="datatable-ct">
                                                     <a href="{{ route('account.advance.show', $advance->id) }}"
                                                         class="btn ll-mr-4 ll-p-0">

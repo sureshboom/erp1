@@ -39,7 +39,7 @@
                         <div class="sparkline13-list">
                             <div class="sparkline13-hd">
                                 <div class="main-sparkline13-hd">
-                                    <h1>Advances <span class="table-project-n">Details</span> Table</h1>
+                                    <h1>Advances <span class="table-project-n">Detail</span> Table</h1>
 
 
                                 </div>
@@ -81,7 +81,7 @@
                                                 <td>{{$advance->user->name}}</td>
                                                 <td>{{formatDate($advance->advance_date)}}</td>
                                                 
-                                                <td>{{$advance->amount}}</td>
+                                                <td>Rs.{{moneyFormatIndia($advance->amount).'.00'}}</td>
                                                 <td>{{$advance->notes}}</td>
                                                 <td class="datatable-ct">
                                                     <a href="{{ route('account.advance.edit', $advance->id) }}"

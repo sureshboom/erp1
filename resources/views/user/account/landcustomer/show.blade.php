@@ -121,12 +121,12 @@
                                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                                 <div class="address-hr">
                                                     
-                                                    <p><b class="text-primary">Total Amount</b><br /> {{$customer->amount}}</p>
+                                                    <p><b class="text-primary">Total Amount</b><br /> Rs.{{moneyFormatIndia($customer->amount).'.00'}}</p>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                                 <div class="address-hr ">
-                                                    <p><b class="text-primary">Advance</b><br /> {{$customer->advance}}</p>
+                                                    <p><b class="text-primary">Advance</b><br /> Rs.{{moneyFormatIndia($customer->advance).'.00'}}</p>
                                                 </div>
                                             </div>
                                         </div>

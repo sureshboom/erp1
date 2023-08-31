@@ -85,11 +85,11 @@
                                             </td>
                                             
                                             <td>
-                                                <p>Total Amount : <span>{{  number_format($villapayment->total) }}</span></p>
-                                                <p> Advance : <span>{{  number_format($villapayment->advance) }}</span></p>
-                                                <p> Paid : <span>{{  number_format($villapayment->paid) }}</span></p>
-                                                <p> Pending : <span>{{  number_format($villapayment->pending) }}</span></p>
-                                                <p class="text-success"> Current Pay : <span class="btn btn-sm badge-success">{{  number_format($villapayment->amount) }}</span></p>
+                                                <p>Total Amount : <span>{{  moneyFormatIndia($villapayment->total) }}</span></p>
+                                                <p> Advance : <span>{{  moneyFormatIndia($villapayment->advance) }}</span></p>
+                                                <p> Paid : <span>{{  moneyFormatIndia($villapayment->paid) }}</span></p>
+                                                <p> Pending : <span>{{  moneyFormatIndia($villapayment->pending) }}</span></p>
+                                                <p class="text-success"> Current Pay : <span class="btn btn-sm badge-success">{{  moneyFormatIndia($villapayment->amount) }}</span></p>
                                             </td>
                                             <td>
                                                 <a href="{{ route('account.receiptview',$villapayment->id)}}"><i class="fa fa-download"></i></a>

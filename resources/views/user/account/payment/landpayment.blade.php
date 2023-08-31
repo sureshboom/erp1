@@ -85,13 +85,13 @@
                                             </td>
                                             
                                             <td>
-                                                <p>Total Amount : <span>{{  number_format($landpayment->total) }}</span></p>
-                                                <p> Advance : <span>{{  number_format($landpayment->advance) }}</span></p>
-                                                <p> Paid : <span>{{  number_format($landpayment->paid) }}</span></p>
-                                                <p> Pending : <span>{{  number_format($landpayment->pending) }}</span></p>
+                                                <p>Total Amount : <span>{{  moneyFormatIndia($landpayment->total) }}</span></p>
+                                                <p> Advance : <span>{{  moneyFormatIndia($landpayment->advance) }}</span></p>
+                                                <p> Paid : <span>{{  moneyFormatIndia($landpayment->paid) }}</span></p>
+                                                <p> Pending : <span>{{  moneyFormatIndia($landpayment->pending) }}</span></p>
                                                 
                                                 <!-- {{ AmountInWords($landpayment->total) }} -->
-                                                <p class="text-success"> Current Pay : <span class="btn btn-sm badge-success">{{  number_format($landpayment->amount) }}
+                                                <p class="text-success"> Current Pay : <span class="btn btn-sm badge-success">{{  moneyFormatIndia($landpayment->amount) }}
 
                                                 </span></p>
                                             </td>

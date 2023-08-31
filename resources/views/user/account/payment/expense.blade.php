@@ -103,7 +103,7 @@
 
                                             </td>
                                             <td>{{ $expensepayment->expense_for ? ucfirst($expensepayment->expense_for) : '' }}</td>
-                                            <td>{{  number_format($expensepayment->amount) }}</td>
+                                            <td>{{  moneyFormatIndia($expensepayment->amount) }}</td>
                                             <td>{{ $expensepayment->approved_by ? ucfirst($expensepayment->approved_by ) : '' }}</td>
                                             <td>{{ $expensepayment->received_by ? ucfirst($expensepayment->received_by) : '' }}</td>
                                             <td>
