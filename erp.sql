@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2023 at 02:19 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Sep 03, 2023 at 03:39 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -606,7 +606,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (53, '2023_08_24_061059_create_payments_table', 26),
 (55, '2023_08_30_083757_create_advances_table', 27),
 (56, '2023_08_30_090724_create_advance_histories_table', 28),
-(57, '2023_08_30_121211_create_salaries_table', 29);
+(57, '2023_08_30_121211_create_salaries_table', 29),
+(58, '2023_09_02_081148_create_villas_table', 30);
 
 -- --------------------------------------------------------
 
@@ -726,7 +727,8 @@ CREATE TABLE `project_customers` (
 --
 
 INSERT INTO `project_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `vilano`, `villa_area`, `amount`, `paid`, `pending`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `promote`, `remarks`, `created_at`, `updated_at`) VALUES
-(1, 'siva raj', '09092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hwstw', 'uploads/images/villacustomer/aadhar/1692177834_64dc95aa691d9.png', 'uploads/images/villacustomer/pan/1692177834_64dc95aa6958f.png', 1, '22', '2550 sq ft', 5000000.00, 0.00, 0.00, 100000.00, 'middleman', 'demo', '2', 'mod', 0, 'Demo', '2023-08-16 03:53:54', '2023-08-29 04:02:30');
+(1, 'siva raj', '09092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hwstw', 'uploads/images/villacustomer/aadhar/1692177834_64dc95aa691d9.png', 'uploads/images/villacustomer/pan/1692177834_64dc95aa6958f.png', 1, '1', '2550sqft', 5000000.00, 0.00, 0.00, 100000.00, 'middleman', 'demo', '2', 'mod', 0, 'Demo', '2023-08-16 03:53:54', '2023-09-03 07:06:34'),
+(3, 'Ramu', '9876543210', 'Coimbatore', '12345678901', 'seo13cce', 'uploads/images/villacustomer/aadhar/1693744887_64f47ef78faca.png', 'uploads/images/villacustomer/pan/1693744887_64f47ef79303e.png', 1, '2', '2880sqft', 5000000.00, 0.00, 0.00, 500000.00, 'salesteam', NULL, '1', 'booking', 0, 'demo', '2023-09-03 07:11:27', '2023-09-03 07:11:27');
 
 -- --------------------------------------------------------
 
@@ -1038,6 +1040,30 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `email_verified_
 (9, 'Sales Manager', 'salesmanager1@gmail.com', '$2y$10$Xn10UGreyRbP/qgNmTFopePoqeY8o1m8BhDC/KmFtSeXxmEIBMe96', 'salesmanager', NULL, NULL, '2023-07-26 03:23:30', '2023-08-12 08:51:20'),
 (10, 'Sales Person', 'salesperson1@gmail.com', '$2y$10$.GvPKjzE78OPKsvs3khy/O7jhq12BXPtnks4EM6wVkLFBuc8bNj6y', 'salesperson', NULL, NULL, '2023-07-26 03:25:56', '2023-08-12 07:48:06'),
 (13, 'demo', 'demo@gmail.com', '$2y$10$akhUIO5A030Ylm4.2X4aE.c.LuMV.5DWuraBIvsJ6LQBUkQ8gyik2', 'siteengineer', NULL, NULL, '2023-08-12 07:00:51', '2023-08-12 07:00:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `villas`
+--
+
+CREATE TABLE `villas` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `villaproject_id` bigint(20) UNSIGNED NOT NULL,
+  `villa_no` varchar(255) NOT NULL,
+  `villa_area` varchar(255) NOT NULL,
+  `supplier_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `villas`
+--
+
+INSERT INTO `villas` (`id`, `villaproject_id`, `villa_no`, `villa_area`, `supplier_id`, `created_at`, `updated_at`) VALUES
+(1, 1, '1a', '2550sqft', NULL, '2023-09-03 02:14:32', '2023-09-03 03:49:42'),
+(2, 1, '2', '2880sqft', NULL, '2023-09-03 02:14:32', '2023-09-03 02:14:32');
 
 -- --------------------------------------------------------
 
@@ -1409,6 +1435,13 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
+-- Indexes for table `villas`
+--
+ALTER TABLE `villas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `villas_villaproject_id_foreign` (`villaproject_id`);
+
+--
 -- Indexes for table `villa_projects`
 --
 ALTER TABLE `villa_projects`
@@ -1561,7 +1594,7 @@ ALTER TABLE `meterials`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -1579,7 +1612,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `project_customers`
 --
 ALTER TABLE `project_customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `salaries`
@@ -1640,6 +1673,12 @@ ALTER TABLE `teleworks`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `villas`
+--
+ALTER TABLE `villas`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `villa_projects`
@@ -1796,6 +1835,12 @@ ALTER TABLE `siteengineers`
 --
 ALTER TABLE `sitevisitarranges`
   ADD CONSTRAINT `sitevisitarranges_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `villas`
+--
+ALTER TABLE `villas`
+  ADD CONSTRAINT `villas_villaproject_id_foreign` FOREIGN KEY (`villaproject_id`) REFERENCES `villa_projects` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `worker_entries`

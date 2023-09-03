@@ -4,10 +4,12 @@ namespace App\Http\Controllers\User\account;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
+
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\VillaProject;
+use App\Models\Villa;
 use App\Models\ProjectCustomer;
 
 class VillaCustomerController extends Controller
@@ -250,5 +252,16 @@ class VillaCustomerController extends Controller
         ]);
 
         return $response;
+    }
+
+    public function villalist(Request $request)
+    {
+        $villas = Villa::select('id','villa_no')->where('villaproject_id',$request->id)->get();
+        return response()->json($villas);
+    }
+    public function villaarea(Request $request)
+    {
+        $villas = Villa::find($request->id);
+        return response()->json($villas);
     }
 }

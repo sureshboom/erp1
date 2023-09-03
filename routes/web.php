@@ -64,11 +64,13 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
     
     Route::resource('/contractcustomer', ContractCustomerController::class);
     Route::resource('/villacustomer', VillaCustomerController::class);
-    
+    Route::get('/villalist', [VillaCustomerController::class, 'villalist']);
+    Route::get('/villaarea', [VillaCustomerController::class, 'villaarea']);
     Route::resource('/expense', ExpenseController::class);
     Route::resource('/supplier', SupplierController::class);
     Route::resource('/payment', PaymentController::class);
     Route::resource('/advance', AdvanceController::class);
+
     Route::get('/receiptview/{id}',[PaymentController::class,'receiptview'])->name('receiptview');
     Route::get('/receiptdownload/{id}',[PaymentController::class,'receiptdownload'])->name('receiptdownload');
     Route::get('/expensepayment',[PaymentController::class,'expensepaymentshow'])->name('expensepayment');

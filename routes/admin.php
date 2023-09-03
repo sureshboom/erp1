@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\LandProjectController;
 use App\Http\Controllers\Admin\ContractProjectController;
 use App\Http\Controllers\Admin\VillaProjectController;
+use App\Http\Controllers\Admin\VillaController;
 use App\Http\Controllers\Admin\OwnerController;
 use App\Http\Controllers\Admin\MeterialController;
 use App\Http\Controllers\Admin\WorkerController;
@@ -34,6 +35,10 @@ Route::prefix('admin')->group(function () {
 			
 			Route::resource('/landproject', LandProjectController::class);
 			Route::resource('/villaproject', VillaProjectController::class);
+			Route::resource('/villa', VillaController::class);
+			
+			Route::get('/villalist', [VillaCustomerController::class, 'villalist']);
+			Route::get('/villaarea', [VillaCustomerController::class, 'villaarea']);
 			Route::resource('/contractproject', ContractProjectController::class);
 			
 			Route::resource('/meterial', MeterialController::class);

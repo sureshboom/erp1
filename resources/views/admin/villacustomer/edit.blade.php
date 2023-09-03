@@ -95,7 +95,7 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label>Villa Project</label>
-                                <select name="project_id" class="form-control">
+                                <select name="project_id" id="project_id" class="form-control">
                                         <option value="">Select Land Project</option>
                                         @foreach($villaprojects as $villaproject)
                                         <option value="{{$villaproject->id}}" {{$customer->project_id == $villaproject->id ? 'selected' : ''}}>{{$villaproject->project_name}} ({{$villaproject->sksvp_id}})</option>
@@ -107,14 +107,18 @@
                             </div>
                             <div class="form-group">
                                 <label>Villa No</label>
-                                <input name="vilano" type="text" value="{{ $customer->vilano }}" class="form-control" placeholder="Villa No">
+
+                                <select class="form-control" id="vilano" name="vilano">
+                                    <option>Select Villa No</option>
+                                    <option value="{{ $customer->vilano}}" selected>{{ $customer->villa->villa_no}}</option>
+                                </select>
                                 @error('vilano')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label>Villa Area (Square)</label>
-                                <input name="villa_area" type="text" value="{{ $customer->villa_area }}" class="form-control" placeholder="Villa Area">
+                                <input name="villa_area" id="villa_area" type="text" value="{{ $customer->villa_area }}" class="form-control" placeholder="Villa Area">
                                 @error('villa_area')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror

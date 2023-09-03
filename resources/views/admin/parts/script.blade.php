@@ -86,7 +86,7 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <!-- tawk chat JS
 		============================================ -->
-    <!-- <script src="{{ asset('assets/js/tawk-chat.js') }}"></script> -->
+    
 
     <script>
     @if(Session::has('success'))
@@ -99,6 +99,91 @@
 
     @if(Session::has('error'))
     toastr.error("{{ Session::get('error') }}", 'Error!')
+    @endif
+    
+    @if((request()->routeIs('villacustomer.create')) or (request()->routeIs('villacustomer.edit')))
+        $(document).ready(function(){
+            $('#project_id').on('change',function(e){
+            var projectid = $(this).val();
+            // alert(projectid);
+            
+                $.ajax({
+                    url: '/admin/villalist',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        id: projectid
+                    },
+                    success: function (data) {
+                        if (data) {
+                            // console.log(data);
+                            var customerSelect = $('#vilano');
+                            customerSelect.empty();
+                            if (data && Object.keys(data).length > 0)
+                            {
+                                customerSelect.append($('<option>', {
+                                        value: '',
+                                        text: 'Select Villa No' // Assuming your customer model has a "name" attribute
+                                    }));
+                                $.each(data, function(index, villas) {
+                                    customerSelect.append($('<option>', {
+                                        value: villas.id,
+                                        text: villas.villa_no // Assuming your customer model has a "name" attribute
+                                    }));
+                                });
+                            }
+                            else
+                            {
+                                alert('Select Other Project');
+                                
+                            }
+                            // If payment data exists, fill the input fields
+                            
+                        }
+                    },
+                    error: function () {
+                        // Handle error if the AJAX request fails
+                    }
+                });
+            });
+            $('#vilano').on('change',function(e){
+                var villano = $(this).val();
+                // alert(villano);
+                $.ajax({
+                    url: '/admin/villaarea',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        id: villano
+                    },
+                    success: function (data) {
+                        if (data) {
+                            $('#villa_area').val(data.villa_area);
+                        }
+                    },
+                    error: function () {
+                        // Handle error if the AJAX request fails
+                    }
+                });
+            });
+        });
+    @endif
+    @if(request()->routeIs('villa.create'))
+
+        $(document).ready(function(){
+        
+            $('.add_item').on('click',function(e){
+                e.preventDefault();
+
+                var rowd='<tr><td><input class="form-control" name="villa_no[]" type="text" placeholder="Villa No" required></td><td><input class="form-control" placeholder="Villa Area" name="villa_area[]" type="text" required></td><td><button class="btn btn-danger remove_item">Remove</button></td></tr>';
+                    
+                $(".show_item").append(rowd);
+            });
+            $("body").on("click",".remove_item",function(){
+              
+                $(this).closest("tr").remove();
+            });
+        });
     @endif
 
     @if((request()->routeIs('landcustomer.*')) or (request()->routeIs('contractcustomer.*')) or (request()->routeIs('villacustomer.*')))

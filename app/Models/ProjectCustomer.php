@@ -38,4 +38,9 @@ class ProjectCustomer extends Model
     {
         return 'SKSVC ' . $this->attributes['id'];
     }
+
+    public function villa()
+    {
+        return $this->belongsTo(Villa::class,'vilano');
+    }
 }

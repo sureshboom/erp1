@@ -642,7 +642,73 @@
         });
     });
     @endif
- 
+ @if((request()->routeIs('account.villacustomer.create')) or (request()->routeIs('account.villacustomer.edit')))
+        $(document).ready(function(){
+            $('#project_id').on('change',function(e){
+            var projectid = $(this).val();
+            // alert(projectid);
+            
+                $.ajax({
+                    url: '/account/villalist',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        id: projectid
+                    },
+                    success: function (data) {
+                        if (data) {
+                            // console.log(data);
+                            var customerSelect = $('#vilano');
+                            customerSelect.empty();
+                            if (data && Object.keys(data).length > 0)
+                            {
+                                customerSelect.append($('<option>', {
+                                        value: '',
+                                        text: 'Select Villa No' // Assuming your customer model has a "name" attribute
+                                    }));
+                                $.each(data, function(index, villas) {
+                                    customerSelect.append($('<option>', {
+                                        value: villas.id,
+                                        text: villas.villa_no // Assuming your customer model has a "name" attribute
+                                    }));
+                                });
+                            }
+                            else
+                            {
+                                alert('Select Other Project');
+                                
+                            }
+                            // If payment data exists, fill the input fields
+                            
+                        }
+                    },
+                    error: function () {
+                        // Handle error if the AJAX request fails
+                    }
+                });
+            });
+            $('#vilano').on('change',function(e){
+                var villano = $(this).val();
+                // alert(villano);
+                $.ajax({
+                    url: '/account/villaarea',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        id: villano
+                    },
+                    success: function (data) {
+                        if (data) {
+                            $('#villa_area').val(data.villa_area);
+                        }
+                    },
+                    error: function () {
+                        // Handle error if the AJAX request fails
+                    }
+                });
+            });
+        });
+    @endif
 
 @if((request()->routeIs('account.landcustomer.*')) or (request()->routeIs('account.contractcustomer.*')) or (request()->routeIs('account.villacustomer.*')))
     // Assuming you're using jQuery for simplicity

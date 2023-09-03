@@ -40,7 +40,7 @@
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
                                 <h1>Assigned Land Projects <span class="table-project-n"></span> Table</h1>
-
+                                {{-- {{$landprojects}} --}}
 
                             </div>
                         </div>

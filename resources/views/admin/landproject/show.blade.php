@@ -38,8 +38,8 @@
 
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="">
+
                         @foreach($landprojects as $landproject)
-                        
                         <div class="row ">
                             <div class="col-lg-12 responsive-mg-b-30 res-tablet-mg-t-30 dk-res-t-pro-30">
                                 <div class="profile-info-inner">

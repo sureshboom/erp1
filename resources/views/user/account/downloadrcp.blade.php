@@ -209,7 +209,7 @@
      @break
      @case('villa')
         <h4>
-            Project Name: <span class="btb gray-color">&nbsp;{{$customer->villaproject->project_name}}&nbsp;&nbsp;</span>&nbsp;Villa No <span class="btb gray-color">&nbsp;{{$customer->vilano}}&nbsp;&nbsp;</span>&nbsp;Villa Area <span class="btb gray-color">&nbsp;{{$customer->villa_area}}&nbsp;</span>
+            Project Name: <span class="btb gray-color">&nbsp;{{$customer->villaproject->project_name}}&nbsp;&nbsp;</span>&nbsp;Villa No <span class="btb gray-color">&nbsp;{{$customer->villa->villa_no}}&nbsp;&nbsp;</span>&nbsp;Villa Area <span class="btb gray-color">&nbsp;{{$customer->villa_area}}&nbsp;</span>
             
         </h4>
      @break

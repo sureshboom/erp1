@@ -68,7 +68,7 @@ class VillaProjectController extends Controller
      */
     public function show(string $id)
     {
-      $villaprojects = VillaProject::where('id',$id)->with('siteengineer:id,user_id,user_code,phone,photo,location','chiefengineer:id,user_id,user_code,phone,photo','siteengineer.user:id,name,role','chiefengineer.user:id,name,role')->get();
+      $villaprojects = VillaProject::where('id',$id)->with('siteengineer:id,user_id,user_code,phone,photo,location','chiefengineer:id,user_id,user_code,phone,photo','siteengineer.user:id,name,role','chiefengineer.user:id,name,role','villas')->get();
         
 
         return view('admin.villaproject.show',compact('villaprojects'));

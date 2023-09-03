@@ -83,7 +83,7 @@
                                             <td>{{ $customer->phone ? $customer->phone : '' }}</td>
                                             
                                             <td>{{ $customer->villaproject->project_name ? $customer->villaproject->project_name : '' }}</td>
-                                            <td>{{ $customer->vilano ? $customer->vilano : '' }}</td>
+                                            <td>{{ $customer->villa->villa_no ? $customer->villa->villa_no : '' }}</td>
                                             <td>{{ $customer->villa_area ? $customer->villa_area : '' }}</td>
                                             
                                             <td>

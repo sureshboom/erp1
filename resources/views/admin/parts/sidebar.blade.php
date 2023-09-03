@@ -34,8 +34,8 @@
                             <ul class="submenu-angle" aria-expanded="true">
                                 
                                 <li class="{{(request()->routeIs('landcustomer.*')) ? 'active' : '' }}"><a title="owner" href="{{ route('landcustomer.index')}}"><span class="mini-sub-pro">Land Customers</span></a></li>
-                                <li class="{{(request()->routeIs('contractcustomer.*')) ? 'active' : '' }}"><a title="sites" href="{{ route('contractcustomer.index')}}"><span class="mini-sub-pro">Contract Projects</span></a></li>
-                                <li class="{{(request()->routeIs('villacustomer.*')) ? 'active' : '' }}"><a title="sites" href="{{ route('villacustomer.index')}}"><span class="mini-sub-pro">Villa Projects</span></a></li>
+                                <li class="{{(request()->routeIs('contractcustomer.*')) ? 'active' : '' }}"><a title="sites" href="{{ route('contractcustomer.index')}}"><span class="mini-sub-pro">Contract Customers</span></a></li>
+                                <li class="{{(request()->routeIs('villacustomer.*')) ? 'active' : '' }}"><a title="sites" href="{{ route('villacustomer.index')}}"><span class="mini-sub-pro">Villa Customers</span></a></li>
                             </ul>
                         </li>
                         <li class="{{ ((request()->routeIs('landproject.*')) ||(request()->routeIs('contractproject.*')) ||(request()->routeIs('villaproject.*'))) ? 'active' : '' }}">

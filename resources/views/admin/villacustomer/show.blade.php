@@ -108,7 +108,7 @@
                                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                                 <div class="address-hr">
                                                     
-                                                    <p><b class="text-primary">Villa No</b><br /> {{$customer->vilano}}</p>
+                                                    <p><b class="text-primary">Villa No</b><br /> {{$customer->villa->villa_no}}</p>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">

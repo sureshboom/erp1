@@ -42,4 +42,9 @@ class VillaProject extends Model
     {
         return $this->morphMany(Payment::class, 'payable');
     }
+
+    public function villas()
+    {
+        return $this->hasMany(Villa::class,'villaproject_id');
+    }
 }

@@ -22,8 +22,12 @@ class SiteengineerController extends Controller
 
     public function landsite()
     {
-        $siteengineer = Siteengineer::where('user_id',auth()->user()->id)->first();
-        $landprojects = LandProject::select('id','project_name','location','siteengineer_id','chiefengineer_id')->where('siteengineer_id',$siteengineer->id)->orderBy('id','desc')->get();
+        // $siteengineer = Siteengineer::where('user_id',auth()->user()->id)->first();
+        // $landprojects = LandProject::select('id','project_name','location','siteengineer_id','chiefengineer_id')->where('siteengineer_id',$siteengineer->id)->orderBy('id','desc')->get();
+
+        $siteengineer = Siteengineer::with('landproject')->where('user_id', auth()->user()->id)->first();
+        $landprojects = $siteengineer->landproject()->orderBy('id', 'desc')->get(['id', 'project_name', 'location', 'siteengineer_id', 'chiefengineer_id']);
+        // $landprojects = $siteengineer->landproject()->get();
 
         return view('user.siteengineer.assigned.landsite',compact('landprojects'));
     }

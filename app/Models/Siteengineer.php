@@ -67,6 +67,10 @@ class Siteengineer extends Model
         return $this->belongsTo(VillaProject::class,'villa_project_id');
     }
 
+    public function landproject()
+    {
+        return $this->hasMany(LandProject::class,'siteengineer_id');
+    }
     public function contractproject(): BelongsTo
     {
         return $this->belongsTo(ContractProject::class,'contract_project_id');

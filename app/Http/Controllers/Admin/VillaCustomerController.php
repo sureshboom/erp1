@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\VillaProject;
+use App\Models\Villa;
 use App\Models\ProjectCustomer;
 
 class VillaCustomerController extends Controller
@@ -226,5 +227,16 @@ class VillaCustomerController extends Controller
             flashError('Failed to update customer');
             return back();
         }
+    }
+
+    public function villalist(Request $request)
+    {
+        $villas = Villa::select('id','villa_no')->where('villaproject_id',$request->id)->get();
+        return response()->json($villas);
+    }
+    public function villaarea(Request $request)
+    {
+        $villas = Villa::find($request->id);
+        return response()->json($villas);
     }
 }
