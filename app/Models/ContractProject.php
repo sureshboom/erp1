@@ -40,4 +40,14 @@ class ContractProject extends Model
     {
         return $this->morphMany(Payment::class, 'payable');
     }
+
+    public function lsassign()
+    {
+        return $this->morphMany(SupplierAssign::class, 'lassign');
+    }
+
+    public function lsupplier()
+    {
+        return $this->morphMany(LabourSupplier::class, 'supplier_id');
+    }
 }

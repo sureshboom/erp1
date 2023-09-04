@@ -36,4 +36,6 @@ class LandProject extends Model
         return $this->morphMany(Payment::class, 'payable');
     }
 
+    
+
 }

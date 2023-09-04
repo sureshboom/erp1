@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Suppliers') }}
+	    {{ __('Labour Suppliers') }}
 	@endsection
 
 	@section('main')
@@ -39,12 +39,12 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Material Suppliers <span class="table-project-n">Details</span> Table</h1>
+                                <h1>Labour Suppliers <span class="table-project-n">Details</span> Table</h1>
 
 
                             </div>
-                            <a href="{{ route('account.supplier.create')}}" class="btn btn-primary">+ Add New</a>
-                            <!-- {{ $suppliers }} -->
+                            <a href="{{ route('account.labour_supplier.create')}}" class="btn btn-primary">+ Add New</a>
+                            <!-- {{ $labours }} -->
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -64,36 +64,35 @@
                                             <th data-field="day">Date</th>
                                             <th data-field="name">Supplier Name</th>
                                             <th data-field="phone" data-editable="false">Phone</th>
-                                            <th data-field="location" data-editable="false">Location</th>
+                                            <th data-field="location" data-editable="false">Address</th>
                                             <th data-field="gst" data-editable="false">GST No</th>
-                                            <th data-field="gpay">Gpay/Phonepay</th>
-                                            <th data-field="date" data-editable="false">Account Details</th>
+                                            <th data-field="account" data-editable="false">Account Details</th>
                                             <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
-                                        @forelse($suppliers as $supplier)
+                                        @forelse($labours as $labour)
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{ $supplier->created_at ? formatDate($supplier->created_at) : '' }}</td>
-                                            <td>{{ $supplier->supplier_name ? $supplier->supplier_name : '' }}</td>
-                                            <td>{{ $supplier->supplier_phone ? $supplier->supplier_phone : '' }}</td>
-                                            <td>{{ $supplier->supplier_location ? $supplier->supplier_location : '' }}</td>
-                                            <td>{{ $supplier->supplier_gstno ? $supplier->supplier_gstno : '' }}</td>
-                                            <td>{{ $supplier->supplier_gpay ? $supplier->supplier_gpay : '' }}</td>
-                                            <td>
-                                                {{ $supplier->supplier_account ? $supplier->supplier_account : '' }}
-                                            </td>
-                                            
+                                            <td>{{ $labour->created_at ? formatDate($labour->created_at) : '' }}</td>
+                                            <td>{{ $labour->name ? $labour->name : '' }}</td>
+                                            <td>{{ $labour->phone ? $labour->phone : '' }}</td>
+                                            <td>{{ $labour->address ? $labour->address : '' }}</td>
+                                            <td>{{ $labour->gstno ? $labour->gstno : '' }}</td>
+                                            <td>{{ $labour->account ? $labour->account : '' }}</td>
                                             <td class="datatable-ct">
-                                                <a href="{{ route('account.supplier.edit', $supplier->id) }}"
+                                                <a href="{{ route('account.labour_supplier.edit', $labour->id) }}"
                                                     class="btn ll-mr-4 ll-p-0">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $supplier->id }}').submit();"><i class="fa fa-trash"></i></a>
-                                                <form method="post" action="{{ route('account.supplier.destroy', $supplier->id) }}" id="delete-post-{{ $supplier->id }}" style="display: none;">
+                                                <a href="{{ route('account.labour_supplier.show', $labour->id) }}"
+                                                    class="btn btn-link ">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $labour->id }}').submit();"><i class="fa fa-trash"></i></a>
+                                                <form method="post" action="{{ route('account.labour_supplier.destroy', $labour->id) }}" id="delete-post-{{ $labour->id }}" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>

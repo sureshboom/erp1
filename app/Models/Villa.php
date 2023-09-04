@@ -26,4 +26,8 @@ class Villa extends Model
         return $this->belongsTo(ProjectCustomer::class,'vilano');
     }
     
+    public function lsassign()
+    {
+        return $this->morphMany(SupplierAssign::class, 'lassign');
+    }
 }

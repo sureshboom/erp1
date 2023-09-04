@@ -10,12 +10,17 @@
         <li><a title="villa" href="{{ route('account.villacustomer.index')}}"><span class="mini-sub-pro">Villa Customers</span></a></li>
     </ul>
 </li>
-<li class="{{request()->routeIs('account.supplier.*') ? 'active' : ''}}"> 
-    <a  href="{{ route('account.supplier.index')}}">
+<li class="{{ ((request()->routeIs('account.supplier.*')) ||(request()->routeIs('account.labour_supplier.*'))) ? 'active' : '' }}">
+    <a class="has-arrow" href="#">
        <span class="educate-icon educate-professor icon-wrap"></span>
        <span class="mini-click-non">Suppliers</span>
     </a>
+    <ul class="submenu-angle" aria-expanded="true">
+        <li class="{{request()->routeIs('account.supplier.*') ? 'active' : ''}}"><a title="land" href="{{ route('account.supplier.index')}}"><span class="mini-sub-pro">Material </span></a></li>
+        <li class="{{request()->routeIs('account.labour_supplier.*') ? 'active' : ''}}"><a title="contract" href="{{ route('account.labour_supplier.index')}}"><span class="mini-sub-pro">Labour Suppliers</span></a></li>
+    </ul>
 </li>
+
 <li class="{{request()->routeIs('account.materialstatus') ? 'active' : ''}}">
     <a  href="{{ route('account.materialstatus')}}">
        <span class="educate-icon educate-form icon-wrap"></span>

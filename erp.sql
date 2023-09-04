@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 03, 2023 at 03:39 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Sep 04, 2023 at 02:42 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -216,6 +216,7 @@ CREATE TABLE `contract_projects` (
   `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
   `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
   `mesthiri_id` int(11) DEFAULT NULL,
+  `supplier_id` varchar(255) DEFAULT NULL,
   `site_date` date DEFAULT NULL,
   `dtcp_no` varchar(255) NOT NULL,
   `reg_no` varchar(255) NOT NULL,
@@ -231,8 +232,8 @@ CREATE TABLE `contract_projects` (
 -- Dumping data for table `contract_projects`
 --
 
-INSERT INTO `contract_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengineer_id`, `mesthiri_id`, `site_date`, `dtcp_no`, `reg_no`, `location`, `total_land_area`, `total_buildup_area`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Golden Garden', 1, 1, 1, '2023-08-02', '12312412433', '134123413233', 'Ganapathy', '3 Acres', '2.5 Acres', 'processing', '2023-08-15 03:30:39', '2023-08-29 05:23:14');
+INSERT INTO `contract_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengineer_id`, `mesthiri_id`, `supplier_id`, `site_date`, `dtcp_no`, `reg_no`, `location`, `total_land_area`, `total_buildup_area`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Golden Garden', 1, 1, 1, NULL, '2023-08-02', '12312412433', '134123413233', 'Ganapathy', '3 Acres', '2.5 Acres', 'processing', '2023-08-15 03:30:39', '2023-08-29 05:23:14');
 
 -- --------------------------------------------------------
 
@@ -307,6 +308,37 @@ CREATE TABLE `failed_jobs` (
   `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `labour_suppliers`
+--
+
+CREATE TABLE `labour_suppliers` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `phone` varchar(15) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `account` varchar(255) NOT NULL,
+  `pancard` varchar(255) NOT NULL,
+  `aadharno` varchar(255) NOT NULL,
+  `gstno` varchar(255) NOT NULL,
+  `attachment1` varchar(255) DEFAULT NULL,
+  `attachment2` varchar(255) DEFAULT NULL,
+  `total` double(10,2) NOT NULL DEFAULT 0.00,
+  `paid` double(10,2) NOT NULL DEFAULT 0.00,
+  `pending` double(10,2) NOT NULL DEFAULT 0.00,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `labour_suppliers`
+--
+
+INSERT INTO `labour_suppliers` (`id`, `name`, `phone`, `address`, `account`, `pancard`, `aadharno`, `gstno`, `attachment1`, `attachment2`, `total`, `paid`, `pending`, `created_at`, `updated_at`) VALUES
+(1, 'Velu.R', '9876543210', 'Saravanam Patti,Coimbatour', 'Account No: 238461298367,\r\n Bank :state bank of india,\r\n IFSC Code:SBIN0007039.', '2346hwstw', '21321434214152', '1238967344425', 'uploads/images/laboursupplier/aadhar/1693810198_64f57e161cd60.png', 'uploads/images/laboursupplier/pan/1693810198_64f57e161d4a7.png', 0.00, 0.00, 0.00, '2023-09-04 01:19:58', '2023-09-04 01:28:28');
 
 -- --------------------------------------------------------
 
@@ -607,7 +639,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (55, '2023_08_30_083757_create_advances_table', 27),
 (56, '2023_08_30_090724_create_advance_histories_table', 28),
 (57, '2023_08_30_121211_create_salaries_table', 29),
-(58, '2023_09_02_081148_create_villas_table', 30);
+(58, '2023_09_02_081148_create_villas_table', 30),
+(60, '2023_09_04_053414_create_labour_suppliers_table', 31),
+(61, '2023_09_04_083250_create_supplier_assigns_table', 32);
 
 -- --------------------------------------------------------
 
@@ -951,6 +985,25 @@ INSERT INTO `suppliers` (`id`, `supplier_name`, `supplier_phone`, `supplier_gstn
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `supplier_assigns`
+--
+
+CREATE TABLE `supplier_assigns` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `project_type` enum('contract','villa') NOT NULL,
+  `contractproject_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `villaproject_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `villa_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `from_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `amount` double(10,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `telecallers`
 --
 
@@ -1252,6 +1305,12 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indexes for table `labour_suppliers`
+--
+ALTER TABLE `labour_suppliers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `land_customers`
 --
 ALTER TABLE `land_customers`
@@ -1414,6 +1473,15 @@ ALTER TABLE `suppliers`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `supplier_assigns`
+--
+ALTER TABLE `supplier_assigns`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `supplier_assigns_contractproject_id_foreign` (`contractproject_id`),
+  ADD KEY `supplier_assigns_villaproject_id_foreign` (`villaproject_id`),
+  ADD KEY `supplier_assigns_villa_id_foreign` (`villa_id`);
+
+--
 -- Indexes for table `telecallers`
 --
 ALTER TABLE `telecallers`
@@ -1537,6 +1605,12 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `labour_suppliers`
+--
+ALTER TABLE `labour_suppliers`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `land_customers`
 --
 ALTER TABLE `land_customers`
@@ -1594,7 +1668,7 @@ ALTER TABLE `meterials`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -1655,6 +1729,12 @@ ALTER TABLE `sitevisitarranges`
 --
 ALTER TABLE `suppliers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `supplier_assigns`
+--
+ALTER TABLE `supplier_assigns`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `telecallers`
@@ -1835,6 +1915,14 @@ ALTER TABLE `siteengineers`
 --
 ALTER TABLE `sitevisitarranges`
   ADD CONSTRAINT `sitevisitarranges_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `supplier_assigns`
+--
+ALTER TABLE `supplier_assigns`
+  ADD CONSTRAINT `supplier_assigns_contractproject_id_foreign` FOREIGN KEY (`contractproject_id`) REFERENCES `contract_projects` (`id`),
+  ADD CONSTRAINT `supplier_assigns_villa_id_foreign` FOREIGN KEY (`villa_id`) REFERENCES `villas` (`id`),
+  ADD CONSTRAINT `supplier_assigns_villaproject_id_foreign` FOREIGN KEY (`villaproject_id`) REFERENCES `villa_projects` (`id`);
 
 --
 -- Constraints for table `villas`

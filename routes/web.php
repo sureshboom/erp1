@@ -11,6 +11,7 @@ use App\Http\Controllers\User\ChiefengineerController;
 use App\Http\Controllers\User\SalespersonController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\chiefengineer\MesthiriController;
+use App\Http\Controllers\User\chiefengineer\SupplierAssignController;
 use App\Http\Controllers\User\chiefengineer\MaterialstatusController;
 use App\Http\Controllers\User\telecaller\CustomerController;
 use App\Http\Controllers\User\telecaller\WorkController;
@@ -26,6 +27,7 @@ use App\Http\Controllers\User\account\ContractCustomerController;
 use App\Http\Controllers\User\account\VillaCustomerController;
 use App\Http\Controllers\User\account\AdvanceController;
 use App\Http\Controllers\User\account\ExpenseController;
+use App\Http\Controllers\User\account\LabourSupplierController;
 use App\Http\Controllers\User\account\PaymentController;
 
 use Illuminate\Support\Facades\Route;
@@ -70,6 +72,7 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
     Route::resource('/supplier', SupplierController::class);
     Route::resource('/payment', PaymentController::class);
     Route::resource('/advance', AdvanceController::class);
+    Route::resource('/labour_supplier', LabourSupplierController::class);
 
     Route::get('/receiptview/{id}',[PaymentController::class,'receiptview'])->name('receiptview');
     Route::get('/receiptdownload/{id}',[PaymentController::class,'receiptdownload'])->name('receiptdownload');
@@ -140,6 +143,7 @@ Route::controller(ChiefengineerController::class)->prefix('chief_engineer')->mid
     Route::post('/worker_salary_change/{id}', 'Workersalarychange')->name('workersalarychange');
     Route::get('/workverify/{id}', 'workverify')->name('workverify');
     Route::get('suppliers', 'suppliers')->name('suppliers');
+
     Route::get('material_received', 'received')->name('received');
     Route::get('materialamount/{id}', 'materialamount')->name('materialamount');
     Route::post('amountstore/{id}', 'amountstore')->name('amountstore');
@@ -150,6 +154,9 @@ Route::controller(ChiefengineerController::class)->prefix('chief_engineer')->mid
     Route::get('/changereceived/{id}', 'changereceived')->name('changereceived');
     Route::resource('/material_status', MaterialstatusController::class);
     Route::resource('/mesthiri', MesthiriController::class);
+    Route::resource('/laboursupplier', SupplierAssignController::class);
+    Route::get('/villaprojectview', [SupplierAssignController::class,'villaprojectindex'])->name('villaprojectindex');
+    Route::get('/villaindex/{id}', [SupplierAssignController::class,'villaindex'])->name('villaindex');
     Route::get('/contract_view', [MesthiriController::class,'mesthiricontract'])->name('mesthiricontract');
     Route::get('/contract_show/{id}', [MesthiriController::class,'assigncontract'])->name('assigncontract');
     Route::get('/villa_show/{id}', [MesthiriController::class,'assignvilla'])->name('assignvilla');

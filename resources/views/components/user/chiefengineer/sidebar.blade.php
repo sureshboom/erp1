@@ -20,6 +20,16 @@
         <li class="{{(request()->routeIs('chiefengineer.mesthirivilla') || request()->routeIs('chiefengineer.assignvilla')) ? 'active' : ''}}"><a title="sites" href="{{ route('chiefengineer.mesthirivilla')}}"><span class="mini-sub-pro">Villa Project</span></a></li>
     </ul>
 </li>
+<li >
+    <a class="has-arrow" href="#">
+       <span class="educate-icon educate-professor icon-wrap"></span>
+       <span class="mini-click-non">Labour Supplier</span>
+    </a>
+    <ul class="submenu-angle" aria-expanded="true">
+        <li><a title="sites" href="{{ route('chiefengineer.laboursupplier.index')}}"><span class="mini-sub-pro">Contract Project</span></a></li>
+        <li><a title="sites" href="{{ route('chiefengineer.villaprojectindex')}}"><span class="mini-sub-pro">Villa Project</span></a></li>
+    </ul>
+</li>
 <li class="{{ ((request()->routeIs('chiefengineer.material_status.*')) ||(request()->routeIs('chiefengineer.received'))) ? 'active' : '' }}">
     <a class="has-arrow" href="#">
        <span class="educate-icon educate-form icon-wrap"></span>
