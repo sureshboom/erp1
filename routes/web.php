@@ -156,10 +156,15 @@ Route::controller(ChiefengineerController::class)->prefix('chief_engineer')->mid
     Route::resource('/mesthiri', MesthiriController::class);
     Route::resource('/laboursupplier', SupplierAssignController::class);
     Route::get('/villaprojectview', [SupplierAssignController::class,'villaprojectindex'])->name('villaprojectindex');
+    
+    Route::get('/villaviewlist', [SupplierAssignController::class, 'villaviewlist']);
     Route::get('/villaindex/{id}', [SupplierAssignController::class,'villaindex'])->name('villaindex');
+    Route::get('/suppliercontract/{id}', [SupplierAssignController::class,'suppliercontract'])->name('suppliercontract');
+    Route::get('/suppliervilla/{id}/{villa}', [SupplierAssignController::class,'suppliervilla'])->name('suppliervilla');
     Route::get('/contract_view', [MesthiriController::class,'mesthiricontract'])->name('mesthiricontract');
     Route::get('/contract_show/{id}', [MesthiriController::class,'assigncontract'])->name('assigncontract');
     Route::get('/villa_show/{id}', [MesthiriController::class,'assignvilla'])->name('assignvilla');
+    
     Route::get('/villa_view', [MesthiriController::class,'mesthirivilla'])->name('mesthirivilla');
     Route::get('/mesthiri_assign', [MesthiriController::class,'assign'])->name('assign');
     Route::post('/mesthiri_assignstore', [MesthiriController::class,'assignstore'])->name('assignstore');

@@ -48,6 +48,6 @@ class ContractProject extends Model
 
     public function lsupplier()
     {
-        return $this->morphMany(LabourSupplier::class, 'supplier_id');
+        return $this->belongsTo(LabourSupplier::class, 'supplier_id');
     }
 }

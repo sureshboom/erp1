@@ -50,7 +50,9 @@ Route::prefix('admin')->group(function () {
 			Route::get('/contractcustomerapprove/{id}', [ContractCustomerController::class,'approvePromotion'])->name('capprovepromotion');
 			Route::get('/villacustomerapprove/{id}', [VillaCustomerController::class,'approvePromotion'])->name('vapprovepromotion');
 			Route::resource('/supplier', SupplierController::class);
-			
+			Route::get('/supplierassignview', [SupplierController::class, 'supplierassignview'])->name('supplierassignview');
+			// Route::get('/supplierassignshow/{id}', [SupplierController::class, 'supplierassignshow'])->name('supplierassignshow');
+			Route::get('/supplierassignapprove/{id}', [SupplierController::class, 'supplierassignapprove'])->name('supplierassignapprove');
 		});
 	
 	

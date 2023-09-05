@@ -642,6 +642,86 @@
         });
     });
     @endif
+    @if(request()->routeIs('chiefengineer.laboursupplier.create'))
+        $(document).ready(function(){
+
+            switch ($('#project_type').val())
+            {
+                case ('contract'):
+                    $('#displaycontract').show();
+                    $('#displayvilla').hide(); 
+                    $('#displayv').hide();  
+                break;
+                case ('villa'):
+                    $('#displaycontract').hide();
+                    $('#displayvilla').show();
+                    $('#displayv').show();
+                break;
+                
+                default:
+                    $('#displaycontract').hide();
+                    $('#displayvilla').hide();
+                    $('#displayv').hide();
+                break;
+            }
+            $('#project_type').on('change',function(e){
+                var type =$(this).val();
+                
+                switch (type)
+                {
+                    case ('contract'):
+                        $('#displaycontract').show();
+                        $('#displayvilla').hide();   
+                        $('#displayv').hide();
+                    break;
+                    case ('villa'):
+                        $('#displaycontract').hide();
+                        $('#displayvilla').show();
+                        $('#displayv').show();
+                    break;
+                    
+                    default:
+                        $('#displaycontract').hide();
+                        $('#displayvilla').hide();
+                        $('#displayv').hide();
+                    break;
+                }
+            });
+            $('#villa_project_id').on('change',function(e){
+                var id = $(this).val();
+                alert(id);
+                $.ajax({
+                    url:'/chief_engineer/villaviewlist',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        id: id
+                    },
+                    success:function(data) {
+                        if (data && Object.keys(data).length > 0)
+                        {
+                            var customerSelect = $('#villa_id');
+                            customerSelect.empty();
+                            customerSelect.append($('<option>', {
+                                    value: '',
+                                    text: 'Select Villa No' // Assuming your customer model has a "name" attribute
+                                }));
+                            $.each(data, function(index, villas) {
+                                customerSelect.append($('<option>', {
+                                    value: villas.id,
+                                    text: villas.villa_no // Assuming your customer model has a "name" attribute
+                                }));
+                            });
+                        }
+                        else
+                        {
+                            alert('Select Other Project');
+                        }
+                    }
+                });
+            });
+        });
+    @endif
  @if((request()->routeIs('account.villacustomer.create')) or (request()->routeIs('account.villacustomer.edit')))
         $(document).ready(function(){
             $('#project_id').on('change',function(e){

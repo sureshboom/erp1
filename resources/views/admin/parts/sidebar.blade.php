@@ -19,13 +19,18 @@
                                <span class="mini-click-non">Staff</span>
                             </a>
                         </li>
-                        <li class="{{(request()->routeIs('supplier.index')) ? 'active' : '' }}">
-                            <a  href="{{ route('supplier.index')}}">
+                        
+                        <li class="{{ ((request()->routeIs('supplier.*')) ||(request()->routeIs('supplierassignview')) ||(request()->routeIs('villacustomer.*'))) ? 'active' : '' }}">
+                            <a class="has-arrow" href="#">
                                <span class="educate-icon educate-professor icon-wrap"></span>
                                <span class="mini-click-non">Supplier</span>
                             </a>
+                            <ul class="submenu-angle" aria-expanded="true">
+                                
+                                <li class="{{(request()->routeIs('supplier.*')) ? 'active' : '' }}"><a title="owner" href="{{ route('supplier.index')}}"><span class="mini-sub-pro">Material Supplier</span></a></li>
+                                <li class="{{(request()->routeIs('supplierassignview')) ? 'active' : '' }}"><a title="sites" href="{{ route('supplierassignview')}}"><span class="mini-sub-pro">Supplier Assign</span></a></li>
+                            </ul>
                         </li>
-                        
                         <li class="{{ ((request()->routeIs('landcustomer.*')) ||(request()->routeIs('contractcustomer.*')) ||(request()->routeIs('villacustomer.*'))) ? 'active' : '' }}">
                             <a class="has-arrow" href="#">
                                <span class="educate-icon educate-professor icon-wrap"></span>

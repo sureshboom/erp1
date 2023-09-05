@@ -80,9 +80,13 @@
                                             <td>{{ $project->supplier_id ? $project->lsupplier->sksls_id : '-' }}</td>
                                             <td>{{ $project->supplier_id ? $project->lsupplier->name : '-' }}</td>
                                             <td>
-                                                <a href="{{route('chiefengineer.assigncontract',$project->id)}}" class="btn btn-link">
+                                                @if($project->supplier_id != null)
+                                                <a href="{{route('chiefengineer.suppliercontract',$project->id)}}" class="btn btn-link">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
+                                                @else
+                                                -
+                                                @endif
                                             </td>
                                         </tr>
                                         @empty

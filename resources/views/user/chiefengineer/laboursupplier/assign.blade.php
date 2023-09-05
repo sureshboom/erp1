@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Mesthiri Assign') }}
+	    {{ __('Labour Supplier Assign') }}
 	@endsection
 
 	@section('main')
@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h3 class="text-center">Assign Details</h3>
-                    <form action="{{ route('chiefengineer.assignstore') }}" class="acount-infor" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('chiefengineer.laboursupplier.store') }}" class="acount-infor" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
                     <div class="row">
@@ -59,25 +59,34 @@
                             </div>
                             <div class="form-group" id="displaycontract">
                                 <label>Contract Project</label>
-                                <select name="contract_project_id" class="form-control">
+                                <select name="contractproject_id" class="form-control">
                                         <option value="">Select Contract Project</option>
                                         @foreach($contractprojects as $contractproject)
                                         <option value="{{$contractproject->id}}">{{$contractproject->project_name}}</option>
                                         @endforeach
                                 </select>
-                                @error('contract_project_id')
+                                @error('contractproject_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group" id="displayvilla">
                                 <label>Villa Project</label>
-                                <select name="villa_project_id" class="form-control">
+                                <select name="villaproject_id" id="villa_project_id" class="form-control">
                                         <option value="">Select Villa Project</option>
                                         @foreach($villaprojects as $villaproject)
                                         <option value="{{$villaproject->id}}">{{$villaproject->project_name}}</option>
                                         @endforeach
                                 </select>
-                                @error('villa_project_id')
+                                @error('villaproject_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group" id="displayv">
+                                <label>Villa No</label>
+                                <select name="villa_id" id="villa_id" class="form-control">
+                                        <option value="">Select Villa </option>
+                                </select>
+                                @error('villa_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -135,5 +144,5 @@
         </div>
     </div>
     <br>
-    <!-- <div style="height:8vh;"></div> -->
+    
 @endsection    

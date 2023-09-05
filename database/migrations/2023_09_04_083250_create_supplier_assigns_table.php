@@ -29,9 +29,11 @@ return new class extends Migration
                 ->references('id')
                 ->on('villas')
                 ->nullable();
+            $table->foreignId('supplier_id')->constrained('labour_suppliers')->cascadeOnDelete();
             $table->date('from_date');
             $table->date('end_date');
             $table->double('amount',10,2);
+            $table->enum('status',['pending','cancel','approved'])->default('pending');
             $table->timestamps();
         });
     }

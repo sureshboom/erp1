@@ -52,7 +52,27 @@ class SupplierAssignController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->validate([
+            'project_type' => 'required',
+            'contractproject_id' => 'required_if:project_type,contract',
+            'villaproject_id' => 'required_if:project_type,villa',
+            'villa_id' => 'required_if:project_type,villa',
+            'supplier_id' => 'required',
+            'from_date' => 'required',
+            'end_date' => 'required',
+            'amount' => 'required|numeric'
+        ]);
+        $assign = SupplierAssign::create($input);
+        if($assign)
+        {
+            flashSuccess('Supplier Assigned Successfully');
+            return redirect()->route('chiefengineer.laboursupplier.create');
+        }
+        else
+        {
+            flashError('Something Wrong');
+            return back();
+        }
     }
 
     /**
@@ -85,5 +105,24 @@ class SupplierAssignController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function villaviewlist(Request $request)
+    {
+        $villas = Villa::select('id','villa_no')->where('villaproject_id',$request->id)->get();
+        return response()->json($villas);
+    }
+
+    public function suppliercontract($id)
+    {
+        $supplierassigns = SupplierAssign::select('id','contractproject_id','supplier_id','from_date','end_date','amount','created_at')->where('contractproject_id',$id)->orderBy('id','desc')->with('contractproject:id,project_name,location,total_land_area,total_buildup_area','laboursupplier:id,name,phone')->get();
+        return view('user.chiefengineer.laboursupplier.contract.show',compact('supplierassigns'));
+    }
+
+    public function suppliervilla($id,$villa)
+    {
+        $supplierassigns = SupplierAssign::select('id','villaproject_id','villa_id','supplier_id','from_date','end_date','amount','created_at')->where('villaproject_id',$id)->where('villa_id',$villa)->orderBy('id','desc')->with('villaproject:id,project_name,location','laboursupplier:id,name,phone','villa')->get();
+        return view('user.chiefengineer.laboursupplier.villa.show',compact('supplierassigns'));
+        
     }
 }

@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Supplier;
+use App\Models\SupplierAssign;
+use App\Models\LabourSupplier;
+use App\Models\Villa;
+use App\Models\ContractProject;
 
 class SupplierController extends Controller
 {
@@ -104,5 +108,41 @@ class SupplierController extends Controller
         Supplier::find($id)->delete();
         flashSuccess('Supplier Removed Successfully');
         return back();
+    }
+
+    public function supplierassignview()
+    {
+        $assignviews = SupplierAssign::where('status','pending')->orderBy('id','desc')->with('contractproject','villaproject')->get();
+        return view('admin.supplierassign.index',compact('assignviews'));
+    }
+
+    public function supplierassignshow($id)
+    {
+        $assignview = SupplierAssign::where('id',$id)->with('laboursupplier')->get();
+        return view('admin.supplierassign.show',compact('assignview'));
+    }
+
+    public function supplierassignapprove($id)
+    {
+        $assign = SupplierAssign::find($id);
+
+        $supplieramount = LabourSupplier::where('id',$assign->supplier_id)->first();
+        $supplieramount->increment('total',$assign->amount);
+        switch($assign->project_type)
+        {
+            case('contract'):
+                $contract = ContractProject::find($assign->contractproject_id);
+                $contract->update(['supplier_id' =>$assign->supplier_id]);
+            break;
+            case('villa'):
+                $villa = Villa::where('villa_no',$assign->villa_id)->where('villaproject_id',$assign->villaproject_id)->first();
+                $villa->update(['supplier_id' =>$assign->supplier_id]);
+            break;
+        }
+        $assign->update(['status'=>'approved']);
+        
+        flashSuccess('LabourSupplier Assigned Successfully');
+        
+        return redirect()->route('supplierassignview');
     }
 }

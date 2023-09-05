@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Contract Project Mesthiri') }}
+	    {{ __('Villa Project Suppliers') }}
 	@endsection
 
 	@section('main')
@@ -39,7 +39,7 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Assigned Contract <span class="table-project-n">Project</span> Table</h1>
+                                <h1>Assigned Villa <span class="table-project-n">Project</span> Table</h1>
 
                                 <a href="{{ route('chiefengineer.villaprojectindex')}}" class="btn btn-danger">Back</a>
                             </div>
@@ -81,9 +81,13 @@
                                             <td>{{ $project->supplier_id ? $project->lsupplier->sksls_id : '-' }}</td>
                                             <td>{{ $project->supplier_id ? $project->lsupplier->name : '-' }}</td>
                                             <td>
-                                                <a href="{{route('chiefengineer.assigncontract',$project->id)}}" class="btn btn-link">
+                                                @if($project->supplier_id != null)
+                                                <a href="{{route('chiefengineer.suppliervilla',['id'=>$project->villaproject_id,'villa'=>$project->id])}}" class="btn btn-link">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
+                                                @else
+                                                <p>-</p>
+                                                @endif
                                             </td>
                                         </tr>
                                         @empty

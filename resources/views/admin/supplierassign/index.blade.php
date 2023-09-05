@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('admin.layout.app')
 
 	@section('title')
-	    {{ __('Assigned Villa Project') }}
+	    {{ __('Suppliers') }}
 	@endsection
 
 	@section('main')
@@ -19,9 +19,9 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <ul class="breadcome-menu">
-                                        <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
+                                        <li><a href="{{ route('admin.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Supplier</span>
+                                        <li><span class="bread-blod">Suppliers</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -39,11 +39,12 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Assigned Villa <span class="table-project-n">Details</span> Table</h1>
-                                {{-- {{$supplierassigns}} --}}
-                                
-                                <a href="{{ route('chiefengineer.villaindex',$supplierassigns[0]->villaproject_id)}}" class="btn btn-danger">Back</a>
+                                <h1>Suppliers Assign <span class="table-project-n">Details</span> Table</h1>
+
+
                             </div>
+                            
+                            {{-- {{ $assignviews }} --}}
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -60,51 +61,61 @@
                                         <tr>
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
-                                            <th data-field="date">Date</th>
-                                            <th data-field="siteid">Project Details</th>
+                                            <th data-field="day">Date</th>
                                             <th data-field="name">Supplier Details</th>
+                                            
+                                            <th data-field="gpay">Project Details</th>
+                                            <th data-field="date" data-editable="false">Status</th>
+                                            <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
-                                        @forelse($supplierassigns as $supplierassign)
+                                        @forelse($assignviews as $assignview)
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{ $supplierassign->created_at ? formatDate($supplierassign->created_at) : '' }}</td>
-                                            <td>
-                                                Project Name:
-                                                {{ $supplierassign->villaproject->project_name ? $supplierassign->villaproject->project_name : '' }},
-                                                <br>Project ID:
-                                                {{ $supplierassign->villaproject->sksvp_id ? $supplierassign->villaproject->sksvp_id : '' }},
-                                                <br>Location :
-                                                
-                                                {{ $supplierassign->villaproject->location ? $supplierassign->villaproject->location : '' }},
-                                                <br>Villa No:
-                                                
-                                                {{ $supplierassign->villa->villa_no ? $supplierassign->villa->villa_no : '' }},
-                                                <br>Villa Area :
-                                                
-                                                {{ $supplierassign->villa->villa_area ? $supplierassign->villa->villa_area : '' }}.
+                                            <td>{{ $assignview->created_at ? formatDate($assignview->created_at) : '' }}</td>
+                                            <td>Name :{{ $assignview->laboursupplier->name ? $assignview->laboursupplier->name : '' }}
+                                                <br>
+                                                Phone No:{{ $assignview->laboursupplier->phone ? $assignview->laboursupplier->phone : '' }}
                                             </td>
                                             <td>
-                                                Name :
-                                                {{ $supplierassign->laboursupplier->name ? $supplierassign->laboursupplier->name : '' }}
-                                                <br>Phone :
-                                                {{ $supplierassign->laboursupplier->phone ? $supplierassign->laboursupplier->phone : '' }}
-                                                <br>From Date :
-                                                {{ $supplierassign->laboursupplier->name ? formatDate($supplierassign->from_date) : '' }}
-                                                <br>To Date :
-                                                {{ $supplierassign->laboursupplier->name ? formatDate($supplierassign->end_date) : '' }}
-                                                <br>Amount :
-                                                {{ $supplierassign->amount ?moneyFormatIndia( $supplierassign->amount) : '' }}
+                                                Project Type: 
+                                                {{ $assignview->project_type ? ucfirst($assignview->project_type) : '' }}
+                                                @switch($assignview->project_type)
+                                                    @case('contract')                
+                                                    <br>Project Name : {{$assignview->contractproject->project_name}}
+                                                    <br>Buildup Area : {{$assignview->contractproject->total_buildup_area}}
+                                                    
+                                                    @break
+                                                    @case('villa')                
+                                                       <br> Project Name : {{$assignview->villaproject->project_name}}
+                                                       <br>Villa No: {{$assignview->villa->villa_no}}
+                                                       <br>Villa Area: {{$assignview->villa->villa_area}}
+                                                    @break
+                                                    @default
+                                                        -   
+                                                    @break              
+                                                @endswitch
+                                                <br>Amount : {{moneyFormatIndia($assignview->amount)}}
+                                            </td>
+                                            <td>
+                                                {{ $assignview->status ? $assignview->status : '' }}
                                             </td>
                                             
+                                            <td class="datatable-ct">
+                                                <a href="{{ route('supplierassignapprove', $assignview->id) }}"
+                                                    class="btn badge-primary">
+                                                    Approve
+                                                </a>
+                                                
+                                            </td>
                                         </tr>
                                         @empty
                                         <tr>
                                             <td></td>
-                                            <td colspan="5" class="text-center">No data</td>
+                                            <td colspan="9" class="text-center">No data</td>
                                         </tr>
                                         @endforelse
                                     </tbody>

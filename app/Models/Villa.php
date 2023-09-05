@@ -30,4 +30,9 @@ class Villa extends Model
     {
         return $this->morphMany(SupplierAssign::class, 'lassign');
     }
+
+    public function lsupplier()
+    {
+        return $this->belongsTo(LabourSupplier::class, 'supplier_id');
+    }
 }
