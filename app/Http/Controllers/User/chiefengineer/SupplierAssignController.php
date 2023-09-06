@@ -62,16 +62,29 @@ class SupplierAssignController extends Controller
             'end_date' => 'required',
             'amount' => 'required|numeric'
         ]);
-        $assign = SupplierAssign::create($input);
-        if($assign)
+        
+        switch($request->project_type)
         {
-            flashSuccess('Supplier Assigned Successfully');
-            return redirect()->route('chiefengineer.laboursupplier.create');
+            case('contract'):
+            $verify = SupplierAssign::where('contractproject_id',$request->contractproject_id)->where('supplier_id',$request->supplier_id)->first();
+            break;
+            case('villa'):
+            $verify = SupplierAssign::where('villa_id',$request->villa_id)->where('villaproject_id',$request->villaproject_id)->where('supplier_id',$request->supplier_id)->first();
+            break;
+        }
+        
+        if($verify)
+        {
+            // return $verify;
+            flashError('Already Exists');
+            return back();
+            
         }
         else
         {
-            flashError('Something Wrong');
-            return back();
+            $assign = SupplierAssign::create($input);
+            flashSuccess('Supplier Assigned Successfully');
+            return redirect()->route('chiefengineer.supplierassignview');   
         }
     }
 
@@ -105,6 +118,9 @@ class SupplierAssignController extends Controller
     public function destroy(string $id)
     {
         //
+        SupplierAssign::find($id)->delete();
+        flashSuccess('SupplierAssign Removed Successfully');
+        return back();
     }
 
     public function villaviewlist(Request $request)
@@ -124,5 +140,11 @@ class SupplierAssignController extends Controller
         $supplierassigns = SupplierAssign::select('id','villaproject_id','villa_id','supplier_id','from_date','end_date','amount','created_at')->where('villaproject_id',$id)->where('villa_id',$villa)->orderBy('id','desc')->with('villaproject:id,project_name,location','laboursupplier:id,name,phone','villa')->get();
         return view('user.chiefengineer.laboursupplier.villa.show',compact('supplierassigns'));
         
+    }
+
+    public function supplierassignview()
+    {
+        $assignviews = SupplierAssign::where('status','!=','approved')->orderBy('id','desc')->with('contractproject','villaproject')->get();
+        return view('user.chiefengineer.laboursupplier.assignview',compact('assignviews'));
     }
 }

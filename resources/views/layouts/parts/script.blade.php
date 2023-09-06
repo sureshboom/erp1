@@ -227,6 +227,132 @@
            
         });
     @endif
+    @if(request()->routeIs('account.supplier_payments.create'))
+        $(document).ready(function(){
+            var load = $('#project_type').val();
+            console.log(load);
+            switch(load)
+            {
+                case('contract'):
+                    $('#displaycontract').show();
+                    $('#displayvilla').hide();
+                break;
+                case('villa'):
+                    $('#displaycontract').hide();
+                    $('#displayvilla').show();
+                break;
+                default:
+                    $('#displaycontract').hide();
+                    $('#displayvilla').hide();
+                    $('#displayvillaunit').hide();
+                break;
+            }
+            $('#project_type').on('change',function(e){
+                var type = $(this).val();
+                var supplier_id = $('#supplier_id').val();
+                switch(type)
+                {
+                    case('contract'):
+                        $('#displaycontract').show();
+                        $('#displayvilla').hide();
+                        $('#displayvillaunit').hide();
+                        $.ajax({
+                    url: '/account/projectview',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        type: type,
+                        supplier: supplier_id
+                    },
+                    success: function (data) {
+                        if (data) {
+                            
+                            
+                            var customerSelect = $('#contract_project_id');
+                            customerSelect.empty();
+                            if (data && Object.keys(data).length > 0)
+                            {
+                                customerSelect.append($('<option>', {
+                                        value: '',
+                                        text: 'Select Contract Project' // Assuming your customer model has a "name" attribute
+                                    }));
+                                $.each(data, function(index, customer) {
+                                    customerSelect.append($('<option>', {
+                                        value: customer.id,
+                                        text: customer.projectname // Assuming your customer model has a "name" attribute
+                                    }));
+                                });
+                            }
+                            else
+                            {
+                                alert('Select Other Project');
+                                
+                            }
+                            // If payment data exists, fill the input fields
+                            
+                        }
+                    },
+                    error: function () {
+                        // Handle error if the AJAX request fails
+                    }
+                });
+                    break;
+                    case('villa'):
+                        $('#displaycontract').hide();
+                        $('#displayvilla').show();
+                        $('#displayvillaunit').hide();
+                        $.ajax({
+                    url: '/account/projectview',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        type: type,
+                        supplier: supplier_id
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if (data) {
+                            
+                            var customerSelect = $('#villa_project_id');
+                            customerSelect.empty();
+                            if (data && Object.keys(data).length > 0)
+                            {
+                                customerSelect.append($('<option>', {
+                                        value: '',
+                                        text: 'Select Villa Project' // Assuming your customer model has a "name" attribute
+                                    }));
+                                $.each(data, function(index, customer) {
+                                    customerSelect.append($('<option>', {
+                                        value: customer.id,
+                                        text: customer.projectname // Assuming your customer model has a "name" attribute
+                                    }));
+                                });
+                            }
+                            else
+                            {
+                                alert('Select Other Project');
+                                
+                            }
+                            // If payment data exists, fill the input fields
+                            
+                        }
+                    },
+                    error: function () {
+                        // Handle error if the AJAX request fails
+                    }
+                });
+                    break;
+                    default:
+                        $('#displaycontract').hide();
+                        $('#displayvilla').hide();
+                        $('#displayvillaunit').hide();
+                    break;
+                }
+
+            });
+
+        });
+    @endif
     @if(request()->routeIs('account.payment.create'))
         $(document).ready(function(){
             var load = $('#payment_type').val();
@@ -689,7 +815,7 @@
             });
             $('#villa_project_id').on('change',function(e){
                 var id = $(this).val();
-                alert(id);
+                // alert(id);
                 $.ajax({
                     url:'/chief_engineer/villaviewlist',
                     type: 'GET',

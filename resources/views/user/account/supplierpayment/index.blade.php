@@ -1,7 +1,7 @@
-@extends('admin.layout.app')
+@extends('layouts.app')
 
 	@section('title')
-	    {{ __('Suppliers') }}
+	    {{ __('Labour Suppliers') }}
 	@endsection
 
 	@section('main')
@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <ul class="breadcome-menu">
-                                        <li><a href="{{ route('admin.dashboard') }}">Home</a> <span class="bread-slash">/</span>
+                                        <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
                                         <li><span class="bread-blod">Suppliers</span>
                                         </li>
@@ -39,12 +39,12 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Suppliers Assign <span class="table-project-n">Details</span> Table</h1>
+                                <h1>Suppliers Payment <span class="table-project-n">Details</span> Table</h1>
 
 
                             </div>
-                            
-                            {{-- {{ $assignviews }} --}}
+                            <a href="{{ route('account.supplier_payments.create')}}" class="btn btn-primary">+ Paynow</a>
+                            <!-- {{ $payments }} -->
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -61,62 +61,54 @@
                                         <tr>
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
-                                            <th data-field="day">Date</th>
-                                            <th data-field="name">Supplier Details</th>
-                                            
                                             <th data-field="gpay">Project Details</th>
-                                            <th data-field="date" data-editable="false">Status</th>
+                                            <th data-field="name">Supplier Details</th>
+                                            <th data-field="payment">Payment Details</th>
                                             <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
-                                        @forelse($assignviews as $assignview)
+                                        @forelse($payments as $payment)
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{ $assignview->created_at ? formatDate($assignview->created_at) : '' }}</td>
-                                            <td>Name :{{ $assignview->laboursupplier->name ? $assignview->laboursupplier->name : '' }}
-                                                <br>
-                                                Phone No:{{ $assignview->laboursupplier->phone ? $assignview->laboursupplier->phone : '' }}
-                                            </td>
                                             <td>
                                                 Project Type: 
-                                                {{ $assignview->project_type ? ucfirst($assignview->project_type) : '' }}
-                                                @switch($assignview->project_type)
+                                                {{ $payment->project_type ? ucfirst($payment->project_type) : '' }}
+                                                @switch($payment->project_type)
                                                     @case('contract')                
-                                                    <br>Project Name : {{$assignview->contractproject->project_name}}
-                                                    <br>Buildup Area : {{$assignview->contractproject->total_buildup_area}}
+                                                    <br>Project Name : {{$payment->contractproject->project_name}}
+                                                    <br>Buildup Area : {{$payment->contractproject->total_buildup_area}}
                                                     
                                                     @break
                                                     @case('villa')                
-                                                       <br> Project Name : {{$assignview->villaproject->project_name}}
-                                                       <br>Villa No: {{$assignview->villa->villa_no}}
-                                                       <br>Villa Area: {{$assignview->villa->villa_area}}
+                                                       <br> Project Name : {{$payment->villaproject->project_name}}
+                                                       <br>Villa No: {{$payment->villa->villa_no}}
+                                                       <br>Villa Area: {{$payment->villa->villa_area}}
                                                     @break
                                                     @default
                                                         -   
                                                     @break              
                                                 @endswitch
-                                                <br>Amount : {{moneyFormatIndia($assignview->amount)}}
                                             </td>
+                                            <td>Name :{{ $payment->laboursupplier->name ? $payment->laboursupplier->name : '' }}
+                                                <br>
+                                                Phone No:{{ $payment->laboursupplier->phone ? $payment->laboursupplier->phone : '' }}
+                                            </td>
+                                            
                                             <td>
-                                                {{ $assignview->status ? ucfirst($assignview->status) : '' }}
+                                                Amount : {{'Rs.'.moneyFormatIndia($payment->
+                                                total).'.00'}},
+                                                <br>Paid : {{'Rs.'.moneyFormatIndia($payment->paid).'.00'}},
+                                                <br>Pending : {{'Rs.'.moneyFormatIndia($payment->pending).'.00'}}.
                                             </td>
                                             
                                             <td class="datatable-ct">
-                                                @if($assignview->status == 'pending')
-                                                <a href="{{ route('supplierassignapprove', $assignview->id) }}"
-                                                    class="btn badge-primary">
-                                                    Approve
+                                                <a href="{{ route('account.supplier_payments.show', $payment->id) }}"
+                                                    class="btn btn-link">
+                                                    <i class="fa fa-eye"></i>
                                                 </a>
-                                                <a href="{{ route('supplierassigncancel', $assignview->id) }}"
-                                                    class="btn badge-danger">
-                                                    Cancel
-                                                </a>
-                                                @else
-                                                <p class="text-danger">Cancelled</p>
-                                                @endif
                                                 
                                             </td>
                                         </tr>

@@ -27,7 +27,9 @@
        <span class="mini-click-non">Material Details</span>
     </a>
 </li>
-<li class="{{ ((request()->routeIs('account.payment.create')) ||(request()->routeIs('account.landpayment')) ||(request()->routeIs('account.contractpayment')) ||(request()->routeIs('account.villapayment')) ||(request()->routeIs('account.materialpayment')) ||(request()->routeIs('account.expensepayment'))) ? 'active' : '' }}">
+<li class="{{ ((request()->routeIs('account.payment.create')) ||(request()->routeIs('account.landpayment')) ||(request()->routeIs('account.contractpayment')) ||(request()->routeIs('account.villapayment')) ||(request()->routeIs('account.materialpayment')) 
+||(request()->routeIs('account.supplier_payments.*')) 
+||(request()->routeIs('account.expensepayment'))) ? 'active' : '' }}">
     <a class="has-arrow" href="#">
        <span class="educate-icon educate-form icon-wrap"></span>
        <span class="mini-click-non">Payments</span>
@@ -40,7 +42,7 @@
         <li class="{{request()->routeIs('account.villapayment') ? 'active' : ''}}"><a title="land" href="{{ route('account.villapayment')}}"><span class="mini-sub-pro">Villa Payments</span></a></li>
         <li class="{{request()->routeIs('account.materialpayment') ? 'active' : ''}}"><a title="land" href="{{ route('account.materialpayment')}}"><span class="mini-sub-pro">Supplier Payments</span></a></li>
         <li class="{{request()->routeIs('account.expensepayment') ? 'active' : ''}}"><a title="expense" href="{{ route('account.expensepayment')}}"><span class="mini-sub-pro">Expense Payments</span></a></li>
-        {{-- <li><a title="sites" href="{{ route('account.land_payment.index')}}"><span class="mini-sub-pro">Land Payments</span></a></li> --}}
+        <li class="{{request()->routeIs('account.supplier_payments.*') ? 'active' : ''}}"><a title="labour" href="{{ route('account.supplier_payments.index')}}"><span class="mini-sub-pro">Labour Payments</span></a></li> 
     </ul>
 </li>
 <li>

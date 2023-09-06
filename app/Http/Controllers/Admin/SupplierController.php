@@ -9,6 +9,7 @@ use App\Models\SupplierAssign;
 use App\Models\LabourSupplier;
 use App\Models\Villa;
 use App\Models\ContractProject;
+use App\Models\SupplierPayment;
 
 class SupplierController extends Controller
 {
@@ -112,7 +113,7 @@ class SupplierController extends Controller
 
     public function supplierassignview()
     {
-        $assignviews = SupplierAssign::where('status','pending')->orderBy('id','desc')->with('contractproject','villaproject')->get();
+        $assignviews = SupplierAssign::where('status','!=','approved')->orderBy('id','desc')->with('contractproject','villaproject')->get();
         return view('admin.supplierassign.index',compact('assignviews'));
     }
 
@@ -139,10 +140,35 @@ class SupplierController extends Controller
                 $villa->update(['supplier_id' =>$assign->supplier_id]);
             break;
         }
+        $payment = SupplierPayment::create([
+             'project_type'  => $assign->project_type, 
+             'contractproject_id'  => $assign->contractproject_id,
+             'villaproject_id'  => $assign->villaproject_id,
+             'villa_id'  => $assign->villa_id,
+             'supplier_id'  => $assign->supplier_id,
+             'total'  => $assign->amount,
+             'pending'  => $assign->amount
+        ]);
         $assign->update(['status'=>'approved']);
         
         flashSuccess('LabourSupplier Assigned Successfully');
         
         return redirect()->route('supplierassignview');
+    }
+
+    public function supplierassigncancel($id)
+    {
+        $assign = SupplierAssign::find($id)->update(['status'=>'cancel']);
+
+        if($assign)
+        {
+            flashSuccess('LabourSupplier Assigned Cancelled Successfully');
+            return back();
+        }
+        else
+        {
+            flashSuccess('Something Wrong');
+            return back();
+        }
     }
 }

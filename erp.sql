@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 05, 2023 at 02:43 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Sep 06, 2023 at 02:57 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -233,7 +233,7 @@ CREATE TABLE `contract_projects` (
 --
 
 INSERT INTO `contract_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengineer_id`, `mesthiri_id`, `supplier_id`, `site_date`, `dtcp_no`, `reg_no`, `location`, `total_land_area`, `total_buildup_area`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Golden Garden', 1, 1, 1, '1', '2023-08-02', '12312412433', '134123413233', 'Ganapathy', '3 Acres', '2.5 Acres', 'processing', '2023-08-15 03:30:39', '2023-09-05 05:37:43');
+(1, 'Golden Garden', 1, 1, 1, '1', '2023-08-02', '12312412433', '134123413233', 'Ganapathy', '3 Acres', '2.5 Acres', 'processing', '2023-08-15 03:30:39', '2023-09-06 01:19:12');
 
 -- --------------------------------------------------------
 
@@ -338,7 +338,7 @@ CREATE TABLE `labour_suppliers` (
 --
 
 INSERT INTO `labour_suppliers` (`id`, `name`, `phone`, `address`, `account`, `pancard`, `aadharno`, `gstno`, `attachment1`, `attachment2`, `total`, `paid`, `pending`, `created_at`, `updated_at`) VALUES
-(1, 'Velu.R', '9876543210', 'Saravanam Patti,Coimbatour', 'Account No: 238461298367,\r\n Bank :state bank of india,\r\n IFSC Code:SBIN0007039.', '2346hwstw', '21321434214152', '1238967344425', 'uploads/images/laboursupplier/aadhar/1693810198_64f57e161cd60.png', 'uploads/images/laboursupplier/pan/1693810198_64f57e161d4a7.png', 45000.00, 0.00, 0.00, '2023-09-04 01:19:58', '2023-09-05 05:46:42');
+(1, 'Velu.R', '9876543210', 'Saravanam Patti,Coimbatour', 'Account No: 238461298367,\r\n Bank :state bank of india,\r\n IFSC Code:SBIN0007039.', '2346hwstw', '21321434214152', '1238967344425', 'uploads/images/laboursupplier/aadhar/1693810198_64f57e161cd60.png', 'uploads/images/laboursupplier/pan/1693810198_64f57e161d4a7.png', 100000.00, 0.00, 0.00, '2023-09-04 01:19:58', '2023-09-06 07:13:53');
 
 -- --------------------------------------------------------
 
@@ -641,7 +641,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (57, '2023_08_30_121211_create_salaries_table', 29),
 (58, '2023_09_02_081148_create_villas_table', 30),
 (60, '2023_09_04_053414_create_labour_suppliers_table', 31),
-(62, '2023_09_04_083250_create_supplier_assigns_table', 32);
+(62, '2023_09_04_083250_create_supplier_assigns_table', 32),
+(63, '2023_09_06_061612_create_supplier_payments_table', 33),
+(64, '2023_09_06_065042_create_supplier_payment_histories_table', 34);
 
 -- --------------------------------------------------------
 
@@ -1008,8 +1010,53 @@ CREATE TABLE `supplier_assigns` (
 --
 
 INSERT INTO `supplier_assigns` (`id`, `project_type`, `contractproject_id`, `villaproject_id`, `villa_id`, `supplier_id`, `from_date`, `end_date`, `amount`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'villa', NULL, 1, 1, 1, '2023-09-05', '2023-09-30', 20000.00, 'approved', '2023-09-05 01:55:12', '2023-09-05 05:46:42'),
-(2, 'contract', 1, NULL, NULL, 1, '2023-09-01', '2023-09-30', 25000.00, 'approved', '2023-09-05 01:56:14', '2023-09-05 05:37:43');
+(1, 'contract', 1, NULL, NULL, 1, '2023-09-01', '2023-09-30', 30000.00, 'approved', '2023-09-06 01:13:49', '2023-09-06 01:19:12'),
+(2, 'villa', NULL, 1, 1, 1, '2023-09-01', '2023-09-30', 25000.00, 'approved', '2023-09-06 07:13:19', '2023-09-06 07:13:53');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `supplier_payments`
+--
+
+CREATE TABLE `supplier_payments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `project_type` enum('contract','villa') NOT NULL,
+  `contractproject_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `villaproject_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `villa_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `supplier_id` bigint(20) UNSIGNED NOT NULL,
+  `total` double(10,2) NOT NULL,
+  `paid` double(10,2) NOT NULL DEFAULT 0.00,
+  `pending` double(10,2) NOT NULL DEFAULT 0.00,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `supplier_payments`
+--
+
+INSERT INTO `supplier_payments` (`id`, `project_type`, `contractproject_id`, `villaproject_id`, `villa_id`, `supplier_id`, `total`, `paid`, `pending`, `created_at`, `updated_at`) VALUES
+(1, 'contract', 1, NULL, NULL, 1, 30000.00, 0.00, 30000.00, '2023-09-06 01:19:12', '2023-09-06 01:19:12'),
+(2, 'villa', NULL, 1, 1, 1, 25000.00, 0.00, 25000.00, '2023-09-06 07:13:53', '2023-09-06 07:13:53');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `supplier_payment_histories`
+--
+
+CREATE TABLE `supplier_payment_histories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `supplier_payment_id` bigint(20) UNSIGNED NOT NULL,
+  `amount` double(10,2) NOT NULL,
+  `payment_mode` varchar(255) NOT NULL,
+  `payment_by` varchar(255) NOT NULL,
+  `payment_date` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1125,8 +1172,9 @@ CREATE TABLE `villas` (
 --
 
 INSERT INTO `villas` (`id`, `villaproject_id`, `villa_no`, `villa_area`, `supplier_id`, `created_at`, `updated_at`) VALUES
-(1, 1, '1a', '2550sqft', 1, '2023-09-03 02:14:32', '2023-09-05 05:46:42'),
-(2, 1, '2', '2880sqft', NULL, '2023-09-03 02:14:32', '2023-09-03 02:14:32');
+(1, 1, '1a', '2550sqft', 1, '2023-09-03 02:14:32', '2023-09-06 07:13:53'),
+(2, 1, '2', '2880sqft', NULL, '2023-09-03 02:14:32', '2023-09-03 02:14:32'),
+(4, 1, '2a', '2880sqft', NULL, '2023-09-06 00:32:03', '2023-09-06 00:32:03');
 
 -- --------------------------------------------------------
 
@@ -1493,6 +1541,23 @@ ALTER TABLE `supplier_assigns`
   ADD KEY `supplier_assigns_supplier_id_foreign` (`supplier_id`);
 
 --
+-- Indexes for table `supplier_payments`
+--
+ALTER TABLE `supplier_payments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `supplier_payments_contractproject_id_foreign` (`contractproject_id`),
+  ADD KEY `supplier_payments_villaproject_id_foreign` (`villaproject_id`),
+  ADD KEY `supplier_payments_villa_id_foreign` (`villa_id`),
+  ADD KEY `supplier_payments_supplier_id_foreign` (`supplier_id`);
+
+--
+-- Indexes for table `supplier_payment_histories`
+--
+ALTER TABLE `supplier_payment_histories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `supplier_payment_histories_supplier_payment_id_foreign` (`supplier_payment_id`);
+
+--
 -- Indexes for table `telecallers`
 --
 ALTER TABLE `telecallers`
@@ -1679,7 +1744,7 @@ ALTER TABLE `meterials`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -1748,6 +1813,18 @@ ALTER TABLE `supplier_assigns`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `supplier_payments`
+--
+ALTER TABLE `supplier_payments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `supplier_payment_histories`
+--
+ALTER TABLE `supplier_payment_histories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `telecallers`
 --
 ALTER TABLE `telecallers`
@@ -1769,7 +1846,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `villas`
 --
 ALTER TABLE `villas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `villa_projects`
@@ -1935,6 +2012,21 @@ ALTER TABLE `supplier_assigns`
   ADD CONSTRAINT `supplier_assigns_supplier_id_foreign` FOREIGN KEY (`supplier_id`) REFERENCES `labour_suppliers` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `supplier_assigns_villa_id_foreign` FOREIGN KEY (`villa_id`) REFERENCES `villas` (`id`),
   ADD CONSTRAINT `supplier_assigns_villaproject_id_foreign` FOREIGN KEY (`villaproject_id`) REFERENCES `villa_projects` (`id`);
+
+--
+-- Constraints for table `supplier_payments`
+--
+ALTER TABLE `supplier_payments`
+  ADD CONSTRAINT `supplier_payments_contractproject_id_foreign` FOREIGN KEY (`contractproject_id`) REFERENCES `contract_projects` (`id`),
+  ADD CONSTRAINT `supplier_payments_supplier_id_foreign` FOREIGN KEY (`supplier_id`) REFERENCES `labour_suppliers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `supplier_payments_villa_id_foreign` FOREIGN KEY (`villa_id`) REFERENCES `villas` (`id`),
+  ADD CONSTRAINT `supplier_payments_villaproject_id_foreign` FOREIGN KEY (`villaproject_id`) REFERENCES `villa_projects` (`id`);
+
+--
+-- Constraints for table `supplier_payment_histories`
+--
+ALTER TABLE `supplier_payment_histories`
+  ADD CONSTRAINT `supplier_payment_histories_supplier_payment_id_foreign` FOREIGN KEY (`supplier_payment_id`) REFERENCES `supplier_payments` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `villas`

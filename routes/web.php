@@ -29,6 +29,7 @@ use App\Http\Controllers\User\account\AdvanceController;
 use App\Http\Controllers\User\account\ExpenseController;
 use App\Http\Controllers\User\account\LabourSupplierController;
 use App\Http\Controllers\User\account\PaymentController;
+use App\Http\Controllers\User\account\SupplierPaymentController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -67,13 +68,16 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
     Route::resource('/contractcustomer', ContractCustomerController::class);
     Route::resource('/villacustomer', VillaCustomerController::class);
     Route::get('/villalist', [VillaCustomerController::class, 'villalist']);
+
     Route::get('/villaarea', [VillaCustomerController::class, 'villaarea']);
     Route::resource('/expense', ExpenseController::class);
     Route::resource('/supplier', SupplierController::class);
     Route::resource('/payment', PaymentController::class);
     Route::resource('/advance', AdvanceController::class);
     Route::resource('/labour_supplier', LabourSupplierController::class);
-
+    Route::resource('/supplier_payments', SupplierPaymentController::class);
+    Route::get('/projectview', [SupplierPaymentController::class, 'projectview']);
+    Route::get('/projectvillalist', [SupplierPaymentController::class, 'projectvillalist']);
     Route::get('/receiptview/{id}',[PaymentController::class,'receiptview'])->name('receiptview');
     Route::get('/receiptdownload/{id}',[PaymentController::class,'receiptdownload'])->name('receiptdownload');
     Route::get('/expensepayment',[PaymentController::class,'expensepaymentshow'])->name('expensepayment');
@@ -91,6 +95,7 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
     Route::get('/material_show/{id}', 'show')->name('materialview');
     Route::get('/materialpaid/{id}', 'materialpaid')->name('materialpaid');
     Route::get('/materialscancel/{id}', 'materialcancel')->name('materialcancel');
+
 });
 
 Route::controller(TelecallerController::class)->prefix('telecaller')->middleware('telecaller')->name('telecaller.')->group(function () {
@@ -155,7 +160,9 @@ Route::controller(ChiefengineerController::class)->prefix('chief_engineer')->mid
     Route::resource('/material_status', MaterialstatusController::class);
     Route::resource('/mesthiri', MesthiriController::class);
     Route::resource('/laboursupplier', SupplierAssignController::class);
+    Route::get('/labour_supplier_view', [SupplierAssignController::class,'supplierassignview'])->name('supplierassignview');
     Route::get('/villaprojectview', [SupplierAssignController::class,'villaprojectindex'])->name('villaprojectindex');
+
     
     Route::get('/villaviewlist', [SupplierAssignController::class, 'villaviewlist']);
     Route::get('/villaindex/{id}', [SupplierAssignController::class,'villaindex'])->name('villaindex');

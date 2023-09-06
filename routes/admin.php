@@ -52,6 +52,8 @@ Route::prefix('admin')->group(function () {
 			Route::resource('/supplier', SupplierController::class);
 			Route::get('/supplierassignview', [SupplierController::class, 'supplierassignview'])->name('supplierassignview');
 			// Route::get('/supplierassignshow/{id}', [SupplierController::class, 'supplierassignshow'])->name('supplierassignshow');
+			
+			Route::get('/supplierassigncancel/{id}', [SupplierController::class, 'supplierassigncancel'])->name('supplierassigncancel');
 			Route::get('/supplierassignapprove/{id}', [SupplierController::class, 'supplierassignapprove'])->name('supplierassignapprove');
 		});
 	

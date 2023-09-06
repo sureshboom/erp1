@@ -20,12 +20,15 @@
         <li class="{{(request()->routeIs('chiefengineer.mesthirivilla') || request()->routeIs('chiefengineer.assignvilla')) ? 'active' : ''}}"><a title="sites" href="{{ route('chiefengineer.mesthirivilla')}}"><span class="mini-sub-pro">Villa Project</span></a></li>
     </ul>
 </li>
-<li class="{{ ((request()->routeIs('chiefengineer.laboursupplier.*')) ||(request()->routeIs('chiefengineer.villaprojectindex')) ||(request()->routeIs('chiefengineer.villaindex')) ||(request()->routeIs('chiefengineer.suppliercontract')) ||(request()->routeIs('chiefengineer.suppliervilla'))) ? 'active' : '' }}">
+<li class="{{ ((request()->routeIs('chiefengineer.laboursupplier.*')) ||(request()->routeIs('chiefengineer.villaprojectindex')) ||(request()->routeIs('chiefengineer.villaindex')) ||(request()->routeIs('chiefengineer.suppliercontract')) 
+||(request()->routeIs('chiefengineer.supplierassignview')) 
+||(request()->routeIs('chiefengineer.suppliervilla'))) ? 'active' : '' }}">
     <a class="has-arrow" href="#">
        <span class="educate-icon educate-professor icon-wrap"></span>
        <span class="mini-click-non">Labour Supplier</span>
     </a>
     <ul class="submenu-angle" aria-expanded="true">
+        <li class="{{ (request()->routeIs('chiefengineer.supplierassignview')) ? 'active' : '' }}"><a title="sites" href="{{ route('chiefengineer.supplierassignview')}}"><span class="mini-sub-pro">Assign Views</span></a></li>
         <li class="{{ ((request()->routeIs('chiefengineer.laboursupplier.*')) ||(request()->routeIs('chiefengineer.suppliercontract'))) ? 'active' : '' }}"><a title="sites" href="{{ route('chiefengineer.laboursupplier.index')}}"><span class="mini-sub-pro">Contract Project</span></a></li>
         <li class="{{ ((request()->routeIs('chiefengineer.villaprojectindex')) ||(request()->routeIs('chiefengineer.villaindex')) ||(request()->routeIs('chiefengineer.suppliervilla'))) ? 'active' : '' }}"><a title="sites" href="{{ route('chiefengineer.villaprojectindex')}}"><span class="mini-sub-pro">Villa Project</span></a></li>
     </ul>

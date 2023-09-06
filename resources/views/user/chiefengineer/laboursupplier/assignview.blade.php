@@ -1,7 +1,7 @@
-@extends('admin.layout.app')
+@extends('layouts.app')
 
 	@section('title')
-	    {{ __('Suppliers') }}
+	    {{ __('Labour Suppliers') }}
 	@endsection
 
 	@section('main')
@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <ul class="breadcome-menu">
-                                        <li><a href="{{ route('admin.dashboard') }}">Home</a> <span class="bread-slash">/</span>
+                                        <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
                                         <li><span class="bread-blod">Suppliers</span>
                                         </li>
@@ -44,7 +44,7 @@
 
                             </div>
                             
-                            {{-- {{ $assignviews }} --}}
+                            <!-- {{ $assignviews }} -->
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -105,17 +105,19 @@
                                             </td>
                                             
                                             <td class="datatable-ct">
-                                                @if($assignview->status == 'pending')
-                                                <a href="{{ route('supplierassignapprove', $assignview->id) }}"
+                                                <!-- <a href="{{ route('supplierassignapprove', $assignview->id) }}"
                                                     class="btn badge-primary">
                                                     Approve
-                                                </a>
-                                                <a href="{{ route('supplierassigncancel', $assignview->id) }}"
-                                                    class="btn badge-danger">
-                                                    Cancel
-                                                </a>
+                                                </a> -->
+                                                @if($assignview->status == 'cancel')
+                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $assignview->id }}').submit();"><i class="fa fa-trash"></i></a>
+                                                <form method="post" action="{{ route('chiefengineer.laboursupplier.destroy', $assignview->id) }}" id="delete-post-{{ $assignview->id }}" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
                                                 @else
-                                                <p class="text-danger">Cancelled</p>
+                                                <p class="text-danger">Waiting For Approve</p>
+
                                                 @endif
                                                 
                                             </td>
