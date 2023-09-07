@@ -144,7 +144,7 @@
 </div>
 <div class="head-title">
     <h2 class="text-center m-10 p-0">
-        <span class="bo">Booking Confirmation</span>
+        <span class="bo">Booking Confirmation Form</span>
     </h2>
 </div>
 <div class="add-detail mt-10">

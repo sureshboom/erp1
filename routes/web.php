@@ -77,7 +77,10 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
     Route::resource('/labour_supplier', LabourSupplierController::class);
     Route::resource('/supplier_payments', SupplierPaymentController::class);
     Route::get('/projectview', [SupplierPaymentController::class, 'projectview']);
+    Route::get('/rview/{id}', [SupplierPaymentController::class, 'receiptview'])->name('rview');
+    Route::get('/rcview/{id}', [SupplierPaymentController::class, 'receiptdownload'])->name('rcview');
     Route::get('/projectvillalist', [SupplierPaymentController::class, 'projectvillalist']);
+    Route::get('/amountdetails', [SupplierPaymentController::class, 'amountdetails']);
     Route::get('/receiptview/{id}',[PaymentController::class,'receiptview'])->name('receiptview');
     Route::get('/receiptdownload/{id}',[PaymentController::class,'receiptdownload'])->name('receiptdownload');
     Route::get('/expensepayment',[PaymentController::class,'expensepaymentshow'])->name('expensepayment');

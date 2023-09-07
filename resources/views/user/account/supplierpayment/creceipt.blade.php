@@ -174,20 +174,9 @@
 
 <div class="paid ">
     <div class="ml">
-        <h5 class="btb gray-color"><span class="btbr blue-color ">We received with thanks from Mr./Mrs./ </span>
-        @switch($payment->payment_subtype)
-                    @case('land')
-                        {{$payment->landcustomer->customer_name}}
-                    @break
-                    @case('villa')
-                        {{$payment->villacustomer->customer_name}}
-                    @break
-                    @case('contract')
-                        {{$payment->contractcustomer->customer_name}}
-                    @break
-                    @default
-                    -
-                @endswitch
+        <h5 class="btb gray-color"><span class="btbr blue-color ">Paid To Mr./Mrs./ </span>
+            {{$payment->supplierpayment->laboursupplier->name}}
+        
         </h5>
     </div>
     <div class="gray-color">
@@ -196,20 +185,17 @@
     </div>
     <div class="gray-color">
         <h5 class="btb">
-            @switch($payment->payment_subtype)
-                    @case('land')
-                        <span class="btbr blue-color">For Land Project </span>&nbsp;&nbsp;&nbsp; {{$payment->landproject->project_name}} &nbsp;<span class="btbr blue-color">Plot No: </span>{{$payment->landcustomer->plotno}} <span class="btbr blue-color">Plot Area: </span>{{$payment->landcustomer->plot_area}}
-                    @break
+            @switch($payment->supplierpayment->project_type)
                     @case('villa')
-                        <p class="btb gray-color"> Project - {{$payment->villaproject->project_name}}</p>
-                        <span class="btbr blue-color">For Villa Project </span>&nbsp;&nbsp;&nbsp; {{$payment->villaproject->project_name}} &nbsp;<span class="btbr blue-color">Villa No: </span>{{$payment->villacustomer->vilano}} <span class="btbr blue-color">Villa Area: </span>{{$payment->villacustomer->villa_area}}
+                        
+                        <span class="btbr blue-color">For Villa Project </span>&nbsp;&nbsp;&nbsp; {{$payment->supplierpayment->villaproject->project_name}} &nbsp;<span class="btbr blue-color">Villa No: </span>{{$payment->supplierpayment->villa->villa_no}}
                     @break
                     @case('contract')
                         
-                        <span class="btbr blue-color">For Contract Project </span>{{$payment->contractproject->project_name}} <span class="btbr blue-color">Total Area: </span>{{$payment->contractproject->total_land_area}} <span class="btbr blue-color">Buildup Area: </span>{{$payment->contractproject->total_buildup_area}}
+                        <span class="btbr blue-color">For Contract Project </span>{{$payment->supplierpayment->contractproject->project_name}} <span class="btbr blue-color">Location: </span>{{$payment->supplierpayment->contractproject->location}}
                     @break
                     @default
-                    -
+                    <p></p>
                 @endswitch
         </h5>
     </div>

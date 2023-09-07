@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h3 class="text-center">Payments Details</h3>
-                    <form action="{{route('account.payment.store')}}" class="acount-infor" method="post" enctype="multipart/form-data">
+                    <form action="{{route('account.supplier_payments.store')}}" class="acount-infor" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
                     <div class="row">
@@ -73,13 +73,15 @@
                                 <select name="project_type" id="project_type" class="form-control">
                                         <option value="">Select Project Type</option>
                                         
-                                        <option value="contract" {{old('project_type') == 'contract' ? 'selected':'' }}>Contract Projects</option>
-                                        <option value="villa" {{old('project_type') == 'villa' ? 'selected':'' }}>Villa Projects</option>
+                                        <option value="contract" >Contract Projects</option>
+                                        <option value="villa" >Villa Projects</option>
                                         
                                 </select>
                                 @error('project_type')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
+                                <input type="hidden" name="supplierpayment" id="supplierpayment">
+
                             </div>
                             
                             <div class="form-group" id="displayvillaunit">
@@ -122,21 +124,21 @@
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <div class="form-group" id="displaycontract">
                                 <label>Contract Project</label>
-                                <select name="contract_project_id" id="contract_project_id" class="form-control project_id">
+                                <select name="contractproject_id" id="contract_project_id" class="form-control project_id">
                                         <option value="">Select Contract Project</option>
                                         
                                 </select>
-                                @error('contract_project_id')
+                                @error('contractproject_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group" id="displayvilla">
                                 <label>Villa Project</label>
-                                <select name="villa_project_id" id="villa_project_id" class="form-control project_id">
+                                <select name="villaproject_id" id="villa_project_id" class="form-control project_id">
                                         <option value="">Select Villa Project</option>
                                         
                                 </select>
-                                @error('villa_project_id')
+                                @error('villaproject_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>

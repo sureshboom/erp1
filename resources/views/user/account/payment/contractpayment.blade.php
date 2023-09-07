@@ -92,7 +92,7 @@
                                                 <p class="text-success"> Current Pay : <span class="btn btn-sm badge-success">{{  moneyFormatIndia($contractpayment->amount) }}</span></p>
                                             </td>
                                             <td>
-                                                <a href="{{ route('account.receiptview',$contractpayment->id)}}"><i class="fa fa-download"></i></a>
+                                                <a href="{{ route('account.receiptdownload',$contractpayment->id)}}"><i class="fa fa-download"></i></a>
                                                 <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $contractpayment->id }}').submit();"><i class="fa fa-trash"></i></a>
                                                 <form method="post" action="{{ route('account.payment.destroy', $contractpayment->id) }}" id="delete-post-{{ $contractpayment->id }}" style="display: none;">
                                                     @csrf

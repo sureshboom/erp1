@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 06, 2023 at 02:57 PM
+-- Generation Time: Sep 07, 2023 at 12:45 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -202,7 +202,7 @@ CREATE TABLE `contract_customers` (
 --
 
 INSERT INTO `contract_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `amount`, `paid`, `pending`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `promote`, `remarks`, `created_at`, `updated_at`) VALUES
-(1, 'siva raj', '9092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hws54', 'uploads/images/contractcustomer/aadhar/1692166181_64dc68257cafe.png', 'uploads/images/contractcustomer/pan/1692166181_64dc68257ce03.jpg', 1, 5000000.00, 0.00, 4900000.00, 100000.00, 'salesteam', NULL, '2', 'mod', 0, 'Remark Demo', '2023-08-16 00:39:41', '2023-08-27 23:44:31');
+(1, 'siva raj', '9092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hws54', 'uploads/images/contractcustomer/aadhar/1692166181_64dc68257cafe.png', 'uploads/images/contractcustomer/pan/1692166181_64dc68257ce03.jpg', 1, 5000000.00, 100000.00, 4800000.00, 100000.00, 'salesteam', NULL, '2', 'mod', 0, 'Remark Demo', '2023-08-16 00:39:41', '2023-09-07 03:08:26');
 
 -- --------------------------------------------------------
 
@@ -705,7 +705,8 @@ CREATE TABLE `payments` (
 INSERT INTO `payments` (`id`, `payment_type`, `payment_subtype`, `expense_project_type`, `project_id`, `customer_id`, `supplier_id`, `payment_mode`, `payment_by`, `total`, `advance`, `paid`, `pending`, `amount`, `payment_date`, `expense_for`, `approved_by`, `received_by`, `created_at`, `updated_at`) VALUES
 (4, 'project', 'land', NULL, 1, 1, NULL, 'Voucher', 'Voucher', 2000000.00, 200000.00, 300000.00, 1700000.00, 100000.00, '2023-08-25', NULL, NULL, NULL, '2023-08-26 10:14:14', '2023-08-26 10:14:14'),
 (9, 'expense', 'office', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 500.00, '2023-08-25', 'Tea', 'Account', 'Ramu', '2023-08-27 06:19:00', '2023-08-27 06:19:00'),
-(24, 'expense', 'office', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 2000.00, '2023-08-28', 'demo2', 'Ram', 'Raju', '2023-08-28 23:43:32', '2023-08-28 23:43:32');
+(24, 'expense', 'office', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 2000.00, '2023-08-28', 'demo2', 'Ram', 'Raju', '2023-08-28 23:43:32', '2023-08-28 23:43:32'),
+(25, 'project', 'contract', NULL, 1, 1, NULL, 'Gpay/Phonepay', '9876543210', 5000000.00, 100000.00, 200000.00, 4800000.00, 100000.00, '2023-09-06', NULL, NULL, NULL, '2023-09-07 03:08:26', '2023-09-07 03:08:26');
 
 -- --------------------------------------------------------
 
@@ -1038,8 +1039,8 @@ CREATE TABLE `supplier_payments` (
 --
 
 INSERT INTO `supplier_payments` (`id`, `project_type`, `contractproject_id`, `villaproject_id`, `villa_id`, `supplier_id`, `total`, `paid`, `pending`, `created_at`, `updated_at`) VALUES
-(1, 'contract', 1, NULL, NULL, 1, 30000.00, 0.00, 30000.00, '2023-09-06 01:19:12', '2023-09-06 01:19:12'),
-(2, 'villa', NULL, 1, 1, 1, 25000.00, 0.00, 25000.00, '2023-09-06 07:13:53', '2023-09-06 07:13:53');
+(1, 'contract', 1, NULL, NULL, 1, 30000.00, 7500.00, 22500.00, '2023-09-06 01:19:12', '2023-09-07 04:03:25'),
+(2, 'villa', NULL, 1, 1, 1, 25000.00, 6500.00, 18500.00, '2023-09-06 07:13:53', '2023-09-07 04:23:45');
 
 -- --------------------------------------------------------
 
@@ -1057,6 +1058,14 @@ CREATE TABLE `supplier_payment_histories` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `supplier_payment_histories`
+--
+
+INSERT INTO `supplier_payment_histories` (`id`, `supplier_payment_id`, `amount`, `payment_mode`, `payment_by`, `payment_date`, `created_at`, `updated_at`) VALUES
+(1, 1, 7500.00, 'Gpay/Phonepay', '9876543210', '2023-09-07', '2023-09-07 00:47:32', '2023-09-07 00:47:32'),
+(4, 2, 6500.00, 'Gpay/Phonepay', '9876543210', '2023-09-07', '2023-09-07 04:23:44', '2023-09-07 04:23:44');
 
 -- --------------------------------------------------------
 
@@ -1750,7 +1759,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1822,7 +1831,7 @@ ALTER TABLE `supplier_payments`
 -- AUTO_INCREMENT for table `supplier_payment_histories`
 --
 ALTER TABLE `supplier_payment_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `telecallers`

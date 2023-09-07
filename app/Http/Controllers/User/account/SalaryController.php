@@ -13,6 +13,7 @@ class SalaryController extends Controller
     public function index()
     {
         //
+        
     }
 
     /**

@@ -227,6 +227,8 @@
            
         });
     @endif
+
+
     @if(request()->routeIs('account.supplier_payments.create'))
         $(document).ready(function(){
             var load = $('#project_type').val();
@@ -250,6 +252,14 @@
             $('#project_type').on('change',function(e){
                 var type = $(this).val();
                 var supplier_id = $('#supplier_id').val();
+                $('#total').val(0);
+                $('#paid').val(0);
+                $('#oldpaid').val(0);
+                $('#pending').val(0);
+                if(supplier_id == '')
+                {
+                    alert('Select Supplier');
+                }
                 switch(type)
                 {
                     case('contract'):
@@ -351,6 +361,138 @@
 
             });
 
+            $('#villa_project_id').on('change',function(e){
+                $('#displayvillaunit').show();
+                var villaproject = $(this).val();
+                var supplier = $('#supplier_id').val();
+                
+                $.ajax({
+                    url: '/account/projectvillalist',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        villaproject: villaproject,
+                        supplier: supplier
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if (data) {
+                            
+                            var customerSelect2 = $('#villa_id');
+                            customerSelect2.empty();
+                            if (data && Object.keys(data).length > 0)
+                            {
+                                customerSelect2.append($('<option>', {
+                                        value: '',
+                                        text: 'Select Villa' // Assuming your customer model has a "name" attribute
+                                    }));
+                                $.each(data, function(index, customer) {
+                                    customerSelect2.append($('<option>', {
+                                        value: customer.id,
+                                        text: customer.villa // Assuming your customer model has a "name" attribute
+                                    }));
+                                });
+                            }
+                            else
+                            {
+                                alert('Select Other Project');
+                                
+                            }
+                            // If payment data exists, fill the input fields
+                            
+                        }
+                    },
+                });
+            });
+            
+            $('#contract_project_id').on('change',function(e){
+                
+                var projectid = $(this).val();
+                var type = 'contract';
+                var supplier = $('#supplier_id').val();
+                
+                $.ajax({
+                    url: '/account/amountdetails',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        projectid: projectid,
+                        type: type,
+                        supplier: supplier
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if (data) {
+                            
+                            if (data && Object.keys(data).length > 0)
+                            {
+                                $('#supplierpayment').val(data.id);
+                                $('#total').val(data.total);
+                                $('#paid').val(data.paid);
+                                $('#oldpaid').val(data.paid);
+                                $('#pending').val(data.pending);
+                            }
+                            else
+                            {
+                                alert('Select Other Project');
+                                
+                            }
+                            // If payment data exists, fill the input fields
+                            
+                        }
+                    },
+                });
+            });
+            $('#villa_id').on('change',function(e){
+                
+                var projectid = $(this).val();
+                var type = 'villa';
+                var villaproject = $('#villa_project_id').val();
+                var supplier = $('#supplier_id').val();
+                
+                $.ajax({
+                    url: '/account/amountdetails',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        projectid: projectid,
+                        type: type,
+                        villaproject: villaproject,
+                        supplier: supplier
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if (data) {
+                            
+                            if (data && Object.keys(data).length > 0)
+                            {
+                                $('#supplierpayment').val(data.id);
+                                $('#total').val(data.total);
+                                $('#paid').val(data.paid);
+                                $('#oldpaid').val(data.paid);
+                                $('#pending').val(data.pending);
+                            }
+                            else
+                            {
+                                alert('Select Other Project');
+                                
+                            }
+                            // If payment data exists, fill the input fields
+                            
+                        }
+                    },
+                });
+            });
+            $('#amount').on('input', function () {
+            var amount = Number($(this).val());
+            var total = Number($('#total').val());
+            var paid = Number($('#paid').val());
+            var oldpaid = Number($('#oldpaid').val());
+            var currentpay = (oldpaid + amount);
+            var pay = (total - currentpay);
+            $('#paid').val(currentpay);
+            $('#pending').val(pay);
+            });
         });
     @endif
     @if(request()->routeIs('account.payment.create'))

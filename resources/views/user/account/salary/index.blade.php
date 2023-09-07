@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Labour Suppliers') }}
+	    {{ __('Salary') }}
 	@endsection
 
 	@section('main')
@@ -21,7 +21,7 @@
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Suppliers</span>
+                                        <li><span class="bread-blod">Salary</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -39,12 +39,12 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Suppliers Payment <span class="table-project-n">Details</span> Table</h1>
+                                <h1>Material Suppliers <span class="table-project-n">Details</span> Table</h1>
 
 
                             </div>
-                            <a href="{{ route('account.supplier_payments.index')}}" class="btn btn-danger">Back</a>
-                            <!-- {{ $payments }} -->
+                            <a href="{{ route('account.supplier.create')}}" class="btn btn-primary">+ Add New</a>
+                            <!-- {{ $suppliers }} -->
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -61,60 +61,42 @@
                                         <tr>
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
-                                            <th data-field="gpay">Project Details</th>
-                                            <th data-field="name">Supplier Details</th>
-                                            <th data-field="payment">Payment Details</th>
+                                            <th data-field="day">Date</th>
+                                            <th data-field="name">Supplier Name</th>
+                                            <th data-field="phone" data-editable="false">Phone</th>
+                                            <th data-field="location" data-editable="false">Location</th>
+                                            <th data-field="gst" data-editable="false">GST No</th>
+                                            <th data-field="gpay">Gpay/Phonepay</th>
+                                            <th data-field="date" data-editable="false">Account Details</th>
                                             <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
-                                        @forelse($payments as $payment)
+                                        @forelse($suppliers as $supplier)
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
+                                            <td>{{ $supplier->created_at ? formatDate($supplier->created_at) : '' }}</td>
+                                            <td>{{ $supplier->supplier_name ? $supplier->supplier_name : '' }}</td>
+                                            <td>{{ $supplier->supplier_phone ? $supplier->supplier_phone : '' }}</td>
+                                            <td>{{ $supplier->supplier_location ? $supplier->supplier_location : '' }}</td>
+                                            <td>{{ $supplier->supplier_gstno ? $supplier->supplier_gstno : '' }}</td>
+                                            <td>{{ $supplier->supplier_gpay ? $supplier->supplier_gpay : '' }}</td>
                                             <td>
-                                                Project Type: 
-                                                {{ $payment->supplierpayment->project_type ? ucfirst($payment->supplierpayment->project_type) : '' }}
-                                                @switch($payment->supplierpayment->project_type)
-                                                    @case('contract')                
-                                                    <br>Project Name : {{$payment->supplierpayment->contractproject->project_name}}
-                                                    <br>Buildup Area : {{$payment->supplierpayment->contractproject->total_buildup_area}}
-                                                    
-                                                    @break
-                                                    @case('villa')                
-                                                       <br> Project Name : {{$payment->supplierpayment->villaproject->project_name}}
-                                                       <br>Villa No: {{$payment->supplierpayment->villa->villa_no}}
-                                                       <br>Villa Area: {{$payment->supplierpayment->villa->villa_area}}
-                                                    @break
-                                                    @default
-                                                        -   
-                                                    @break              
-                                                @endswitch
-                                            </td>
-                                            <td>
-                                                Supplier Name: {{$payment->supplierpayment->laboursupplier->name}}
-                                                <br>
-                                                Supplier Phone: {{$payment->supplierpayment->laboursupplier->phone}}
-                                            </td>
-                                            
-                                            <td>
-                                                Amount : {{'Rs.'.moneyFormatIndia($payment->
-                                                amount).'.00'}},
-                                                
+                                                {{ $supplier->supplier_account ? $supplier->supplier_account : '' }}
                                             </td>
                                             
                                             <td class="datatable-ct">
-                                                <a href="{{ route('account.rcview', $payment->id) }}"
-                                                    class="btn btn-link">
-                                                    <i class="fa fa-download"></i>
+                                                <a href="{{ route('account.supplier.edit', $supplier->id) }}"
+                                                    class="btn ll-mr-4 ll-p-0">
+                                                    <i class="fa fa-edit"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $payment->id }}').submit();"><i class="fa fa-trash"></i></a>
-                                                <form method="post" action="{{ route('account.supplier_payments.destroy', $payment->id) }}" id="delete-post-{{ $payment->id }}" style="display: none;">
+                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $supplier->id }}').submit();"><i class="fa fa-trash"></i></a>
+                                                <form method="post" action="{{ route('account.supplier.destroy', $supplier->id) }}" id="delete-post-{{ $supplier->id }}" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
-                                                
                                             </td>
                                         </tr>
                                         @empty

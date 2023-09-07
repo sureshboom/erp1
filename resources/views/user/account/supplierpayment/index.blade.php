@@ -105,6 +105,10 @@
                                             </td>
                                             
                                             <td class="datatable-ct">
+                                                <a href="{{ route('account.rview', $payment->id) }}"
+                                                    class="btn btn-link">
+                                                    <i class="fa fa-download"></i>
+                                                </a>
                                                 <a href="{{ route('account.supplier_payments.show', $payment->id) }}"
                                                     class="btn btn-link">
                                                     <i class="fa fa-eye"></i>

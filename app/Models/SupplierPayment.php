@@ -31,4 +31,9 @@ class SupplierPayment extends Model
     {
          return $this->belongsTo(LabourSupplier::class,'supplier_id');
     }
+
+    public function paymenthistory()
+    {
+         return $this->hasMany(SupplierPaymentHistory::class,'supplier_payment_id');
+    }
 }
