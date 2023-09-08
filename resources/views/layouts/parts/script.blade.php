@@ -990,6 +990,64 @@
             });
         });
     @endif
+@if((request()->routeIs('account.salary.create')) or (request()->routeIs('account.salary.edit')))
+    $(document).ready(function(){
+        $('#staff_id').on('change',function(e){
+            var staff_id = $(this).val();
+
+
+            $.ajax({
+                url: '/account/advancelist',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    staff_id: staff_id
+                },
+                success: function (data) {
+                    if (data && Object.keys(data).length > 0)
+                    {
+                        $('#advance').val(data.amount);
+                    
+                    }
+                },
+                error: function () {
+                    // Handle error if the AJAX request fails
+                }
+            });
+        });
+        $('#salary_amount').on('input',function(e){
+
+            var salary_amount = $('#salary_amount').val();
+            var detection = $('#detection').val();
+            var advance = $('#advance').val();
+                
+                    current_salary  = (salary_amount) - (detection);
+                    $('#salary').val(current_salary);
+                
+        });  
+        $('#detection').on('input',function(e){
+
+            var salary_amount = $('#salary_amount').val();
+            var detection = $('#detection').val();
+            var advance = $('#advance').val();
+                if(parseInt(advance) >= parseInt(detection))
+                {
+                    current_salary  = (salary_amount) - (detection);
+                    $('#salary').val(current_salary);
+                }
+                else
+                {
+                    alert('Advance amount is small');
+                    $('#detection').val(null);
+                    $('#salary').val(salary_amount);
+                }
+             
+
+        });    
+    });
+
+
+@endif
  @if((request()->routeIs('account.villacustomer.create')) or (request()->routeIs('account.villacustomer.edit')))
         $(document).ready(function(){
             $('#project_id').on('change',function(e){

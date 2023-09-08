@@ -4,6 +4,9 @@ namespace App\Http\Controllers\User\account;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Salary;
+use App\Models\User;
+use App\Models\Advance;
 
 class SalaryController extends Controller
 {
@@ -12,8 +15,9 @@ class SalaryController extends Controller
      */
     public function index()
     {
-        //
         
+        $salarys = Salary::orderBy('id','desc')->get();
+        return view('user.account.salary.index',compact('salarys'));
     }
 
     /**
@@ -21,7 +25,9 @@ class SalaryController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::orderBy('id','desc')->get(['id','name']);
+
+        return view('user.account.salary.create',compact('users'));
     }
 
     /**
@@ -29,7 +35,36 @@ class SalaryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->validate([
+            'staff_id' => 'required',
+            'from_date' => 'required',
+            'to_date' => 'required',
+            'salary_amount' => 'required',
+            'advance' => 'nullable',
+            'detection' => 'nullable',
+            'salary' => 'required'
+        ]);
+
+        $salary = Salary::where('staff_id',$request->staff_id)->where('from_date',$request->from_date)->first();
+        if($salary)
+        {
+            flashError('Salary already Exists');
+            return back();
+        }
+        else
+        {
+            $salaryv = Salary::create($input);
+            if($request->detection != 0)
+            {
+                $advance = Advance::where('staff_id',$request->staff_id)->first();
+                $advance->decrement('amount',$request->detection);
+                $advance->increment('detection',$request->detection);
+            }
+            flashSuccess('Salary created Successfully');
+            return redirect()->route('account.salary.index');
+        }
+
+
     }
 
     /**
@@ -45,7 +80,11 @@ class SalaryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $users = User::orderBy('id','desc')->get(['id','name']);
+
+        $salary = Salary::find($id);
+
+        return view('user.account.salary.edit',compact('users','salary'));
     }
 
     /**
@@ -61,6 +100,16 @@ class SalaryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Salary::find($id)->delete();
+        flashSuccess('Salary Removed Successfully');
+        return back();
+    }
+
+    public function advancelist(Request $request)
+    {
+        $advance = Advance::where('staff_id',$request->staff_id)->first();
+
+        return response()->json($advance);
+
     }
 }

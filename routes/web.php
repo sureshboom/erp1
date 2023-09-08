@@ -30,6 +30,7 @@ use App\Http\Controllers\User\account\ExpenseController;
 use App\Http\Controllers\User\account\LabourSupplierController;
 use App\Http\Controllers\User\account\PaymentController;
 use App\Http\Controllers\User\account\SupplierPaymentController;
+use App\Http\Controllers\User\account\SalaryController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -76,6 +77,8 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
     Route::resource('/advance', AdvanceController::class);
     Route::resource('/labour_supplier', LabourSupplierController::class);
     Route::resource('/supplier_payments', SupplierPaymentController::class);
+    Route::resource('/salary', SalaryController::class);
+    Route::get('/advancelist', [SalaryController::class, 'advancelist']);
     Route::get('/projectview', [SupplierPaymentController::class, 'projectview']);
     Route::get('/rview/{id}', [SupplierPaymentController::class, 'receiptview'])->name('rview');
     Route::get('/rcview/{id}', [SupplierPaymentController::class, 'receiptdownload'])->name('rcview');

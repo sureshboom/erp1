@@ -39,12 +39,12 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Material Suppliers <span class="table-project-n">Details</span> Table</h1>
+                                <h1>Staff Salary <span class="table-project-n">Details</span> Table</h1>
 
 
                             </div>
-                            <a href="{{ route('account.supplier.create')}}" class="btn btn-primary">+ Add New</a>
-                            <!-- {{ $suppliers }} -->
+                            <a href="{{ route('account.salary.create')}}" class="btn btn-primary">+ Add New</a>
+                            <!-- {{ $salarys }} -->
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -62,38 +62,34 @@
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
                                             <th data-field="day">Date</th>
-                                            <th data-field="name">Supplier Name</th>
-                                            <th data-field="phone" data-editable="false">Phone</th>
-                                            <th data-field="location" data-editable="false">Location</th>
-                                            <th data-field="gst" data-editable="false">GST No</th>
-                                            <th data-field="gpay">Gpay/Phonepay</th>
-                                            <th data-field="date" data-editable="false">Account Details</th>
+                                            <th data-field="name">Staff Name</th>
+                                            <th data-field="phone" data-editable="false">From Date</th>
+                                            <th data-field="location" data-editable="false">To Date</th>
+                                            <th data-field="gst" data-editable="false">Salary</th>
+                                            <th data-field="gpay">Detection</th>
                                             <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
-                                        @forelse($suppliers as $supplier)
+                                        @forelse($salarys as $salary)
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{ $supplier->created_at ? formatDate($supplier->created_at) : '' }}</td>
-                                            <td>{{ $supplier->supplier_name ? $supplier->supplier_name : '' }}</td>
-                                            <td>{{ $supplier->supplier_phone ? $supplier->supplier_phone : '' }}</td>
-                                            <td>{{ $supplier->supplier_location ? $supplier->supplier_location : '' }}</td>
-                                            <td>{{ $supplier->supplier_gstno ? $supplier->supplier_gstno : '' }}</td>
-                                            <td>{{ $supplier->supplier_gpay ? $supplier->supplier_gpay : '' }}</td>
-                                            <td>
-                                                {{ $supplier->supplier_account ? $supplier->supplier_account : '' }}
-                                            </td>
+                                            <td>{{ $salary->created_at ? formatDate($salary->created_at) : '' }}</td>
+                                            <td>{{ $salary->user->name ? $salary->user->name : '' }}</td>
+                                            <td>{{ $salary->from_date ? formatDate($salary->from_date) : '' }}</td>
+                                            <td>{{ $salary->to_date ? formatDate($salary->to_date) : '' }}</td>
+                                            <td>{{ $salary->salary ? moneyFormatIndia($salary->salary) : '' }}</td>
+                                            <td>{{ $salary->detection ? moneyFormatIndia($salary->detection) : '' }}</td>
                                             
                                             <td class="datatable-ct">
-                                                <a href="{{ route('account.supplier.edit', $supplier->id) }}"
+                                                <!-- <a href="{{ route('account.salary.edit', $salary->id) }}"
                                                     class="btn ll-mr-4 ll-p-0">
                                                     <i class="fa fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $supplier->id }}').submit();"><i class="fa fa-trash"></i></a>
-                                                <form method="post" action="{{ route('account.supplier.destroy', $supplier->id) }}" id="delete-post-{{ $supplier->id }}" style="display: none;">
+                                                </a> -->
+                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $salary->id }}').submit();"><i class="fa fa-trash"></i></a>
+                                                <form method="post" action="{{ route('account.salary.destroy', $salary->id) }}" id="delete-post-{{ $salary->id }}" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>

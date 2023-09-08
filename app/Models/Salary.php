@@ -11,6 +11,19 @@ class Salary extends Model
 
     protected $guarded = [];
 
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::deleted(function ($salary) {
+            if ($salary->staff_id) {
+                $payment = Advance::where('staff_id',$salary->staff_id);
+                $payment->decrement('detection', $salary->detection);
+                $payment->increment('amount', $salary->detection);
+            }
+            
+        });
+    }
 
     public function user()
     {

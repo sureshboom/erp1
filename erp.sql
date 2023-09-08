@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 07, 2023 at 12:45 PM
+-- Generation Time: Sep 08, 2023 at 09:00 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -103,7 +103,7 @@ CREATE TABLE `advances` (
 --
 
 INSERT INTO `advances` (`id`, `staff_id`, `amount`, `detection`, `created_at`, `updated_at`) VALUES
-(2, 10, 3000.00, 0.00, '2023-08-30 04:34:09', '2023-08-30 06:08:18');
+(2, 10, 1500.00, 1500.00, '2023-08-30 04:34:09', '2023-09-08 01:10:08');
 
 -- --------------------------------------------------------
 
@@ -779,12 +779,20 @@ CREATE TABLE `salaries` (
   `from_date` date NOT NULL,
   `to_date` date NOT NULL,
   `salary_amount` double(10,2) NOT NULL DEFAULT 0.00,
-  `amount` double(10,2) NOT NULL DEFAULT 0.00,
+  `advance` double(10,2) NOT NULL DEFAULT 0.00,
   `detection` double(10,2) NOT NULL DEFAULT 0.00,
   `salary` double(10,2) NOT NULL DEFAULT 0.00,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `salaries`
+--
+
+INSERT INTO `salaries` (`id`, `staff_id`, `from_date`, `to_date`, `salary_amount`, `advance`, `detection`, `salary`, `created_at`, `updated_at`) VALUES
+(2, 13, '2023-09-01', '2023-09-30', 15000.00, 0.00, 0.00, 15000.00, '2023-09-08 01:07:40', '2023-09-08 01:07:40'),
+(3, 10, '2023-09-01', '2023-09-30', 15000.00, 3000.00, 1500.00, 13500.00, '2023-09-08 01:10:08', '2023-09-08 01:10:08');
 
 -- --------------------------------------------------------
 
@@ -1777,7 +1785,7 @@ ALTER TABLE `project_customers`
 -- AUTO_INCREMENT for table `salaries`
 --
 ALTER TABLE `salaries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `salesmanagers`
