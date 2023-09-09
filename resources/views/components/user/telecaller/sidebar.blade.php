@@ -16,9 +16,15 @@
        <span class="mini-click-non">Todays Work</span>
     </a>
 </li>
-<li>
+<li class="{{ request()->routeIs('telecaller.teleworkreport') ? 'active' : '' }}">
+    <a  href="{{ route('telecaller.teleworkreport')}}">
+       <span class="educate-icon educate-data-table icon-wrap"></span>
+       <span class="mini-click-non">Work Report</span>
+    </a>
+</li>
+<!-- <li>
    <a class="has-arrow" href="#">
        <span class="educate-icon educate-library icon-wrap"></span>
        <span class="mini-click-non">Reports</span>
     </a>
-</li>
+</li> -->

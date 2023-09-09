@@ -16,6 +16,7 @@ use App\Http\Controllers\User\chiefengineer\MaterialstatusController;
 use App\Http\Controllers\User\telecaller\CustomerController;
 use App\Http\Controllers\User\telecaller\WorkController;
 use App\Http\Controllers\User\telecaller\SitevisitController;
+use App\Http\Controllers\User\telecaller\TeleReportController;
 use App\Http\Controllers\User\salesperson\ScustomerController;
 use App\Http\Controllers\User\siteengineer\WorkEnteryController;
 use App\Http\Controllers\User\siteengineer\WorkerEntryController;
@@ -70,6 +71,7 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
     Route::resource('/villacustomer', VillaCustomerController::class);
     Route::get('/villalist', [VillaCustomerController::class, 'villalist']);
 
+
     Route::get('/villaarea', [VillaCustomerController::class, 'villaarea']);
     Route::resource('/expense', ExpenseController::class);
     Route::resource('/supplier', SupplierController::class);
@@ -110,6 +112,7 @@ Route::controller(TelecallerController::class)->prefix('telecaller')->middleware
     Route::resource('/customer', CustomerController::class);
     Route::resource('/todays_work', WorkController::class);
     Route::resource('/sitevisit', SitevisitController::class);
+    Route::get('/teleworkreport', [TeleReportController::class, 'workreport'])->name('teleworkreport');
 
 
 
@@ -193,6 +196,7 @@ Route::controller(SalesmanagerController::class)->prefix('sales_manager')->middl
     Route::post('/siteviewchange/{id}', 'siteviewchange')->name('siteviewchange');
     Route::get('/viewsiteviewchange/{id}/{siteid}', 'viewsiteviewchange')->name('viewsiteviewchange');
     Route::get('/siteviewshow/{id}', 'siteviewshow')->name('siteviewshow');
+    Route::get('/teleworkreports', [TeleReportController::class, 'alltelecallerwork'])->name('alltelecallerwork');
     
 });
 

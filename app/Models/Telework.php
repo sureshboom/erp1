@@ -16,4 +16,6 @@ class Telework extends Model
     {
         return $this->belongsTo(Telecaller::class);
     }
+
+    
 }

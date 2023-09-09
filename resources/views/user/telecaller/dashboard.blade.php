@@ -45,7 +45,13 @@
                                 <i class="educate-icon educate-professor"></i>
                             </div>
                             <div class="m-t-xl widget-cl-2">
-                                <h1 class="text-info">0</h1>
+                                <h1 class="text-info">
+                                     @php 
+                                        $uid = \App\Models\Telecaller::where('user_id',(Auth::user()->id))->first();
+                                    @endphp
+
+                                    {{ \App\Models\Customer::where('created_by_id',$uid->id)->where('created_by_type','telecaller')->count('id'); }}</h1>
+                                    
                                 
                             </div>
                         </div>
@@ -61,7 +67,7 @@
                                 <i class="educate-icon educate-interface"></i>
                             </div>
                             <div class="m-t-xl widget-cl-2">
-                                <h1 class="text-info">0</h1>
+                                <h1 class="text-info">{{ \App\Models\Telework::where('telecaller_id',($uid->id))->sum('called'); }}</h1>
                                 
                             </div>
                         </div>
@@ -77,7 +83,7 @@
                                 <i class="educate-icon educate-interface"></i>
                             </div>
                             <div class="m-t-xl widget-cl-2">
-                                <h1 class="text-info">0</h1>
+                                <h1 class="text-info">{{ \App\Models\Telework::where('telecaller_id',($uid->id))->sum('follow_up'); }}</h1>
                                 
                             </div>
                         </div>
@@ -93,7 +99,7 @@
                                 <i class="educate-icon educate-interface"></i>
                             </div>
                             <div class="m-t-xl widget-cl-2">
-                                <h1 class="text-info">0</h1>
+                                <h1 class="text-info">{{ \App\Models\Telework::where('telecaller_id',($uid->id))->sum('site_visit'); }}</h1>
                                 
                             </div>
                         </div>
@@ -112,7 +118,7 @@
                                 <i class="educate-icon educate-professor"></i>
                             </div>
                             <div class="m-t-xl widget-cl-2">
-                                <h1 class="text-info">0</h1>
+                                <h1 class="text-info">{{ \App\Models\Customer::where('created_by_id',($uid->id))->where('created_by_type','telecaller')->whereRaw('Date(created_at) = CURDATE()')->count('id'); }}</h1>
                                 
                             </div>
                         </div>
@@ -128,7 +134,7 @@
                                 <i class="educate-icon educate-interface"></i>
                             </div>
                             <div class="m-t-xl widget-cl-2">
-                                <h1 class="text-info">0</h1>
+                                <h1 class="text-info">{{ \App\Models\Telework::where('telecaller_id',($uid->id))->whereRaw('Date(created_at) = CURDATE()')->sum('called'); }}</h1>
                                 
                             </div>
                         </div>
@@ -144,7 +150,7 @@
                                 <i class="educate-icon educate-interface"></i>
                             </div>
                             <div class="m-t-xl widget-cl-2">
-                                <h1 class="text-info">0</h1>
+                                <h1 class="text-info">{{ \App\Models\Telework::where('telecaller_id',($uid->id))->whereRaw('Date(created_at) = CURDATE()')->sum('follow_up'); }}</h1>
                                 
                             </div>
                         </div>
@@ -160,7 +166,7 @@
                                 <i class="educate-icon educate-interface"></i>
                             </div>
                             <div class="m-t-xl widget-cl-2">
-                                <h1 class="text-info">0</h1>
+                                <h1 class="text-info">{{ \App\Models\Telework::where('telecaller_id',($uid->id))->whereRaw('Date(created_at) = CURDATE()')->sum('site_visit'); }}</h1>
                                 
                             </div>
                         </div>
