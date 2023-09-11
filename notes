@@ -272,3 +272,19 @@ else
     $('#displaymaterial').hide();
     $('#displayexpense').hide();
 }
+
+
+$contractProjects = ContractProject::with([
+    'materialIns' => function ($query) {
+        // Add conditions for the MaterialIn relationship here
+        $query->where('some_column', '=', 'some_value');
+    },
+    'materialIns.materialHistories' => function ($query) {
+        // Add conditions for the MaterialHistory relationship here
+        $query->where('another_column', '=', 'another_value');
+    },
+    'materialIns.materialHistories.material' => function ($query) {
+        // Add conditions for the Material relationship here
+        $query->where('yet_another_column', '=', 'yet_another_value');
+    }
+])->get();

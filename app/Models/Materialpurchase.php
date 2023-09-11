@@ -10,6 +10,10 @@ class Materialpurchase extends Model
     use HasFactory;
 
     
+    public function material()
+    {
+        return $this->belongsTo(Meterial::class, 'meterial_id');
+    }
 
     protected $fillable = ['project_type','contract_project_id','materialin_id','villa_project_id', 'meterial_id', 'quantity'];
 

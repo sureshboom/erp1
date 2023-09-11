@@ -73,7 +73,7 @@
                                             <div class="form-group">
                                                 <label>Telecaller</label>
                                                 <select name="telecaller_id" id="telecaller_id" class="form-control ">
-                                                    <option value="">Select Land Project</option>
+                                                    <option value="">Select Telecaller</option>
                                                     @foreach($telecallers as $telecaller)
                                                     <option value="{{$telecaller->id}}">{{$telecaller->user->name}}</option>
                                                     @endforeach

@@ -32,17 +32,21 @@ class TeleReportController extends Controller
     {
         $telecallers = Telecaller::orderBy('id','desc')->get();
         $query = Telework::orderBy('id','desc');
-        if($request->has('telecaller_id') && $request->telecaller_id != null)
+        if($request->has('telecaller_id'))
         {
             $query->where('telecaller_id',$request->telecaller_id);
         }
         $start_date = Carbon::parse(request()->from_date)->toDateTimeString();
         $end_date = Carbon::parse(request()->to_date)->toDateTimeString();
-        if ($request->has('from_date')) {
+        
+
+        if ($request->has('from_date') && $request->from_date != null )
+        {
             $query->whereDate('created_at', '>=', $start_date);
         }
 
-        if ($request->has('to_date')) {
+        if ($request->has('to_date') && $request->to_date != null )
+        {
             $query->whereDate('created_at', '<=', $end_date);
         }
 
@@ -50,4 +54,6 @@ class TeleReportController extends Controller
         // return $teleworks;
         return view('user.salesmanager.reports.telework',compact('teleworks','telecallers'));
     }
+
+    
 }

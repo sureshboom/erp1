@@ -76,6 +76,6 @@ class Materialin extends Model
 
     public function materialhistory()
     {
-        return $this->hasMany(Materialin::class,'materialin_id','id');
+        return $this->hasMany(Materialpurchase::class,'materialin_id','id');
     }
 }

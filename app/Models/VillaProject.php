@@ -43,6 +43,14 @@ class VillaProject extends Model
         return $this->morphMany(Payment::class, 'payable');
     }
 
+    public function materialin()
+    {
+        return $this->hasOne(Materialin::class, 'villa_project_id');
+    }
+    public function materialhistory()
+    {
+        return $this->hasMany(Materialpurchase::class,'villa_project_id');
+    }
     public function villas()
     {
         return $this->hasMany(Villa::class,'villaproject_id');

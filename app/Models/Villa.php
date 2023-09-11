@@ -25,6 +25,11 @@ class Villa extends Model
     {
         return $this->belongsTo(ProjectCustomer::class,'vilano');
     }
+
+    public function villacustomers()
+    {
+        return $this->hasOne(ProjectCustomer::class,'vilano');
+    }
     
     public function lsassign()
     {

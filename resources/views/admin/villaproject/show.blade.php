@@ -38,7 +38,8 @@
 
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="">
-                        {{-- {{$villaprojects}} --}}
+                        
+                        <!-- {{$villaprojects}}  -->
                         @foreach($villaprojects as $villaproject)
                         
                         <div class="row ">
@@ -140,6 +141,44 @@
                             </div>
                         </div>
                         <br>
+                        <div class="row ">
+                            <div class="col-lg-12 responsive-mg-b-30 res-tablet-mg-t-30 dk-res-t-pro-30">
+                                <div class="profile-info-inner">
+                                    <div class="profile-img">
+                                       <h4> Project Overall Material Details</h4>
+                                    </div>
+                                    <div class="profile-details-hr">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Material</th>
+                                                        <th>Quantity</th>
+                                                        <th>Unit</th>
+                                                    </tr>
+                                                    @forelse($villaproject->materialhistory as $material)
+                                                    <tr>
+                                                        <td>{{$loop->iteration}}</td>
+                                                        <td>{{$material->material->meterial_name}}</td>
+                                                        <td>{{$material->quantity}}</td>
+                                                        <td>{{$material->material->unit}}</td>
+                                                    </tr>
+                                                    @empty
+                                                    <tr>
+                                                        <td colspan="4">No Records</td>
+                                                        
+                                                    </tr>
+                                                    @endforelse
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <br>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="sparkline13-list">
@@ -165,6 +204,7 @@
                                                         <th data-field="id">ID</th>
                                                         <th data-field="code">Villa No</th>
                                                         <th data-field="name" data-editable="false">Villa Area</th>
+                                                        
                                                         <th data-field="action">Action</th>
                                                     </tr>
                                                 </thead>
@@ -174,8 +214,10 @@
 
                                                         <td></td>
                                                         <td>{{$loop->iteration}}</td>
+                                                        
                                                         <td>{{$villa->villa_no}}</td>
                                                         <td>{{$villa->villa_area}}</td>
+                                                        
                                                         <td class="datatable-ct">
                                                             <a href="{{ route('villa.edit', $villa->id) }}"
                                                                 class="btn ll-mr-4 ll-p-0">

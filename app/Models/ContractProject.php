@@ -50,4 +50,14 @@ class ContractProject extends Model
     {
         return $this->belongsTo(LabourSupplier::class, 'supplier_id');
     }
+
+    public function materialin()
+    {
+        return $this->hasMany(Materialin::class, 'contract_project_id');
+    }
+
+    public function materialhistory()
+    {
+        return $this->hasMany(Materialpurchase::class,'contract_project_id');
+    }
 }

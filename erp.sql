@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 08, 2023 at 09:00 AM
+-- Generation Time: Sep 11, 2023 at 02:37 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -1134,7 +1134,8 @@ CREATE TABLE `teleworks` (
 --
 
 INSERT INTO `teleworks` (`id`, `telecaller_id`, `called`, `follow_up`, `site_visit`, `created_at`, `updated_at`) VALUES
-(2, 1, 15, 8, 5, '2023-07-22 06:55:16', '2023-07-22 06:59:29');
+(2, 1, 15, 8, 5, '2023-07-22 06:55:16', '2023-07-22 06:59:29'),
+(3, 1, 5, 2, 1, '2023-09-09 05:31:33', '2023-09-09 05:31:33');
 
 -- --------------------------------------------------------
 
@@ -1851,7 +1852,7 @@ ALTER TABLE `telecallers`
 -- AUTO_INCREMENT for table `teleworks`
 --
 ALTER TABLE `teleworks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`

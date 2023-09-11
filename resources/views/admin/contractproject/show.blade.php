@@ -38,6 +38,8 @@
 
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="">
+                        <!-- {{$contractprojects[0]->materialhistory}}  -->
+
                         @foreach($contractprojects as $contractproject)
                         
                         <div class="row ">
@@ -138,7 +140,46 @@
                                 </div>
                             </div>
                         </div>
+                        <br>
+                        <div class="row ">
+                            <div class="col-lg-12 responsive-mg-b-30 res-tablet-mg-t-30 dk-res-t-pro-30">
+                                <div class="profile-info-inner">
+                                    <div class="profile-img">
+                                       <h4> Project Overall Material Details</h4>
+                                    </div>
+                                    <div class="profile-details-hr">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Material</th>
+                                                        <th>Quantity</th>
+                                                        <th>Unit</th>
+                                                    </tr>
+                                                    @forelse($contractproject->materialhistory as $material)
+                                                    <tr>
+                                                        <td>{{$loop->iteration}}</td>
+                                                        <td>{{$material->material->meterial_name}}</td>
+                                                        <td>{{$material->quantity}}</td>
+                                                        <td>{{$material->material->unit}}</td>
+                                                    </tr>
+                                                    @empty
+                                                    <tr>
+                                                        <td colspan="4">No Records</td>
+                                                        
+                                                    </tr>
+                                                    @endforelse
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
                         @endforeach
+                        
                     </div>
                     
                     
