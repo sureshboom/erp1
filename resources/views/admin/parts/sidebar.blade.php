@@ -67,13 +67,19 @@
                                <span class="mini-click-non">Worker Master</span>
                             </a>
                         </li>
-                        <li >
-                            <a  href="#">
+                        
+                        <li class="{{ ((request()->routeIs('salaryreport')) || (request()->routeIs('expensereport'))) ? 'active' : '' }}">
+                            <a class="has-arrow" href="#">
                                <span class="educate-icon educate-form icon-wrap"></span>
                                <span class="mini-click-non">Reports</span>
                             </a>
+                            <ul class="submenu-angle" aria-expanded="true">
+                                
+                                <li class="{{(request()->routeIs('salaryreport')) ? 'active' : '' }}"><a title="owner" href="{{ route('salaryreport')}}"><span class="mini-sub-pro">Salary Reports</span></a></li>
+                                <li class="{{(request()->routeIs('expensereport')) ? 'active' : '' }}"><a title="owner" href="{{ route('expensereport')}}"><span class="mini-sub-pro">Expense Reports</span></a></li>
+                                
+                            </ul>
                         </li>
-                            
                     </ul>
                 </nav>
             </div>

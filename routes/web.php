@@ -32,6 +32,7 @@ use App\Http\Controllers\User\account\LabourSupplierController;
 use App\Http\Controllers\User\account\PaymentController;
 use App\Http\Controllers\User\account\SupplierPaymentController;
 use App\Http\Controllers\User\account\SalaryController;
+use App\Http\Controllers\User\account\AccountReportController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -103,6 +104,10 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
     Route::get('/material_show/{id}', 'show')->name('materialview');
     Route::get('/materialpaid/{id}', 'materialpaid')->name('materialpaid');
     Route::get('/materialscancel/{id}', 'materialcancel')->name('materialcancel');
+
+
+    Route::get('/salaryreport', [AccountReportController::class, 'salaryreport'])->name('salaryreport');
+    Route::get('/expensereport', [AccountReportController::class, 'expensereport'])->name('expensereport');
 
 });
 

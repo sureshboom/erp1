@@ -62,9 +62,15 @@
     </ul>
 </li>
 
-<li>
+
+<li class="{{ ((request()->routeIs('account.salaryreport')) || (request()->routeIs('account.expensereport'))) ? 'active' : ''}}">
     <a class="has-arrow" href="#">
-       <span class="educate-icon educate-library icon-wrap"></span>
+       <span class="educate-icon educate-event icon-wrap"></span>
        <span class="mini-click-non">Reports</span>
     </a>
+    <ul class="submenu-angle" aria-expanded="true">
+        <li class="{{request()->routeIs('account.salaryreport') ? 'active' : ''}}"><a title="land" href="{{ route('account.salaryreport')}}"><span class="mini-sub-pro">Salary Report</span></a></li>
+        <li class="{{request()->routeIs('account.expensereport') ? 'active' : ''}}"><a title="land" href="{{ route('account.expensereport')}}"><span class="mini-sub-pro">Expense Report</span></a></li>
+        
+    </ul>
 </li>

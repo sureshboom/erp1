@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Sep 11, 2023 at 02:37 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Host: localhost:3306
+-- Generation Time: Sep 14, 2023 at 05:01 PM
+-- Server version: 5.7.23-23
+-- PHP Version: 8.1.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `erp`
+-- Database: `sunday4t_erp`
 --
 
 -- --------------------------------------------------------
@@ -30,33 +30,26 @@ SET time_zone = "+00:00";
 CREATE TABLE `accounts` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `user_code` varchar(255) DEFAULT NULL,
-  `photo` varchar(255) NOT NULL DEFAULT 'uploads/images/icon.jpg',
-  `img` varchar(255) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `alternate_no` varchar(255) DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
+  `user_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'uploads/images/icon.jpg',
+  `img` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alternate_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `salary` double(8,2) NOT NULL,
-  `aadharno` varchar(20) NOT NULL,
-  `pancard` varchar(20) NOT NULL,
-  `pfno` varchar(20) NOT NULL,
-  `experience` varchar(50) NOT NULL,
-  `attachment1` varchar(255) DEFAULT NULL,
-  `attachment2` varchar(255) DEFAULT NULL,
-  `attachment` varchar(255) DEFAULT NULL,
-  `vpassword` varchar(255) NOT NULL,
+  `aadharno` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pancard` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pfno` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `experience` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attachment1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attachment2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attachment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `vpassword` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `joined_date` date DEFAULT NULL,
-  `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
+  `status` enum('Active','Inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Active',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `accounts`
---
-
-INSERT INTO `accounts` (`id`, `user_id`, `user_code`, `photo`, `img`, `phone`, `alternate_no`, `location`, `salary`, `aadharno`, `pancard`, `pfno`, `experience`, `attachment1`, `attachment2`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 'SKS0002', 'uploads/images/account/Account_1690000757_64bb5d7564e90.png', '', '9876543210', '1234567890', 'mettu street\r\nworaiyur', 18000.00, '', '', '', '', NULL, NULL, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-21 23:09:17', '2023-07-25 07:20:26');
 
 -- --------------------------------------------------------
 
@@ -66,12 +59,12 @@ INSERT INTO `accounts` (`id`, `user_id`, `user_code`, `photo`, `img`, `phone`, `
 
 CREATE TABLE `admins` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL DEFAULT 'backend/image/default.png',
-  `remember_token` varchar(100) DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'backend/image/default.png',
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -92,18 +85,11 @@ INSERT INTO `admins` (`id`, `name`, `email`, `email_verified_at`, `password`, `i
 CREATE TABLE `advances` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `staff_id` bigint(20) UNSIGNED NOT NULL,
-  `amount` double(10,2) NOT NULL DEFAULT 0.00,
-  `detection` double(10,2) NOT NULL DEFAULT 0.00,
+  `amount` double(10,2) NOT NULL DEFAULT '0.00',
+  `detection` double(10,2) NOT NULL DEFAULT '0.00',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `advances`
---
-
-INSERT INTO `advances` (`id`, `staff_id`, `amount`, `detection`, `created_at`, `updated_at`) VALUES
-(2, 10, 1500.00, 1500.00, '2023-08-30 04:34:09', '2023-09-08 01:10:08');
 
 -- --------------------------------------------------------
 
@@ -116,19 +102,11 @@ CREATE TABLE `advance_histories` (
   `advance_id` bigint(20) UNSIGNED NOT NULL,
   `staff_id` bigint(20) UNSIGNED NOT NULL,
   `advance_date` date NOT NULL,
-  `amount` double(10,2) NOT NULL DEFAULT 0.00,
-  `notes` varchar(255) NOT NULL,
+  `amount` double(10,2) NOT NULL DEFAULT '0.00',
+  `notes` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `advance_histories`
---
-
-INSERT INTO `advance_histories` (`id`, `advance_id`, `staff_id`, `advance_date`, `amount`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 2, 10, '2023-08-16', 2000.00, 'Demo', '2023-08-30 04:34:10', '2023-08-30 04:34:10'),
-(5, 2, 10, '2023-08-18', 1000.00, 'demo2', '2023-08-30 06:07:25', '2023-08-30 06:08:18');
 
 -- --------------------------------------------------------
 
@@ -139,33 +117,26 @@ INSERT INTO `advance_histories` (`id`, `advance_id`, `staff_id`, `advance_date`,
 CREATE TABLE `chiefengineers` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `user_code` varchar(255) DEFAULT NULL,
-  `photo` varchar(255) NOT NULL,
-  `img` varchar(255) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `alternate_no` varchar(255) DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
+  `user_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `img` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alternate_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `salary` double(8,2) NOT NULL,
-  `aadharno` varchar(20) NOT NULL,
-  `pancard` varchar(20) NOT NULL,
-  `pfno` varchar(20) NOT NULL,
-  `experience` varchar(20) NOT NULL,
-  `attachment1` varchar(255) DEFAULT NULL,
-  `attachment2` varchar(255) DEFAULT NULL,
-  `attachment` varchar(255) DEFAULT NULL,
-  `vpassword` varchar(255) NOT NULL,
+  `aadharno` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pancard` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pfno` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `experience` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attachment1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attachment2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attachment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `vpassword` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `joined_date` date DEFAULT NULL,
-  `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
+  `status` enum('Active','Inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Active',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `chiefengineers`
---
-
-INSERT INTO `chiefengineers` (`id`, `user_id`, `user_code`, `photo`, `img`, `phone`, `alternate_no`, `location`, `salary`, `aadharno`, `pancard`, `pfno`, `experience`, `attachment1`, `attachment2`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 8, 'SKS0007', 'uploads/images/chiefengineer/Chief Engineer_1690361517_64c0dead750f7.png', NULL, '9092250561', '1234567890', 'mettu street\r\nworaiyur', 12000.00, '', '', '', '', NULL, NULL, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-26 03:21:57', '2023-07-26 03:21:57');
 
 -- --------------------------------------------------------
 
@@ -175,34 +146,27 @@ INSERT INTO `chiefengineers` (`id`, `user_id`, `user_code`, `photo`, `img`, `pho
 
 CREATE TABLE `contract_customers` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `customer_name` varchar(255) NOT NULL,
-  `phone` varchar(255) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `aadharno` varchar(255) NOT NULL,
-  `pancard` varchar(255) NOT NULL,
-  `attachment1` varchar(255) NOT NULL,
-  `attachment2` varchar(255) NOT NULL,
+  `customer_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `aadharno` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pancard` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attachment1` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attachment2` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `project_id` bigint(20) UNSIGNED NOT NULL,
   `amount` double(10,2) NOT NULL,
-  `paid` double(10,2) NOT NULL DEFAULT 0.00,
-  `pending` double(10,2) NOT NULL DEFAULT 0.00,
+  `paid` double(10,2) NOT NULL DEFAULT '0.00',
+  `pending` double(10,2) NOT NULL DEFAULT '0.00',
   `advance` double(10,2) NOT NULL,
-  `leadfrom` varchar(255) NOT NULL,
-  `middleman` varchar(255) DEFAULT NULL,
-  `level` enum('1','2','3','4') NOT NULL DEFAULT '1',
-  `status` enum('booking','mod','payment','closed') NOT NULL,
-  `promote` tinyint(1) NOT NULL DEFAULT 0,
-  `remarks` varchar(255) DEFAULT NULL,
+  `leadfrom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `middleman` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `level` enum('1','2','3','4') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1',
+  `status` enum('booking','mod','payment','closed') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `promote` tinyint(1) NOT NULL DEFAULT '0',
+  `remarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `contract_customers`
---
-
-INSERT INTO `contract_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `amount`, `paid`, `pending`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `promote`, `remarks`, `created_at`, `updated_at`) VALUES
-(1, 'siva raj', '9092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hws54', 'uploads/images/contractcustomer/aadhar/1692166181_64dc68257cafe.png', 'uploads/images/contractcustomer/pan/1692166181_64dc68257ce03.jpg', 1, 5000000.00, 100000.00, 4800000.00, 100000.00, 'salesteam', NULL, '2', 'mod', 0, 'Remark Demo', '2023-08-16 00:39:41', '2023-09-07 03:08:26');
 
 -- --------------------------------------------------------
 
@@ -212,28 +176,21 @@ INSERT INTO `contract_customers` (`id`, `customer_name`, `phone`, `location`, `a
 
 CREATE TABLE `contract_projects` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `project_name` varchar(255) NOT NULL,
+  `project_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
   `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
   `mesthiri_id` int(11) DEFAULT NULL,
-  `supplier_id` varchar(255) DEFAULT NULL,
+  `supplier_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `site_date` date DEFAULT NULL,
-  `dtcp_no` varchar(255) NOT NULL,
-  `reg_no` varchar(255) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `total_land_area` varchar(255) NOT NULL,
-  `total_buildup_area` varchar(255) NOT NULL,
-  `status` enum('ready_to_start','processing','completed') NOT NULL DEFAULT 'ready_to_start',
+  `dtcp_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reg_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_land_area` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_buildup_area` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('ready_to_start','processing','completed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'ready_to_start',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `contract_projects`
---
-
-INSERT INTO `contract_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengineer_id`, `mesthiri_id`, `supplier_id`, `site_date`, `dtcp_no`, `reg_no`, `location`, `total_land_area`, `total_buildup_area`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Golden Garden', 1, 1, 1, '1', '2023-08-02', '12312412433', '134123413233', 'Ganapathy', '3 Acres', '2.5 Acres', 'processing', '2023-08-15 03:30:39', '2023-09-06 01:19:12');
 
 -- --------------------------------------------------------
 
@@ -243,55 +200,20 @@ INSERT INTO `contract_projects` (`id`, `project_name`, `chiefengineer_id`, `site
 
 CREATE TABLE `customers` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `customer_name` varchar(255) NOT NULL,
-  `phone` varchar(255) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `interested_project` varchar(255) DEFAULT NULL,
-  `interested_area` varchar(255) DEFAULT NULL,
-  `source` varchar(255) DEFAULT NULL,
-  `feedback` varchar(255) DEFAULT NULL,
-  `response` varchar(255) DEFAULT NULL,
-  `remarks` varchar(255) DEFAULT NULL,
+  `customer_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `interested_project` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `interested_area` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `source` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `feedback` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `response` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `created_by_id` bigint(20) UNSIGNED NOT NULL,
-  `created_by_type` varchar(255) NOT NULL
+  `created_by_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `customers`
---
-
-INSERT INTO `customers` (`id`, `customer_name`, `phone`, `location`, `interested_project`, `interested_area`, `source`, `feedback`, `response`, `remarks`, `created_at`, `updated_at`, `created_by_id`, `created_by_type`) VALUES
-(1, 'siva raj1', '9092255561', 'mettu street\r\nworaiyurs.', 'lands', 'coimbatore', 'Telecaller', '', NULL, NULL, '2023-07-22 06:04:07', '2023-07-26 07:21:05', 1, 'salesperson'),
-(4, 'siva raj', '09092250561', 'mettu street\r\nworaiyur', 'lands', 'coimbatore', 'Telecaller', 'demo', 'Need to Visit', NULL, '2023-07-27 02:04:30', '2023-08-17 03:19:59', 1, 'telecaller'),
-(6, 'Raj', '09092250561', 'mettu street\r\nworaiyur', 'lands', 'coimbatore', 'Walk In', 'Visited', NULL, 'Revisit', '2023-07-28 01:42:09', '2023-08-17 05:34:59', 1, 'salesperson'),
-(8, 'Ramu', '09092250561', 'mettu street\r\nworaiyur', 'Land & Constructions', 'coimbatore', 'Website', NULL, 'Need to visit two sites', NULL, '2023-07-28 06:26:41', '2023-08-17 04:01:39', 1, 'telecaller');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `expenses`
---
-
-CREATE TABLE `expenses` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `type` enum('office','site') NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `edate` date NOT NULL,
-  `amount` double(10,2) NOT NULL,
-  `approved_by` varchar(255) NOT NULL,
-  `received_by` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `expenses`
---
-
-INSERT INTO `expenses` (`id`, `type`, `name`, `edate`, `amount`, `approved_by`, `received_by`, `created_at`, `updated_at`) VALUES
-(1, 'site', 'Office Tea Expenses', '2023-08-07', 500.00, 'Ram', 'Raju', '2023-08-08 00:03:26', '2023-08-08 00:28:27');
 
 -- --------------------------------------------------------
 
@@ -301,12 +223,12 @@ INSERT INTO `expenses` (`id`, `type`, `name`, `edate`, `amount`, `approved_by`, 
 
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -317,28 +239,21 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `labour_suppliers` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `phone` varchar(15) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `account` varchar(255) NOT NULL,
-  `pancard` varchar(255) NOT NULL,
-  `aadharno` varchar(255) NOT NULL,
-  `gstno` varchar(255) NOT NULL,
-  `attachment1` varchar(255) DEFAULT NULL,
-  `attachment2` varchar(255) DEFAULT NULL,
-  `total` double(10,2) NOT NULL DEFAULT 0.00,
-  `paid` double(10,2) NOT NULL DEFAULT 0.00,
-  `pending` double(10,2) NOT NULL DEFAULT 0.00,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `account` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pancard` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `aadharno` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gstno` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attachment1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attachment2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `total` double(10,2) NOT NULL DEFAULT '0.00',
+  `paid` double(10,2) NOT NULL DEFAULT '0.00',
+  `pending` double(10,2) NOT NULL DEFAULT '0.00',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `labour_suppliers`
---
-
-INSERT INTO `labour_suppliers` (`id`, `name`, `phone`, `address`, `account`, `pancard`, `aadharno`, `gstno`, `attachment1`, `attachment2`, `total`, `paid`, `pending`, `created_at`, `updated_at`) VALUES
-(1, 'Velu.R', '9876543210', 'Saravanam Patti,Coimbatour', 'Account No: 238461298367,\r\n Bank :state bank of india,\r\n IFSC Code:SBIN0007039.', '2346hwstw', '21321434214152', '1238967344425', 'uploads/images/laboursupplier/aadhar/1693810198_64f57e161cd60.png', 'uploads/images/laboursupplier/pan/1693810198_64f57e161d4a7.png', 100000.00, 0.00, 0.00, '2023-09-04 01:19:58', '2023-09-06 07:13:53');
 
 -- --------------------------------------------------------
 
@@ -348,36 +263,29 @@ INSERT INTO `labour_suppliers` (`id`, `name`, `phone`, `address`, `account`, `pa
 
 CREATE TABLE `land_customers` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `customer_name` varchar(255) NOT NULL,
-  `phone` varchar(255) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `aadharno` varchar(255) NOT NULL,
-  `pancard` varchar(255) NOT NULL,
-  `attachment1` varchar(255) NOT NULL,
-  `attachment2` varchar(255) NOT NULL,
+  `customer_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `aadharno` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pancard` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attachment1` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attachment2` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `project_id` bigint(20) UNSIGNED NOT NULL,
-  `plotno` varchar(255) NOT NULL,
-  `plot_area` varchar(255) NOT NULL,
+  `plotno` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `plot_area` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `amount` double(10,2) NOT NULL,
-  `paid` double(10,2) NOT NULL DEFAULT 0.00,
-  `pending` double(10,2) NOT NULL DEFAULT 0.00,
+  `paid` double(10,2) NOT NULL DEFAULT '0.00',
+  `pending` double(10,2) NOT NULL DEFAULT '0.00',
   `advance` double(10,2) NOT NULL,
-  `leadfrom` enum('salesteam','middleman') NOT NULL DEFAULT 'salesteam',
-  `middleman` varchar(255) DEFAULT NULL,
-  `level` enum('1','2','3','4') NOT NULL DEFAULT '1',
-  `status` enum('booking','mod','payment','closed') NOT NULL DEFAULT 'booking',
-  `remarks` varchar(255) DEFAULT NULL,
-  `promote` tinyint(1) DEFAULT 0,
+  `leadfrom` enum('salesteam','middleman') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'salesteam',
+  `middleman` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `level` enum('1','2','3','4') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1',
+  `status` enum('booking','mod','payment','closed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'booking',
+  `remarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `promote` tinyint(1) DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `land_customers`
---
-
-INSERT INTO `land_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `plotno`, `plot_area`, `amount`, `paid`, `pending`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `remarks`, `promote`, `created_at`, `updated_at`) VALUES
-(1, 'Ram', '9876554321', 'Saravanampatti, Coimbatore.', '3366424288997755', '5343feal4c', 'uploads/images/landcustomer/aadhar/1692106272_64db7e204db91.png', 'uploads/images/landcustomer/pan/1692106272_64db7e20522d1.png', 1, '122', '4 Cent', 2000000.00, 100000.00, 1700000.00, 200000.00, 'middleman', 'Raja', '1', 'booking', 'demo', 0, '2023-08-15 08:01:12', '2023-08-26 10:14:15');
 
 -- --------------------------------------------------------
 
@@ -387,26 +295,19 @@ INSERT INTO `land_customers` (`id`, `customer_name`, `phone`, `location`, `aadha
 
 CREATE TABLE `land_projects` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `project_name` varchar(255) NOT NULL,
+  `project_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
   `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
   `site_date` date DEFAULT NULL,
-  `dtcp_no` varchar(255) NOT NULL,
-  `reg_no` varchar(255) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `total_area` varchar(255) NOT NULL,
-  `no_plots` varchar(255) NOT NULL,
-  `status` enum('ready_to_start','processing','completed') NOT NULL DEFAULT 'ready_to_start',
+  `dtcp_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reg_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_area` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `no_plots` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('ready_to_start','processing','completed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'ready_to_start',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `land_projects`
---
-
-INSERT INTO `land_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengineer_id`, `site_date`, `dtcp_no`, `reg_no`, `location`, `total_area`, `no_plots`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Green Land', 1, 1, '2023-08-02', '11111333', '13331212212', 'Saravanampatti, Coimbatore.', '10 Acres', '30', 'processing', '2023-08-15 01:38:38', '2023-08-15 01:58:07');
 
 -- --------------------------------------------------------
 
@@ -416,26 +317,17 @@ INSERT INTO `land_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengi
 
 CREATE TABLE `materialins` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `project_type` enum('contract','villa') NOT NULL,
+  `project_type` enum('contract','villa') COLLATE utf8mb4_unicode_ci NOT NULL,
   `contract_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `villa_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `supplier_id` bigint(20) UNSIGNED DEFAULT NULL,
   `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
   `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
-  `amount` double(10,2) DEFAULT 0.00,
-  `status` enum('request','approved','order','verified','received') NOT NULL,
+  `amount` double(10,2) DEFAULT '0.00',
+  `status` enum('request','approved','order','verified','received') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `materialins`
---
-
-INSERT INTO `materialins` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `supplier_id`, `siteengineer_id`, `chiefengineer_id`, `amount`, `status`, `created_at`, `updated_at`) VALUES
-(4, 'contract', 1, NULL, 1, 1, 1, 20000.00, 'order', '2023-08-20 09:39:34', '2023-08-26 01:55:53'),
-(12, 'contract', 1, NULL, NULL, 1, 1, 0.00, 'request', '2023-08-20 11:10:31', '2023-08-20 11:10:31'),
-(14, 'contract', 1, NULL, NULL, 1, 1, 0.00, 'request', '2023-08-21 07:52:41', '2023-08-21 07:52:41');
 
 -- --------------------------------------------------------
 
@@ -445,7 +337,7 @@ INSERT INTO `materialins` (`id`, `project_type`, `contract_project_id`, `villa_p
 
 CREATE TABLE `materialpurchasehistories` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `project_type` enum('contract','villa') NOT NULL,
+  `project_type` enum('contract','villa') COLLATE utf8mb4_unicode_ci NOT NULL,
   `contract_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `villa_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `materialin_id` bigint(20) UNSIGNED NOT NULL,
@@ -454,18 +346,6 @@ CREATE TABLE `materialpurchasehistories` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `materialpurchasehistories`
---
-
-INSERT INTO `materialpurchasehistories` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `materialin_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(20, 'contract', 1, NULL, 12, 1, 8, '2023-08-20 11:11:52', '2023-08-20 11:11:52'),
-(21, 'contract', 1, NULL, 12, 3, 2, '2023-08-20 11:11:52', '2023-08-20 11:11:52'),
-(22, 'contract', 1, NULL, 4, 1, 10, '2023-08-21 02:38:23', '2023-08-21 02:38:23'),
-(23, 'contract', 1, NULL, 4, 3, 6, '2023-08-21 02:38:23', '2023-08-21 02:38:23'),
-(27, 'contract', 1, NULL, 14, 1, 7, '2023-08-21 07:52:41', '2023-08-21 07:52:41'),
-(28, 'contract', 1, NULL, 14, 3, 3, '2023-08-21 07:52:42', '2023-08-21 07:52:42');
 
 -- --------------------------------------------------------
 
@@ -475,7 +355,7 @@ INSERT INTO `materialpurchasehistories` (`id`, `project_type`, `contract_project
 
 CREATE TABLE `materialpurchases` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `project_type` enum('contract','villa') NOT NULL,
+  `project_type` enum('contract','villa') COLLATE utf8mb4_unicode_ci NOT NULL,
   `contract_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `villa_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `materialin_id` bigint(20) UNSIGNED NOT NULL,
@@ -484,14 +364,6 @@ CREATE TABLE `materialpurchases` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `materialpurchases`
---
-
-INSERT INTO `materialpurchases` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `materialin_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(1, 'contract', 1, NULL, 4, 1, 25, '2023-08-20 09:39:34', '2023-08-21 07:52:41'),
-(2, 'contract', 1, NULL, 4, 3, 11, '2023-08-20 09:39:34', '2023-08-21 07:52:42');
 
 -- --------------------------------------------------------
 
@@ -502,9 +374,9 @@ INSERT INTO `materialpurchases` (`id`, `project_type`, `contract_project_id`, `v
 CREATE TABLE `material_payment_histories` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `materialins_id` bigint(20) UNSIGNED NOT NULL,
-  `paytype` varchar(255) NOT NULL,
+  `paytype` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `amount` double(10,2) NOT NULL,
-  `payway` varchar(255) NOT NULL,
+  `payway` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -517,24 +389,16 @@ CREATE TABLE `material_payment_histories` (
 
 CREATE TABLE `mesthiris` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `nickname` varchar(255) NOT NULL,
-  `phone` varchar(255) NOT NULL,
-  `alternate_no` varchar(255) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `gpay` varchar(255) NOT NULL,
-  `account` varchar(255) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nickname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alternate_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gpay` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `account` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `mesthiris`
---
-
-INSERT INTO `mesthiris` (`id`, `name`, `nickname`, `phone`, `alternate_no`, `location`, `gpay`, `account`, `created_at`, `updated_at`) VALUES
-(1, 'Ragul', 'Demo', '9092255111', '9876543111', 'Saravanam patti,Coimbatore.', '9876543111', '313264325555', '2023-08-08 04:18:02', '2023-08-21 04:28:17'),
-(3, 'Ram', 'Demo1', '8610805698', '9876543210', 'Saravanampatti, Coimbatore.', '9876543210', '313264324024', '2023-08-08 05:31:25', '2023-08-21 04:28:27');
 
 -- --------------------------------------------------------
 
@@ -544,21 +408,13 @@ INSERT INTO `mesthiris` (`id`, `name`, `nickname`, `phone`, `alternate_no`, `loc
 
 CREATE TABLE `mesthiri_assigns` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `project_type` enum('contract','villa') NOT NULL,
+  `project_type` enum('contract','villa') COLLATE utf8mb4_unicode_ci NOT NULL,
   `contract_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `villa_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `mesthiri_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `mesthiri_assigns`
---
-
-INSERT INTO `mesthiri_assigns` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `mesthiri_id`, `created_at`, `updated_at`) VALUES
-(1, 'contract', 1, NULL, 1, '2023-08-21 07:40:40', '2023-08-21 07:40:40'),
-(2, 'villa', NULL, 1, 3, '2023-08-21 07:41:18', '2023-08-21 07:41:18');
 
 -- --------------------------------------------------------
 
@@ -568,20 +424,11 @@ INSERT INTO `mesthiri_assigns` (`id`, `project_type`, `contract_project_id`, `vi
 
 CREATE TABLE `meterials` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `meterial_name` varchar(255) NOT NULL,
-  `unit` varchar(255) NOT NULL,
+  `meterial_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `unit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `meterials`
---
-
-INSERT INTO `meterials` (`id`, `meterial_name`, `unit`, `created_at`, `updated_at`) VALUES
-(1, 'Ultra Cements 5kg', 'Muttai', '2023-07-29 03:12:50', '2023-07-31 04:12:22'),
-(3, 'P Sand', 'Ton', '2023-07-31 01:41:03', '2023-07-31 01:41:03'),
-(4, 'Ultra Cements 10kg', 'Muttai', '2023-08-01 04:16:58', '2023-08-01 04:16:58');
 
 -- --------------------------------------------------------
 
@@ -591,7 +438,7 @@ INSERT INTO `meterials` (`id`, `meterial_name`, `unit`, `created_at`, `updated_a
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -620,7 +467,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (24, '2023_07_29_075935_create_meterials_table', 6),
 (25, '2023_07_29_102229_create_suppliers_table', 7),
 (31, '2023_08_07_052254_create_material_payment_histories_table', 11),
-(34, '2023_08_07_121700_create_expenses_table', 14),
 (35, '2023_08_08_085515_create_mesthiris_table', 15),
 (37, '2023_08_08_121600_create_workers_table', 16),
 (40, '2023_08_14_084831_create_land_projects_table', 19),
@@ -652,8 +498,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_resets` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -664,8 +510,8 @@ CREATE TABLE `password_resets` (
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -677,36 +523,26 @@ CREATE TABLE `password_reset_tokens` (
 
 CREATE TABLE `payments` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `payment_type` enum('project','material','expense') NOT NULL,
-  `payment_subtype` enum('villa','contract','land','project','office') DEFAULT NULL,
-  `expense_project_type` enum('villa','contract','land') DEFAULT NULL,
+  `payment_type` enum('project','material','expense') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment_subtype` enum('villa','contract','land','project','office') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `expense_project_type` enum('villa','contract','land') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `project_id` bigint(20) DEFAULT NULL,
   `customer_id` bigint(20) DEFAULT NULL,
   `supplier_id` bigint(20) DEFAULT NULL,
-  `payment_mode` varchar(255) DEFAULT NULL,
-  `payment_by` varchar(255) DEFAULT NULL,
-  `total` double(10,2) NOT NULL DEFAULT 0.00,
-  `advance` double(10,2) NOT NULL DEFAULT 0.00,
-  `paid` double(10,2) NOT NULL DEFAULT 0.00,
-  `pending` double(10,2) NOT NULL DEFAULT 0.00,
+  `payment_mode` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payment_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `total` double(10,2) NOT NULL DEFAULT '0.00',
+  `advance` double(10,2) NOT NULL DEFAULT '0.00',
+  `paid` double(10,2) NOT NULL DEFAULT '0.00',
+  `pending` double(10,2) NOT NULL DEFAULT '0.00',
   `amount` double(10,2) NOT NULL,
   `payment_date` date NOT NULL,
-  `expense_for` varchar(255) DEFAULT NULL,
-  `approved_by` varchar(255) DEFAULT NULL,
-  `received_by` varchar(255) DEFAULT NULL,
+  `expense_for` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `approved_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `received_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `payments`
---
-
-INSERT INTO `payments` (`id`, `payment_type`, `payment_subtype`, `expense_project_type`, `project_id`, `customer_id`, `supplier_id`, `payment_mode`, `payment_by`, `total`, `advance`, `paid`, `pending`, `amount`, `payment_date`, `expense_for`, `approved_by`, `received_by`, `created_at`, `updated_at`) VALUES
-(4, 'project', 'land', NULL, 1, 1, NULL, 'Voucher', 'Voucher', 2000000.00, 200000.00, 300000.00, 1700000.00, 100000.00, '2023-08-25', NULL, NULL, NULL, '2023-08-26 10:14:14', '2023-08-26 10:14:14'),
-(9, 'expense', 'office', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 500.00, '2023-08-25', 'Tea', 'Account', 'Ramu', '2023-08-27 06:19:00', '2023-08-27 06:19:00'),
-(24, 'expense', 'office', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0.00, 0.00, 0.00, 2000.00, '2023-08-28', 'demo2', 'Ram', 'Raju', '2023-08-28 23:43:32', '2023-08-28 23:43:32'),
-(25, 'project', 'contract', NULL, 1, 1, NULL, 'Gpay/Phonepay', '9876543210', 5000000.00, 100000.00, 200000.00, 4800000.00, 100000.00, '2023-09-06', NULL, NULL, NULL, '2023-09-07 03:08:26', '2023-09-07 03:08:26');
 
 -- --------------------------------------------------------
 
@@ -716,11 +552,11 @@ INSERT INTO `payments` (`id`, `payment_type`, `payment_subtype`, `expense_projec
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `abilities` text DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -735,37 +571,29 @@ CREATE TABLE `personal_access_tokens` (
 
 CREATE TABLE `project_customers` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `customer_name` varchar(255) NOT NULL,
-  `phone` varchar(255) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `aadharno` varchar(255) NOT NULL,
-  `pancard` varchar(255) NOT NULL,
-  `attachment1` varchar(255) NOT NULL,
-  `attachment2` varchar(255) NOT NULL,
+  `customer_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `aadharno` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pancard` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attachment1` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attachment2` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `project_id` bigint(20) UNSIGNED NOT NULL,
-  `vilano` varchar(255) NOT NULL,
-  `villa_area` varchar(255) NOT NULL,
+  `vilano` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `villa_area` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `amount` double(10,2) NOT NULL,
-  `paid` double(10,2) NOT NULL DEFAULT 0.00,
-  `pending` double(10,2) NOT NULL DEFAULT 0.00,
+  `paid` double(10,2) NOT NULL DEFAULT '0.00',
+  `pending` double(10,2) NOT NULL DEFAULT '0.00',
   `advance` double(10,2) NOT NULL,
-  `leadfrom` varchar(255) NOT NULL,
-  `middleman` varchar(255) DEFAULT NULL,
-  `level` enum('1','2','3','4') NOT NULL DEFAULT '1',
-  `status` enum('booking','mod','payment','closed') NOT NULL,
-  `promote` tinyint(1) NOT NULL DEFAULT 0,
-  `remarks` varchar(255) DEFAULT NULL,
+  `leadfrom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `middleman` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `level` enum('1','2','3','4') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1',
+  `status` enum('booking','mod','payment','closed') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `promote` tinyint(1) NOT NULL DEFAULT '0',
+  `remarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `project_customers`
---
-
-INSERT INTO `project_customers` (`id`, `customer_name`, `phone`, `location`, `aadharno`, `pancard`, `attachment1`, `attachment2`, `project_id`, `vilano`, `villa_area`, `amount`, `paid`, `pending`, `advance`, `leadfrom`, `middleman`, `level`, `status`, `promote`, `remarks`, `created_at`, `updated_at`) VALUES
-(1, 'siva raj', '09092250561', 'mettu street\r\nworaiyur', '21321434214152', '2346hwstw', 'uploads/images/villacustomer/aadhar/1692177834_64dc95aa691d9.png', 'uploads/images/villacustomer/pan/1692177834_64dc95aa6958f.png', 1, '1', '2550sqft', 5000000.00, 0.00, 0.00, 100000.00, 'middleman', 'demo', '2', 'mod', 0, 'Demo', '2023-08-16 03:53:54', '2023-09-03 07:06:34'),
-(3, 'Ramu', '9876543210', 'Coimbatore', '12345678901', 'seo13cce', 'uploads/images/villacustomer/aadhar/1693744887_64f47ef78faca.png', 'uploads/images/villacustomer/pan/1693744887_64f47ef79303e.png', 1, '2', '2880sqft', 5000000.00, 0.00, 0.00, 500000.00, 'salesteam', NULL, '1', 'booking', 0, 'demo', '2023-09-03 07:11:27', '2023-09-03 07:11:27');
 
 -- --------------------------------------------------------
 
@@ -778,21 +606,13 @@ CREATE TABLE `salaries` (
   `staff_id` bigint(20) UNSIGNED NOT NULL,
   `from_date` date NOT NULL,
   `to_date` date NOT NULL,
-  `salary_amount` double(10,2) NOT NULL DEFAULT 0.00,
-  `advance` double(10,2) NOT NULL DEFAULT 0.00,
-  `detection` double(10,2) NOT NULL DEFAULT 0.00,
-  `salary` double(10,2) NOT NULL DEFAULT 0.00,
+  `salary_amount` double(10,2) NOT NULL DEFAULT '0.00',
+  `advance` double(10,2) NOT NULL DEFAULT '0.00',
+  `detection` double(10,2) NOT NULL DEFAULT '0.00',
+  `salary` double(10,2) NOT NULL DEFAULT '0.00',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `salaries`
---
-
-INSERT INTO `salaries` (`id`, `staff_id`, `from_date`, `to_date`, `salary_amount`, `advance`, `detection`, `salary`, `created_at`, `updated_at`) VALUES
-(2, 13, '2023-09-01', '2023-09-30', 15000.00, 0.00, 0.00, 15000.00, '2023-09-08 01:07:40', '2023-09-08 01:07:40'),
-(3, 10, '2023-09-01', '2023-09-30', 15000.00, 3000.00, 1500.00, 13500.00, '2023-09-08 01:10:08', '2023-09-08 01:10:08');
 
 -- --------------------------------------------------------
 
@@ -803,33 +623,26 @@ INSERT INTO `salaries` (`id`, `staff_id`, `from_date`, `to_date`, `salary_amount
 CREATE TABLE `salesmanagers` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `user_code` varchar(255) DEFAULT NULL,
-  `photo` varchar(255) NOT NULL,
-  `img` varchar(255) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `alternate_no` varchar(255) DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
+  `user_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `img` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alternate_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `salary` double(8,2) NOT NULL,
-  `aadharno` varchar(20) NOT NULL,
-  `pancard` varchar(20) NOT NULL,
-  `pfno` varchar(20) NOT NULL,
-  `experience` varchar(20) NOT NULL,
-  `attachment1` varchar(255) DEFAULT NULL,
-  `attachment2` varchar(255) DEFAULT NULL,
-  `attachment` varchar(255) DEFAULT NULL,
-  `vpassword` varchar(255) NOT NULL,
+  `aadharno` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pancard` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pfno` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `experience` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attachment1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attachment2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attachment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `vpassword` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `joined_date` date DEFAULT NULL,
-  `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
+  `status` enum('Active','Inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Active',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `salesmanagers`
---
-
-INSERT INTO `salesmanagers` (`id`, `user_id`, `user_code`, `photo`, `img`, `phone`, `alternate_no`, `location`, `salary`, `aadharno`, `pancard`, `pfno`, `experience`, `attachment1`, `attachment2`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 9, 'SKS0008', 'uploads/images/salesmanager/Sales Manager_1690361610_64c0df0a87d3c.png', NULL, '9092250561', '9876543210', 'mettu street\r\nworaiyur', 18000.00, '663446734555557354', '35734574', '27544444444447444', '3', '', '', NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-26 03:23:30', '2023-08-12 08:51:20');
 
 -- --------------------------------------------------------
 
@@ -840,33 +653,26 @@ INSERT INTO `salesmanagers` (`id`, `user_id`, `user_code`, `photo`, `img`, `phon
 CREATE TABLE `salespeople` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `user_code` varchar(255) DEFAULT NULL,
-  `photo` varchar(255) NOT NULL,
-  `img` varchar(255) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `alternate_no` varchar(255) DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
+  `user_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `img` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alternate_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `salary` double(8,2) NOT NULL,
-  `aadharno` varchar(20) NOT NULL,
-  `pancard` varchar(20) NOT NULL,
-  `pfno` varchar(20) NOT NULL,
-  `experience` varchar(20) NOT NULL,
-  `attachment1` varchar(255) DEFAULT NULL,
-  `attachment2` varchar(255) DEFAULT NULL,
-  `attachment` varchar(255) DEFAULT NULL,
-  `vpassword` varchar(255) NOT NULL,
+  `aadharno` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pancard` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pfno` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `experience` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attachment1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attachment2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attachment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `vpassword` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `joined_date` date DEFAULT NULL,
-  `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
+  `status` enum('Active','Inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Active',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `salespeople`
---
-
-INSERT INTO `salespeople` (`id`, `user_id`, `user_code`, `photo`, `img`, `phone`, `alternate_no`, `location`, `salary`, `aadharno`, `pancard`, `pfno`, `experience`, `attachment1`, `attachment2`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 10, 'SKS0009', 'uploads/images/salesperson/Sales Person_1690361756_64c0df9c3f22b.png', NULL, '1234567890', '9876543210', 'mettu street\r\nworaiyur', 12000.00, '12521352135', '1111142', '25231111111115', '4', NULL, NULL, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-26 03:25:56', '2023-08-12 07:48:06');
 
 -- --------------------------------------------------------
 
@@ -877,66 +683,26 @@ INSERT INTO `salespeople` (`id`, `user_id`, `user_code`, `photo`, `img`, `phone`
 CREATE TABLE `siteengineers` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `user_code` varchar(255) DEFAULT NULL,
-  `photo` varchar(255) NOT NULL,
-  `img` varchar(255) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `alternate_no` varchar(255) DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
+  `user_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `img` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alternate_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `salary` double(8,2) NOT NULL,
-  `aadharno` varchar(20) NOT NULL,
-  `pancard` varchar(20) NOT NULL,
-  `pfno` varchar(20) NOT NULL,
-  `experience` varchar(20) NOT NULL,
-  `attachment1` varchar(255) DEFAULT NULL,
-  `attachment2` varchar(255) DEFAULT NULL,
-  `attachment` varchar(255) DEFAULT NULL,
-  `vpassword` varchar(255) NOT NULL,
+  `aadharno` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pancard` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pfno` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `experience` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attachment1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attachment2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attachment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `vpassword` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `joined_date` date DEFAULT NULL,
-  `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
+  `status` enum('Active','Inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Active',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `siteengineers`
---
-
-INSERT INTO `siteengineers` (`id`, `user_id`, `user_code`, `photo`, `img`, `phone`, `alternate_no`, `location`, `salary`, `aadharno`, `pancard`, `pfno`, `experience`, `attachment1`, `attachment2`, `attachment`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 7, 'SKS0006', 'uploads/images/siteengineer/Site Engineer_1690361285_64c0ddc56cc9b.png', NULL, '9092250561', '9876543210', 'mettu street\r\nworaiyur', 15000.00, '432266622623463', '23462646334', '326424623336', '4', 'uploads/images/siteengineer/pan/1691849602_64d793826bd70.png', NULL, 'uploads/images/siteengineer/aadhar/1691849602_64d7938260814.png', 'demo@demo', '2023-07-01', 'Active', '2023-07-26 03:18:05', '2023-08-12 08:43:22'),
-(2, 13, 'sksvn1', 'uploads/images/siteengineer/demo_1691843451_64d77b7b138db.png', NULL, '2342345324', '346324634', 'demo', 15000.00, '42136346234632', '1234fwcx', '23623463534', '4', 'uploads/uploads/images/siteengineer/pan/1691843451_64d77b7b2bde6.png', 'uploads/uploads/images/siteengineer/others/1691843451_64d77b7b2c460.png', 'uploads/uploads/images/siteengineer/aadhar/1691843451_64d77b7b286c6.png', 'demo@demo', '2023-08-04', 'Active', '2023-08-12 07:00:51', '2023-08-12 07:00:51');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sites`
---
-
-CREATE TABLE `sites` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `sitename` varchar(255) NOT NULL,
-  `siteid` varchar(255) NOT NULL,
-  `sitetype` varchar(255) NOT NULL,
-  `owner_id` bigint(20) UNSIGNED NOT NULL,
-  `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
-  `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
-  `mesthiri_id` bigint(20) DEFAULT NULL,
-  `amount` double(10,2) NOT NULL DEFAULT 0.00,
-  `paid` double(10,2) NOT NULL DEFAULT 0.00,
-  `pending` double(10,2) NOT NULL DEFAULT 0.00,
-  `location` varchar(255) NOT NULL,
-  `site_date` date DEFAULT NULL,
-  `status` enum('ready_to_start','processing','completed') NOT NULL DEFAULT 'ready_to_start',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `sites`
---
-
-INSERT INTO `sites` (`id`, `sitename`, `siteid`, `sitetype`, `owner_id`, `chiefengineer_id`, `siteengineer_id`, `mesthiri_id`, `amount`, `paid`, `pending`, `location`, `site_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Site A', 'SKSPR01', 'Land & Construction', 1, 1, 1, 3, 2000000.00, 300000.00, 1700000.00, 'Saravanampatti,Coimbatore.', '2023-07-01', 'ready_to_start', '2023-07-26 06:30:12', '2023-08-08 05:31:52');
 
 -- --------------------------------------------------------
 
@@ -947,23 +713,14 @@ INSERT INTO `sites` (`id`, `sitename`, `siteid`, `sitetype`, `owner_id`, `chiefe
 CREATE TABLE `sitevisitarranges` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `customer_id` bigint(20) UNSIGNED NOT NULL,
-  `site_name` varchar(255) NOT NULL,
+  `site_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `date` date NOT NULL,
-  `received_id` varchar(255) DEFAULT NULL,
-  `status` enum('open','visited','closed') NOT NULL,
-  `remarks` varchar(255) DEFAULT NULL,
+  `received_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('open','visited','closed') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `sitevisitarranges`
---
-
-INSERT INTO `sitevisitarranges` (`id`, `customer_id`, `site_name`, `date`, `received_id`, `status`, `remarks`, `created_at`, `updated_at`) VALUES
-(2, 4, 'Site A', '2023-07-31', '1', 'closed', NULL, '2023-07-27 06:45:30', '2023-07-28 04:28:13'),
-(3, 6, 'Site B', '2023-07-28', '1', 'open', NULL, '2023-07-28 01:42:09', '2023-08-17 05:34:59'),
-(5, 8, 'Site C', '2023-08-01', '1', 'open', NULL, '2023-07-28 06:29:49', '2023-08-17 04:01:39');
 
 -- --------------------------------------------------------
 
@@ -973,25 +730,18 @@ INSERT INTO `sitevisitarranges` (`id`, `customer_id`, `site_name`, `date`, `rece
 
 CREATE TABLE `suppliers` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `supplier_name` varchar(255) NOT NULL,
-  `supplier_phone` varchar(15) NOT NULL,
-  `supplier_gstno` varchar(255) NOT NULL,
-  `supplier_location` varchar(255) NOT NULL,
-  `supplier_gpay` varchar(255) NOT NULL,
-  `supplier_account` varchar(255) NOT NULL,
-  `total` double(10,2) NOT NULL DEFAULT 0.00,
-  `paid` double(10,2) NOT NULL DEFAULT 0.00,
-  `pending` double(10,2) NOT NULL DEFAULT 0.00,
+  `supplier_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `supplier_phone` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `supplier_gstno` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `supplier_location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `supplier_gpay` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `supplier_account` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total` double(10,2) NOT NULL DEFAULT '0.00',
+  `paid` double(10,2) NOT NULL DEFAULT '0.00',
+  `pending` double(10,2) NOT NULL DEFAULT '0.00',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `suppliers`
---
-
-INSERT INTO `suppliers` (`id`, `supplier_name`, `supplier_phone`, `supplier_gstno`, `supplier_location`, `supplier_gpay`, `supplier_account`, `total`, `paid`, `pending`, `created_at`, `updated_at`) VALUES
-(1, 'Ramu', '9876543554', '9922884466113', 'Saravanampatti, Coimbatore.', '1234567787', 'Account No: 238461298367,\r\nBank :state bank of india,\r\nIFSC Code:SBIN0007039', 20000.00, 0.00, 20000.00, '2023-07-29 06:03:38', '2023-08-27 23:41:26');
 
 -- --------------------------------------------------------
 
@@ -1001,7 +751,7 @@ INSERT INTO `suppliers` (`id`, `supplier_name`, `supplier_phone`, `supplier_gstn
 
 CREATE TABLE `supplier_assigns` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `project_type` enum('contract','villa') NOT NULL,
+  `project_type` enum('contract','villa') COLLATE utf8mb4_unicode_ci NOT NULL,
   `contractproject_id` bigint(20) UNSIGNED DEFAULT NULL,
   `villaproject_id` bigint(20) UNSIGNED DEFAULT NULL,
   `villa_id` bigint(20) UNSIGNED DEFAULT NULL,
@@ -1009,18 +759,10 @@ CREATE TABLE `supplier_assigns` (
   `from_date` date NOT NULL,
   `end_date` date NOT NULL,
   `amount` double(10,2) NOT NULL,
-  `status` enum('pending','cancel','approved') NOT NULL DEFAULT 'pending',
+  `status` enum('pending','cancel','approved') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `supplier_assigns`
---
-
-INSERT INTO `supplier_assigns` (`id`, `project_type`, `contractproject_id`, `villaproject_id`, `villa_id`, `supplier_id`, `from_date`, `end_date`, `amount`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'contract', 1, NULL, NULL, 1, '2023-09-01', '2023-09-30', 30000.00, 'approved', '2023-09-06 01:13:49', '2023-09-06 01:19:12'),
-(2, 'villa', NULL, 1, 1, 1, '2023-09-01', '2023-09-30', 25000.00, 'approved', '2023-09-06 07:13:19', '2023-09-06 07:13:53');
 
 -- --------------------------------------------------------
 
@@ -1030,25 +772,17 @@ INSERT INTO `supplier_assigns` (`id`, `project_type`, `contractproject_id`, `vil
 
 CREATE TABLE `supplier_payments` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `project_type` enum('contract','villa') NOT NULL,
+  `project_type` enum('contract','villa') COLLATE utf8mb4_unicode_ci NOT NULL,
   `contractproject_id` bigint(20) UNSIGNED DEFAULT NULL,
   `villaproject_id` bigint(20) UNSIGNED DEFAULT NULL,
   `villa_id` bigint(20) UNSIGNED DEFAULT NULL,
   `supplier_id` bigint(20) UNSIGNED NOT NULL,
   `total` double(10,2) NOT NULL,
-  `paid` double(10,2) NOT NULL DEFAULT 0.00,
-  `pending` double(10,2) NOT NULL DEFAULT 0.00,
+  `paid` double(10,2) NOT NULL DEFAULT '0.00',
+  `pending` double(10,2) NOT NULL DEFAULT '0.00',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `supplier_payments`
---
-
-INSERT INTO `supplier_payments` (`id`, `project_type`, `contractproject_id`, `villaproject_id`, `villa_id`, `supplier_id`, `total`, `paid`, `pending`, `created_at`, `updated_at`) VALUES
-(1, 'contract', 1, NULL, NULL, 1, 30000.00, 7500.00, 22500.00, '2023-09-06 01:19:12', '2023-09-07 04:03:25'),
-(2, 'villa', NULL, 1, 1, 1, 25000.00, 6500.00, 18500.00, '2023-09-06 07:13:53', '2023-09-07 04:23:45');
 
 -- --------------------------------------------------------
 
@@ -1060,20 +794,12 @@ CREATE TABLE `supplier_payment_histories` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `supplier_payment_id` bigint(20) UNSIGNED NOT NULL,
   `amount` double(10,2) NOT NULL,
-  `payment_mode` varchar(255) NOT NULL,
-  `payment_by` varchar(255) NOT NULL,
+  `payment_mode` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment_by` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `payment_date` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `supplier_payment_histories`
---
-
-INSERT INTO `supplier_payment_histories` (`id`, `supplier_payment_id`, `amount`, `payment_mode`, `payment_by`, `payment_date`, `created_at`, `updated_at`) VALUES
-(1, 1, 7500.00, 'Gpay/Phonepay', '9876543210', '2023-09-07', '2023-09-07 00:47:32', '2023-09-07 00:47:32'),
-(4, 2, 6500.00, 'Gpay/Phonepay', '9876543210', '2023-09-07', '2023-09-07 04:23:44', '2023-09-07 04:23:44');
 
 -- --------------------------------------------------------
 
@@ -1084,34 +810,26 @@ INSERT INTO `supplier_payment_histories` (`id`, `supplier_payment_id`, `amount`,
 CREATE TABLE `telecallers` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `user_code` varchar(255) DEFAULT NULL,
-  `photo` varchar(255) NOT NULL DEFAULT 'uploads/images/icon.jpg',
-  `img` varchar(255) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `alternate_no` varchar(255) DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
+  `user_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'uploads/images/icon.jpg',
+  `img` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alternate_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `salary` double(8,2) NOT NULL,
-  `aadharno` varchar(15) NOT NULL,
-  `pancard` varchar(15) NOT NULL,
-  `pfno` varchar(20) NOT NULL,
-  `experience` varchar(50) NOT NULL,
-  `attachment` varchar(255) DEFAULT NULL,
-  `attachment1` varchar(255) DEFAULT NULL,
-  `attachment2` varchar(255) DEFAULT NULL,
-  `vpassword` varchar(255) NOT NULL,
+  `aadharno` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pancard` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pfno` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `experience` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attachment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attachment1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attachment2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `vpassword` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `joined_date` date DEFAULT NULL,
-  `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
+  `status` enum('Active','Inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Active',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `telecallers`
---
-
-INSERT INTO `telecallers` (`id`, `user_id`, `user_code`, `photo`, `img`, `phone`, `alternate_no`, `location`, `salary`, `aadharno`, `pancard`, `pfno`, `experience`, `attachment`, `attachment1`, `attachment2`, `vpassword`, `joined_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'SKS0001', 'uploads/images/telecaller/Telecaller_1690000628_64bb5cf425ffe.png', NULL, '9876543212', '1234567690', 'mettu street\r\nworaiyurs.', 10000.00, '', '', '', '', NULL, NULL, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-21 23:07:08', '2023-07-25 07:20:34'),
-(3, 6, 'SKS0005', 'uploads/images/telecaller/Telecaller_1690183785_64be2869f0b3f.png', NULL, '1234567890', '9876543210', 'mettu street\r\nworaiyur', 10000.00, '', '', '', '', NULL, NULL, NULL, 'demo@demo', '2023-07-01', 'Active', '2023-07-24 01:59:46', '2023-07-25 07:19:55');
 
 -- --------------------------------------------------------
 
@@ -1129,14 +847,6 @@ CREATE TABLE `teleworks` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `teleworks`
---
-
-INSERT INTO `teleworks` (`id`, `telecaller_id`, `called`, `follow_up`, `site_visit`, `created_at`, `updated_at`) VALUES
-(2, 1, 15, 8, 5, '2023-07-22 06:55:16', '2023-07-22 06:59:29'),
-(3, 1, 5, 2, 1, '2023-09-09 05:31:33', '2023-09-09 05:31:33');
-
 -- --------------------------------------------------------
 
 --
@@ -1145,29 +855,15 @@ INSERT INTO `teleworks` (`id`, `telecaller_id`, `called`, `follow_up`, `site_vis
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('account','telecaller','siteengineer','chiefengineer','salesmanager','salesperson') NOT NULL DEFAULT 'telecaller',
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` enum('account','telecaller','siteengineer','chiefengineer','salesmanager','salesperson') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'telecaller',
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Telecaller1', 'telecaller1@gmail.com', '$2y$10$QqnSeIegAXenGM0eLMPmbu6RABKxa8.PMhYZjRx8B6TORkVRxv4Jq', 'telecaller', NULL, NULL, '2023-07-21 23:07:08', '2023-07-25 07:20:34'),
-(2, 'Account', 'account1@gmail.com', '$2y$10$ukMA8mc7tanSSXV6Bkk.oOl6W.DNcw8UtgktldeFAapfIb5YAX7.m', 'account', NULL, NULL, '2023-07-21 23:09:17', '2023-07-25 07:20:26'),
-(6, 'Telecaller', 'telecaller2@gmail.com', '$2y$10$miTEhC2KzFKufgl4rN7HiuORPFId6OpSJNtACnMa0nR6M/.UyOOSS', 'telecaller', NULL, NULL, '2023-07-24 01:59:45', '2023-07-25 07:19:55'),
-(7, 'Site Engineer', 'siteengineer1@gmail.com', '$2y$10$/mKPwXEIlqsUARrL6rvDKu04OkPGSi5FpHTxBnz8.Vp2x/iF5G8kW', 'siteengineer', NULL, NULL, '2023-07-26 03:18:05', '2023-08-12 08:43:22'),
-(8, 'Chief Engineer', 'chiefengineer1@gmail.com', '$2y$10$c/uHZ/xlW9fHt6MIdEMiUeEMzl9pBYpAguUwQVkPt3hF1nAUPgulS', 'chiefengineer', NULL, NULL, '2023-07-26 03:21:57', '2023-07-26 03:21:57'),
-(9, 'Sales Manager', 'salesmanager1@gmail.com', '$2y$10$Xn10UGreyRbP/qgNmTFopePoqeY8o1m8BhDC/KmFtSeXxmEIBMe96', 'salesmanager', NULL, NULL, '2023-07-26 03:23:30', '2023-08-12 08:51:20'),
-(10, 'Sales Person', 'salesperson1@gmail.com', '$2y$10$.GvPKjzE78OPKsvs3khy/O7jhq12BXPtnks4EM6wVkLFBuc8bNj6y', 'salesperson', NULL, NULL, '2023-07-26 03:25:56', '2023-08-12 07:48:06'),
-(13, 'demo', 'demo@gmail.com', '$2y$10$akhUIO5A030Ylm4.2X4aE.c.LuMV.5DWuraBIvsJ6LQBUkQ8gyik2', 'siteengineer', NULL, NULL, '2023-08-12 07:00:51', '2023-08-12 07:00:51');
 
 -- --------------------------------------------------------
 
@@ -1178,21 +874,12 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `email_verified_
 CREATE TABLE `villas` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `villaproject_id` bigint(20) UNSIGNED NOT NULL,
-  `villa_no` varchar(255) NOT NULL,
-  `villa_area` varchar(255) NOT NULL,
+  `villa_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `villa_area` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `supplier_id` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `villas`
---
-
-INSERT INTO `villas` (`id`, `villaproject_id`, `villa_no`, `villa_area`, `supplier_id`, `created_at`, `updated_at`) VALUES
-(1, 1, '1a', '2550sqft', 1, '2023-09-03 02:14:32', '2023-09-06 07:13:53'),
-(2, 1, '2', '2880sqft', NULL, '2023-09-03 02:14:32', '2023-09-03 02:14:32'),
-(4, 1, '2a', '2880sqft', NULL, '2023-09-06 00:32:03', '2023-09-06 00:32:03');
 
 -- --------------------------------------------------------
 
@@ -1202,28 +889,21 @@ INSERT INTO `villas` (`id`, `villaproject_id`, `villa_no`, `villa_area`, `suppli
 
 CREATE TABLE `villa_projects` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `project_name` varchar(255) NOT NULL,
+  `project_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `chiefengineer_id` bigint(20) UNSIGNED NOT NULL,
   `siteengineer_id` bigint(20) UNSIGNED NOT NULL,
   `mesthiri_id` int(11) DEFAULT NULL,
   `site_date` date DEFAULT NULL,
-  `dtcp_no` varchar(255) NOT NULL,
-  `reg_no` varchar(255) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `total_land_area` varchar(255) NOT NULL,
-  `total_buildup_area` varchar(255) NOT NULL,
-  `no_of_unit` varchar(255) NOT NULL,
-  `status` enum('ready_to_start','processing','completed') NOT NULL DEFAULT 'ready_to_start',
+  `dtcp_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reg_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_land_area` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_buildup_area` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `no_of_unit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('ready_to_start','processing','completed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'ready_to_start',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `villa_projects`
---
-
-INSERT INTO `villa_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengineer_id`, `mesthiri_id`, `site_date`, `dtcp_no`, `reg_no`, `location`, `total_land_area`, `total_buildup_area`, `no_of_unit`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Green Gardens', 1, 1, 3, '2023-08-02', '123411234', '1411564453', 'Saravanam patti, Coimbatore.', '10 Acres', '9 Acres', '25', 'processing', '2023-08-15 02:51:56', '2023-08-21 07:41:18');
 
 -- --------------------------------------------------------
 
@@ -1233,24 +913,10 @@ INSERT INTO `villa_projects` (`id`, `project_name`, `chiefengineer_id`, `siteeng
 
 CREATE TABLE `workers` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `workers`
---
-
-INSERT INTO `workers` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'Mason', '2023-08-08 07:19:20', '2023-08-08 23:09:09'),
-(3, 'Plumber', '2023-08-08 23:09:50', '2023-08-08 23:09:50'),
-(4, 'Electrician', '2023-08-08 23:10:52', '2023-08-08 23:10:52'),
-(5, 'Welder', '2023-08-08 23:11:16', '2023-08-08 23:11:16'),
-(6, 'Concrete Finisher', '2023-08-08 23:11:45', '2023-08-08 23:11:54'),
-(7, 'Tile Setter', '2023-08-08 23:12:09', '2023-08-08 23:12:09'),
-(8, 'Roofer', '2023-08-08 23:12:36', '2023-08-08 23:12:36'),
-(9, 'Flooring Installer', '2023-08-08 23:14:03', '2023-08-08 23:14:03');
 
 -- --------------------------------------------------------
 
@@ -1260,26 +926,18 @@ INSERT INTO `workers` (`id`, `name`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `worker_entries` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `project_type` enum('contract','villa') NOT NULL,
+  `project_type` enum('contract','villa') COLLATE utf8mb4_unicode_ci NOT NULL,
   `contract_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `villa_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `mesthiri_id` bigint(20) UNSIGNED NOT NULL,
   `workeddate` date NOT NULL,
-  `salary` double(10,2) NOT NULL DEFAULT 0.00,
-  `workers` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`workers`)),
+  `salary` double(10,2) NOT NULL DEFAULT '0.00',
+  `workers` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `count` int(11) NOT NULL,
-  `status` enum('pending','verified','paid') NOT NULL,
+  `status` enum('pending','verified','paid') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `worker_entries`
---
-
-INSERT INTO `worker_entries` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `mesthiri_id`, `workeddate`, `salary`, `workers`, `count`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'contract', 1, NULL, 1, '2023-08-22', 0.00, '[{\"Mason\":\"3\"},{\"Plumber\":\"4\"}]', 7, 'pending', '2023-08-22 02:03:54', '2023-08-22 02:03:54'),
-(2, 'villa', 1, 1, 3, '2023-08-22', 2500.00, '[{\"Mason\":\"5\"},{\"Plumber\":\"4\"}]', 9, 'verified', '2023-08-22 02:15:47', '2023-08-22 03:21:39');
 
 -- --------------------------------------------------------
 
@@ -1289,22 +947,15 @@ INSERT INTO `worker_entries` (`id`, `project_type`, `contract_project_id`, `vill
 
 CREATE TABLE `work_entries` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `project_type` enum('contract','villa') NOT NULL,
+  `project_type` enum('contract','villa') COLLATE utf8mb4_unicode_ci NOT NULL,
   `contract_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `villa_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `working_date` date NOT NULL,
-  `works` varchar(255) NOT NULL,
-  `status` enum('pending','verified') NOT NULL,
+  `works` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('pending','verified') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `work_entries`
---
-
-INSERT INTO `work_entries` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `working_date`, `works`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'villa', 1, 1, '2023-08-22', 'Work Details Testing', 'verified', '2023-08-22 03:00:12', '2023-08-22 03:16:55');
 
 --
 -- Indexes for dumped tables
@@ -1365,12 +1016,6 @@ ALTER TABLE `contract_projects`
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `expenses`
---
-ALTER TABLE `expenses`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1527,15 +1172,6 @@ ALTER TABLE `siteengineers`
   ADD KEY `siteengineers_user_id_foreign` (`user_id`);
 
 --
--- Indexes for table `sites`
---
-ALTER TABLE `sites`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `sites_owner_id_foreign` (`owner_id`),
-  ADD KEY `sites_chiefengineer_id_foreign` (`chiefengineer_id`),
-  ADD KEY `sites_siteengineer_id_foreign` (`siteengineer_id`);
-
---
 -- Indexes for table `sitevisitarranges`
 --
 ALTER TABLE `sitevisitarranges`
@@ -1642,7 +1278,7 @@ ALTER TABLE `work_entries`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `admins`
@@ -1654,43 +1290,37 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `advances`
 --
 ALTER TABLE `advances`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `advance_histories`
 --
 ALTER TABLE `advance_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `chiefengineers`
 --
 ALTER TABLE `chiefengineers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `contract_customers`
 --
 ALTER TABLE `contract_customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `contract_projects`
 --
 ALTER TABLE `contract_projects`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `expenses`
---
-ALTER TABLE `expenses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1702,61 +1332,61 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `labour_suppliers`
 --
 ALTER TABLE `labour_suppliers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `land_customers`
 --
 ALTER TABLE `land_customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `land_projects`
 --
 ALTER TABLE `land_projects`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `materialins`
 --
 ALTER TABLE `materialins`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `materialpurchasehistories`
 --
 ALTER TABLE `materialpurchasehistories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `materialpurchases`
 --
 ALTER TABLE `materialpurchases`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `material_payment_histories`
 --
 ALTER TABLE `material_payment_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `mesthiris`
 --
 ALTER TABLE `mesthiris`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `mesthiri_assigns`
 --
 ALTER TABLE `mesthiri_assigns`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `meterials`
 --
 ALTER TABLE `meterials`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -1768,7 +1398,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1780,115 +1410,109 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `project_customers`
 --
 ALTER TABLE `project_customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `salaries`
 --
 ALTER TABLE `salaries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `salesmanagers`
 --
 ALTER TABLE `salesmanagers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `salespeople`
 --
 ALTER TABLE `salespeople`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `siteengineers`
 --
 ALTER TABLE `siteengineers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `sites`
---
-ALTER TABLE `sites`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sitevisitarranges`
 --
 ALTER TABLE `sitevisitarranges`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `supplier_assigns`
 --
 ALTER TABLE `supplier_assigns`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `supplier_payments`
 --
 ALTER TABLE `supplier_payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `supplier_payment_histories`
 --
 ALTER TABLE `supplier_payment_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `telecallers`
 --
 ALTER TABLE `telecallers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `teleworks`
 --
 ALTER TABLE `teleworks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `villas`
 --
 ALTER TABLE `villas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `villa_projects`
 --
 ALTER TABLE `villa_projects`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `workers`
 --
 ALTER TABLE `workers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `worker_entries`
 --
 ALTER TABLE `worker_entries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `work_entries`
 --
 ALTER TABLE `work_entries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables

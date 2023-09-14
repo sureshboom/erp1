@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\LandCustomerController;
 use App\Http\Controllers\Admin\VillaCustomerController;
 use App\Http\Controllers\Admin\ContractCustomerController;
 use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\AllReportController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 
 
@@ -54,7 +55,11 @@ Route::prefix('admin')->group(function () {
 			// Route::get('/supplierassignshow/{id}', [SupplierController::class, 'supplierassignshow'])->name('supplierassignshow');
 			
 			Route::get('/supplierassigncancel/{id}', [SupplierController::class, 'supplierassigncancel'])->name('supplierassigncancel');
+
 			Route::get('/supplierassignapprove/{id}', [SupplierController::class, 'supplierassignapprove'])->name('supplierassignapprove');
+
+			Route::get('/salary_report', [AllReportController::class, 'salaryreport'])->name('salaryreport');
+			Route::get('/expense_report', [AllReportController::class, 'expensereport'])->name('expensereport');
 		});
 	
 	

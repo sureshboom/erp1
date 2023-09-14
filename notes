@@ -288,3 +288,6 @@ $contractProjects = ContractProject::with([
         $query->where('yet_another_column', '=', 'yet_another_value');
     }
 ])->get();
+
+
+ALTER TABLE `table_name` AUTO_INCREMENT=1

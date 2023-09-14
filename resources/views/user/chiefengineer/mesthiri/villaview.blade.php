@@ -77,7 +77,9 @@
                                             <td>{{ $villaproject->sksvp_id ? $villaproject->sksvp_id : '' }}</td>
                                             <td>{{ $villaproject->location ? $villaproject->location : '' }}</td>
                                             <td>{{ $villaproject->mesthiri_id ? 'SKSMT'.$villaproject->mesthiri_id : '-' }}</td>
-                                            <td>{{ $villaproject->mesthiri_id ? $villaproject->mesthiri->name : '-' }}</td>
+                                            <td>
+                                                {{ $villaproject->mesthiri_id ? ($villaproject->mesthiri ? $villaproject->mesthiri->name : '-') : '' }}
+                                            </td>
                                             <td>
                                                 <a href="{{route('chiefengineer.assignvilla',$villaproject->id)}}" class="btn btn-link">
                                                     <i class="fa fa-eye"></i>

@@ -78,7 +78,7 @@
                                             
                                             <td>{{ $contractproject->location ? $contractproject->location : '' }}</td>
                                             <td>{{ $contractproject->mesthiri_id ? 'SKSMT'.$contractproject->mesthiri_id : '-' }}</td>
-                                            <td>{{ $contractproject->mesthiri_id ? $contractproject->mesthiri->name : '-' }}</td>
+                                            <td>{{ $contractproject->mesthiri_id ? ($contractproject->mesthiri ? $contractproject->mesthiri->name : '-') : '' }}</td>
                                             <td>
                                                 <a href="{{route('chiefengineer.assigncontract',$contractproject->id)}}" class="btn btn-link">
                                                     <i class="fa fa-eye"></i>
