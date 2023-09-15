@@ -60,6 +60,10 @@ Route::prefix('admin')->group(function () {
 
 			Route::get('/salary_report', [AllReportController::class, 'salaryreport'])->name('salaryreport');
 			Route::get('/expense_report', [AllReportController::class, 'expensereport'])->name('expensereport');
+			Route::get('/land_report', [AllReportController::class, 'landproject'])->name('landprojectreport');
+			Route::get('/contract_report', [AllReportController::class, 'contractproject'])->name('contractprojectreport');
+			Route::get('/villa_report', [AllReportController::class, 'villaproject'])->name('villaprojectreport');
+			
 		});
 	
 	

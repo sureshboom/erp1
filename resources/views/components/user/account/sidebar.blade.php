@@ -63,7 +63,7 @@
 </li>
 
 
-<li class="{{ ((request()->routeIs('account.salaryreport')) || (request()->routeIs('account.expensereport'))) ? 'active' : ''}}">
+<li class="{{ ((request()->routeIs('account.salaryreport')) || (request()->routeIs('account.expensereport'))|| (request()->routeIs('account.landprojectreport'))|| (request()->routeIs('account.contractprojectreport'))|| (request()->routeIs('account.villaprojectreport'))) ? 'active' : ''}}">
     <a class="has-arrow" href="#">
        <span class="educate-icon educate-event icon-wrap"></span>
        <span class="mini-click-non">Reports</span>
@@ -72,5 +72,8 @@
         <li class="{{request()->routeIs('account.salaryreport') ? 'active' : ''}}"><a title="land" href="{{ route('account.salaryreport')}}"><span class="mini-sub-pro">Salary Report</span></a></li>
         <li class="{{request()->routeIs('account.expensereport') ? 'active' : ''}}"><a title="land" href="{{ route('account.expensereport')}}"><span class="mini-sub-pro">Expense Report</span></a></li>
         
+        <li class="{{(request()->routeIs('account.landprojectreport')) ? 'active' : '' }}"><a title="owner" href="{{ route('account.landprojectreport')}}"><span class="mini-sub-pro">Land Reports</span></a></li>
+        <li class="{{(request()->routeIs('account.contractprojectreport')) ? 'active' : '' }}"><a title="owner" href="{{ route('account.contractprojectreport')}}"><span class="mini-sub-pro">Contract Reports</span></a></li>
+        <li class="{{(request()->routeIs('account.villaprojectreport')) ? 'active' : '' }}"><a title="owner" href="{{ route('account.villaprojectreport')}}"><span class="mini-sub-pro">Villa Reports</span></a></li>
     </ul>
 </li>

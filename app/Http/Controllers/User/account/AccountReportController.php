@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\Salary;
 use App\Models\User;
 use App\Models\Payment;
+use App\Models\LandCustomer;
+use App\Models\LandProject;
+use App\Models\ContractCustomer;
+use App\Models\ContractProject;
+use App\Models\ProjectCustomer;
+use App\Models\VillaProject;
 use Carbon\Carbon;
 
 class AccountReportController extends Controller
@@ -74,6 +80,103 @@ class AccountReportController extends Controller
         $expenses = $query->get();
 
         return view('user.account.reports.expense',compact('expenses'));
+    }
+
+    public function landproject(Request $request)
+    {
+        $landprojects = LandProject::orderBy('id','desc')->get();
+
+        $query = Payment::where('payment_type', 'project')
+                    ->where('payment_subtype', 'land')
+                    ->with('payable');
+
+        if($request->has('project_id') && $request->project_id != null)
+        {
+            $query->where('project_id',$request->project_id);
+        }
+
+        $start_date = Carbon::parse(request()->from_date)->toDateTimeString();
+        $end_date = Carbon::parse(request()->to_date)->toDateTimeString();
+        if ($request->has('from_date') && $request->from_date != null )
+        {
+            // $query->whereBetween('from_date', [$start_date, $end_date]);
+            $query->whereDate('payment_date', '>=', $start_date);
+        }
+
+        if ($request->has('to_date') && $request->to_date != null )
+        {
+            // $query->whereBetween('to_date', [$start_date, $end_date]);
+            $query->whereDate('payment_date', '<=', $end_date);
+        }
+
+        $payments = $query->get();
+
+        return view('user.account.reports.landproject',compact('landprojects','payments'));
+    }
+
+
+    public function contractproject(Request $request)
+    {
+        $contractprojects = ContractProject::orderBy('id','desc')->get();
+
+        $query = Payment::where('payment_type', 'project')
+                    ->where('payment_subtype', 'contract')
+                    ->with('payable');
+
+        if($request->has('project_id') && $request->project_id != null)
+        {
+            $query->where('project_id',$request->project_id);
+        }
+
+        $start_date = Carbon::parse(request()->from_date)->toDateTimeString();
+        $end_date = Carbon::parse(request()->to_date)->toDateTimeString();
+        if ($request->has('from_date') && $request->from_date != null )
+        {
+            // $query->whereBetween('from_date', [$start_date, $end_date]);
+            $query->whereDate('payment_date', '>=', $start_date);
+        }
+
+        if ($request->has('to_date') && $request->to_date != null )
+        {
+            // $query->whereBetween('to_date', [$start_date, $end_date]);
+            $query->whereDate('payment_date', '<=', $end_date);
+        }
+
+        $payments = $query->get();
+
+        return view('user.account.reports.contractproject',compact('contractprojects','payments'));
+    }
+
+    public function villaproject(Request $request)
+    {
+        $villaprojects = VillaProject::orderBy('id','desc')->get();
+
+        $query = Payment::where('payment_type', 'project')
+                    ->where('payment_subtype', 'villa')
+                    ->with('payable');
+
+        if($request->has('project_id') && $request->project_id != null)
+        {
+            $query->where('project_id',$request->project_id);
+        }
+
+        $start_date = Carbon::parse(request()->from_date)->toDateTimeString();
+        $end_date = Carbon::parse(request()->to_date)->toDateTimeString();
+        if ($request->has('from_date') && $request->from_date != null )
+        {
+            // $query->whereBetween('from_date', [$start_date, $end_date]);
+            $query->whereDate('payment_date', '>=', $start_date);
+        }
+
+        if ($request->has('to_date') && $request->to_date != null )
+        {
+            // $query->whereBetween('to_date', [$start_date, $end_date]);
+            $query->whereDate('payment_date', '<=', $end_date);
+        }
+
+        $payments = $query->get();
+
+        return view('user.account.reports.villaproject',compact('villaprojects','payments'));
     }
 
 }

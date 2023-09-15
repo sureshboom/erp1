@@ -108,6 +108,9 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
 
     Route::get('/salaryreport', [AccountReportController::class, 'salaryreport'])->name('salaryreport');
     Route::get('/expensereport', [AccountReportController::class, 'expensereport'])->name('expensereport');
+    Route::get('/landreport', [AccountReportController::class, 'landproject'])->name('landprojectreport');
+    Route::get('/contractreport', [AccountReportController::class, 'contractproject'])->name('contractprojectreport');
+    Route::get('/villareport', [AccountReportController::class, 'villaproject'])->name('villaprojectreport');
 
 });
 
