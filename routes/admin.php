@@ -63,6 +63,8 @@ Route::prefix('admin')->group(function () {
 			Route::get('/land_report', [AllReportController::class, 'landproject'])->name('landprojectreport');
 			Route::get('/contract_report', [AllReportController::class, 'contractproject'])->name('contractprojectreport');
 			Route::get('/villa_report', [AllReportController::class, 'villaproject'])->name('villaprojectreport');
+			Route::get('/income_report', [AllReportController::class, 'income'])->name('income');
+			Route::get('/supplier_report', [AllReportController::class, 'supplier'])->name('supplierreport');
 			
 		});
 	
