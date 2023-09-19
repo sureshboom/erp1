@@ -11,7 +11,11 @@ class SupplierPayment extends Model
 
     protected $guarded =[];
 
-
+     protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+    
     public function contractproject()
     {
          return $this->belongsTo(ContractProject::class,'contractproject_id');

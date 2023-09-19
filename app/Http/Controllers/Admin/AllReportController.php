@@ -247,7 +247,7 @@ class AllReportController extends Controller
     {
      
         $suppliers = LabourSupplier::orderBy('id','desc')->get();
-        $query = SupplierPayment::orderBy('id','desc');
+        $query = SupplierPayment::with('paymenthistory')->orderBy('id','desc');
                     
 
         if($request->has('supplier_id') && $request->supplier_id != null)
@@ -257,19 +257,6 @@ class AllReportController extends Controller
         if($request->has('type') && $request->type != null)
         {
             $query->where('project_type',$request->type);
-        }
-        $start_date = Carbon::parse(request()->from_date)->toDateTimeString();
-        $end_date = Carbon::parse(request()->to_date)->toDateTimeString();
-        if ($request->has('from_date') && $request->from_date != null )
-        {
-            // $query->whereBetween('from_date', [$start_date, $end_date]);
-            $query->whereDate('payment_date', '>=', $start_date);
-        }
-
-        if ($request->has('to_date') && $request->to_date != null )
-        {
-            // $query->whereBetween('to_date', [$start_date, $end_date]);
-            $query->whereDate('payment_date', '<=', $end_date);
         }
 
         $payments = $query->get();

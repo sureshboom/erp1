@@ -35,39 +35,39 @@
 	<div class="widgets-programs-area">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <div class="hpanel widget-int-shape responsive-mg-b-30 res-tablet-mg-t-30 dk-res-t-pro-30">
                         <div class="panel-body">
                             <div class="stats-title pull-left">
-                                <h4>Materials</h4>
-                            </div>
-                            <div class="stats-icon pull-right">
-                                <i class="educate-icon educate-apps"></i>
-                            </div>
-                            <div class="m-t-xl widget-cl-1">
-                                <h1 class="text-success">0</h1>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                    <div class="hpanel widget-int-shape responsive-mg-b-30 res-tablet-mg-t-30 dk-res-t-pro-30">
-                        <div class="panel-body">
-                            <div class="stats-title pull-left">
-                                <h4>Suppliers</h4>
+                                <h4>Material Suppliers</h4>
                             </div>
                             <div class="stats-icon pull-right">
                                 <i class="educate-icon educate-professor"></i>
                             </div>
                             <div class="m-t-xl widget-cl-2">
-                                <h1 class="text-info">0</h1>
+                                <h1 class="text-info">{{ \App\Models\Supplier::count('id'); }}</h1>
                                 
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="hpanel widget-int-shape responsive-mg-b-30 res-tablet-mg-t-30 dk-res-t-pro-30">
+                        <div class="panel-body">
+                            <div class="stats-title pull-left">
+                                <h4>Labour Suppliers</h4>
+                            </div>
+                            <div class="stats-icon pull-right">
+                                <i class="educate-icon educate-professor"></i>
+                            </div>
+                            <div class="m-t-xl widget-cl-2">
+                                <h1 class="text-info">{{ \App\Models\LabourSupplier::count('id'); }}</h1>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <div class="hpanel widget-int-shape responsive-mg-b-30 res-tablet-mg-t-30 dk-res-t-pro-30">
                         <div class="panel-body">
                             <div class="stats-title pull-left">
@@ -77,98 +77,67 @@
                                 <i class="educate-icon educate-professor"></i>
                             </div>
                             <div class="m-t-xl widget-cl-2">
-                                <h1 class="text-info">0</h1>
+                                <h1 class="text-info">{{ \App\Models\User::count('id'); }}</h1>
                                 
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <div class="hpanel widget-int-shape responsive-mg-b-30 res-tablet-mg-t-30 dk-res-t-pro-30">
                         <div class="panel-body">
                             <div class="stats-title pull-left">
-                                <h4>Land Customers</h4>
+                                <h4>Land Customer</h4>
                             </div>
                             <div class="stats-icon pull-right">
                                 <i class="educate-icon educate-professor"></i>
                             </div>
                             <div class="m-t-xl widget-cl-2">
-                                <h1 class="text-info">0</h1>
+                                <h1 class="text-info">{{ \App\Models\LandCustomer::count('id'); }}</h1>
                                 
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <br>
-            <div class="row">
-                
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <div class="hpanel widget-int-shape responsive-mg-b-30 res-tablet-mg-t-30 dk-res-t-pro-30">
                         <div class="panel-body">
                             <div class="stats-title pull-left">
-                                <h4>Total Earning</h4>
+                                <h4>Contract Customer</h4>
                             </div>
                             <div class="stats-icon pull-right">
-                                <i class="educate-icon educate-department"></i>
+                                <i class="educate-icon educate-professor"></i>
                             </div>
-                            <div class="m-t-xl widget-cl-3">
-                                <h1 class="text-warning">₹ 0</h1>
+                            <div class="m-t-xl widget-cl-2">
+                                <h1 class="text-info">{{ \App\Models\ContractCustomer::count('id'); }}</h1>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <div class="hpanel widget-int-shape responsive-mg-b-30 res-tablet-mg-t-30 dk-res-t-pro-30">
                         <div class="panel-body">
                             <div class="stats-title pull-left">
-                                <h4>Today's Earning</h4>
+                                <h4>Villa Customer</h4>
                             </div>
                             <div class="stats-icon pull-right">
-                                <i class="educate-icon educate-department"></i>
+                                <i class="educate-icon educate-professor"></i>
                             </div>
-                            <div class="m-t-xl widget-cl-3">
-                                <h1 class="text-warning">₹ 0</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                    <div class="hpanel widget-int-shape responsive-mg-b-30 res-tablet-mg-t-30 dk-res-t-pro-30">
-                        <div class="panel-body">
-                            <div class="stats-title pull-left">
-                                <h4>Total Expense</h4>
-                            </div>
-                            <div class="stats-icon pull-right">
-                                <i class="educate-icon educate-department"></i>
-                            </div>
-                            <div class="m-t-xl widget-cl-4">
-                                <h1 class="text-danger">₹ 0</h1>
+                            <div class="m-t-xl widget-cl-2">
+                                <h1 class="text-info">{{ \App\Models\ProjectCustomer::count('id'); }}</h1>
                                 
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                    <div class="hpanel widget-int-shape responsive-mg-b-30 res-tablet-mg-t-30 dk-res-t-pro-30">
-                        <div class="panel-body">
-                            <div class="stats-title pull-left">
-                                <h4>Today's Expense</h4>
-                            </div>
-                            <div class="stats-icon pull-right">
-                                <i class="educate-icon educate-department"></i>
-                            </div>
-                            <div class="m-t-xl widget-cl-4">
-                                <h1 class="text-danger">₹ 0</h1>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
-    <br>
-    <br>
+    
 	@endsection

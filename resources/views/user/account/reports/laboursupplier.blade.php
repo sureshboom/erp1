@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('layouts.app')
 
     @section('title')
         {{ __('Labour Supplier Report') }}
@@ -18,7 +18,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <ul class="breadcome-menu">
-                                        <li><a href="{{ route('admin.dashboard') }}">Home</a> <span class="bread-slash">/</span>
+                                        <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
                                         <li><span class="bread-blod">Labours</span>
                                         </li>
@@ -40,7 +40,7 @@
                             <div class="main-sparkline13-hd">
                                 <h1>Labour Supplier Payment <span class="table-project-n">Details</span> Table</h1>
 
-                                <form class="form-inline" action="{{route('lsupplierreport')}}" method="GET">
+                                <form class="form-inline" action="{{route('account.lsupplierreport')}}" method="GET">
                                     @csrf
                                     @method('GET')
                                     <!-- <div class="row">
@@ -98,7 +98,7 @@
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                             <input type="submit" name="submit" value="Filter" class="btn btn-primary">
-                                            <a href="{{route('lsupplierreport')}}" class="btn btn-danger">Reset</a>
+                                            <a href="{{route('account.lsupplierreport')}}" class="btn btn-danger">Reset</a>
                                         </div>
                                     </div>
 

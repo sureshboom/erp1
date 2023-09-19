@@ -25,6 +25,11 @@ class SupplierPaymentHistory extends Model
         });
     }
 
+     protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function supplierpayment()
     {
         return $this->belongsTo(SupplierPayment::class,'supplier_payment_id');

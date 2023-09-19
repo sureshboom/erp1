@@ -10,6 +10,7 @@ use App\Models\LabourSupplier;
 use App\Models\Villa;
 use App\Models\ContractProject;
 use App\Models\SupplierPayment;
+use App\Models\Materialin;
 
 class SupplierController extends Controller
 {
@@ -63,6 +64,10 @@ class SupplierController extends Controller
     public function show(string $id)
     {
         //
+
+        $payments = Materialin::where('supplier_id',$id)->with('materialpayhistory')->get();
+
+        return view('admin.supplier.show',compact('payments'));
     }
 
     /**

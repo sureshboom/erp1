@@ -92,11 +92,16 @@
                                                     class="btn ll-mr-4 ll-p-0">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
+                                                
                                                 <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $supplier->id }}').submit();"><i class="fa fa-trash"></i></a>
                                                 <form method="post" action="{{ route('account.supplier.destroy', $supplier->id) }}" id="delete-post-{{ $supplier->id }}" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
+                                                <a href="{{ route('account.supplier.show', $supplier->id) }}"
+                                                    class="btn badge-primary">
+                                                    Orders
+                                                </a>
                                             </td>
                                         </tr>
                                         @empty

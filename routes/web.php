@@ -111,7 +111,9 @@ Route::controller(AccountController::class)->prefix('account')->middleware('acco
     Route::get('/landreport', [AccountReportController::class, 'landproject'])->name('landprojectreport');
     Route::get('/contractreport', [AccountReportController::class, 'contractproject'])->name('contractprojectreport');
     Route::get('/villareport', [AccountReportController::class, 'villaproject'])->name('villaprojectreport');
-
+    Route::get('/incomereport', [AccountReportController::class, 'income'])->name('income');
+    Route::get('/supplierreport', [AccountReportController::class, 'supplier'])->name('supplierreport');
+    Route::get('/lsupplierreport', [AccountReportController::class, 'lsupplier'])->name('lsupplierreport');
 });
 
 Route::controller(TelecallerController::class)->prefix('telecaller')->middleware('telecaller')->name('telecaller.')->group(function () {

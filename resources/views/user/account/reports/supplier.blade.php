@@ -1,7 +1,7 @@
-@extends('admin.layout.app')
+@extends('layouts.app')
 
     @section('title')
-        {{ __('Labour Supplier Report') }}
+        {{ __('Suppliers Report') }}
     @endsection
 
     @section('main')
@@ -18,9 +18,9 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <ul class="breadcome-menu">
-                                        <li><a href="{{ route('admin.dashboard') }}">Home</a> <span class="bread-slash">/</span>
+                                        <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Labours</span>
+                                        <li><span class="bread-blod">Suppliers</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -38,12 +38,12 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Labour Supplier Payment <span class="table-project-n">Details</span> Table</h1>
+                                <h1>Material Supplier Payment <span class="table-project-n">Details</span> Table</h1>
 
-                                <form class="form-inline" action="{{route('lsupplierreport')}}" method="GET">
+                                <form class="form-inline" action="{{route('account.supplierreport')}}" method="GET">
                                     @csrf
                                     @method('GET')
-                                    <!-- <div class="row">
+                                    <div class="row">
                                         
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                             <div class="form-group">
@@ -66,29 +66,16 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                    </div> -->
+                                    </div>
                                     <br>
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                            <div class="form-group">
-                                                <label>Type :</label>
-                                                <select name="type" id="staff_id" class="form-control ">
-                                                    <option value="">Select Type</option>
-                                                    <option value="villa">Villa Project</option>
-                                                    <option value="contract">Contract Project</option>
-                                                </select>
-                                                @error('staff_id')
-                                                    <div class="text-danger">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                             <div class="form-group">
                                                 <label>Supplier </label>
                                                 <select name="supplier_id" id="supplier_id" class="form-control ">
                                                     <option value="">Select Supplier</option>
                                                     @foreach($suppliers as $supplier)
-                                                    <option value="{{$supplier->id}}">{{$supplier->name}}</option>
+                                                    <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('project_id')
@@ -96,9 +83,9 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                             <input type="submit" name="submit" value="Filter" class="btn btn-primary">
-                                            <a href="{{route('lsupplierreport')}}" class="btn btn-danger">Reset</a>
+                                            <a href="{{route('account.supplierreport')}}" class="btn btn-danger">Reset</a>
                                         </div>
                                     </div>
 
@@ -123,83 +110,48 @@
                                         <tr>
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
-                                            <th data-field="gpay">Project Details</th>
-                                            <th data-field="name">Supplier Details</th>
-                                            <th data-field="payment">Payment Details</th>
+                                            <th data-field="date">Date</th>
+                                            <th data-field="site">Supplier Name</th>
+                                            <th data-field="mode">Payment Mode</th>
+                                            <th data-field="by">Payment By</th>
+                                            <th data-field="amount">Amount</th>
                                             
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
                                         @forelse($payments as $payment)
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
                                             <td>
-                                                Project Type: 
-                                                {{ $payment->project_type ? ucfirst($payment->project_type) : '' }}
-                                                @switch($payment->project_type)
-                                                    @case('contract')                
-                                                    <br>Project Name : {{$payment->contractproject->project_name}}
-                                                    <br>Buildup Area : {{$payment->contractproject->total_buildup_area}}
-                                                    
-                                                    @break
-                                                    @case('villa')                
-                                                       <br> Project Name : {{$payment->villaproject->project_name}}
-                                                       <br>Villa No: {{$payment->villa->villa_no}}
-                                                       <br>Villa Area: {{$payment->villa->villa_area}}
-                                                    @break
-                                                    @default
-                                                        -   
-                                                    @break              
-                                                @endswitch
+                                                {{ $payment->payment_date ? $payment->payment_date : '' }}
+                                                
                                             </td>
-                                            <td>Name :{{ $payment->laboursupplier->name ? $payment->laboursupplier->name : '' }}
-                                                <br>
-                                                Phone No:{{ $payment->laboursupplier->phone ? $payment->laboursupplier->phone : '' }}
-                                            </td>
-                                            
-                                            <td>
-                                                Amount : {{'Rs.'.moneyFormatIndia($payment->
-                                                total).'.00'}},
-                                                <br>Paid : {{'Rs.'.moneyFormatIndia($payment->paid).'.00'}},
-                                                <br>Pending : {{'Rs.'.moneyFormatIndia($payment->pending).'.00'}}.
-                                            </td>
-                                            
+                                            <td>{{ $payment->supplier->supplier_name ? $payment->supplier->supplier_name : '' }}</td>
+                                            <td>{{  $payment->payment_mode }}</td>
+                                            <td>{{  $payment->payment_by }}</td>
+                                            <td>{{  moneyFormatIndia($payment->amount) }}</td>
+                                                
                                         </tr>
-                                        @forelse($payment->paymenthistory as $hpayment)
-                                        @if ($loop->first)
-                                            <tr>
-                                                <td></td>
-                                                <td colspan="4"> <h4>Payments</h4></td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td> Date</td>
-                                                <td> Payment</td>
-                                                <td> Amount</td>
-                                            </tr>
-                                        @endif
-                                        
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td>{{ $hpayment->payment_date ? $hpayment->payment_date : '' }}</td>
-                                            <td><p>Payment Mode : <span>{{  $hpayment->payment_mode }},</span></p>
-                                                <p>Payment By : <span>{{  $hpayment->payment_by }}.</span></p></td>
-                                            <td>{{ $hpayment->amount ? moneyFormatIndia($hpayment->amount) : '' }}</td>
-                                        </tr>
-                                        @empty
-                                        <tr></tr>
-                                        @endforelse
                                         @empty
                                         <tr>
                                             <td></td>
-                                            <td colspan="9" class="text-center">No data</td>
+                                            <td colspan="7" class="text-center">No data</td>
+                                            
                                         </tr>
                                         @endforelse
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td align="right">Total &nbsp;=&nbsp;&nbsp;</td>
+                                            <td>Rs.{{ moneyFormatIndia($payments->sum('amount'))}}</td>
+                                        </tr>
+                                    </tfoot>
                                 </table>
 
                             </div>

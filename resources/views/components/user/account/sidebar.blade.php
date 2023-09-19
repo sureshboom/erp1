@@ -63,7 +63,7 @@
 </li>
 
 
-<li class="{{ ((request()->routeIs('account.salaryreport')) || (request()->routeIs('account.expensereport'))|| (request()->routeIs('account.landprojectreport'))|| (request()->routeIs('account.contractprojectreport'))|| (request()->routeIs('account.villaprojectreport'))) ? 'active' : ''}}">
+<li class="{{ ((request()->routeIs('account.salaryreport')) || (request()->routeIs('account.expensereport'))|| (request()->routeIs('account.landprojectreport'))|| (request()->routeIs('account.contractprojectreport'))|| (request()->routeIs('account.villaprojectreport')) || (request()->routeIs('account.income')) || (request()->routeIs('account.supplierreport')) || (request()->routeIs('account.lsupplierreport'))) ? 'active' : ''}}">
     <a class="has-arrow" href="#">
        <span class="educate-icon educate-event icon-wrap"></span>
        <span class="mini-click-non">Reports</span>
@@ -75,5 +75,8 @@
         <li class="{{(request()->routeIs('account.landprojectreport')) ? 'active' : '' }}"><a title="owner" href="{{ route('account.landprojectreport')}}"><span class="mini-sub-pro">Land Reports</span></a></li>
         <li class="{{(request()->routeIs('account.contractprojectreport')) ? 'active' : '' }}"><a title="owner" href="{{ route('account.contractprojectreport')}}"><span class="mini-sub-pro">Contract Reports</span></a></li>
         <li class="{{(request()->routeIs('account.villaprojectreport')) ? 'active' : '' }}"><a title="owner" href="{{ route('account.villaprojectreport')}}"><span class="mini-sub-pro">Villa Reports</span></a></li>
+        <li class="{{(request()->routeIs('account.income')) ? 'active' : '' }}"><a title="owner" href="{{ route('account.income')}}"><span class="mini-sub-pro">Income Reports</span></a></li>
+        <li class="{{(request()->routeIs('account.supplierreport')) ? 'active' : '' }}"><a title="owner" href="{{ route('account.supplierreport')}}"><span class="mini-sub-pro">Supplier Reports</span></a></li>
+        <li class="{{(request()->routeIs('account.lsupplierreport')) ? 'active' : '' }}"><a title="owner" href="{{ route('account.lsupplierreport')}}"><span class="mini-sub-pro">Labour Reports</span></a></li>
     </ul>
 </li>

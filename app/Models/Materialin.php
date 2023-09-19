@@ -78,4 +78,8 @@ class Materialin extends Model
     {
         return $this->hasMany(Materialpurchase::class,'materialin_id','id');
     }
+    public function materialpayhistory()
+    {
+        return $this->hasMany(Materialpurchasehistory::class,'materialin_id','id');
+    }
 }

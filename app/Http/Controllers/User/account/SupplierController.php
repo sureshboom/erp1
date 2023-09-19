@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User\account;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Supplier;
+use App\Models\Materialin;
 
 class SupplierController extends Controller
 {
@@ -58,6 +59,9 @@ class SupplierController extends Controller
     public function show(string $id)
     {
         //
+        $payments = Materialin::where('supplier_id',$id)->with('materialpayhistory')->get();
+
+        return view('user.account.supplier.show',compact('payments'));
     }
 
     /**

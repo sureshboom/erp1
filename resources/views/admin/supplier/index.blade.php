@@ -97,6 +97,10 @@
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
+                                                <a href="{{ route('supplier.show', $supplier->id) }}"
+                                                    class="btn badge-primary">
+                                                    Orders
+                                                </a>
                                             </td>
                                         </tr>
                                         @empty
