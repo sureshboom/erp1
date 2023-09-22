@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Materials ') }}
+	    {{ __('Contract Projects') }}
 	@endsection
 
 	@section('main')
@@ -14,14 +14,14 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <div class="breadcome-heading">
-                                        <a href="{{ url()->previous() }}" class="btn btn-danger">Back</a>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Material Details</span>
+                                        <li><span class="bread-blod">Projects</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -39,14 +39,10 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Materials <span class="table-project-n">Detail</span> Table</h1>
+                                <h1>Contract <span class="table-project-n">Projects</span> Table</h1>
 
 
                             </div>
-                            <!-- <a href="{{ route('siteengineer.material_order.edit', $materialinid) }}" class="btn btn-primary">
-                                                    Edit
-                                                </a> -->
-                            <!-- {{ $materials }} -->
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -63,28 +59,29 @@
                                         <tr>
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
-                                            <th data-field="name">Material Name</th>
-                                            <th data-field="unit">Unit</th>
-                                            <th data-field="sname" data-editable="false">Quantity</th>
-                                            <th data-field="desc">Description</th>
+                                            <th data-field="name">Project Name</th>
+                                            <th data-field="siteid">Project ID</th>
+                                            <th data-field="location">Location</th>
+                                            <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
-                                        @forelse($materials as $material)
+                                        @forelse($projects as $project)
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{ $material->material ? $material->material->meterial_name : '' }}</td>
-                                            <td>{{ $material->material ? $material->material->unit : '' }}</td>
-                                            <td>{{ $material->quantity ? $material->quantity : '' }}</td>
-                                            <td>{{ $material->description ? $material->description : '-' }}</td>
-                                            
+                                            <td>{{ $project->project_name ? $project->project_name : '' }}</td>
+                                            <td>{{ $project->skscp_id ? $project->skscp_id : '' }}</td>
+                                            <td>{{ $project->location ? $project->location : '' }}</td>
+                                            <td>
+                                                <a href="{{route('siteengineer.transforcreate',['id' => $project->id,'type' => 'contract'])}}" class="btn badge-primary">Transfor</a>
+                                            </td>
                                         </tr>
                                         @empty
                                         <tr>
                                             <td></td>
-                                            <td colspan="7" class="text-center">No data</td>
+                                            <td colspan="4" class="text-center">No data</td>
                                         </tr>
                                         @endforelse
                                     </tbody>

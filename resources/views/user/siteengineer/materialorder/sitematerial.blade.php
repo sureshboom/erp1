@@ -68,6 +68,7 @@
                                             <th data-field="name">Material Name</th>
                                             <th data-field="unit">Unit</th>
                                             <th data-field="sname" data-editable="false">Quantity</th>
+                                            <th data-field="desc" data-editable="false">Description</th>
                                             <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
@@ -80,6 +81,7 @@
                                             <td>{{ $material->material ? $material->material->meterial_name : '' }}</td>
                                             <td>{{ $material->material ? $material->material->unit : '' }}</td>
                                             <td>{{ $material->quantity ? $material->quantity : '' }}</td>
+                                            <td>{{ $material->description ? $material->description : '' }}</td>
                                             <td class="datatable-ct">
                                                 
                                                 @if(($material->materialin->status == 'request') or ($material->materialin->status == 'cancel'))

@@ -20,6 +20,7 @@ use App\Http\Controllers\User\telecaller\TeleReportController;
 use App\Http\Controllers\User\salesperson\ScustomerController;
 use App\Http\Controllers\User\siteengineer\WorkEnteryController;
 use App\Http\Controllers\User\siteengineer\WorkerEntryController;
+use App\Http\Controllers\User\siteengineer\TransforController;
 use App\Http\Controllers\User\siteengineer\MaterialrequestController;
 use App\Http\Controllers\User\account\SupplierController;
 use App\Http\Controllers\User\account\MaterialPaymentController;
@@ -139,10 +140,13 @@ Route::controller(SiteengineerController::class)->prefix('site_engineer')->middl
     Route::get('villaprojectlist', 'villaprojectlist')->name('villaprojectlist');
     
     Route::get('/payments/{type}/{id}', [WorkerEntryController::class,'getsite']);
-
+    Route::get('/transfor/{id}/{type}', [TransforController::class,'transforcreate'])->name('transforcreate');
+    Route::get('material_contract_project',[TransforController::class,'contractprojectslist'])->name('material_contract');
+    Route::get('material_villa_project',[TransforController::class,'villaprojectslist'])->name('material_villa');
     Route::resource('/workentry', WorkEnteryController::class);
     Route::resource('/workerentry', WorkerEntryController::class);
     Route::resource('/material_order', MaterialrequestController::class);
+    Route::resource('/material_transfors', TransforController::class);
     Route::patch('/purchasehistory',[MaterialrequestController::class,'purchaseupdate'])->name('purchaseupdate');
     Route::get('/received',[MaterialrequestController::class,'received'])->name('received');
     Route::get('/verify/{id}',[MaterialrequestController::class,'verified'])->name('verified');

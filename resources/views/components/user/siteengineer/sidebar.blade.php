@@ -24,9 +24,26 @@
         {{-- <li><a title="owner" href="{{ route('siteengineer.supplier.index')}}"><span class="mini-sub-pro">Suppliers</span></a></li> --}}
         <li class="{{ request()->routeIs('siteengineer.material_order.*') ? 'active' : ''}}"><a title="sites" href="{{ route('siteengineer.material_order.index')}}"><span class="mini-sub-pro">Material Order</span></a></li>
         <li class="{{ request()->routeIs('siteengineer.received') ? 'active' : ''}}"><a title="sites" href="{{ route('siteengineer.received')}}"><span class="mini-sub-pro">Material Received</span></a></li>
-        {{-- <li><a title="sites" href="#"><span class="mini-sub-pro">Material Transfer</span></a></li> --}}
+        <li class="{{ request()->routeIs('siteengineer.material_transfors.*') ? 'active' : ''}}"><a title="sites" href="{{ route('siteengineer.material_transfors.index')}}"><span class="mini-sub-pro">Material </span></a></li>
+        
     </ul>
 </li>
+<li class="{{ ((request()->routeIs('siteengineer.material_contract')) ||(request()->routeIs('siteengineer.material_villa')) ) ? 'active' : '' }}">
+    <a class="has-arrow" href="#">
+       <span class="educate-icon educate-form icon-wrap"></span>
+       <span class="mini-click-non">Material Transfor</span>
+    </a>
+    <ul class="submenu-angle" aria-expanded="true">
+        
+        <li class="{{ request()->routeIs('siteengineer.material_contract') ? 'active' : ''}}"><a title="sites" href="{{ route('siteengineer.material_contract')}}"><span class="mini-sub-pro">Contract Project</span></a></li>
+        <li class="{{ request()->routeIs('siteengineer.material_villa') ? 'active' : ''}}"><a title="sites" href="{{ route('siteengineer.material_villa')}}"><span class="mini-sub-pro">Villa Project</span></a></li>
+        
+        <li class="{{ request()->routeIs('siteengineer.material_transfors.*') ? 'active' : ''}}"><a title="sites" href="{{ route('siteengineer.material_transfors.index')}}"><span class="mini-sub-pro">Material Transfor</span></a></li>
+        
+    </ul>
+</li>
+
+
 <li class="{{ ((request()->routeIs('siteengineer.workerentry.*')) ||(request()->routeIs('siteengineer.workentry.*'))) ? 'active' : '' }}">
     <a class="has-arrow" href="#">
        <span class="educate-icon educate-event icon-wrap"></span>

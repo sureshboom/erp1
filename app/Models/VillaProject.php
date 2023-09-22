@@ -60,4 +60,9 @@ class VillaProject extends Model
     {
         return $this->morphMany(SupplierAssign::class, 'lassign');
     }
+
+    public function transfor()
+    {
+        return $this->morphMany(TransforDetails::class, 'transforproject');
+    }
 }

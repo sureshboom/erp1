@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
     @section('title')
-        {{ __('Labour Supplier Report') }}
+        {{ __('Material Supplier Report') }}
     @endsection
 
     @section('main')
@@ -20,7 +20,7 @@
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Labours</span>
+                                        <li><span class="bread-blod">Material</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -38,7 +38,7 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Labour Supplier Payment <span class="table-project-n">Details</span> Table</h1>
+                                <h1>Material Supplier Payment <span class="table-project-n">Details</span> Table</h1>
 
 
                             </div>
@@ -106,19 +106,18 @@
                                             </tr>
                                             <tr>
                                                 <td></td>
-                                                <td></td>
-                                                <td> Material</td>
-                                                
+                                                <td>Material</td>
                                                 <td>Quantity</td>
+                                                <td>Description</td>
                                             </tr>
                                         @endif
                                         
                                         <tr>
                                             <td></td>
-                                            <td></td>
-                                            <td>{{ $hpayment->material->meterial_name ? $hpayment->material->meterial_name : '' }}</td>
                                             
+                                            <td>{{ $hpayment->material->meterial_name ? $hpayment->material->meterial_name : '' }}</td>
                                             <td>{{ $hpayment->quantity ? $hpayment->quantity : '' }}</td>
+                                            <td>{{ $hpayment->description ? $hpayment->description : '-' }}</td>
                                         </tr>
                                         @empty
                                         <tr></tr>

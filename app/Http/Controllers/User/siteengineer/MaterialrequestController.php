@@ -70,6 +70,7 @@ class MaterialrequestController extends Controller
                         'materialin_id' => $mid,
                         'meterial_id' => $request->meterial_id[$i],
                         'quantity' => $request->quantity[$i],
+                        'description' => $request->description[$i],
                     ];
 
                     $materialQuantity = Materialpurchase::where('contract_project_id', $data['contract_project_id'])
@@ -114,6 +115,7 @@ class MaterialrequestController extends Controller
                         'materialin_id' => $mid,
                         'meterial_id' => $request->meterial_id[$i],
                         'quantity' => $request->quantity[$i],
+                        'description' => $request->description[$i],
                     ];
 
                     $materialQuantity = Materialpurchase::where('villa_project_id', $data['villa_project_id'])

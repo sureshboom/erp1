@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 16, 2023 at 01:25 PM
+-- Generation Time: Sep 22, 2023 at 02:44 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -434,8 +434,9 @@ CREATE TABLE `materialins` (
 
 INSERT INTO `materialins` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `supplier_id`, `siteengineer_id`, `chiefengineer_id`, `amount`, `status`, `created_at`, `updated_at`) VALUES
 (4, 'contract', 1, NULL, 1, 1, 1, 20000.00, 'order', '2023-08-20 09:39:34', '2023-08-26 01:55:53'),
-(12, 'contract', 1, NULL, NULL, 1, 1, 0.00, 'request', '2023-08-20 11:10:31', '2023-08-20 11:10:31'),
-(14, 'contract', 1, NULL, NULL, 1, 1, 0.00, 'request', '2023-08-21 07:52:41', '2023-08-21 07:52:41');
+(12, 'contract', 1, NULL, 1, 1, 1, 20000.00, 'order', '2023-08-20 11:10:31', '2023-09-22 01:49:53'),
+(14, 'contract', 1, NULL, NULL, 1, 1, 0.00, 'request', '2023-08-21 07:52:41', '2023-08-21 07:52:41'),
+(16, 'villa', NULL, 1, NULL, 1, 1, 0.00, 'request', '2023-09-22 00:00:37', '2023-09-22 00:00:37');
 
 -- --------------------------------------------------------
 
@@ -451,6 +452,7 @@ CREATE TABLE `materialpurchasehistories` (
   `materialin_id` bigint(20) UNSIGNED NOT NULL,
   `meterial_id` bigint(20) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -459,13 +461,14 @@ CREATE TABLE `materialpurchasehistories` (
 -- Dumping data for table `materialpurchasehistories`
 --
 
-INSERT INTO `materialpurchasehistories` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `materialin_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(20, 'contract', 1, NULL, 12, 1, 8, '2023-08-20 11:11:52', '2023-08-20 11:11:52'),
-(21, 'contract', 1, NULL, 12, 3, 2, '2023-08-20 11:11:52', '2023-08-20 11:11:52'),
-(22, 'contract', 1, NULL, 4, 1, 10, '2023-08-21 02:38:23', '2023-08-21 02:38:23'),
-(23, 'contract', 1, NULL, 4, 3, 6, '2023-08-21 02:38:23', '2023-08-21 02:38:23'),
-(27, 'contract', 1, NULL, 14, 1, 7, '2023-08-21 07:52:41', '2023-08-21 07:52:41'),
-(28, 'contract', 1, NULL, 14, 3, 3, '2023-08-21 07:52:42', '2023-08-21 07:52:42');
+INSERT INTO `materialpurchasehistories` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `materialin_id`, `meterial_id`, `quantity`, `description`, `created_at`, `updated_at`) VALUES
+(22, 'contract', 1, NULL, 4, 1, 10, NULL, '2023-08-21 02:38:23', '2023-08-21 02:38:23'),
+(23, 'contract', 1, NULL, 4, 3, 6, NULL, '2023-08-21 02:38:23', '2023-08-21 02:38:23'),
+(27, 'contract', 1, NULL, 14, 1, 7, NULL, '2023-08-21 07:52:41', '2023-08-21 07:52:41'),
+(28, 'contract', 1, NULL, 14, 3, 3, NULL, '2023-08-21 07:52:42', '2023-08-21 07:52:42'),
+(33, 'villa', NULL, 1, 16, 4, 4, 'Demo', '2023-09-22 00:00:37', '2023-09-22 00:00:37'),
+(34, 'contract', 1, NULL, 12, 1, 8, 'Demo', '2023-09-22 01:02:34', '2023-09-22 01:02:34'),
+(35, 'contract', 1, NULL, 12, 3, 2, 'Demo1', '2023-09-22 01:02:34', '2023-09-22 01:02:34');
 
 -- --------------------------------------------------------
 
@@ -481,6 +484,7 @@ CREATE TABLE `materialpurchases` (
   `materialin_id` bigint(20) UNSIGNED NOT NULL,
   `meterial_id` bigint(20) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL,
+  `transfor` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -489,9 +493,10 @@ CREATE TABLE `materialpurchases` (
 -- Dumping data for table `materialpurchases`
 --
 
-INSERT INTO `materialpurchases` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `materialin_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(1, 'contract', 1, NULL, 4, 1, 25, '2023-08-20 09:39:34', '2023-08-21 07:52:41'),
-(2, 'contract', 1, NULL, 4, 3, 11, '2023-08-20 09:39:34', '2023-08-21 07:52:42');
+INSERT INTO `materialpurchases` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `materialin_id`, `meterial_id`, `quantity`, `transfor`, `created_at`, `updated_at`) VALUES
+(1, 'contract', 1, NULL, 4, 1, 25, 0, '2023-08-20 09:39:34', '2023-09-22 01:02:34'),
+(2, 'contract', 1, NULL, 4, 3, 11, 0, '2023-08-20 09:39:34', '2023-09-22 01:02:34'),
+(9, 'villa', NULL, 1, 16, 4, 4, 0, '2023-09-22 00:00:37', '2023-09-22 00:00:37');
 
 -- --------------------------------------------------------
 
@@ -643,7 +648,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (60, '2023_09_04_053414_create_labour_suppliers_table', 31),
 (62, '2023_09_04_083250_create_supplier_assigns_table', 32),
 (63, '2023_09_06_061612_create_supplier_payments_table', 33),
-(64, '2023_09_06_065042_create_supplier_payment_histories_table', 34);
+(64, '2023_09_06_065042_create_supplier_payment_histories_table', 34),
+(65, '2023_09_22_084611_create_transfor_details_table', 35);
 
 -- --------------------------------------------------------
 
@@ -994,7 +1000,7 @@ CREATE TABLE `suppliers` (
 --
 
 INSERT INTO `suppliers` (`id`, `supplier_name`, `supplier_phone`, `supplier_gstno`, `supplier_location`, `supplier_gpay`, `supplier_account`, `total`, `paid`, `pending`, `created_at`, `updated_at`) VALUES
-(1, 'Ramu', '9876543554', '9922884466113', 'Saravanampatti, Coimbatore.', '1234567787', 'Account No: 238461298367,\r\nBank :state bank of india,\r\nIFSC Code:SBIN0007039', 20000.00, 10000.00, 10000.00, '2023-07-29 06:03:38', '2023-09-14 23:49:30');
+(1, 'Ramu', '9876543554', '9922884466113', 'Saravanampatti, Coimbatore.', '1234567787', 'Account No: 238461298367,\r\nBank :state bank of india,\r\nIFSC Code:SBIN0007039', 40000.00, 10000.00, 30000.00, '2023-07-29 06:03:38', '2023-09-22 01:49:53');
 
 -- --------------------------------------------------------
 
@@ -1050,7 +1056,7 @@ CREATE TABLE `supplier_payments` (
 --
 
 INSERT INTO `supplier_payments` (`id`, `project_type`, `contractproject_id`, `villaproject_id`, `villa_id`, `supplier_id`, `total`, `paid`, `pending`, `created_at`, `updated_at`) VALUES
-(1, 'contract', 1, NULL, NULL, 1, 30000.00, 7500.00, 22500.00, '2023-09-06 01:19:12', '2023-09-07 04:03:25'),
+(1, 'contract', 1, NULL, NULL, 1, 30000.00, 9500.00, 20500.00, '2023-09-06 01:19:12', '2023-09-18 23:48:05'),
 (2, 'villa', NULL, 1, 1, 1, 25000.00, 6500.00, 18500.00, '2023-09-06 07:13:53', '2023-09-07 04:23:45');
 
 -- --------------------------------------------------------
@@ -1076,7 +1082,8 @@ CREATE TABLE `supplier_payment_histories` (
 
 INSERT INTO `supplier_payment_histories` (`id`, `supplier_payment_id`, `amount`, `payment_mode`, `payment_by`, `payment_date`, `created_at`, `updated_at`) VALUES
 (1, 1, 7500.00, 'Gpay/Phonepay', '9876543210', '2023-09-07', '2023-09-07 00:47:32', '2023-09-07 00:47:32'),
-(4, 2, 6500.00, 'Gpay/Phonepay', '9876543210', '2023-09-07', '2023-09-07 04:23:44', '2023-09-07 04:23:44');
+(4, 2, 6500.00, 'Gpay/Phonepay', '9876543210', '2023-09-07', '2023-09-07 04:23:44', '2023-09-07 04:23:44'),
+(5, 1, 2000.00, 'Gpay/Phonepay', '9876543210', '2023-09-10', '2023-09-18 23:48:05', '2023-09-18 23:48:05');
 
 -- --------------------------------------------------------
 
@@ -1139,6 +1146,23 @@ CREATE TABLE `teleworks` (
 INSERT INTO `teleworks` (`id`, `telecaller_id`, `called`, `follow_up`, `site_visit`, `created_at`, `updated_at`) VALUES
 (2, 1, 15, 8, 5, '2023-07-22 06:55:16', '2023-07-22 06:59:29'),
 (3, 1, 5, 2, 1, '2023-09-09 05:31:33', '2023-09-09 05:31:33');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transfor_details`
+--
+
+CREATE TABLE `transfor_details` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `mp_id` bigint(20) UNSIGNED NOT NULL,
+  `project_type` enum('contract','villa') NOT NULL,
+  `project_id` bigint(20) DEFAULT NULL,
+  `meterial_id` bigint(20) UNSIGNED NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1593,6 +1617,14 @@ ALTER TABLE `teleworks`
   ADD KEY `teleworks_telecaller_id_foreign` (`telecaller_id`);
 
 --
+-- Indexes for table `transfor_details`
+--
+ALTER TABLE `transfor_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `transfor_details_mp_id_foreign` (`mp_id`),
+  ADD KEY `transfor_details_meterial_id_foreign` (`meterial_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -1723,19 +1755,19 @@ ALTER TABLE `land_projects`
 -- AUTO_INCREMENT for table `materialins`
 --
 ALTER TABLE `materialins`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `materialpurchasehistories`
 --
 ALTER TABLE `materialpurchasehistories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `materialpurchases`
 --
 ALTER TABLE `materialpurchases`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `material_payment_histories`
@@ -1765,7 +1797,7 @@ ALTER TABLE `meterials`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -1843,7 +1875,7 @@ ALTER TABLE `supplier_payments`
 -- AUTO_INCREMENT for table `supplier_payment_histories`
 --
 ALTER TABLE `supplier_payment_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `telecallers`
@@ -1856,6 +1888,12 @@ ALTER TABLE `telecallers`
 --
 ALTER TABLE `teleworks`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `transfor_details`
+--
+ALTER TABLE `transfor_details`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -2048,6 +2086,13 @@ ALTER TABLE `supplier_payments`
 --
 ALTER TABLE `supplier_payment_histories`
   ADD CONSTRAINT `supplier_payment_histories_supplier_payment_id_foreign` FOREIGN KEY (`supplier_payment_id`) REFERENCES `supplier_payments` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `transfor_details`
+--
+ALTER TABLE `transfor_details`
+  ADD CONSTRAINT `transfor_details_meterial_id_foreign` FOREIGN KEY (`meterial_id`) REFERENCES `meterials` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `transfor_details_mp_id_foreign` FOREIGN KEY (`mp_id`) REFERENCES `materialpurchases` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `villas`

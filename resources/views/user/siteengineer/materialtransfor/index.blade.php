@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 	@section('title')
-	    {{ __('Materials ') }}
+	    {{ __('Material Transfors') }}
 	@endsection
 
 	@section('main')
@@ -14,14 +14,14 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <div class="breadcome-heading">
-                                        <a href="{{ url()->previous() }}" class="btn btn-danger">Back</a>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <ul class="breadcome-menu">
                                         <li><a href="{{ route('user.dashboard') }}">Home</a> <span class="bread-slash">/</span>
                                         </li>
-                                        <li><span class="bread-blod">Material Details</span>
+                                        <li><span class="bread-blod">Material Transfors</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -43,10 +43,8 @@
 
 
                             </div>
-                            <!-- <a href="{{ route('siteengineer.material_order.edit', $materialinid) }}" class="btn btn-primary">
-                                                    Edit
-                                                </a> -->
-                            <!-- {{ $materials }} -->
+                            <a href="{{ route('siteengineer.material_transfors.create')}}" class="btn btn-primary">+ Add Transfor</a>
+                            <!-- {{ $transfors }} -->
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -63,23 +61,50 @@
                                         <tr>
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
-                                            <th data-field="name">Material Name</th>
-                                            <th data-field="unit">Unit</th>
-                                            <th data-field="sname" data-editable="false">Quantity</th>
-                                            <th data-field="desc">Description</th>
+                                            <th data-field="day">Date</th>
+                                            <th data-field="type">Project Type</th>
+                                            <th data-field="name">Project Name</th>
+                                            <th data-field="status" data-editable="false">Status</th>
+                                            <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
-                                        @forelse($materials as $material)
+                                        @forelse($transfors as $transfor)
                                         <tr>
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{ $material->material ? $material->material->meterial_name : '' }}</td>
-                                            <td>{{ $material->material ? $material->material->unit : '' }}</td>
-                                            <td>{{ $material->quantity ? $material->quantity : '' }}</td>
-                                            <td>{{ $material->description ? $material->description : '-' }}</td>
+                                            <td>{{ $transfor->created_at ? formatDate($transfor->created_at) : '' }}</td>
+                                            <td><p>{{ $transfor->project_type ? ucfirst($transfor->project_type).' Project' : '' }}<p></td>
+                                            <td>
+                                                @if($transfor->project_type == 'villa')
+                                                {{ $transfor->villaProject ? $transfor->villaProject->project_name : '' }}
+                                                @else
+                                                {{ $transfor->contractProject ? $transfor->contractProject->project_name : '' }}
+                                                @endif
+                                            </td>
                                             
+                                            <td>
+                                                @if($transfor->status == 'request')
+                                                <p class="text-danger">Order Request</p>
+                                                @elseif($transfor->status == 'approved')
+                                                <p class="text-success">Approved</p>
+                                                @endif
+                                            </td>
+                                            <td class="datatable-ct">
+
+                                                <a href="{{ route('siteengineer.material_order.show', $transfor->id) }}"
+                                                    class="btn badge-primary">
+                                                    Materials
+                                                </a>
+                                                @if(($transfor->status == 'request')||($transfor->status == 'cancel'))
+                                                <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $transfor->id }}').submit();"><i class="fa fa-trash"></i></a>
+                                                <form method="post" action="{{ route('siteengineer.material_order.destroy', $transfor->id) }}" id="delete-post-{{ $transfor->id }}" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                                @endif
+                                            </td>
                                         </tr>
                                         @empty
                                         <tr>

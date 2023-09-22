@@ -60,4 +60,9 @@ class ContractProject extends Model
     {
         return $this->hasMany(Materialpurchase::class,'contract_project_id');
     }
+
+    public function transfor()
+    {
+        return $this->morphMany(TransforDetails::class, 'transforproject');
+    }
 }

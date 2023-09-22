@@ -68,12 +68,7 @@ class ContractProjectController extends Controller
     public function show(string $id)
     {
       $contractprojects = ContractProject::where('id',$id)->with('siteengineer:id,user_id,user_code,phone,photo,location','chiefengineer:id,user_id,user_code,phone,photo','siteengineer.user:id,name,role','chiefengineer.user:id,name,role','materialhistory:id,contract_project_id,meterial_id,quantity','materialhistory.material:id,meterial_name,unit')->get();
-        // $conway = ContractProject::where('id',$id)->with([
-        //     'materialhistory' => function ($query) {
-        //         $query->where('project_type', '=', 'contract');
-        //     },
-        //     'materialhistory.material'
-        // ])->get();
+        
 
         return view('admin.contractproject.show',compact('contractprojects'));
     }

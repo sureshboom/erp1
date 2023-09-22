@@ -49,20 +49,21 @@
                     <input type="hidden" name="villa_project_id" value="{{$siteid->villa_project_id}}">
                     @endif
                     <div class="row">
-                        <div class="col-lg-6 col-lg-offset-3">
+                        <div class="col-lg-8 col-lg-offset-2">
                             
                             <table class="table table-responsive">
                                 <thead >
                                     <tr>
                                         <td>Product Name</td>
                                         <td>Quantity</td>
+                                        <td>Description</td>
                                         <td><button type="button" class="btn btn-primary add_item">+Add</button></td>
                                     </tr>    
                                 </thead>
                                 <tbody class="show_item">
                                     
                                     @foreach($materialspurs as $materialspur)
-                                    <tr><td><select name="meterial_id[]" class="form-control"><option value="">Select Material</option>@foreach($materials as $material)<option value="{{$material->id}}" {{ $materialspur->meterial_id === $material->id ? 'selected' : '' }}>{{$material->meterial_name}}</option>@endforeach</select></td><td><input class="form-control" name="quantity[]" type="number" min="0" value="{{$materialspur->quantity}}"></td><td></td></tr>
+                                    <tr><td><select name="meterial_id[]" class="form-control"><option value="">Select Material</option>@foreach($materials as $material)<option value="{{$material->id}}" {{ $materialspur->meterial_id === $material->id ? 'selected' : '' }}>{{$material->meterial_name}}</option>@endforeach</select></td><td><input class="form-control" name="quantity[]" type="number" min="0" value="{{$materialspur->quantity}}"></td><td><textarea name="description[]" id="description">{{$materialspur->description}}</textarea></td><td></td></tr>
                                     @endforeach
                                 </tbody>
                             </table>
