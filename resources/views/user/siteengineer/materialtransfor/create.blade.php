@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h3 class="text-center">Material Transfor Details</h3>
-                    <form action="{{ route('siteengineer.material_order.store') }}" class="acount-infor" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('siteengineer.material_transfors.store') }}" class="acount-infor" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
                     <div class="row">
@@ -83,7 +83,7 @@
                             
                         </div>
                     </div>
-                    {{$materials}}
+                    <!-- {{$materials}} -->
                     <div class="row">
                         <div class="col-lg-8 col-lg-offset-2 table-responsive">
                             <table class="table table-responsive">
@@ -91,7 +91,6 @@
                                     <tr>
                                         <td>Product Name</td>
                                         <td>Quantity</td>
-                                        <td>Description</td>
                                         <td><button type="button" class="btn btn-primary add_item">+Add</button></td>
                                     </tr>    
                                 </thead>
@@ -106,7 +105,7 @@
                         <div class="col-lg-12">
                             <div class="payment-adress">
                                 <button type="submit" class="btn btn-success ">Submit</button>
-                                <a href="{{route('siteengineer.material_order.index')}}" class="btn btn-danger">Back</a>
+                                <a href="{{route('siteengineer.material_transfors.index')}}" class="btn btn-danger">Back</a>
                             </div>
                         </div>
                     </div>

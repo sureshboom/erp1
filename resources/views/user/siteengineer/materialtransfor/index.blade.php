@@ -39,12 +39,12 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>Materials <span class="table-project-n">Detail</span> Table</h1>
+                                <h1>Materials <span class="table-project-n">Transfor Detail</span> Table</h1>
 
 
                             </div>
-                            <a href="{{ route('siteengineer.material_transfors.create')}}" class="btn btn-primary">+ Add Transfor</a>
-                            <!-- {{ $transfors }} -->
+                            
+                            <!-- {{ $transfors[0]->mp->project_type }} -->
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -62,9 +62,9 @@
                                             <th data-field="state" data-checkbox="true"></th>
                                             <th data-field="id">ID</th>
                                             <th data-field="day">Date</th>
-                                            <th data-field="type">Project Type</th>
-                                            <th data-field="name">Project Name</th>
-                                            <th data-field="status" data-editable="false">Status</th>
+                                            <th data-field="type">Material</th>
+                                            <th data-field="name">Material From</th>
+                                            <th data-field="mname">Material To</th>
                                             <th data-field="action">Action</th>
                                         </tr>
                                     </thead>
@@ -75,35 +75,68 @@
                                             <td></td>
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{ $transfor->created_at ? formatDate($transfor->created_at) : '' }}</td>
-                                            <td><p>{{ $transfor->project_type ? ucfirst($transfor->project_type).' Project' : '' }}<p></td>
                                             <td>
-                                                @if($transfor->project_type == 'villa')
-                                                {{ $transfor->villaProject ? $transfor->villaProject->project_name : '' }}
+                                                <p><span class="text-success">Material :</span>{{ $transfor->material->meterial_name ?  $transfor->material->meterial_name : '' }}<p>
+                                                <p><span class="text-success">Quantity :</span> {{ $transfor->quantity ?  $transfor->quantity : '' }} / {{ $transfor->material->unit ?  $transfor->material->unit : '' }}<p>
+                                            </td>
+                                            <td>
+                                                @if($transfor->mp->project_type == 'villa')
+                                                <p><span class="text-success">Project Type :</span>
+                                                {{ ucfirst($transfor->mp->project_type)  }},
+                                                </p>
+                                                <p><span class="text-success">Project Name :</span>
+                                                {{ $transfor->mp->villaproject ? $transfor->mp->villaproject->project_name : '' }},
+                                                </p>
+                                                <p><span class="text-success">Location :</span>
+                                                {{ $transfor->mp->villaproject ? $transfor->mp->villaproject->location : '' }}.
+                                                </p>
                                                 @else
-                                                {{ $transfor->contractProject ? $transfor->contractProject->project_name : '' }}
+                                                <p><span class="text-success">Project Type :</span>
+                                                {{ ucfirst($transfor->mp->project_type)  }},
+                                                </p>
+                                                <p><span class="text-success">Project Name :</span>
+                                                {{ $transfor->mp->contractproject ? $transfor->mp->contractproject->project_name : '' }}
+                                                </p>
+                                                <p><span class="text-success">Location :</span>
+                                                {{ $transfor->mp->contractproject ? $transfor->mp->contractproject->location : '' }}.
+                                                </p>
                                                 @endif
                                             </td>
                                             
                                             <td>
-                                                @if($transfor->status == 'request')
-                                                <p class="text-danger">Order Request</p>
-                                                @elseif($transfor->status == 'approved')
-                                                <p class="text-success">Approved</p>
+                                                
+
+                                                @if($transfor->project_type == 'villa')
+                                                <p><span class="text-success">Project Type :</span>
+                                                {{ ucfirst($transfor->project_type)  }},
+                                                </p>
+                                                <p><span class="text-success">Project Name :</span>
+                                                {{ $transfor->villaproject ? $transfor->villaproject->project_name : '' }},
+                                                </p>
+                                                <p><span class="text-success">Location :</span>
+                                                {{ $transfor->villaproject ? $transfor->villaproject->location : '' }}.
+                                                </p>
+                                                @else
+                                                <p><span class="text-success">Project Type :</span>
+                                                {{ ucfirst($transfor->project_type)  }},
+                                                </p>
+                                                <p><span class="text-success">Project Name :</span>
+                                                {{ $transfor->contractproject ? $transfor->contractproject->project_name : '' }}
+                                                </p>
+                                                <p><span class="text-success">Location :</span>
+                                                {{ $transfor->contractproject ? $transfor->contractproject->location : '' }}.
+                                                </p>
                                                 @endif
                                             </td>
                                             <td class="datatable-ct">
 
-                                                <a href="{{ route('siteengineer.material_order.show', $transfor->id) }}"
-                                                    class="btn badge-primary">
-                                                    Materials
-                                                </a>
-                                                @if(($transfor->status == 'request')||($transfor->status == 'cancel'))
+                                                
                                                 <a href="#" class="btn btn-link btn-danger" onclick="document.getElementById('delete-post-{{ $transfor->id }}').submit();"><i class="fa fa-trash"></i></a>
-                                                <form method="post" action="{{ route('siteengineer.material_order.destroy', $transfor->id) }}" id="delete-post-{{ $transfor->id }}" style="display: none;">
+                                                <form method="post" action="{{ route('siteengineer.material_transfors.destroy', $transfor->id) }}" id="delete-post-{{ $transfor->id }}" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
-                                                @endif
+                                                
                                             </td>
                                         </tr>
                                         @empty

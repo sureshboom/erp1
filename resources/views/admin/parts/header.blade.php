@@ -91,7 +91,40 @@
                             <ul class="mobile-menu-nav">
                                 <li><a href="{{ route('admin.dashboard')}}">Dashboard</a></li>
                                 <li><a href="{{ route('admin.staff')}}">Staff</a></li>
-                                
+                                <li><a data-toggle="collapse" data-target="#Charts" href="#">Supplier <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                    <ul class="collapse dropdown-header-top">
+                                        <li><a href="{{ route('supplier.index')}}">Material Supplier</a></li>
+                                        <li><a href="{{ route('supplierassignview')}}">Supplier Assign</a></li>
+                                    </ul>
+                                </li>
+                                <li><a data-toggle="collapse" data-target="#Charts" href="#">Customers <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                    <ul class="collapse dropdown-header-top">
+                                        <li><a href="{{ route('landcustomer.index')}}">Land Customers</a></li>
+                                        <li><a href="{{ route('contractcustomer.index')}}">Contract Customers</a></li>
+                                        <li><a href="{{ route('villacustomer.index')}}">Villa Customers</a></li>
+                                    </ul>
+                                </li>
+                                <li><a data-toggle="collapse" data-target="#Charts" href="#">Project Details <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                    <ul class="collapse dropdown-header-top">
+                                        <li><a href="{{ route('landproject.index')}}">Land Projects</a></li>
+                                        <li><a href="{{ route('contractproject.index')}}">Contract Projects</a></li>
+                                        <li><a href="{{ route('villaproject.index')}}">Villa Projects</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="{{ route('meterial.index')}}">Material Master</a></li>
+                                <li><a href="{{ route('worker.index')}}">Worker Master</a></li>
+                                <li><a data-toggle="collapse" data-target="#Charts" href="#">Reports <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                    <ul class="collapse dropdown-header-top">
+                                        <li><a href="{{ route('landproject.index')}}">Salary Reports</a></li>
+                                        <li><a href="{{ route('landproject.index')}}">Expense Reports</a></li>
+                                        <li><a href="{{ route('landproject.index')}}">Land Reports</a></li>
+                                        <li><a href="{{ route('landproject.index')}}">Contract Reports</a></li>
+                                        <li><a href="{{ route('landproject.index')}}">Villa Reports</a></li>
+                                        <li><a href="{{ route('landproject.index')}}">Income Reports</a></li>
+                                        <li><a href="{{ route('landproject.index')}}">Supplier Reports</a></li>
+                                        <li><a href="{{ route('landproject.index')}}">Labour Reports</a></li>
+                                    </ul>
+                                </li>
                                 </ul>
                              </nav>
                         </div>

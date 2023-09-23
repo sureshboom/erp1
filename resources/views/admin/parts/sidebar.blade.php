@@ -58,7 +58,7 @@
                         <li class="{{(request()->routeIs('meterial.*')) ? 'active' : '' }}">
                             <a  href="{{ route('meterial.index')}}">
                                <span class="educate-icon educate-form icon-wrap"></span>
-                               <span class="mini-click-non">Meterial Master</span>
+                               <span class="mini-click-non">Material Master</span>
                             </a>
                         </li>
                         <li class="{{(request()->routeIs('worker.*')) ? 'active' : '' }}">

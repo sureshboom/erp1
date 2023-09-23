@@ -77,6 +77,10 @@ class MaterialrequestController extends Controller
                                             ->where('meterial_id', $data['meterial_id'])
                                             ->first();
                     if ($materialQuantity) {
+                        if($materialQuantity->materialin_id == null)
+                        {
+                            $materialQuantity->materialin_id = $mid;
+                        }
                         $materialQuantity->quantity += $data['quantity'];
                         $materialQuantity->save();
                     } else {
@@ -122,6 +126,10 @@ class MaterialrequestController extends Controller
                                             ->where('meterial_id', $data['meterial_id'])
                                             ->first();
                     if ($materialQuantity) {
+                        if($materialQuantity->materialin_id == null)
+                        {
+                            $materialQuantity->materialin_id = $mid;
+                        }
                         $materialQuantity->quantity += $data['quantity'];
                         $materialQuantity->save();
                     } else {

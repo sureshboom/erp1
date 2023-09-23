@@ -158,6 +158,56 @@
     });
 
     @endif
+    @if((request()->routeIs('siteengineer.transforcreate')) )
+    $(document).ready(function(){
+        if(($('#project_type').val()) == 'contract')
+        {
+            $('#displaycontract').show();
+            $('#displayvilla').hide();
+        }
+        else if(($('#project_type').val()) == 'villa'){
+            $('#displaycontract').hide();
+            $('#displayvilla').show();
+        }
+        else
+        {
+            $('#displaycontract').hide();
+            $('#displayvilla').hide();
+        }
+        
+        $('#project_type').on('change',function(e){
+            var type =$(this).val();
+            if(type == 'contract'){
+                $('#displaycontract').show();
+                $('#displayvilla').hide();
+            }
+            else if(type == 'villa')
+            {
+                $('#displayvilla').show();
+                $('#displaycontract').hide();
+            }
+            else{
+                $('#displaycontract').hide();
+            $('#displayvilla').hide();
+            }
+            // alert(type);
+        });
+        $('.add_item').on('click',function(e){
+            e.preventDefault();
+
+            var rowd='<tr><td><select name="meterial_id[]" class="form-control"><option value="">Select Material</option>@foreach($materials as $material)<option value="{{$material->id}}">{{$material->material->meterial_name}} - ({{$material->qty}})</option>@endforeach</select></td><td><input class="form-control" name="quantity[]" type="number" min="0" required></td><td><button class="btn btn-danger remove_item">Remove</button></td></tr>';
+                
+            $(".show_item").append(rowd);
+        });
+        $("body").on("click",".remove_item",function(){
+          
+            $(this).closest("tr").remove();
+            
+          
+        });
+
+    });
+    @endif
     @if((request()->routeIs('siteengineer.material_order.create')) or (request()->routeIs('siteengineer.material_order.edit')))
 
     $(document).ready(function(){

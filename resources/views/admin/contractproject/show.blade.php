@@ -146,24 +146,66 @@
                                 <div class="profile-info-inner">
                                     <div class="profile-img">
                                        <h4> Project Overall Material Details</h4>
+
+                                       <!-- {{$contractproject->materialhistory}} -->
                                     </div>
                                     <div class="profile-details-hr">
                                         <div class="row">
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive">
                                                 <table class="table">
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Material</th>
-                                                        <th>Quantity</th>
                                                         <th>Unit</th>
+                                                        <th>Quantity</th>
+                                                        <th>Transfor In</th>
+                                                        <th>Transfor Out</th>
                                                     </tr>
                                                     @forelse($contractproject->materialhistory as $material)
-                                                    <tr>
+                                                    <tr style="background: #607d8b;color: white;">
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$material->material->meterial_name}}</td>
-                                                        <td>{{$material->quantity}}</td>
                                                         <td>{{$material->material->unit}}</td>
+                                                        <td>{{$material->qty}}</td>
+                                                        <td>{{$material->transfor_in}}</td>
+                                                        <td>{{$material->transfor_out}}</td>
+                                                        
                                                     </tr>
+                                                        @forelse($material->transforout as $transfor)
+                                                         @if ($loop->first)
+                                                            <tr>
+                                                                <td></td>
+                                                                <td colspan="5"> <h4 class="text-center">Transfor Details</h4></td>
+                                                            </tr>
+                                                            <tr style="background: #bbb6b6;color: white;">
+                                                                <td></td>
+                                                                <td>Date</td>
+                                                                <td>Project Type</td>
+                                                                <td>Project</td>
+                                                                <td>Location</td>
+                                                                <td>Quantity</td>
+                                                            </tr>
+                                                        @endif
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>{{ $transfor->created_at ? formatDate($transfor->created_at) : '' }}</td>
+                                                                <td>{{ ucfirst($transfor->project_type)  }}</td>
+                                                                <td>
+                                                                @if($transfor->project_type == 'villa')
+                                                                {{ $transfor->villaproject ? $transfor->villaproject->project_name : '' }}
+                                                                @else
+                                                                {{ $transfor->contractproject ? $transfor->contractproject->project_name : '' }}
+                                                                @endif
+                                                                </td>
+                                                                <td>@if($transfor->project_type == 'villa')
+                                                                {{ $transfor->villaproject ? $transfor->villaproject->location : '' }}
+                                                                @else
+                                                                {{ $transfor->contractproject ? $transfor->contractproject->location : '' }}
+                                                                @endif</td>
+                                                                <td>{{ $transfor->quantity ?  $transfor->quantity : '' }}</td>
+                                                            </tr>
+                                                        @empty
+                                                        @endforelse
                                                     @empty
                                                     <tr>
                                                         <td colspan="4">No Records</td>

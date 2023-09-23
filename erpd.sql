@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 22, 2023 at 02:44 PM
+-- Generation Time: Sep 23, 2023 at 02:13 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -481,10 +481,11 @@ CREATE TABLE `materialpurchases` (
   `project_type` enum('contract','villa') NOT NULL,
   `contract_project_id` bigint(20) UNSIGNED DEFAULT NULL,
   `villa_project_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `materialin_id` bigint(20) UNSIGNED NOT NULL,
+  `materialin_id` bigint(20) UNSIGNED DEFAULT NULL,
   `meterial_id` bigint(20) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL,
-  `transfor` int(11) NOT NULL DEFAULT 0,
+  `transfor_in` int(11) NOT NULL DEFAULT 0,
+  `transfor_out` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -493,10 +494,13 @@ CREATE TABLE `materialpurchases` (
 -- Dumping data for table `materialpurchases`
 --
 
-INSERT INTO `materialpurchases` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `materialin_id`, `meterial_id`, `quantity`, `transfor`, `created_at`, `updated_at`) VALUES
-(1, 'contract', 1, NULL, 4, 1, 25, 0, '2023-08-20 09:39:34', '2023-09-22 01:02:34'),
-(2, 'contract', 1, NULL, 4, 3, 11, 0, '2023-08-20 09:39:34', '2023-09-22 01:02:34'),
-(9, 'villa', NULL, 1, 16, 4, 4, 0, '2023-09-22 00:00:37', '2023-09-22 00:00:37');
+INSERT INTO `materialpurchases` (`id`, `project_type`, `contract_project_id`, `villa_project_id`, `materialin_id`, `meterial_id`, `quantity`, `transfor_in`, `transfor_out`, `created_at`, `updated_at`) VALUES
+(1, 'contract', 1, NULL, 4, 1, 25, 0, 5, '2023-08-20 09:39:34', '2023-09-23 03:40:48'),
+(2, 'contract', 1, NULL, 4, 3, 11, 0, 2, '2023-08-20 09:39:34', '2023-09-23 01:04:06'),
+(9, 'villa', NULL, 1, 16, 4, 4, 0, 2, '2023-09-22 00:00:37', '2023-09-23 04:37:34'),
+(14, 'villa', NULL, 1, NULL, 1, 0, 5, 0, '2023-09-23 01:04:06', '2023-09-23 03:40:48'),
+(15, 'villa', NULL, 1, NULL, 3, 0, 2, 0, '2023-09-23 01:04:06', '2023-09-23 01:04:06'),
+(16, 'contract', 1, NULL, NULL, 4, 0, 2, 0, '2023-09-23 04:37:34', '2023-09-23 04:37:34');
 
 -- --------------------------------------------------------
 
@@ -1164,6 +1168,15 @@ CREATE TABLE `transfor_details` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `transfor_details`
+--
+
+INSERT INTO `transfor_details` (`id`, `mp_id`, `project_type`, `project_id`, `meterial_id`, `quantity`, `created_at`, `updated_at`) VALUES
+(5, 1, 'villa', 1, 1, 5, '2023-09-23 01:04:06', '2023-09-23 01:04:06'),
+(6, 2, 'villa', 1, 3, 2, '2023-09-23 01:04:06', '2023-09-23 01:04:06'),
+(8, 9, 'contract', 1, 4, 2, '2023-09-23 04:37:34', '2023-09-23 04:37:34');
+
 -- --------------------------------------------------------
 
 --
@@ -1250,7 +1263,7 @@ CREATE TABLE `villa_projects` (
 --
 
 INSERT INTO `villa_projects` (`id`, `project_name`, `chiefengineer_id`, `siteengineer_id`, `mesthiri_id`, `site_date`, `dtcp_no`, `reg_no`, `location`, `total_land_area`, `total_buildup_area`, `no_of_unit`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Green Gardens', 1, 1, 3, '2023-08-02', '123411234', '1411564453', 'Saravanam patti, Coimbatore.', '10 Acres', '9 Acres', '25', 'processing', '2023-08-15 02:51:56', '2023-08-21 07:41:18');
+(1, 'Green Gardens', 1, 1, 3, '2023-08-02', '123411234', '1411564453', 'Saravanam Patti', '10 Acres', '9 Acres', '25', 'processing', '2023-08-15 02:51:56', '2023-09-23 01:50:19');
 
 -- --------------------------------------------------------
 
@@ -1767,7 +1780,7 @@ ALTER TABLE `materialpurchasehistories`
 -- AUTO_INCREMENT for table `materialpurchases`
 --
 ALTER TABLE `materialpurchases`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `material_payment_histories`
@@ -1893,7 +1906,7 @@ ALTER TABLE `teleworks`
 -- AUTO_INCREMENT for table `transfor_details`
 --
 ALTER TABLE `transfor_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
