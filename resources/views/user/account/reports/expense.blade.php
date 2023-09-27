@@ -136,11 +136,11 @@
                                                                 </span></p>
                                                         @break;
                                                         @case('contract')
-                                                            <p>Contract Project : <span>{{ $expense->landproject->project_name ? $expense->landproject->project_name : '' }}
+                                                            <p>Contract Project : <span>{{ $expense->contractproject->project_name ? $expense->contractproject->project_name : '' }}
                                                                 </span></p>
                                                         @break;
                                                         @case('villa')
-                                                            <p>Villa Project : <span>{{ $expense->landproject->project_name ? $expense->landproject->project_name : '' }}
+                                                            <p>Villa Project : <span>{{ $expense->villaproject->project_name ? $expense->villaproject->project_name : '' }}
                                                                 </span></p>
                                                         @break;
                                                         @default

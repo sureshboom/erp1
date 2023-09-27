@@ -146,7 +146,7 @@ class ChiefengineerController extends Controller
         $workerIds = $contractWorkerIds->merge($villaWorkerIds)->unique();
 
         $works = WorkEntry::whereIn('id', $workerIds)->orderBy('id', 'desc')->get();
-        $sites = Site::select('id')->where('chiefengineer_id',$chiefengineer->id)->get();
+        
         return view('user.chiefengineer.works',compact('works'));
     }
     

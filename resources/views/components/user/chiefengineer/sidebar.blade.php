@@ -12,10 +12,10 @@
 <li class="{{ ((request()->routeIs('chiefengineer.mesthiri.*')) ||(request()->routeIs('chiefengineer.mesthiricontract')) ||(request()->routeIs('chiefengineer.mesthirivilla')) ||(request()->routeIs('chiefengineer.assigncontract')) ||(request()->routeIs('chiefengineer.assignvilla'))) ? 'active' : '' }}">
     <a class="has-arrow" href="#">
        <span class="educate-icon educate-professor icon-wrap"></span>
-       <span class="mini-click-non">Meshthri</span>
+       <span class="mini-click-non">Mesthiri</span>
     </a>
     <ul class="submenu-angle" aria-expanded="true">
-        <li class="{{request()->routeIs('chiefengineer.mesthiri.*') ? 'active' : ''}}"><a title="owner" href="{{ route('chiefengineer.mesthiri.index')}}"><span class="mini-sub-pro">Meshthri Create</span></a></li>
+        <li class="{{request()->routeIs('chiefengineer.mesthiri.*') ? 'active' : ''}}"><a title="owner" href="{{ route('chiefengineer.mesthiri.index')}}"><span class="mini-sub-pro">Mesthiri Create</span></a></li>
         <li class="{{(request()->routeIs('chiefengineer.mesthiricontract') || request()->routeIs('chiefengineer.assigncontract')) ? 'active' : ''}}"><a title="sites" href="{{ route('chiefengineer.mesthiricontract')}}"><span class="mini-sub-pro">Contract Project</span></a></li>
         <li class="{{(request()->routeIs('chiefengineer.mesthirivilla') || request()->routeIs('chiefengineer.assignvilla')) ? 'active' : ''}}"><a title="sites" href="{{ route('chiefengineer.mesthirivilla')}}"><span class="mini-sub-pro">Villa Project</span></a></li>
     </ul>
@@ -55,9 +55,9 @@
         <li class="{{ (request()->routeIs('chiefengineer.workentry')) ? 'active' : '' }}"><a title="sites" href="{{ route('chiefengineer.workentry')}}"><span class="mini-sub-pro">Work Entry</span></a></li>
     </ul>
 </li>
-<li>
+<!-- <li>
     <a class="has-arrow" href="#">
        <span class="educate-icon educate-library icon-wrap"></span>
        <span class="mini-click-non">Reports</span>
     </a>
-</li>
+</li> -->

@@ -208,7 +208,7 @@
                                                         @endforelse
                                                     @empty
                                                     <tr>
-                                                        <td colspan="4">No Records</td>
+                                                        <td colspan="6">No Records</td>
                                                         
                                                     </tr>
                                                     @endforelse

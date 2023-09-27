@@ -44,7 +44,7 @@
 
                             </div>
                             
-                            <!-- {{ $transfors[0]->mp->project_type }} -->
+                            
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">

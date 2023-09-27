@@ -10,11 +10,11 @@
        <span class="mini-click-non">Site Visit</span>
     </a>
 </li>
-<li>
+<!-- <li>
    <a class="has-arrow" href="#">
        <span class="educate-icon educate-library icon-wrap"></span>
        <span class="mini-click-non">Reports</span>
     </a>
-</li>
+</li> -->
 
 
