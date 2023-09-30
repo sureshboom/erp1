@@ -217,11 +217,11 @@
                                             </span> - {{ucfirst($payment->expense_for)}}</p>
                                     @break;
                                     @case('contract')
-                                        <p class="btb gray-color">Contract Project : <span>{{ $payment->landproject->project_name ? $payment->landproject->project_name : '' }}
+                                        <p class="btb gray-color">Contract Project : <span>{{ $payment->contractproject->project_name ? $payment->contractproject->project_name : '' }}
                                             </span> - {{ucfirst($payment->expense_for)}}</p>
                                     @break;
                                     @case('villa')
-                                        <p class="btb gray-color">Villa Project : <span>{{ $payment->landproject->project_name ? $payment->landproject->project_name : '' }}
+                                        <p class="btb gray-color">Villa Project : <span>{{ $payment->villaproject->project_name ? $payment->villaproject->project_name : '' }}
                                             </span> - {{ucfirst($payment->expense_for)}}</p>
                                     @break;
                                     @default

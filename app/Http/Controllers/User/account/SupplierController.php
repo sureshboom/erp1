@@ -34,10 +34,10 @@ class SupplierController extends Controller
         $input = $request->validate([
             'supplier_name' => 'required',
             'supplier_phone' => 'required',
-            'supplier_gstno' => 'nullable',
+            'supplier_gstno' => 'required',
             'supplier_location' => 'required',
             'supplier_gpay' => 'required',
-            'supplier_account' => 'nullable'
+            'supplier_account' => 'required'
         ]);
 
         $supplier = Supplier::create($input);
