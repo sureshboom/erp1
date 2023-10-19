@@ -115,14 +115,14 @@
                                 <li><a href="{{ route('worker.index')}}">Worker Master</a></li>
                                 <li><a data-toggle="collapse" data-target="#Charts" href="#">Reports <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                     <ul class="collapse dropdown-header-top">
-                                        <li><a href="{{ route('landproject.index')}}">Salary Reports</a></li>
-                                        <li><a href="{{ route('landproject.index')}}">Expense Reports</a></li>
-                                        <li><a href="{{ route('landproject.index')}}">Land Reports</a></li>
-                                        <li><a href="{{ route('landproject.index')}}">Contract Reports</a></li>
-                                        <li><a href="{{ route('landproject.index')}}">Villa Reports</a></li>
-                                        <li><a href="{{ route('landproject.index')}}">Income Reports</a></li>
-                                        <li><a href="{{ route('landproject.index')}}">Supplier Reports</a></li>
-                                        <li><a href="{{ route('landproject.index')}}">Labour Reports</a></li>
+                                        <li><a href="{{ route('salaryreport')}}">Salary Reports</a></li>
+                                        <li><a href="{{ route('expensereport')}}">Expense Reports</a></li>
+                                        <li><a href="{{ route('landprojectreport')}}">Land Reports</a></li>
+                                        <li><a href="{{ route('contractprojectreport')}}">Contract Reports</a></li>
+                                        <li><a href="{{ route('villaprojectreport')}}">Villa Reports</a></li>
+                                        <li><a href="{{ route('income')}}">Income Reports</a></li>
+                                        <li><a href="{{ route('supplierreport')}}">Supplier Reports</a></li>
+                                        <li><a href="{{ route('lsupplierreport')}}">Labour Reports</a></li>
                                     </ul>
                                 </li>
                                 </ul>

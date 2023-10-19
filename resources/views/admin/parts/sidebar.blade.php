@@ -20,7 +20,7 @@
                             </a>
                         </li>
                         
-                        <li class="{{ ((request()->routeIs('supplier.*')) ||(request()->routeIs('supplierassignview')) ||(request()->routeIs('villacustomer.*'))) ? 'active' : '' }}">
+                        <li class="{{ ((request()->routeIs('supplier.*')) ||(request()->routeIs('supplierassignview')) ) ? 'active' : '' }}">
                             <a class="has-arrow" href="#">
                                <span class="educate-icon educate-professor icon-wrap"></span>
                                <span class="mini-click-non">Supplier</span>
